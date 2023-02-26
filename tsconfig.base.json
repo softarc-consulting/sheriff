@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@sheriff/core": ["packages/core/src/index.ts"]
+      "@sheriff/core": ["packages/core/src/index.ts"],
+      "@sheriff/eslint-plugin-sheriff": ["packages/eslint/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
