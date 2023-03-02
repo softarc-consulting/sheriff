@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import Fs from './fs';
 
 type FsNodeType = 'file' | 'directory';

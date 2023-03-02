@@ -1,7 +1,6 @@
 import { ModuleInfo } from '../modules/module-info';
 import AssignedFileInfo from '../modules/assigned-file.info';
 import throwIfNull from '../util/throw-if-null';
-import FileInfo from '../file-info/file-info';
 
 export type DeepImport = {
   file: AssignedFileInfo;

@@ -1,7 +1,7 @@
-import fsa from 'fs/promises';
-import fsn from 'fs';
+import * as fsa from 'fs/promises';
+import * as fsn from 'fs';
 import * as os from 'os';
-import path from 'path';
+import * as path from 'path';
 import Fs from './fs';
 
 export class DefaultFs implements Fs {

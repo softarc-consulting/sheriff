@@ -17,7 +17,7 @@
     "paths": {
       "@sheriff/core": ["packages/core/src/index.ts"],
       "@sheriff/eslint-plugin": ["packages/eslint-plugin/src/index.ts"],
-      "@sheriff/eslint-plugin-sheriff": ["packages/eslint/src/index.ts"]
+      "@sheriff/test": ["packages/test/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -4,7 +4,7 @@ export default {
 
     plugins: ['@sheriff'],
     rules: {
-      '@sheriff/no-literal': 'warn',
+      '@sheriff/deep-import': 'error',
     },
   },
 };

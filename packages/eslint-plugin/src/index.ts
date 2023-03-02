@@ -1,9 +1,9 @@
 import configs from './lib/config';
-import noLiteral from '../../eslint-plugin/src/lib/rules/no-literal';
+import deepImport from './lib/rules/deep-import';
 
 export = {
   rules: {
-    'no-literal': noLiteral,
+    'deep-import': deepImport,
   },
   configs,
 };
