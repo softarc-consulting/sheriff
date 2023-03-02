@@ -1,33 +1,5 @@
 import FileInfo from './file-info';
 
-export default (
-  fileInfo: FileInfo,
-  callback: (fileInfo: FileInfo, level: number) => boolean
-) => {
-  const traversed = new Set<string>();
-
-  const traverse = <Context>(
-    fileInfo: FileInfo,
-    callback: (fileInfo: FileInfo, level: number) => boolean,
-    level = 0
-  ) => {
-    if (traversed.has(fileInfo.path)) {
-      return;
-    }
-
-    traversed.add(fileInfo.path);
-    const shouldContinue = callback(fileInfo, level);
-
-    if (shouldContinue) {
-      for (const child of fileInfo.imports) {
-        traverse(child, callback, level++);
-      }
-    }
-  };
-
-  traverse(fileInfo, callback);
-};
-
 export function* traverseFileInfo(fileInfo: FileInfo) {
   const traversed = new Set<string>();
 
@@ -49,3 +21,5 @@ export function* traverseFileInfo(fileInfo: FileInfo) {
 
   yield* traverse(fileInfo);
 }
+
+export default traverseFileInfo;

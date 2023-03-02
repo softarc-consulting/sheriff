@@ -23,14 +23,12 @@ export default (
     moduleInfos.map((moduleInfo) => [moduleInfo.directory, moduleInfo])
   );
 
-  traverseFileInfo(fileInfo, (fi) => {
-    if (existingModules.includes(fi.path)) {
-      return true;
+  for (let element of traverseFileInfo(fileInfo)) {
+    const fi = element.fileInfo;
+    if (!existingModules.includes(fi.path)) {
+      findClosestModule(fi.path, moduleInfos).assignFileInfo(fi);
     }
-
-    findClosestModule(fi.path, moduleInfos).assignFileInfo(fi);
-    return true;
-  });
+  }
 
   return Array.from(moduleInfoMap.values());
 };

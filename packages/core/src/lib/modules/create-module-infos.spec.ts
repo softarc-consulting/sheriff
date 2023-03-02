@@ -2,14 +2,14 @@ import FileInfo, { buildFileInfo } from '../file-info/file-info';
 import createModuleInfos from './create-module-infos';
 import findFileInfo from '../test/find-file-info';
 import { ModuleInfo, ROOT_MODULE } from './module-info';
-import { expect, it } from 'vitest';
+import { expect, it, describe } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
 
 type TestParameter = {
   name: string;
   fileInfo: FileInfo;
   modulePaths: string[];
-  moduleInfos: { path: string; fileInfoPaths: string[] }[];
+  expectedModuleInfos: { path: string; fileInfoPaths: string[] }[];
 };
 
 const simple: TestParameter = {
@@ -19,7 +19,7 @@ const simple: TestParameter = {
     ['./holidays/index.ts', ['./holiday.component.ts']],
   ]),
   modulePaths: ['src/app/customers/index.ts', 'src/app/holidays/index.ts'],
-  moduleInfos: [
+  expectedModuleInfos: [
     {
       path: 'src/app/customers/index.ts',
       fileInfoPaths: ['src/app/customers/customer.component.ts'],
@@ -47,7 +47,7 @@ const multipleFilesPerModule: TestParameter = {
     ],
   ]),
   modulePaths: ['src/app/customers/index.ts', 'src/app/holidays/index.ts'],
-  moduleInfos: [
+  expectedModuleInfos: [
     {
       path: 'src/app/customers/index.ts',
       fileInfoPaths: [
@@ -75,7 +75,7 @@ const noModules: TestParameter = {
     './holidays/holiday.component.ts',
   ]),
   modulePaths: [],
-  moduleInfos: [
+  expectedModuleInfos: [
     {
       path: ROOT_MODULE,
       fileInfoPaths: [
@@ -110,7 +110,7 @@ const nestedModules: TestParameter = {
     'src/app/customers/data/index.ts',
     'src/app/customers/ui/index.ts',
   ],
-  moduleInfos: [
+  expectedModuleInfos: [
     {
       path: 'src/app/customers/index.ts',
       fileInfoPaths: ['src/app/customers/customer.component.ts'],
@@ -151,7 +151,7 @@ const multipleDirectories: TestParameter = {
     ],
   ]),
   modulePaths: ['src/app/customers/index.ts'],
-  moduleInfos: [
+  expectedModuleInfos: [
     {
       path: 'src/app/customers/index.ts',
       fileInfoPaths: [
@@ -168,36 +168,39 @@ const multipleDirectories: TestParameter = {
   ],
 };
 
-it.each([
-  simple,
-  multipleFilesPerModule,
-  noModules,
-  nestedModules,
-  multipleDirectories,
-])(
-  'should create module for configuration: $name',
-  ({ fileInfo, modulePaths, moduleInfos }) => {
-    const createFindFileInfo = (fileInfo: FileInfo) => (paths: string[]) =>
-      paths.map(
-        (path) => throwIfNull(findFileInfo(fileInfo, path)),
-        'findFileInfo'
-      );
-
-    expect(createModuleInfos(fileInfo, modulePaths)).toEqual(
-      moduleInfos.map((mi) => {
-        const fileInfos = mi.fileInfoPaths.map((fip) =>
-          throwIfNull(
-            findFileInfo(fileInfo, fip),
-            `${fip} does not exist in passed FileInfo`
-          )
+describe('create module infos', () => {
+  it.each([
+    simple,
+    multipleFilesPerModule,
+    noModules,
+    nestedModules,
+    multipleDirectories,
+  ])(
+    'should create module for configuration: $name',
+    ({ fileInfo, modulePaths, expectedModuleInfos }) => {
+      const createFindFileInfo = (fileInfo: FileInfo) => (paths: string[]) =>
+        paths.map(
+          (path) => throwIfNull(findFileInfo(fileInfo, path)),
+          'findFileInfo'
         );
-        const moduleInfo = new ModuleInfo(mi.path);
-        for (const fi of fileInfos) {
-          moduleInfo.assignFileInfo(fi);
-        }
+      const moduleInfos = createModuleInfos(fileInfo, modulePaths);
 
-        return moduleInfo;
-      })
-    );
-  }
-);
+      expect(moduleInfos).toEqual(
+        expectedModuleInfos.map((mi) => {
+          const fileInfos = mi.fileInfoPaths.map((fip) =>
+            throwIfNull(
+              findFileInfo(fileInfo, fip),
+              `${fip} does not exist in passed FileInfo`
+            )
+          );
+          const moduleInfo = new ModuleInfo(mi.path);
+          for (const fi of fileInfos) {
+            moduleInfo.assignFileInfo(fi);
+          }
+
+          return moduleInfo;
+        })
+      );
+    }
+  );
+});
