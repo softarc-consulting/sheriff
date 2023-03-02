@@ -1,5 +1,5 @@
 {
-  "name": "@sheriff/eslint-plugin-sheriff",
+  "name": "@sheriff/eslint-plugin",
   "version": "0.0.1",
   "type": "commonjs"
 }
