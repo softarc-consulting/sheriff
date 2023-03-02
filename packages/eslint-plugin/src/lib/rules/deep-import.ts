@@ -1,5 +1,5 @@
 import { Rule } from 'eslint';
-import { hasDeepImport } from '@sheriff/core';
+import { hasDeepImport } from '@softarc/sheriff-core';
 
 const rule: Rule.RuleModule = {
   create: (context) => {

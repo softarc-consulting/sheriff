@@ -2,9 +2,9 @@ export default {
   default: {
     parser: '@typescript-eslint/parser',
 
-    plugins: ['@sheriff'],
+    plugins: ['@softarc/sheriff'],
     rules: {
-      '@sheriff/deep-import': 'error',
+      '@softarc/sheriff/deep-import': 'error',
     },
   },
 };
