@@ -1,8 +1,13 @@
-import FileInfo from "./file-info";
-import prepareTsData from "./prepare-ts-data";
-import traverseFilesystem from "./traverse-filesystem";
-import getFs from "../fs/getFs";
+import FileInfo from './file-info';
+import prepareTsData from './prepare-ts-data';
+import traverseFilesystem from './traverse-filesystem';
+import getFs from '../fs/getFs';
 
+/**
+ * initialises the generation of the `FileInfo` tree.
+ * @param filePath
+ * @param tsConfigPath
+ */
 export default async (
   filePath: string,
   tsConfigPath: string

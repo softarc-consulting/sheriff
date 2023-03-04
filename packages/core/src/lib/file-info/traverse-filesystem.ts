@@ -1,9 +1,28 @@
-import FileInfo from "./file-info";
-import getFs from "../fs/getFs";
-import * as ts from "typescript";
-import TsData from "./ts-data";
+import FileInfo from './file-info';
+import getFs from '../fs/getFs';
+import * as ts from 'typescript';
+import TsData from './ts-data';
 
 // https://stackoverflow.com/questions/71815527/typescript-compiler-apihow-to-get-absolute-path-to-source-file-of-import-module
+/**
+ * This function generates the FileInfo tree.
+ * It starts with the entry TypeScript file (in Angular main.ts) and follows
+ * all the imports.
+ *
+ * It does not follow an import when it is an external library, i.e. comes from
+ * node_modules or is already part of the tree.
+ *
+ * To improve the testability, we use abstraction whenever an access to the
+ * filesystem happens. In case the abstraction does not emulate the original's
+ * behaviour, "strange bugs" might occur. Look out for them.
+ *
+ * @param filePath:
+ * @param fileInfoDict
+ * @param paths
+ * @param configObject
+ * @param cwd
+ * @param sys
+ */
 const traverseFilesystem = async (
   filePath: string,
   fileInfoDict: Map<string, FileInfo>,
@@ -31,7 +50,7 @@ const traverseFilesystem = async (
       sys
     );
 
-    let importPath = "";
+    let importPath = '';
 
     if (resolvedImport.resolvedModule) {
       const { resolvedFileName } = resolvedImport.resolvedModule;
