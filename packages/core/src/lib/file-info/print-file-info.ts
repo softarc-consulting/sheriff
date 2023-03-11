@@ -1,10 +1,9 @@
 import FileInfo from './file-info';
 import traverseFileInfo from './traverse-file-info';
 
-export default (fileInfo: FileInfo, indent = 0) => {
-  traverseFileInfo(fileInfo, (fileInfo, level) => {
-    const prefix = ' '.repeat(indent);
-    console.log(`${prefix}${fileInfo.path}`);
-    return true;
-  });
+export default (fileInfo: FileInfo, indent = 2): void => {
+  for (const entry of traverseFileInfo(fileInfo)) {
+    const prefix = ' '.repeat(indent * entry.level);
+    console.log(`${prefix}${entry.fileInfo.path}`);
+  }
 };
