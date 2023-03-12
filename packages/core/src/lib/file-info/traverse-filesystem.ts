@@ -12,7 +12,7 @@ import TsData from './ts-data';
  * It does not follow an import when it is an external library, i.e. comes from
  * node_modules or is already part of the tree.
  *
- * To improve the testability, we use abstraction whenever an access to the
+ * To improve the testability, we use abstraction whenever access to the
  * filesystem happens. In case the abstraction does not emulate the original's
  * behaviour, "strange bugs" might occur. Look out for them.
  *
@@ -23,15 +23,15 @@ import TsData from './ts-data';
  * @param cwd
  * @param sys
  */
-const traverseFilesystem = async (
+const traverseFilesystem = (
   filePath: string,
   fileInfoDict: Map<string, FileInfo>,
   { paths, configObject, cwd, sys }: TsData
-): Promise<FileInfo> => {
+): FileInfo => {
   const fileInfo: FileInfo = { path: filePath, imports: [] };
   fileInfoDict.set(filePath, fileInfo);
 
-  const fileContent = await getFs().readFile(filePath);
+  const fileContent = getFs().readFile(filePath);
   const preProcessedFile = ts.preProcessFile(fileContent);
 
   for (const importedFile of preProcessedFile.importedFiles) {
@@ -69,7 +69,7 @@ const traverseFilesystem = async (
         fileInfo.imports.push(existing);
       } else {
         fileInfo.imports.push(
-          await traverseFilesystem(importPath, fileInfoDict, {
+          traverseFilesystem(importPath, fileInfoDict, {
             paths,
             configObject,
             cwd,

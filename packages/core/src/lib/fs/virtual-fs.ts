@@ -65,61 +65,52 @@ export class VirtualFs implements Fs {
     }
 
     const referenceNode = result.node;
-    return Promise.resolve(
-      this.#traverseFindFiles(referenceNode, filename, referenceNode)
-    );
+    return this.#traverseFindFiles(referenceNode, filename, referenceNode);
   };
 
-  createDir(path: string): Promise<void> {
+  createDir(path: string): void {
     const node = this.#makeOrGet(path, 'directory');
     if (node.type === 'file') {
-      return Promise.reject(
-        `cannot create directory ${path} because it is a file`
-      );
+      throw new Error(`cannot create directory ${path} because it is a file`);
     }
-    return Promise.resolve();
   }
 
   exists(path: string): boolean {
     return this.#getNode(path).exists;
   }
 
-  writeFile(path: string, contents: string): Promise<void> {
+  writeFile(path: string, contents: string): void {
     const node = this.#makeOrGet(path, 'file');
     if (node.type === 'directory') {
-      return Promise.reject(
-        `cannot write to file ${path} because it is a directory`
-      );
+      throw new Error(`cannot write to file ${path} because it is a directory`);
     }
     node.contents = contents;
-    return Promise.resolve();
   }
 
-  readFile(path: string): Promise<string> {
+  readFile(path: string): string {
     const result = this.#getNode(path);
     if (!result.exists) {
-      return Promise.reject(`File ${path} does not exist`);
+      throw new Error(`File ${path} does not exist`);
     } else if (result.node.type === 'directory') {
-      return Promise.reject(
+      throw new Error(
         `cannot read from file ${path} because it is a directory`
       );
     } else {
-      return Promise.resolve(result.node.contents);
+      return result.node.contents;
     }
   }
 
-  removeDir(path: string): Promise<void> {
+  removeDir(path: string): void {
     const result = this.#getNode(path);
     if (!result.exists) {
-      return Promise.reject(
+      throw new Error(
         `cannot delete directory ${path} because it does not exist`
       );
     }
     if (result.parent === undefined) {
-      return Promise.reject(`cannot delete root directory`);
+      throw new Error(`cannot delete root directory`);
     }
     result.parent.children.delete(result.nodeName);
-    return Promise.resolve();
   }
 
   tmpdir = () => '/tmp';

@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, expect, describe, it, assert } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import Fs from '../fs/fs';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { FileTree } from '../test/project-configurator';
@@ -20,7 +20,7 @@ describe('Generate File Info', () => {
     creator = new ProjectCreator();
   });
 
-  it('should test a simple case', async () => {
+  it('should test a simple case', () => {
     const projectConfig: FileTree = {
       'tsconfig.json': tsconfigMinimal,
       'src/app': {
@@ -29,9 +29,9 @@ describe('Generate File Info', () => {
       },
     };
 
-    await creator.create(projectConfig, 'integration');
+    creator.create(projectConfig, 'integration');
 
-    const fileInfo = await generateFileInfo(
+    const fileInfo = generateFileInfo(
       'integration/src/app/app.component.ts',
       'integration/tsconfig.json'
     );
@@ -42,7 +42,7 @@ describe('Generate File Info', () => {
     });
   });
 
-  it('should generate for sub-modules', async () => {
+  it('should generate for sub-modules', () => {
     const projectConfig: FileTree = {
       'tsconfig.json': '',
       app: {
@@ -64,7 +64,7 @@ describe('Generate File Info', () => {
       },
     };
 
-    await creator.create(projectConfig, 'sub-module');
+    creator.create(projectConfig, 'sub-module');
     expect(true).toBe(true);
   });
 });

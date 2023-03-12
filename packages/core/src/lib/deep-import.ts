@@ -1,7 +1,8 @@
-import generateFileInfo from './file-info/generate-file-info';
 import getFs from './fs/getFs';
+
 const fileSet = new Set<string>();
 
+/* c8 ignore next */
 export const hasDeepImport: (
   filename: string,
   importCommand: string

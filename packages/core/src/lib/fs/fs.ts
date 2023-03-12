@@ -1,8 +1,8 @@
 export default interface Fs {
-  writeFile: (filename: string, contents: string) => Promise<void>;
-  readFile: (path: string) => Promise<string>;
-  removeDir: (path: string) => Promise<void>;
-  createDir: (path: string) => Promise<void>;
+  writeFile: (filename: string, contents: string) => void;
+  readFile: (path: string) => string;
+  removeDir: (path: string) => void;
+  createDir: (path: string) => void;
   exists: (path: string) => boolean;
 
   tmpdir: () => string;
@@ -13,7 +13,7 @@ export default interface Fs {
 
   normalise: (path: string) => string;
 
-  findFiles: (path: string, filename: string) => Promise<string[]>;
+  findFiles: (path: string, filename: string) => string[];
 
   /**
    * Used for finding the nearest `tsconfig.json`. It traverses through the

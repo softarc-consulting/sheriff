@@ -6,32 +6,32 @@ describe('Default Fs', () => {
   let fs = new DefaultFs();
 
   describe('find files', () => {
-    it('should find the index.ts in project directory test1', async () => {
-      const found = await fs.findFiles(
+    it('should find the index.ts in project directory test1', () => {
+      const found = fs.findFiles(
         path.join(__dirname, './find-files/test1'),
         'index.ts'
       );
       expect(found).toEqual(['index.ts']);
     });
 
-    it('should be case insensitive', async () => {
-      const found = await fs.findFiles(
+    it('should be case insensitive', () => {
+      const found = fs.findFiles(
         path.join(__dirname, './find-files/test1'),
         'INDEX.ts'
       );
       expect(found).toEqual(['index.ts']);
     });
 
-    it('should find the index.ts in sub directory', async () => {
-      const found = await fs.findFiles(
+    it('should find the index.ts in sub directory', () => {
+      const found = fs.findFiles(
         path.join(__dirname, './find-files/test2'),
         'index.ts'
       );
       expect(found).toEqual(['customers/index.ts']);
     });
 
-    it('should find multiple index.ts recursively', async () => {
-      const found = await fs.findFiles(
+    it('should find multiple index.ts recursively', () => {
+      const found = fs.findFiles(
         path.join(__dirname, './find-files/test3'),
         'index.ts'
       );
@@ -43,8 +43,8 @@ describe('Default Fs', () => {
       ]);
     });
 
-    it('should find none if not in directory', async () => {
-      const found = await fs.findFiles(
+    it('should find none if not in directory', () => {
+      const found = fs.findFiles(
         path.join(__dirname, './find-files/test4'),
         'index.ts'
       );
@@ -52,9 +52,9 @@ describe('Default Fs', () => {
     });
   });
 
-  describe('findNearest', async () => {
-    it('should find in second parent', async () => {
-      const found = await fs.findNearestParentFile(
+  describe('findNearest', () => {
+    it('should find in second parent', () => {
+      const found = fs.findNearestParentFile(
         path.join(
           __dirname,
           './find-nearest/test1/customers/admin/core/feature/index.ts'
@@ -66,8 +66,8 @@ describe('Default Fs', () => {
       );
     });
 
-    it('should stop at the first parent', async () => {
-      const found = await fs.findNearestParentFile(
+    it('should stop at the first parent', () => {
+      const found = fs.findNearestParentFile(
         path.join(
           __dirname,
           './find-nearest/test2/customers/admin/core/feature/index.ts'

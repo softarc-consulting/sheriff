@@ -1,12 +1,9 @@
-import getFs from "../fs/getFs";
-import * as ts from "typescript";
-import TsData from "./ts-data";
+import getFs from '../fs/getFs';
+import * as ts from 'typescript';
+import TsData from './ts-data';
 
-const prepareTsData = async (
-  tsConfigPath: string,
-  cwd: string
-): Promise<TsData> => {
-  const configRawContent = await getFs().readFile(tsConfigPath);
+const prepareTsData = (tsConfigPath: string, cwd: string): TsData => {
+  const configRawContent = getFs().readFile(tsConfigPath);
   const configContent = ts.readConfigFile(tsConfigPath, () => configRawContent);
   const paths: Record<string, string[]> =
     configContent.config.compilerOptions.paths || {};

@@ -8,12 +8,9 @@ import getFs from '../fs/getFs';
  * @param filePath
  * @param tsConfigPath
  */
-export default async (
-  filePath: string,
-  tsConfigPath: string
-): Promise<FileInfo> => {
+export default (filePath: string, tsConfigPath: string): FileInfo => {
   const fileInfoDict = new Map<string, FileInfo>();
-  const tsData = await prepareTsData(tsConfigPath, getFs().cwd());
+  const tsData = prepareTsData(tsConfigPath, getFs().cwd());
 
   return traverseFilesystem(filePath, fileInfoDict, tsData);
 };

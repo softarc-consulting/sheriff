@@ -1,26 +1,24 @@
-import * as fsa from 'fs/promises';
-import * as fsn from 'fs';
+import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import Fs from './fs';
 
 export class DefaultFs implements Fs {
-  writeFile = async (filename: string, contents: string) =>
-    fsa.writeFile(filename, contents);
+  writeFile = (filename: string, contents: string): void =>
+    fs.writeFileSync(filename, contents);
 
-  readFile = async (path: string) =>
-    fsa.readFile(path).then((content) => content.toString());
+  readFile = (path: string): string => fs.readFileSync(path).toString();
 
-  removeDir = async (path: string) => fsa.rm(path, { recursive: true });
+  removeDir = (path: string) => fs.rmSync(path, { recursive: true });
 
-  createDir = async (path: string) => {
-    if (!fsn.existsSync(path)) {
-      await fsa.mkdir(path, { recursive: true });
+  createDir = (path: string) => {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
     }
   };
 
   exists = (path: string) => {
-    return fsn.existsSync(path);
+    return fs.existsSync(path);
   };
 
   tmpdir = () => os.tmpdir();
@@ -31,23 +29,23 @@ export class DefaultFs implements Fs {
 
   normalise = (unnormalisedPath: string) => path.normalize(unnormalisedPath);
 
-  findFiles = async (
+  findFiles = (
     directory: string,
     filename: string,
     found: string[] = [],
     referencePath = ''
-  ) => {
-    const files = await fsa.readdir(directory);
+  ): string[] => {
+    const files = fs.readdirSync(directory);
     referencePath = referencePath || directory;
 
     for (const file of files) {
       const filePath = path.join(directory, file);
-      const info = await fsa.lstat(filePath);
+      const info = fs.lstatSync(filePath);
       if (info.isFile() && file.toLowerCase() === filename.toLowerCase()) {
         found.push(filePath.substring(referencePath.length + 1));
       }
       if (info.isDirectory()) {
-        await this.findFiles(filePath, filename, found, referencePath);
+        this.findFiles(filePath, filename, found, referencePath);
       }
     }
     return found;
@@ -58,11 +56,11 @@ export class DefaultFs implements Fs {
   findNearestParentFile = (referenceFile: string, filename: string): string => {
     let current = path.dirname(referenceFile);
     while (true) {
-      const files = fsn.readdirSync(current);
+      const files = fs.readdirSync(current);
 
       for (const file of files) {
         const filePath = path.join(current, file);
-        const info = fsn.lstatSync(filePath);
+        const info = fs.lstatSync(filePath);
 
         if (info.isFile() && file === filename) {
           return filePath;

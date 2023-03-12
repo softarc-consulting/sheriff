@@ -36,14 +36,14 @@ describe('should find two modules', () => {
     creator = new ProjectCreator();
   });
 
-  it('should find two submodules src', async () => {
-    await creator.create(angularStructure, 'integration');
-    const fileInfo = await generateFileInfo(
+  it('should find two submodules src', () => {
+    creator.create(angularStructure, 'integration');
+    const fileInfo = generateFileInfo(
       'integration/src/app/app.component.ts',
       'integration/tsconfig.json'
     );
     const projectDirs = getProjectDirsFromFileInfo(fileInfo);
-    const modules = await findModules(projectDirs, fileInfo);
+    const modules = findModules(projectDirs, fileInfo);
     expect(modules).toEqual([
       'src/app/customers/index.ts',
       'src/app/holidays/index.ts',
