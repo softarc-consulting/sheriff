@@ -1,7 +1,7 @@
 import configs from './lib/config';
 import deepImport from './lib/rules/deep-import';
 
-export default {
+export = {
   rules: {
     'deep-import': deepImport,
   },

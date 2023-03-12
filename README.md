@@ -1,3 +1,5 @@
+Sheriff enforces module boundaries in TypeScript.
+
 # Feature Roadmap
 
 - Testing Dependency Rules (ArchUnit)
