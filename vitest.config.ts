@@ -4,4 +4,10 @@ export default defineConfig({
   test: {
     coverage: { provider: 'c8', reporter: ['text', 'html'] },
   },
+  resolve: {
+    alias: {
+      '@softarc/eslint-plugin-sheriff': 'packages/eslint-plugin/src/index.ts',
+      '@softarc/sheriff-core': 'packages/core/src/index.ts',
+    },
+  },
 });
