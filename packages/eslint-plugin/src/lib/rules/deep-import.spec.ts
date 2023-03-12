@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { it, describe, vitest, expect, afterAll, afterEach } from 'vitest';
+import { afterEach, describe, expect, it, vitest } from 'vitest';
 import deepImport from './deep-import';
 import * as sheriffCore from '@softarc/sheriff-core';
 
@@ -9,7 +9,7 @@ const tester = new RuleTester({
 });
 
 describe('deep-import', () => {
-  let spy = vitest.spyOn(sheriffCore, 'hasDeepImport');
+  const spy = vitest.spyOn(sheriffCore, 'hasDeepImport');
 
   afterEach(() => {
     spy.mockRestore();

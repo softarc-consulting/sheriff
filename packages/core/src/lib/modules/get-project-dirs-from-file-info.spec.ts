@@ -1,8 +1,7 @@
-import { beforeAll, beforeEach, describe, it, expect } from 'vitest';
-import getFs, { useVirtualFs } from '../fs/getFs';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { useVirtualFs } from '../fs/getFs';
 import FileInfo, { buildFileInfo } from '../file-info/file-info';
 import getProjectDirsFromFileInfo from './get-project-dirs-from-file-info';
-import Fs from '../fs/fs';
 
 export type TestParam = {
   name: string;

@@ -1,5 +1,5 @@
 import defaultFs from './default-fs';
-import virtualFs, { VirtualFs } from './virtual-fs';
+import virtualFs from './virtual-fs';
 import Fs from './fs';
 
 let fsImplementation: 'default' | 'virtual' = 'default';

@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import * as path from 'path';
 
 describe('Default Fs', () => {
-  let fs = new DefaultFs();
+  const fs = new DefaultFs();
 
   describe('find files', () => {
     it('should find the index.ts in project directory test1', () => {

@@ -51,11 +51,13 @@ export class DefaultFs implements Fs {
     return found;
   };
 
-  reset(): void {}
+  reset(): void {
+    return void true;
+  }
 
   findNearestParentFile = (referenceFile: string, filename: string): string => {
     let current = path.dirname(referenceFile);
-    while (true) {
+    while (current) {
       const files = fs.readdirSync(current);
 
       for (const file of files) {

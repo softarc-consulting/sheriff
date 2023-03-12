@@ -23,7 +23,7 @@ export default (
     moduleInfos.map((moduleInfo) => [moduleInfo.directory, moduleInfo])
   );
 
-  for (let element of traverseFileInfo(fileInfo)) {
+  for (const element of traverseFileInfo(fileInfo)) {
     const fi = element.fileInfo;
     if (!existingModules.includes(fi.path)) {
       findClosestModule(fi.path, moduleInfos).assignFileInfo(fi);

@@ -6,7 +6,7 @@ const fileSet = new Set<string>();
 export const hasDeepImport: (
   filename: string,
   importCommand: string
-) => boolean = (filename: string, importCommand: string) => {
+) => boolean = (filename: string) => {
   if (fileSet.has(filename)) {
     return false;
   } else {

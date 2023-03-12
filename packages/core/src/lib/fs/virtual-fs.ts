@@ -164,13 +164,12 @@ export class VirtualFs implements Fs {
     const paths = path.split('/').filter(Boolean);
     for (let i = 0; i < paths.length; i++) {
       const path = paths[i];
-      if (path === '.') {
-      } else if (path === '..') {
+      if (path === '..') {
         if (node.parent === undefined) {
           throw new Error('/ has no parent');
         }
         node = node.parent;
-      } else {
+      } else if (path !== '.') {
         const childNode = node.children.get(path);
         if (childNode) {
           node = childNode;

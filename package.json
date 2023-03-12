@@ -6,6 +6,7 @@
   "scripts": {
     "build:all": "npx nx run-many --target=build --skip-nx-cache",
     "commit": "commit",
+    "lint:all": "npx nx run-many --target lint",
     "test": "vitest"
   },
   "author": {

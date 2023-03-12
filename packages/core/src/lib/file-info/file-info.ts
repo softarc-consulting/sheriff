@@ -2,7 +2,7 @@ export default class FileInfo {
   constructor(public path: string, public imports: FileInfo[] = []) {}
 }
 
-interface NestedArray extends Array<string | NestedArray> {}
+type NestedArray = Array<string | NestedArray>
 
 const createPath = (path: string, parentPath: string) => {
   let currentPath = path;
@@ -28,7 +28,7 @@ export const buildFileInfo = (
       typeof entry[0] === 'string'
     ) {
       const [childPath, childImports] = entry;
-      let currentPath = createPath(childPath, path);
+      const currentPath = createPath(childPath, path);
       return buildFileInfo(currentPath, childImports as NestedArray[]);
     } else if (typeof entry === 'string') {
       return buildFileInfo(createPath(entry, path), []);

@@ -1,12 +1,11 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { FileTree } from '../test/project-configurator';
-import getFs, { useVirtualFs } from '../fs/getFs';
+import { useVirtualFs } from '../fs/getFs';
 import generateFileInfo from '../file-info/generate-file-info';
 import { ProjectCreator } from '../test/project-creator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import getProjectDirsFromFileInfo from './get-project-dirs-from-file-info';
 import findModules from './find-modules';
-import Fs from '../fs/fs';
 
 const angularStructure: FileTree = {
   'tsconfig.json': tsconfigMinimal,
@@ -24,15 +23,12 @@ const angularStructure: FileTree = {
 };
 
 describe('should find two modules', () => {
-  let fs: Fs;
-
   let creator: ProjectCreator;
   beforeAll(() => {
     useVirtualFs();
   });
 
   beforeEach(() => {
-    fs = getFs();
     creator = new ProjectCreator();
   });
 
@@ -43,7 +39,7 @@ describe('should find two modules', () => {
       'integration/tsconfig.json'
     );
     const projectDirs = getProjectDirsFromFileInfo(fileInfo);
-    const modules = findModules(projectDirs, fileInfo);
+    const modules = findModules(projectDirs);
     expect(modules).toEqual([
       'src/app/customers/index.ts',
       'src/app/holidays/index.ts',

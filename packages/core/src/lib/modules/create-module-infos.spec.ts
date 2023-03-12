@@ -178,11 +178,6 @@ describe('create module infos', () => {
   ])(
     'should create module for configuration: $name',
     ({ fileInfo, modulePaths, expectedModuleInfos }) => {
-      const createFindFileInfo = (fileInfo: FileInfo) => (paths: string[]) =>
-        paths.map(
-          (path) => throwIfNull(findFileInfo(fileInfo, path)),
-          'findFileInfo'
-        );
       const moduleInfos = createModuleInfos(fileInfo, modulePaths);
 
       expect(moduleInfos).toEqual(

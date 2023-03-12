@@ -19,7 +19,7 @@ export default (moduleInfos: ModuleInfo[]): DeepImport | undefined => {
     }
   }
 
-  for (let [path, assignedFileInfo] of assignedFileInfoMap) {
+  for (const [, assignedFileInfo] of assignedFileInfoMap) {
     for (const importedFileInfo of assignedFileInfo.imports) {
       if (!moduleInfoMap.has(importedFileInfo.path)) {
         const assignedImportedFileInfo = throwIfNull(
