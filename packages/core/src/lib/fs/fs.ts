@@ -21,10 +21,7 @@ export default interface Fs {
    * @param referenceFile
    * @param filename
    */
-  findNearestParentFile: (
-    referenceFile: string,
-    filename: string
-  ) => Promise<string>;
+  findNearestParentFile: (referenceFile: string, filename: string) => string;
 
   /**
    * Reset the VirtualFs, has no effect on the real `DefaultFs`.

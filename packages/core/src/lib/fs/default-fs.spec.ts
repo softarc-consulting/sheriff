@@ -82,8 +82,8 @@ describe('Default Fs', () => {
       );
     });
 
-    it('should throw an error if not found', async () => {
-      await expect(
+    it('should throw an error if not found', () => {
+      expect(() =>
         fs.findNearestParentFile(
           path.join(
             __dirname,
@@ -91,7 +91,7 @@ describe('Default Fs', () => {
           ),
           'a file that does not exist'
         )
-      ).rejects.toThrowError('cannot find a file that does not exist');
+      ).toThrowError('cannot find a file that does not exist');
     });
   });
 });

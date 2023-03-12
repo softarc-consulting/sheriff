@@ -124,10 +124,7 @@ export class VirtualFs implements Fs {
 
   tmpdir = () => '/tmp';
 
-  findNearestParentFile(
-    referenceFile: string,
-    filename: string
-  ): Promise<string> {
+  findNearestParentFile(referenceFile: string, filename: string): string {
     const { node } = this.#getNodeOrThrow(referenceFile);
     let current = throwIfNull(
       node.parent,
@@ -138,7 +135,7 @@ export class VirtualFs implements Fs {
         (childNode) => childNode.name === filename && childNode.type === 'file'
       );
       if (searchedNode) {
-        return Promise.resolve(this.#printNode(searchedNode));
+        return this.#printNode(searchedNode);
       }
       current = current.parent;
     }
