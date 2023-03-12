@@ -1,5 +1,6 @@
 import * as path from 'path';
 import Fs from './fs';
+import throwIfNull from '../util/throw-if-null';
 
 type FsNodeType = 'file' | 'directory';
 
@@ -28,10 +29,15 @@ type GetPathReturnFailure = {
 type GetPathReturn = GetPathReturnSuccess | GetPathReturnFailure;
 
 export class VirtualFs implements Fs {
-  root: FsNode;
-  project: FsNode;
+  // non-null assertion is used because Ts can't infer the init call
+  root!: FsNode;
+  project!: FsNode;
 
   constructor() {
+    this.init();
+  }
+
+  init() {
     this.root = {
       parent: undefined,
       children: new Map<string, FsNode>(),
@@ -118,6 +124,28 @@ export class VirtualFs implements Fs {
 
   tmpdir = () => '/tmp';
 
+  findNearestParentFile(
+    referenceFile: string,
+    filename: string
+  ): Promise<string> {
+    const { node } = this.#getNodeOrThrow(referenceFile);
+    let current = throwIfNull(
+      node.parent,
+      `${referenceFile} must have a parent`
+    );
+    while (current.parent !== undefined) {
+      const searchedNode = Array.from(current.children.values()).find(
+        (childNode) => childNode.name === filename && childNode.type === 'file'
+      );
+      if (searchedNode) {
+        return Promise.resolve(this.#printNode(searchedNode));
+      }
+      current = current.parent;
+    }
+
+    throw new Error(`cannot find ${filename} near ${referenceFile}`);
+  }
+
   #makeOrGet = (path: string, type: FsNodeType): FsNode => {
     const result = this.#getNode(path);
     if (result.exists) {
@@ -177,6 +205,15 @@ export class VirtualFs implements Fs {
     };
   };
 
+  #getNodeOrThrow = (path: string): GetPathReturnSuccess => {
+    const response = this.#getNode(path);
+    if (!response.exists) {
+      throw new Error(`file ${path} does not exist`);
+    }
+
+    return response;
+  };
+
   #createNode(parent: FsNode, type: FsNodeType, name: string): FsNode {
     return {
       parent,
@@ -225,6 +262,17 @@ export class VirtualFs implements Fs {
     return found;
   };
 
+  #printNode = (node: FsNode): string => {
+    const paths = [];
+    let current = node;
+    while (current.parent !== undefined && current !== this.project) {
+      paths.push(current.name);
+      current = current.parent;
+    }
+
+    return paths.reverse().join('/');
+  };
+
   print(node: FsNode | undefined = undefined, indent = 0): void {
     if (node === undefined) {
       console.log('[root]');
@@ -247,6 +295,10 @@ export class VirtualFs implements Fs {
   cwd = () => '/project';
 
   normalise = (unnormalisedPath: string) => path.normalize(unnormalisedPath);
+
+  reset() {
+    this.init();
+  }
 }
 
 const virtualFs = new VirtualFs();

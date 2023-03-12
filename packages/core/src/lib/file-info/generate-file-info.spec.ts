@@ -16,6 +16,7 @@ describe('Generate File Info', () => {
 
   beforeEach(() => {
     fs = getFs();
+    fs.reset();
     creator = new ProjectCreator();
   });
 

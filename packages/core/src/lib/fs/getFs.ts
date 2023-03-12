@@ -8,6 +8,6 @@ export const useDefaultFs = () => (fsImplementation = 'default');
 export const useVirtualFs = () => (fsImplementation = 'virtual');
 
 const getFs = (): Fs =>
-  fsImplementation === 'default' ? defaultFs : new VirtualFs();
+  fsImplementation === 'default' ? defaultFs : virtualFs;
 
 export default getFs;

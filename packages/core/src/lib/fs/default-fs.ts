@@ -52,6 +52,35 @@ export class DefaultFs implements Fs {
     }
     return found;
   };
+
+  reset(): void {}
+
+  findNearestParentFile = async (
+    referenceFile: string,
+    filename: string
+  ): Promise<string> => {
+    let current = path.dirname(referenceFile);
+    while (true) {
+      const files = await fsa.readdir(current);
+
+      for (const file of files) {
+        const filePath = path.join(current, file);
+        const info = await fsa.lstat(filePath);
+
+        if (info.isFile() && file === filename) {
+          return Promise.resolve(filePath);
+        }
+      }
+
+      const parent = path.dirname(current);
+      if (parent === current) {
+        break;
+      }
+      current = parent;
+    }
+
+    throw new Error(`cannot find ${filename} near ${referenceFile}`);
+  };
 }
 
 const defaultFs = new DefaultFs();

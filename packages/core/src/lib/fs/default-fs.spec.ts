@@ -1,6 +1,6 @@
 import { DefaultFs } from './default-fs';
-import { describe, it, beforeEach, expect, test } from 'vitest';
-import path from 'path';
+import { describe, expect, it } from 'vitest';
+import * as path from 'path';
 
 describe('Default Fs', () => {
   let fs = new DefaultFs();
@@ -49,6 +49,49 @@ describe('Default Fs', () => {
         'index.ts'
       );
       expect(found).toEqual([]);
+    });
+  });
+
+  describe('findNearest', async () => {
+    it('should find in second parent', async () => {
+      const found = await fs.findNearestParentFile(
+        path.join(
+          __dirname,
+          './find-nearest/test1/customers/admin/core/feature/index.ts'
+        ),
+        'tsconfig.json'
+      );
+      expect(found).toBe(
+        path.join(__dirname, './find-nearest/test1/customers/tsconfig.json')
+      );
+    });
+
+    it('should stop at the first parent', async () => {
+      const found = await fs.findNearestParentFile(
+        path.join(
+          __dirname,
+          './find-nearest/test2/customers/admin/core/feature/index.ts'
+        ),
+        'tsconfig.json'
+      );
+      expect(found).toBe(
+        path.join(
+          __dirname,
+          './find-nearest/test2/customers/admin/core/tsconfig.json'
+        )
+      );
+    });
+
+    it('should throw an error if not found', async () => {
+      await expect(
+        fs.findNearestParentFile(
+          path.join(
+            __dirname,
+            './find-nearest/test2/customers/admin/core/feature/index.ts'
+          ),
+          'a file that does not exist'
+        )
+      ).rejects.toThrowError('cannot find a file that does not exist');
     });
   });
 });

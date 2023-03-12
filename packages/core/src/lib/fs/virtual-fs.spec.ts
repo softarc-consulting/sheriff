@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, expect, test } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { VirtualFs } from './virtual-fs';
 
 describe('Virtual Fs', () => {
@@ -6,6 +6,7 @@ describe('Virtual Fs', () => {
 
   beforeEach(() => {
     fs = new VirtualFs();
+    fs.reset();
   });
 
   describe('create directories and navigation', () => {
@@ -42,18 +43,17 @@ describe('Virtual Fs', () => {
       expect(fs.exists('/project/some-dir')).toBe(true);
     });
 
-    it.each([
+    for (const [dirToCreate, dirToBe] of [
       ['../././some-dir', '/some-dir'],
-      ['./././some-dir', '/projects/some-dir'],
-      ['./some-dir', '/projects-some-dir'],
+      ['./././some-dir', '/project/some-dir'],
+      ['./some-dir', '/project/some-dir'],
       ['../some-dir', '/some-dir'],
-    ])(
-      'should allow navigation over relative paths for %s',
-      async ([dirToCreate, dirToBe]) => {
+    ]) {
+      it(`should allow navigation over relative paths for ${dirToCreate}`, async () => {
         await fs.createDir(dirToCreate);
         expect(fs.exists(dirToBe)).toBe(true);
-      }
-    );
+      });
+    }
   });
 
   describe('create and read files', () => {
@@ -196,6 +196,46 @@ describe('Virtual Fs', () => {
       await fs.writeFile('holidays/index.ts', 'hello');
       const found = await fs.findFiles('customers', 'index.ts');
       expect(found).toEqual(['index.ts']);
+    });
+  });
+
+  describe('findNearestFile', () => {
+    it('should find in second parent', async () => {
+      await fs.writeFile('customers/admin/core/feature/index.ts', 'hello');
+      await fs.writeFile('customers/tsconfig.json', '');
+      const found = await fs.findNearestParentFile(
+        './customers/admin/core/feature/index.ts',
+        'tsconfig.json'
+      );
+      expect(found).toBe('customers/tsconfig.json');
+    });
+
+    it('should stop at the first parent', async () => {
+      await fs.writeFile('customers/admin/core/feature/index.ts', 'hello');
+      await fs.writeFile('customers/tsconfig.json', '');
+      await fs.writeFile('customers/admin/core/tsconfig.json', '');
+      const found = await fs.findNearestParentFile(
+        './customers/admin/core/feature/index.ts',
+        'tsconfig.json'
+      );
+      expect(found).toBe('customers/admin/core/tsconfig.json');
+    });
+
+    it('should not find it', async () => {
+      await fs.writeFile('index.ts', 'hello');
+      expect(() =>
+        fs.findNearestParentFile('index.ts', 'tsconfig.json')
+      ).toThrowError('cannot find tsconfig.json near index.ts');
+    });
+
+    it('should find in same directory', async () => {
+      await fs.writeFile('customers/admin/core/feature/index.ts', 'hello');
+      await fs.writeFile('customers/admin/core/feature/tsconfig.json', '');
+      const found = await fs.findNearestParentFile(
+        './customers/admin/core/feature/index.ts',
+        'tsconfig.json'
+      );
+      expect(found).toBe('customers/admin/core/feature/tsconfig.json');
     });
   });
 });
