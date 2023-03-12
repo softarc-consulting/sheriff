@@ -10,5 +10,5 @@ jobs:
           node-version: '18'
           cache: 'yarn'
       - run: yarn
-      - run: yarn eslint:all
+      - run: yarn lint:all
       - run: yarn test
