@@ -1,9 +1,7 @@
 import FileInfo, { buildFileInfo } from './file-info';
-import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { toFsPath } from './fs-path';
 import getFs, { useVirtualFs } from '../fs/getFs';
-import { inVfs } from '../test/in-vfs';
-import { vfsFileInfo } from '../test/vfs-file-info';
 
 const fi = (path: string, imports: FileInfo[] = []) =>
   new FileInfo(toFsPath(path), imports);

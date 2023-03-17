@@ -2,9 +2,9 @@ import FileInfo, { buildFileInfo } from '../file-info/file-info';
 import { createModuleInfos } from './create-module-infos';
 import findFileInfo from '../test/find-file-info';
 import { ModuleInfo, ROOT_MODULE } from './module-info';
-import { expect, it, describe, beforeAll, beforeEach } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
-import getFs, { useDefaultFs, useVirtualFs } from '../fs/getFs';
+import getFs, { useVirtualFs } from '../fs/getFs';
 
 type TestParameter = {
   name: string;

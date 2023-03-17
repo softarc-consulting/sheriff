@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import getFs from '../fs/getFs';
 

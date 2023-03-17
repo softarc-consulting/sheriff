@@ -1,4 +1,4 @@
-import { FsPath, isFsPath, toFsPath } from './fs-path';
+import { FsPath, toFsPath } from './fs-path';
 import throwIfNull from '../util/throw-if-null';
 import getFs from '../fs/getFs';
 

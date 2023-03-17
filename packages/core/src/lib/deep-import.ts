@@ -1,4 +1,3 @@
-import getFs from './fs/getFs';
 import { generateFileInfoAndGetRootDir } from './file-info/generate-file-info-and-get-root-dir';
 import { FsPath, toFsPath } from './file-info/fs-path';
 import { getProjectDirsFromFileInfo } from './modules/get-project-dirs-from-file-info';
@@ -19,8 +18,6 @@ export const hasDeepImport = (
     deepImportCache.clear();
   }
   if (!deepImportCache.has(filename)) {
-    const fs = getFs();
-
     const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
       toFsPath(filename),
       true
