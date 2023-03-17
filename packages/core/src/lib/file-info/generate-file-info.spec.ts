@@ -6,6 +6,7 @@ import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { generateFileInfoAndGetRootDir } from './generate-file-info-and-get-root-dir';
 import { ProjectCreator } from '../test/project-creator';
 import { inVfs } from '../test/in-vfs';
+import { toFsPath } from './fs-path';
 
 describe('Generate File Info', () => {
   let fs: Fs;
@@ -118,5 +119,19 @@ describe('Generate File Info', () => {
     expect(rootDir).toBe('/project/integration');
   });
 
-  it.todo('should verify that no paths are outside of the project');
+  it('should throw an error if an import is outside of the root dir', () => {
+    const projectConfig: FileTree = {
+      'tsconfig.json': tsconfigMinimal,
+      'main.ts': ['../outside.component'],
+    };
+
+    creator.create(projectConfig, 'integration');
+    fs.writeFile('/project/outside.component.ts', '');
+    fs.print();
+    expect(() =>
+      generateFileInfoAndGetRootDir(toFsPath('/project/integration/main.ts'))
+    ).toThrowError(
+      '/project/outside.component.ts is outside of root /project/integration'
+    );
+  });
 });

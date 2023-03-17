@@ -58,6 +58,9 @@ const traverseFilesystem = (
       const { resolvedFileName } = resolvedImport.resolvedModule;
       if (!resolvedImport.resolvedModule.isExternalLibraryImport) {
         importPath = toFsPath(resolvedFileName);
+        if (!importPath.startsWith(rootDir)) {
+          throw new Error(`${importPath} is outside of root ${rootDir}`);
+        }
       }
     } else if (fileName in paths) {
       importPath = paths[fileName];
