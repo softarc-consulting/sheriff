@@ -1,4 +1,4 @@
-![build status](https://github.com/rainerhahnekamp/sheriff/actions/workflows/test.yml/badge.svg)
+![build status](https://github.com/rainerhahnekamp/sheriff/actions/workflows/build.yml/badge.svg)
 
 # Sheriff
 
