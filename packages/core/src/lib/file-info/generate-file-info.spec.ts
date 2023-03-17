@@ -127,7 +127,6 @@ describe('Generate File Info', () => {
 
     creator.create(projectConfig, 'integration');
     fs.writeFile('/project/outside.component.ts', '');
-    fs.print();
     expect(() =>
       generateFileInfoAndGetRootDir(toFsPath('/project/integration/main.ts'))
     ).toThrowError(
