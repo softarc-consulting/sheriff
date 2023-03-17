@@ -1,4 +1,52 @@
-Sheriff enforces module boundaries in TypeScript.
+![build status](https://github.com/rainerhahnekamp/sheriff/actions/workflows/test.yml/badge.svg)
+
+# Sheriff
+
+Sheriff enforces module boundaries and dependency rules in TypeScript.
+
+It comes with **zero dependencies**. The only peer dependency is TypeScript itself.
+
+Sheriff is available in two flavours: As eslint plugin or cli.
+
+**Module Boundaries**
+
+Every directory with an _index.ts_ counts as a module. The _index.ts_ exports
+those files that should be accessible from the outside. Therefore, every `import`
+into that module must point to the _index.ts_.
+
+## Installation
+
+### Eslint
+
+```shell
+npm install @softarc/eslint-plugin-sheriff
+```
+
+In your _eslintrc.json_, insert the rules:
+
+```json
+    {
+      "files": ["*.ts"]
+      "extends": ["plugin:@softarc/sheriff/default"]
+    }
+```
+
+_Example: eslintrc.json_
+
+```json
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx"],
+  "overrides": [
+    // existing rules...
+    {
+      "files": ["*.ts"]
+      "extends": ["plugin:@softarc/sheriff/default"]
+    }
+  ]
+}
+```
 
 # Feature Roadmap
 
