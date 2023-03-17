@@ -1,19 +1,24 @@
-export default interface Fs {
-  writeFile: (filename: string, contents: string) => void;
-  readFile: (path: string) => string;
-  removeDir: (path: string) => void;
-  createDir: (path: string) => void;
-  exists: (path: string) => boolean;
+import * as path from 'path';
+import type { FsPath } from '../file-info/fs-path';
 
-  tmpdir: () => string;
+export abstract class Fs {
+  abstract writeFile: (filename: string, contents: string) => void;
+  abstract readFile: (path: FsPath) => string;
+  abstract removeDir: (path: FsPath) => void;
+  abstract createDir: (path: string) => void;
+  abstract exists: (path: string) => boolean;
 
-  join: (...paths: string[]) => string;
+  abstract tmpdir: () => string;
 
-  cwd: () => string;
+  join = (...paths: string[]) => path.join(...paths);
 
-  normalise: (path: string) => string;
+  abstract cwd: () => string;
 
-  findFiles: (path: string, filename: string) => string[];
+  abstract normalise: (path: string) => string;
+
+  abstract findFiles: (path: FsPath, filename: string) => FsPath[];
+
+  abstract print: () => void;
 
   /**
    * Used for finding the nearest `tsconfig.json`. It traverses through the
@@ -21,10 +26,22 @@ export default interface Fs {
    * @param referenceFile
    * @param filename
    */
-  findNearestParentFile: (referenceFile: string, filename: string) => string;
+  abstract findNearestParentFile: (
+    referenceFile: FsPath,
+    filename: string
+  ) => FsPath;
+
+  relativeTo = (from: string, to: string) => path.relative(from, to);
+
+  getParent = (fileOrDirectory: FsPath): FsPath =>
+    path.dirname(fileOrDirectory) as FsPath;
 
   /**
    * Reset the VirtualFs, has no effect on the real `DefaultFs`.
    */
-  reset(): void;
+  abstract reset(): void;
+
+  abstract split(path: FsPath): string[];
+
+  abstract isAbsolute(path: string): boolean;
 }

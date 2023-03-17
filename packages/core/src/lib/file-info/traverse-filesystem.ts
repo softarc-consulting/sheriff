@@ -2,6 +2,7 @@ import FileInfo from './file-info';
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import TsData from './ts-data';
+import { FsPath, toFsPath } from './fs-path';
 
 // https://stackoverflow.com/questions/71815527/typescript-compiler-apihow-to-get-absolute-path-to-source-file-of-import-module
 /**
@@ -16,7 +17,7 @@ import TsData from './ts-data';
  * filesystem happens. In case the abstraction does not emulate the original's
  * behaviour, "strange bugs" might occur. Look out for them.
  *
- * @param filePath:
+ * @param fsPath:
  * @param fileInfoDict
  * @param paths
  * @param configObject
@@ -24,14 +25,15 @@ import TsData from './ts-data';
  * @param sys
  */
 const traverseFilesystem = (
-  filePath: string,
-  fileInfoDict: Map<string, FileInfo>,
-  { paths, configObject, cwd, sys }: TsData
+  fsPath: FsPath,
+  fileInfoDict: Map<FsPath, FileInfo>,
+  { paths, configObject, cwd, sys, rootDir }: TsData,
+  runOnce = false
 ): FileInfo => {
-  const fileInfo: FileInfo = { path: filePath, imports: [] };
-  fileInfoDict.set(filePath, fileInfo);
-
-  const fileContent = getFs().readFile(filePath);
+  const fileInfo: FileInfo = new FileInfo(fsPath, []);
+  fileInfoDict.set(fsPath, fileInfo);
+  const fs = getFs();
+  const fileContent = fs.readFile(fsPath);
   const preProcessedFile = ts.preProcessFile(fileContent);
 
   for (const importedFile of preProcessedFile.importedFiles) {
@@ -45,36 +47,41 @@ const traverseFilesystem = (
      */
     const resolvedImport = ts.resolveModuleName(
       fileName,
-      filePath,
+      fsPath,
       configObject.options,
       sys
     );
 
-    let importPath = '';
+    let importPath: FsPath | undefined;
 
     if (resolvedImport.resolvedModule) {
       const { resolvedFileName } = resolvedImport.resolvedModule;
       if (!resolvedImport.resolvedModule.isExternalLibraryImport) {
-        importPath = resolvedFileName;
+        importPath = toFsPath(resolvedFileName);
       }
     } else if (fileName in paths) {
-      importPath = paths[fileName][0];
-    } else {
-      throw new Error(`cannot find ${fileName}`);
+      importPath = paths[fileName];
+    } else if (fileName.startsWith('.')) {
+      // might be an undetected dependency in node_modules
+      throw new Error(`cannot find import for ${fileName}`);
     }
 
     if (importPath) {
       const existing = fileInfoDict.get(importPath);
       if (existing) {
-        fileInfo.imports.push(existing);
+        fileInfo.addImport(existing, fileName);
+      } else if (runOnce) {
+        fileInfo.addImport(new FileInfo(importPath), fileName);
       } else {
-        fileInfo.imports.push(
+        fileInfo.addImport(
           traverseFilesystem(importPath, fileInfoDict, {
             paths,
             configObject,
             cwd,
             sys,
-          })
+            rootDir,
+          }),
+          fileName
         );
       }
     }

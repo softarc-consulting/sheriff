@@ -1,6 +1,7 @@
 import * as path from 'path';
-import Fs from './fs';
+import { Fs } from './fs';
 import throwIfNull from '../util/throw-if-null';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 
 type FsNodeType = 'file' | 'directory';
 
@@ -28,12 +29,13 @@ type GetPathReturnFailure = {
 
 type GetPathReturn = GetPathReturnSuccess | GetPathReturnFailure;
 
-export class VirtualFs implements Fs {
+export class VirtualFs extends Fs {
   // non-null assertion is used because Ts can't infer the init call
   root!: FsNode;
   project!: FsNode;
 
   constructor() {
+    super();
     this.init();
   }
 
@@ -56,7 +58,7 @@ export class VirtualFs implements Fs {
     this.root.children.set('project', this.project);
   }
 
-  findFiles = (path: string, filename: string) => {
+  findFiles = (path: FsPath, filename: string): FsPath[] => {
     const result = this.#getNode(path);
     if (!result.exists) {
       throw new Error(`directory ${path} does not exist`);
@@ -68,26 +70,26 @@ export class VirtualFs implements Fs {
     return this.#traverseFindFiles(referenceNode, filename, referenceNode);
   };
 
-  createDir(path: string): void {
+  createDir = (path: string): void => {
     const node = this.#makeOrGet(path, 'directory');
     if (node.type === 'file') {
       throw new Error(`cannot create directory ${path} because it is a file`);
     }
-  }
+  };
 
-  exists(path: string): boolean {
+  exists = (path: string): boolean => {
     return this.#getNode(path).exists;
-  }
+  };
 
-  writeFile(path: string, contents: string): void {
+  writeFile = (path: string, contents: string): void => {
     const node = this.#makeOrGet(path, 'file');
     if (node.type === 'directory') {
       throw new Error(`cannot write to file ${path} because it is a directory`);
     }
     node.contents = contents;
-  }
+  };
 
-  readFile(path: string): string {
+  readFile = (path: string): string => {
     const result = this.#getNode(path);
     if (!result.exists) {
       throw new Error(`File ${path} does not exist`);
@@ -98,9 +100,9 @@ export class VirtualFs implements Fs {
     } else {
       return result.node.contents;
     }
-  }
+  };
 
-  removeDir(path: string): void {
+  removeDir = (path: string): void => {
     const result = this.#getNode(path);
     if (!result.exists) {
       throw new Error(
@@ -111,11 +113,11 @@ export class VirtualFs implements Fs {
       throw new Error(`cannot delete root directory`);
     }
     result.parent.children.delete(result.nodeName);
-  }
+  };
 
   tmpdir = () => '/tmp';
 
-  findNearestParentFile(referenceFile: string, filename: string): string {
+  findNearestParentFile = (referenceFile: FsPath, filename: string): FsPath => {
     const { node } = this.#getNodeOrThrow(referenceFile);
     let current = throwIfNull(
       node.parent,
@@ -126,13 +128,15 @@ export class VirtualFs implements Fs {
         (childNode) => childNode.name === filename && childNode.type === 'file'
       );
       if (searchedNode) {
-        return this.#printNode(searchedNode);
+        return this.#absolutePath(searchedNode);
       }
       current = current.parent;
     }
 
     throw new Error(`cannot find ${filename} near ${referenceFile}`);
-  }
+  };
+
+  isAbsolute = (path: string) => path.startsWith('/');
 
   #makeOrGet = (path: string, type: FsNodeType): FsNode => {
     const result = this.#getNode(path);
@@ -211,32 +215,18 @@ export class VirtualFs implements Fs {
     };
   }
 
-  #getPath = (node: FsNode, referenceNode: FsNode = this.root): string => {
-    let path = node.name;
-    let current = node;
-    while (current.parent !== referenceNode) {
-      if (!current.parent) {
-        break;
-      }
-      current = current.parent;
-      path = `${current.name}/${path}`;
-    }
-
-    return path;
-  };
-
   #traverseFindFiles = (
     node: FsNode,
     filename: string,
     referenceNode: FsNode
-  ): string[] => {
-    const found: string[] = [];
+  ): FsPath[] => {
+    const found: FsPath[] = [];
     for (const childNode of node.children.values()) {
       if (
         childNode.type === 'file' &&
         childNode.name === filename.toLowerCase()
       ) {
-        found.push(this.#getPath(childNode, referenceNode));
+        found.push(this.#absolutePath(childNode));
       }
 
       if (childNode.type === 'directory') {
@@ -249,18 +239,18 @@ export class VirtualFs implements Fs {
     return found;
   };
 
-  #printNode = (node: FsNode): string => {
+  #absolutePath = (node: FsNode): FsPath => {
     const paths = [];
     let current = node;
-    while (current.parent !== undefined && current !== this.project) {
+    while (current.parent !== undefined && current !== this.root) {
       paths.push(current.name);
       current = current.parent;
     }
 
-    return paths.reverse().join('/');
+    return toFsPath('/' + paths.reverse().join('/'));
   };
 
-  print(node: FsNode | undefined = undefined, indent = 0): void {
+  print = (node?: FsNode, indent = 0): void => {
     if (node === undefined) {
       console.log('[root]');
       return this.print(this.root, indent + 2);
@@ -275,16 +265,18 @@ export class VirtualFs implements Fs {
       );
       this.print(node.children.get(child), indent + 2);
     }
-  }
-
-  join = (...paths: string[]) => paths.join(...paths);
+  };
 
   cwd = () => '/project';
 
-  normalise = (unnormalisedPath: string) => path.normalize(unnormalisedPath);
+  normalise = (notNormalisedPath: string) => path.normalize(notNormalisedPath);
 
   reset() {
     this.init();
+  }
+
+  split(path: string): string[] {
+    return path.split('/');
   }
 }
 

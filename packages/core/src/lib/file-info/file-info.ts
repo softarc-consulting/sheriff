@@ -1,8 +1,25 @@
+import { FsPath, isFsPath, toFsPath } from './fs-path';
+import throwIfNull from '../util/throw-if-null';
+import getFs from '../fs/getFs';
+
 export default class FileInfo {
-  constructor(public path: string, public imports: FileInfo[] = []) {}
+  #rawImportMap = new Map<string, string>();
+  constructor(public path: FsPath, public imports: FileInfo[] = []) {}
+
+  addImport(importedFileInfo: FileInfo, rawImport: string) {
+    this.imports.push(importedFileInfo);
+    this.#rawImportMap.set(importedFileInfo.path, rawImport);
+  }
+
+  getRawImportForImportedFileInfo(path: FsPath): string {
+    return throwIfNull(
+      this.#rawImportMap.get(path),
+      `raw import for ${path} is not available in ${this.path}`
+    );
+  }
 }
 
-type NestedArray = Array<string | NestedArray>
+type NestedArray = Array<string | NestedArray>;
 
 const createPath = (path: string, parentPath: string) => {
   let currentPath = path;
@@ -17,10 +34,16 @@ const createPath = (path: string, parentPath: string) => {
   return currentPath;
 };
 
+/**
+ * utility function generate a FileInfo Tree for testing purposes
+ * @param path
+ * @param imports
+ */
 export const buildFileInfo = (
   path: string,
   imports: NestedArray = []
 ): FileInfo => {
+  const fs = getFs();
   const children: FileInfo[] = imports.map((entry) => {
     if (
       Array.isArray(entry) &&
@@ -37,5 +60,10 @@ export const buildFileInfo = (
     }
   });
 
-  return new FileInfo(path, children);
+  fs.writeFile(path, '');
+  const fileInfo = new FileInfo(toFsPath(path));
+  for (const child of children) {
+    fileInfo.addImport(child, fs.relativeTo(fileInfo.path, child.path));
+  }
+  return fileInfo;
 };

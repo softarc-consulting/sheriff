@@ -1,5 +1,5 @@
 import { ModuleInfo } from '../modules/module-info';
-import AssignedFileInfo from '../modules/assigned-file.info';
+import { AssignedFileInfo } from '../modules/assigned-file.info';
 import throwIfNull from '../util/throw-if-null';
 
 export type DeepImport = {
@@ -7,7 +7,9 @@ export type DeepImport = {
   deepImport: AssignedFileInfo;
 };
 
-export default (moduleInfos: ModuleInfo[]): DeepImport | undefined => {
+export const checkDeepImports = (
+  moduleInfos: ModuleInfo[]
+): DeepImport | undefined => {
   const assignedFileInfoMap = new Map<string, AssignedFileInfo>();
   const moduleInfoMap = new Map<string, ModuleInfo>(
     moduleInfos.map((moduleInfo) => [moduleInfo.path, moduleInfo])

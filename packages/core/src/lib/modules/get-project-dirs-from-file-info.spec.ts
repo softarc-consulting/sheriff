@@ -1,93 +1,107 @@
-import { beforeAll, describe, expect, it } from 'vitest';
-import { useVirtualFs } from '../fs/getFs';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import getFs, { useVirtualFs } from '../fs/getFs';
 import FileInfo, { buildFileInfo } from '../file-info/file-info';
-import getProjectDirsFromFileInfo from './get-project-dirs-from-file-info';
+import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
+import { toFsPath } from '../file-info/fs-path';
 
 export type TestParam = {
   name: string;
+  rootDir: string;
   projectDirs: string[];
   fileInfo: FileInfo;
 };
 
-const cli: TestParam = {
+const cli = (): TestParam => ({
   name: 'cli',
-  projectDirs: ['src'],
-  fileInfo: buildFileInfo('src/app/main.ts', [
+  rootDir: '/src',
+  projectDirs: ['/src/app'],
+  fileInfo: buildFileInfo('/src/app/main.ts', [
     [
       './app.component.ts',
-      ['./customer.componen.ts', './holiday.component.ts'],
+      ['./customer.component.ts', './holiday.component.ts'],
     ],
   ]),
-};
+});
 
-const nx: TestParam = {
+const nx = (): TestParam => ({
   name: 'nx',
-  projectDirs: ['apps', 'libs'],
-  fileInfo: buildFileInfo('apps/sheriff/src/app/main.ts', [
+  rootDir: '/project',
+  projectDirs: ['/project/apps', '/project/libs'],
+  fileInfo: buildFileInfo('/project/apps/sheriff/src/app/main.ts', [
     [
       './app.component.ts',
       [
-        'libs/customers/src/lib/customer.component.ts',
-        'libs/holidays/src/lib/holiday.component.ts',
+        '/project/libs/customers/src/lib/customer.component.ts',
+        '/project/libs/holidays/src/lib/holiday.component.ts',
       ],
     ],
   ]),
-};
+});
 
-const custom: TestParam = {
+const custom = (): TestParam => ({
   name: 'custom',
-  projectDirs: ['app', 'sheriff', 'customers', 'holidays'],
-  fileInfo: buildFileInfo('app/main.ts', [
+  rootDir: '/project',
+  projectDirs: [
+    '/project/app',
+    '/project/sheriff',
+    '/project/customers',
+    '/project/holidays',
+  ],
+  fileInfo: buildFileInfo('/project/app/main.ts', [
     [
-      'sheriff/app.component.ts',
-      ['customers/customer.component.ts', 'holidays/holiday.component.ts'],
+      '/project/sheriff/app.component.ts',
+      [
+        '/project/customers/customer.component.ts',
+        '/project/holidays/holiday.component.ts',
+      ],
     ],
   ]),
-};
+});
 
-const root: TestParam = {
+const root = (): TestParam => ({
   name: 'root',
-  projectDirs: ['.'],
-  fileInfo: buildFileInfo('main.ts', [
-    'src/app/customer.component.ts',
-    'src/app/holiday.component.ts',
+  rootDir: '/project',
+  projectDirs: ['/project'],
+  fileInfo: buildFileInfo('/project/main.ts', [
+    '/project/src/app/customer.component.ts',
+    '/project/src/app/holiday.component.ts',
   ]),
-};
-
-const outside: TestParam = {
-  name: 'outside',
-  projectDirs: [],
-  fileInfo: {
-    path: 'src/app/main.ts',
-    imports: [
-      {
-        path: '../customers.component.ts',
-        imports: [],
-      },
-      {
-        path: '../holidays/holidays.component.ts',
-        imports: [],
-      },
-    ],
-  },
-};
+});
 
 describe('get project dirs from file info', () => {
   beforeAll(() => {
     useVirtualFs();
   });
 
-  it.each([cli, nx, custom, root])(
-    'should find project dirs for $name config',
-    (param) => {
-      const projectDirs = getProjectDirsFromFileInfo(param.fileInfo);
+  beforeEach(() => {
+    getFs().reset();
+  });
+
+  it.each([
+    ['cli', cli],
+    ['nx', nx],
+    ['custom', custom],
+    ['root', root],
+  ])(
+    'should find project dirs for %s config',
+    (_, paramSupplier: () => TestParam) => {
+      const param = paramSupplier();
+      const projectDirs = getProjectDirsFromFileInfo(
+        param.fileInfo,
+        toFsPath(param.rootDir)
+      );
       expect(projectDirs).toEqual(param.projectDirs);
     }
   );
 
   it('should throw if fileInfo is outside of project', () => {
-    expect(() => getProjectDirsFromFileInfo(outside.fileInfo)).toThrowError(
-      'file is outside of project directory: ../customers.component.ts'
+    const fileInfo = buildFileInfo('/project/src/app/main.ts', [
+      '/customers/customer.component.ts',
+    ]);
+    expect(() =>
+      getProjectDirsFromFileInfo(fileInfo, toFsPath('/project'))
+    ).toThrowError(
+      '/customers/customer.component.ts is outside of root directory: /project'
     );
   });
 });

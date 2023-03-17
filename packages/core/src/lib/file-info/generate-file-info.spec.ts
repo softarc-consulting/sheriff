@@ -1,10 +1,11 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import Fs from '../fs/fs';
+import { Fs } from '../fs/fs';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { FileTree } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
-import generateFileInfo from './generate-file-info';
+import { generateFileInfoAndGetRootDir } from './generate-file-info-and-get-root-dir';
 import { ProjectCreator } from '../test/project-creator';
+import { inVfs } from '../test/in-vfs';
 
 describe('Generate File Info', () => {
   let fs: Fs;
@@ -31,40 +32,91 @@ describe('Generate File Info', () => {
 
     creator.create(projectConfig, 'integration');
 
-    const fileInfo = generateFileInfo(
-      'integration/src/app/app.component.ts',
-      'integration/tsconfig.json'
+    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
+      inVfs('integration/src/app/app.component.ts')
     );
 
     expect(fileInfo).toEqual({
-      path: 'integration/src/app/app.component.ts',
-      imports: [{ path: 'integration/src/app/home.component.ts', imports: [] }],
+      path: '/project/integration/src/app/app.component.ts',
+      imports: [
+        { path: '/project/integration/src/app/home.component.ts', imports: [] },
+      ],
     });
+    expect(rootDir).toBe('/project/integration');
   });
 
   it('should generate for sub-modules', () => {
     const projectConfig: FileTree = {
-      'tsconfig.json': '',
-      app: {
-        'main.ts': [],
-        src: {
-          'home.component': [],
-          'app.routes': [],
-          'app.component': ['./home.component'],
-          'main.ts': '',
+      'tsconfig.json': tsconfigMinimal,
+      src: {
+        'main.ts': ['./app/app.component', './app/app.routes'],
+        app: {
+          'home.component.ts': [],
+          'app.routes.ts': ['./home.component', './customers/index'],
+          'app.component.ts': [],
           customers: {
-            'list.component': ['./customers.service'],
-            'detail.component': ['./customers.service'],
-            'search.component': [],
-            'customers.service': '',
-            'customer.routes': ['./list.component', './detail.component'],
-            index: ['./customer.routes'],
+            'list.component.ts': ['./customers.service'],
+            'detail.component.ts': ['./customers.service'],
+            'search.component.ts': [],
+            'customers.service.ts': '',
+            'customer.routes.ts': ['./list.component', './detail.component'],
+            'index.ts': ['./customer.routes'],
           },
         },
       },
     };
 
-    creator.create(projectConfig, 'sub-module');
-    expect(true).toBe(true);
+    creator.create(projectConfig, 'integration');
+
+    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
+      inVfs('integration/src/main.ts')
+    );
+
+    expect(fileInfo).toEqual({
+      path: '/project/integration/src/main.ts',
+      imports: [
+        { path: '/project/integration/src/app/app.component.ts', imports: [] },
+        {
+          path: '/project/integration/src/app/app.routes.ts',
+          imports: [
+            {
+              path: '/project/integration/src/app/home.component.ts',
+              imports: [],
+            },
+            {
+              path: '/project/integration/src/app/customers/index.ts',
+              imports: [
+                {
+                  path: '/project/integration/src/app/customers/customer.routes.ts',
+                  imports: [
+                    {
+                      path: '/project/integration/src/app/customers/list.component.ts',
+                      imports: [
+                        {
+                          path: '/project/integration/src/app/customers/customers.service.ts',
+                          imports: [],
+                        },
+                      ],
+                    },
+                    {
+                      path: '/project/integration/src/app/customers/detail.component.ts',
+                      imports: [
+                        {
+                          path: '/project/integration/src/app/customers/customers.service.ts',
+                          imports: [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    expect(rootDir).toBe('/project/integration');
   });
+
+  it.todo('should verify that no paths are outside of the project');
 });

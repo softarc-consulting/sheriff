@@ -1,14 +1,16 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { FileTree } from '../test/project-configurator';
 import { useVirtualFs } from '../fs/getFs';
-import generateFileInfo from '../file-info/generate-file-info';
+import { generateFileInfoAndGetRootDir } from '../file-info/generate-file-info-and-get-root-dir';
 import { ProjectCreator } from '../test/project-creator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
-import getProjectDirsFromFileInfo from './get-project-dirs-from-file-info';
-import findModules from './find-modules';
+import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
+import { findModules } from './find-modules';
+import { toFsPath } from '../file-info/fs-path';
 
 const angularStructure: FileTree = {
   'tsconfig.json': tsconfigMinimal,
+  'sheriff.config.ts': '',
   'src/app': {
     'app.component.ts': '',
     customers: {
@@ -34,15 +36,14 @@ describe('should find two modules', () => {
 
   it('should find two submodules src', () => {
     creator.create(angularStructure, 'integration');
-    const fileInfo = generateFileInfo(
-      'integration/src/app/app.component.ts',
-      'integration/tsconfig.json'
+    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
+      toFsPath('/project/integration/src/app/app.component.ts')
     );
-    const projectDirs = getProjectDirsFromFileInfo(fileInfo);
+    const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
     const modules = findModules(projectDirs);
     expect(modules).toEqual([
-      'src/app/customers/index.ts',
-      'src/app/holidays/index.ts',
+      '/project/integration/src/app/customers/index.ts',
+      '/project/integration/src/app/holidays/index.ts',
     ]);
   });
 });

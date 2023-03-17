@@ -1,25 +1,11 @@
-import FileInfo from "../../file-info/file-info";
+import FileInfo from '../../file-info/file-info';
+import { FsPath } from '../../file-info/fs-path';
 
-export const angularCliValid: FileInfo = {
-  path: "src/app/app.component",
-  imports: [
-    {
-      path: "src/app/customers/index.ts",
-      imports: [
-        {
-          path: "src/app/customers/customer.component.ts",
-          imports: [],
-        },
-      ],
-    },
-    {
-      path: "src/app/holidays/index.ts",
-      imports: [
-        {
-          path: "src/app/holidays/holiday.component.ts",
-          imports: [],
-        },
-      ],
-    },
-  ],
-};
+export const angularCliValid = new FileInfo('src/app/app.component' as FsPath, [
+  new FileInfo('src/app/customers/index.ts' as FsPath, [
+    new FileInfo('src/app/customers/customer.component.ts' as FsPath),
+  ]),
+  new FileInfo('src/app/holidays/index.ts' as FsPath, [
+    new FileInfo('src/app/holidays/holiday.component.ts' as FsPath),
+  ]),
+]);

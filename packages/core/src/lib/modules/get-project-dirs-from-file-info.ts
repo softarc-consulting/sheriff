@@ -1,22 +1,30 @@
 import FileInfo from '../file-info/file-info';
 import getFs from '../fs/getFs';
 import traverseFileInfo from '../file-info/traverse-file-info';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 
-export default (fileInfo: FileInfo): string[] => {
+export const getProjectDirsFromFileInfo = (
+  fileInfo: FileInfo,
+  rootDir: FsPath
+): FsPath[] => {
   const fs = getFs();
-  const projectDirs = new Set<string>();
-  for (const element of traverseFileInfo(fileInfo)) {
-    const node = element.fileInfo;
-    const paths = fs.normalise(node.path).split('/');
-    if (paths.length === 1) {
-      projectDirs.clear();
-      projectDirs.add('.');
+  const rootDirPartsLength = fs.split(rootDir).length;
+  const projectDirs = new Set<FsPath>();
+  for (const {
+    fileInfo: { path },
+  } of traverseFileInfo(fileInfo)) {
+    if (!path.startsWith(rootDir)) {
+      throw new Error(`file ${path} is outside of root directory: ${rootDir}`);
+    }
+    if (fs.getParent(path) === rootDir) {
+      projectDirs.add(rootDir);
       break;
     }
-    if (node.path.startsWith('..')) {
-      throw new Error(`file is outside of project directory: ${node.path}`);
-    }
-    projectDirs.add(paths[0]);
+
+    const parts = fs.split(path);
+    const projectDirPart = parts[rootDirPartsLength];
+    const projectDir = fs.join(rootDir, projectDirPart);
+    projectDirs.add(toFsPath(projectDir));
   }
 
   return Array.from(projectDirs);

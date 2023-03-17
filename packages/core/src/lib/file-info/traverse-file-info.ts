@@ -5,7 +5,7 @@ export function* traverseFileInfo(fileInfo: FileInfo) {
 
   function* traverse(
     fileInfo: FileInfo,
-    level = 0
+    level = 1
   ): Generator<{ fileInfo: FileInfo; level: number }, void> {
     if (traversed.has(fileInfo.path)) {
       return;
@@ -15,7 +15,7 @@ export function* traverseFileInfo(fileInfo: FileInfo) {
     yield { fileInfo, level };
 
     for (const child of fileInfo.imports) {
-      yield* traverse(child, level++);
+      yield* traverse(child, level + 1);
     }
   }
 

@@ -1,9 +1,10 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import Fs from './fs';
+import { Fs } from './fs';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 
-export class DefaultFs implements Fs {
+export class DefaultFs extends Fs {
   writeFile = (filename: string, contents: string): void =>
     fs.writeFileSync(filename, contents);
 
@@ -23,26 +24,24 @@ export class DefaultFs implements Fs {
 
   tmpdir = () => os.tmpdir();
 
-  join = (...paths: string[]) => path.join(...paths);
-
   cwd = () => process.cwd();
 
-  normalise = (unnormalisedPath: string) => path.normalize(unnormalisedPath);
+  normalise = (notNormalisedPath: string) => path.normalize(notNormalisedPath);
 
-  findFiles = (
-    directory: string,
+  override findFiles = (
+    directory: FsPath,
     filename: string,
-    found: string[] = [],
+    found: FsPath[] = [],
     referencePath = ''
-  ): string[] => {
+  ): FsPath[] => {
     const files = fs.readdirSync(directory);
     referencePath = referencePath || directory;
 
     for (const file of files) {
-      const filePath = path.join(directory, file);
+      const filePath = toFsPath(path.join(directory, file));
       const info = fs.lstatSync(filePath);
       if (info.isFile() && file.toLowerCase() === filename.toLowerCase()) {
-        found.push(filePath.substring(referencePath.length + 1));
+        found.push(toFsPath(filePath));
       }
       if (info.isDirectory()) {
         this.findFiles(filePath, filename, found, referencePath);
@@ -55,7 +54,7 @@ export class DefaultFs implements Fs {
     return void true;
   }
 
-  findNearestParentFile = (referenceFile: string, filename: string): string => {
+  findNearestParentFile = (referenceFile: FsPath, filename: string): FsPath => {
     let current = path.dirname(referenceFile);
     while (current) {
       const files = fs.readdirSync(current);
@@ -65,7 +64,7 @@ export class DefaultFs implements Fs {
         const info = fs.lstatSync(filePath);
 
         if (info.isFile() && file === filename) {
-          return filePath;
+          return toFsPath(filePath);
         }
       }
 
@@ -78,6 +77,12 @@ export class DefaultFs implements Fs {
 
     throw new Error(`cannot find ${filename} near ${referenceFile}`);
   };
+
+  isAbsolute = (p: string) => path.isAbsolute(p);
+
+  split = (p: string) => p.split(path.sep);
+
+  print = () => void true;
 }
 
 const defaultFs = new DefaultFs();

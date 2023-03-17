@@ -1,12 +1,19 @@
 import FileInfo from '../file-info/file-info';
 import { ModuleInfo } from './module-info';
+import { FsPath } from '../file-info/fs-path';
 
-export default class AssignedFileInfo extends FileInfo {
-  constructor(
-    path: string,
-    imports: FileInfo[],
-    public moduleInfo: ModuleInfo
-  ) {
-    super(path, imports);
+export class AssignedFileInfo {
+  constructor(private fileInfo: FileInfo, public moduleInfo: ModuleInfo) {}
+
+  get path(): FsPath {
+    return this.fileInfo.path;
+  }
+
+  get imports(): FileInfo[] {
+    return this.fileInfo.imports;
+  }
+
+  getRawImportForImportedFileInfo(path: FsPath) {
+    return this.fileInfo.getRawImportForImportedFileInfo(path);
   }
 }

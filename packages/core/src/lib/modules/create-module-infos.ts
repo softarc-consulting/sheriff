@@ -13,7 +13,7 @@ const findClosestModule = (path: string, moduleInfos: ModuleInfo[]) => {
   );
 };
 
-export default (
+export const createModuleInfos = (
   fileInfo: FileInfo,
   existingModules: string[]
 ): ModuleInfo[] => {
@@ -25,10 +25,13 @@ export default (
 
   for (const element of traverseFileInfo(fileInfo)) {
     const fi = element.fileInfo;
-    if (!existingModules.includes(fi.path)) {
+    if (!isFileInfoAModule(fi, existingModules)) {
       findClosestModule(fi.path, moduleInfos).assignFileInfo(fi);
     }
   }
 
   return Array.from(moduleInfoMap.values());
 };
+
+const isFileInfoAModule = ({ path }: FileInfo, existingModules: string[]) =>
+  existingModules.includes(path);

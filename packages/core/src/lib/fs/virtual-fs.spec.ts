@@ -1,11 +1,19 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { VirtualFs } from './virtual-fs';
+import { inVfs } from '../test/in-vfs';
+import { toFsPath } from '../file-info/fs-path';
+import getFs, { useVirtualFs } from './getFs';
+import '../test/matchers';
 
 describe('Virtual Fs', () => {
   let fs: VirtualFs;
 
+  beforeAll(() => {
+    useVirtualFs();
+    fs = getFs() as VirtualFs;
+  });
+
   beforeEach(() => {
-    fs = new VirtualFs();
     fs.reset();
   });
 
@@ -154,29 +162,29 @@ describe('Virtual Fs', () => {
   describe('search', () => {
     it('should find the index.ts in project directory', () => {
       fs.writeFile('index.ts', 'hello');
-      const found = fs.findFiles('.', 'index.ts');
-      expect(found).toEqual(['index.ts']);
+      const found = fs.findFiles(toFsPath('/project'), 'index.ts');
+      expect(found).toBeVfsFiles(['index.ts']);
     });
 
     it('should be case insensitive', () => {
       fs.writeFile('index.ts', 'hello');
-      const found = fs.findFiles('.', 'INDEX.ts');
-      expect(found).toEqual(['index.ts']);
+      const found = fs.findFiles(toFsPath('/project'), 'INDEX.ts');
+      expect(found).toBeVfsFiles(['index.ts']);
     });
 
     it('should throw if dir is file', () => {
       fs.writeFile('index.ts', 'hello');
       fs.writeFile('index', 'hello');
       fs.writeFile('main.ts', 'hello');
-      expect(() => fs.findFiles('index.ts', 'INDEX.ts')).toThrowError(
-        'index.ts is not a directory'
-      );
+      expect(() =>
+        fs.findFiles(toFsPath('/project/index.ts'), 'INDEX.ts')
+      ).toThrowError('index.ts is not a directory');
     });
 
     it('should find the index.ts in sub directory', () => {
       fs.writeFile('customers/index.ts', 'hello');
-      const found = fs.findFiles('.', 'index.ts');
-      expect(found).toEqual(['customers/index.ts']);
+      const found = fs.findFiles(toFsPath('/project'), 'index.ts');
+      expect(found).toBeVfsFiles(['customers/index.ts']);
     });
 
     it('should find multiple index.ts recursively', () => {
@@ -184,8 +192,8 @@ describe('Virtual Fs', () => {
       fs.writeFile('holidays/index.ts', 'hello');
       fs.writeFile('admin/booking/data/index.ts', 'hello');
       fs.writeFile('admin/booking/feature/index.ts', 'hello');
-      const found = fs.findFiles('.', 'index.ts');
-      expect(found).toEqual([
+      const found = fs.findFiles(toFsPath('/project'), 'index.ts');
+      expect(found).toBeVfsFiles([
         'customers/index.ts',
         'holidays/index.ts',
         'admin/booking/data/index.ts',
@@ -194,10 +202,11 @@ describe('Virtual Fs', () => {
     });
 
     it('should find none if not in directory', () => {
+      fs.createDir('shop');
       fs.writeFile('customers/index.ts', 'hello');
       fs.writeFile('holidays/index.ts', 'hello');
-      const found = fs.findFiles('customers', 'index.ts');
-      expect(found).toEqual(['index.ts']);
+      const found = fs.findFiles(toFsPath('/project/shop'), 'index.ts');
+      expect(found).toEqual([]);
     });
   });
 
@@ -206,10 +215,10 @@ describe('Virtual Fs', () => {
       fs.writeFile('customers/admin/core/feature/index.ts', 'hello');
       fs.writeFile('customers/tsconfig.json', '');
       const found = fs.findNearestParentFile(
-        './customers/admin/core/feature/index.ts',
+        inVfs('./customers/admin/core/feature/index.ts'),
         'tsconfig.json'
       );
-      expect(found).toBe('customers/tsconfig.json');
+      expect(found).toBeVfsFile('customers/tsconfig.json');
     });
 
     it('should stop at the first parent', () => {
@@ -217,27 +226,35 @@ describe('Virtual Fs', () => {
       fs.writeFile('customers/tsconfig.json', '');
       fs.writeFile('customers/admin/core/tsconfig.json', '');
       const found = fs.findNearestParentFile(
-        './customers/admin/core/feature/index.ts',
+        inVfs('./customers/admin/core/feature/index.ts'),
         'tsconfig.json'
       );
-      expect(found).toBe('customers/admin/core/tsconfig.json');
+      expect(found).toBeVfsFile('customers/admin/core/tsconfig.json');
     });
 
     it('should not find it', () => {
       fs.writeFile('index.ts', 'hello');
       expect(() =>
-        fs.findNearestParentFile('index.ts', 'tsconfig.json')
-      ).toThrowError('cannot find tsconfig.json near index.ts');
+        fs.findNearestParentFile(inVfs('index.ts'), 'tsconfig.json')
+      ).toThrowError('cannot find tsconfig.json near /project/index.ts');
     });
 
     it('should find in same directory', () => {
       fs.writeFile('customers/admin/core/feature/index.ts', 'hello');
       fs.writeFile('customers/admin/core/feature/tsconfig.json', '');
       const found = fs.findNearestParentFile(
-        './customers/admin/core/feature/index.ts',
+        inVfs('./customers/admin/core/feature/index.ts'),
         'tsconfig.json'
       );
-      expect(found).toBe('customers/admin/core/feature/tsconfig.json');
+      expect(found).toBeVfsFile('customers/admin/core/feature/tsconfig.json');
     });
   });
+
+  for (const [path, solution] of [
+    ['/project/index.ts', 'index.ts'],
+    ['/project/customers/app', 'customers/app'],
+  ]) {
+    it(`should resolve ${path} to ${solution}`, () =>
+      expect(fs.relativeTo('/project', path)).toBe(solution));
+  }
 });

@@ -1,5 +1,5 @@
 import FileInfo from '../file-info/file-info';
-import AssignedFileInfo from './assigned-file.info';
+import { AssignedFileInfo } from './assigned-file.info';
 
 export const ROOT_MODULE = '';
 
@@ -14,8 +14,6 @@ export class ModuleInfo {
   }
 
   assignFileInfo(fileInfo: FileInfo) {
-    this.assignedFileInfos.push(
-      new AssignedFileInfo(fileInfo.path, fileInfo.imports, this)
-    );
+    this.assignedFileInfos.push(new AssignedFileInfo(fileInfo, this));
   }
 }

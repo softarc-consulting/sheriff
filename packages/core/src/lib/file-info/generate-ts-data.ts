@@ -1,24 +1,25 @@
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import TsData from './ts-data';
+import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
+import { FsPath } from './fs-path';
 
-const prepareTsData = (tsConfigPath: string, cwd: string): TsData => {
+export const generateTsData = (tsConfigPath: FsPath): TsData => {
+  const { paths, rootDir } = getTsPathsAndRootDir(tsConfigPath);
+
+  const fs = getFs();
+  const cwd = fs.getParent(tsConfigPath);
   const configRawContent = getFs().readFile(tsConfigPath);
   const configContent = ts.readConfigFile(tsConfigPath, () => configRawContent);
-  const paths: Record<string, string[]> =
-    configContent.config.compilerOptions.paths || {};
+
   const configObject = ts.parseJsonConfigFileContent(
     configContent,
     ts.sys,
     cwd
   );
-
-  const fs = getFs();
   const fakeTsSys = {
     fileExists: (path: string) => fs.exists(path),
   } as typeof ts.sys;
 
-  return { paths, configObject, cwd, sys: fakeTsSys };
+  return { paths, configObject, cwd, sys: fakeTsSys, rootDir };
 };
-
-export default prepareTsData;
