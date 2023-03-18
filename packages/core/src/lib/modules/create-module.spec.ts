@@ -1,7 +1,7 @@
 import FileInfo, { buildFileInfo } from '../file-info/file-info';
-import { createModuleInfos } from './create-module-infos';
+import { createModules } from './create-modules';
 import findFileInfo from '../test/find-file-info';
-import { ModuleInfo } from './module-info';
+import { Module } from './module';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../fs/getFs';
@@ -191,7 +191,7 @@ describe('create module infos', () => {
     (_, createTestParams) => {
       const { fileInfo, modulePaths, expectedModuleInfos } = createTestParams();
       modulePaths.forEach((modulePath) => getFs().writeFile(modulePath, ''));
-      const moduleInfos = createModuleInfos(
+      const moduleInfos = createModules(
         fileInfo,
         modulePaths.map(toFsPath),
         toFsPath('/')
@@ -205,7 +205,7 @@ describe('create module infos', () => {
               `${fip} does not exist in passed FileInfo`
             )
           );
-          const moduleInfo = new ModuleInfo(toFsPath(mi.path));
+          const moduleInfo = new Module(toFsPath(mi.path));
           for (const fi of fileInfos) {
             moduleInfo.assignFileInfo(fi);
           }

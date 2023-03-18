@@ -80,7 +80,7 @@ export class DefaultFs extends Fs {
 
   isAbsolute = (p: string) => path.isAbsolute(p);
 
-  split = (p: string) => p.split(path.sep);
+  override split = (p: string) => p.split(path.sep);
 
   print = () => void true;
 }

@@ -41,7 +41,7 @@ export abstract class Fs {
    */
   abstract reset(): void;
 
-  abstract split(path: FsPath): string[];
+  abstract split(path: string): string[];
 
   abstract isAbsolute(path: string): boolean;
 }

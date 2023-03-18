@@ -2,8 +2,8 @@ import FileInfo from '../file-info/file-info';
 import { AssignedFileInfo } from './assigned-file.info';
 import { FsPath } from '../file-info/fs-path';
 
-export class ModuleInfo {
-  directory = '';
+export class Module {
+  readonly directory: string;
   assignedFileInfos: AssignedFileInfo[] = [];
   constructor(public path: FsPath) {
     this.directory = this.path.substring(

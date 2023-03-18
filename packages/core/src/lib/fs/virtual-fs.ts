@@ -275,7 +275,7 @@ export class VirtualFs extends Fs {
     this.init();
   }
 
-  split(path: string): string[] {
+  override split(path: string): string[] {
     return path.split('/');
   }
 }

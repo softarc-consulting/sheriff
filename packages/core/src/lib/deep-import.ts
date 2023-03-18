@@ -1,7 +1,7 @@
 import { generateFileInfoAndGetRootDir } from './file-info/generate-file-info-and-get-root-dir';
 import { FsPath, toFsPath } from './file-info/fs-path';
 import { getProjectDirsFromFileInfo } from './modules/get-project-dirs-from-file-info';
-import { createModuleInfos } from './modules/create-module-infos';
+import { createModules } from './modules/create-modules';
 import { findModules } from './modules/find-modules';
 import { getAssignedFileInfoMap } from './modules/get-assigned-file-info-map';
 import throwIfNull from './util/throw-if-null';
@@ -25,7 +25,7 @@ export const hasDeepImport = (
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
 
     const modules = findModules(projectDirs);
-    const moduleInfos = createModuleInfos(fileInfo, modules, rootDir);
+    const moduleInfos = createModules(fileInfo, modules, rootDir);
 
     const afiMap = getAssignedFileInfoMap(moduleInfos);
 

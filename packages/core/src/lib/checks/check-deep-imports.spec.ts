@@ -1,6 +1,6 @@
 import { buildFileInfo } from '../file-info/file-info';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { createModuleInfos } from '../modules/create-module-infos';
+import { createModules } from '../modules/create-modules';
 import { checkDeepImports } from './check-deep-imports';
 import { findAssignedFileInfo } from '../test/find-assigned-file-info';
 import getFs, { useVirtualFs } from '../fs/getFs';
@@ -22,7 +22,7 @@ describe('check deep imports', () => {
     getFs().writeFile('/projects/customers/index.ts', '');
     const modulePaths = ['/projects/customers/index.ts'].map(toFsPath);
 
-    const moduleInfos = createModuleInfos(
+    const moduleInfos = createModules(
       fileInfo,
       modulePaths,
       toFsPath('/projects')
@@ -44,7 +44,7 @@ describe('check deep imports', () => {
     ]);
     const modulePaths = ['/customers/index.ts'].map(toFsPath);
 
-    const moduleInfos = createModuleInfos(fileInfo, modulePaths, toFsPath('/'));
+    const moduleInfos = createModules(fileInfo, modulePaths, toFsPath('/'));
     expect(checkDeepImports(moduleInfos)).toBeUndefined();
   });
 });

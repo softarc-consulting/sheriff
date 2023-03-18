@@ -1,8 +1,8 @@
-import { ModuleInfo } from './module-info';
+import { Module } from './module';
 import { FsPath } from '../file-info/fs-path';
 import { AssignedFileInfo } from './assigned-file.info';
 
-export const getAssignedFileInfoMap = (moduleInfos: ModuleInfo[]) => {
+export const getAssignedFileInfoMap = (moduleInfos: Module[]) => {
   const assignedFileInfoMap = new Map<FsPath, AssignedFileInfo>();
   for (const moduleInfo of moduleInfos) {
     for (const assignedFileInfo of moduleInfo.assignedFileInfos) {
