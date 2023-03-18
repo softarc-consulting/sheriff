@@ -1,7 +1,8 @@
-import { ModuleInfo, ROOT_MODULE } from './module-info';
+import { ModuleInfo } from './module-info';
 import FileInfo from '../file-info/file-info';
 import traverseFileInfo from '../file-info/traverse-file-info';
 import throwIfNull from '../util/throw-if-null';
+import { FsPath } from '../file-info/fs-path';
 
 const findClosestModule = (path: string, moduleInfos: ModuleInfo[]) => {
   return throwIfNull(
@@ -15,9 +16,10 @@ const findClosestModule = (path: string, moduleInfos: ModuleInfo[]) => {
 
 export const createModuleInfos = (
   fileInfo: FileInfo,
-  existingModules: string[]
+  existingModules: FsPath[],
+  rootDir: FsPath
 ): ModuleInfo[] => {
-  const modules = existingModules.concat(ROOT_MODULE);
+  const modules = existingModules.concat(rootDir);
   const moduleInfos = modules.map((module) => new ModuleInfo(module));
   const moduleInfoMap = new Map<string, ModuleInfo>(
     moduleInfos.map((moduleInfo) => [moduleInfo.directory, moduleInfo])

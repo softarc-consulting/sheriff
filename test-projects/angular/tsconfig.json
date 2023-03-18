@@ -1,0 +1,51 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": ["ES2022", "dom"],
+    "paths": {
+      "@eternal/bookings": ["src/app/bookings/index.ts"],
+      "@eternal/customers/feature": ["src/app/customers/feature/index.ts"],
+      "@eternal/customers/model": ["src/app/customers/model/index.ts"],
+      "@eternal/customers/ui": ["src/app/customers/ui/index.ts"],
+      "@eternal/diary/feature": ["src/app/diary/feature/index.ts"],
+      "@eternal/holidays/feature": ["src/app/holidays/feature/index.ts"],
+      "@eternal/holidays/model": ["src/app/holidays/model/index.ts"],
+      "@eternal/holidays/ui": ["src/app/holidays/ui/index.ts"],
+      "@eternal/shared/config": ["src/app/shared/config/index.ts"],
+      "@eternal/shared/form": ["src/app/shared/form/index.ts"],
+      "@eternal/shared/http": ["src/app/shared/http/index.ts"],
+      "@eternal/shared/master-data": ["src/app/shared/master-data/index.ts"],
+      "@eternal/shared/ngrx-utils": ["src/app/shared/ngrx-utils/index.ts"],
+      "@eternal/shared/security": ["src/app/shared/security/index.ts"],
+      "@eternal/shared/testing": ["src/app/shared/testing/index.ts"],
+      "@eternal/shared/ui": ["src/app/shared/ui/index.ts"],
+      "@eternal/shared/ui-messaging": ["src/app/shared/ui-messaging/index.ts"],
+      "@eternal/shared/util": ["src/app/shared/util/index.ts"],
+      "@eternal/user": ["src/app/user/index.ts"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

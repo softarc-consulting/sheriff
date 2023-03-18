@@ -25,7 +25,7 @@ export const hasDeepImport = (
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
 
     const modules = findModules(projectDirs);
-    const moduleInfos = createModuleInfos(fileInfo, modules);
+    const moduleInfos = createModuleInfos(fileInfo, modules, rootDir);
 
     const afiMap = getAssignedFileInfoMap(moduleInfos);
 

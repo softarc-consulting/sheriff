@@ -1,10 +1,11 @@
 import FileInfo, { buildFileInfo } from '../file-info/file-info';
 import { createModuleInfos } from './create-module-infos';
 import findFileInfo from '../test/find-file-info';
-import { ModuleInfo, ROOT_MODULE } from './module-info';
+import { ModuleInfo } from './module-info';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../fs/getFs';
+import { toFsPath } from '../file-info/fs-path';
 
 type TestParameter = {
   name: string;
@@ -30,7 +31,7 @@ const simple: () => TestParameter = () => ({
       fileInfoPaths: ['/src/app/holidays/holiday.component.ts'],
     },
     {
-      path: ROOT_MODULE,
+      path: '/',
       fileInfoPaths: ['/src/app/app.component.ts'],
     },
   ],
@@ -65,7 +66,7 @@ const multipleFilesPerModule: () => TestParameter = () => ({
         '/src/app/holidays/holiday.pipe.ts',
       ],
     },
-    { path: ROOT_MODULE, fileInfoPaths: ['/src/app/app.component.ts'] },
+    { path: '/', fileInfoPaths: ['/src/app/app.component.ts'] },
   ],
 });
 
@@ -78,7 +79,7 @@ const noModules: () => TestParameter = () => ({
   modulePaths: [],
   expectedModuleInfos: [
     {
-      path: ROOT_MODULE,
+      path: '/',
       fileInfoPaths: [
         '/src/app/app.component.ts',
         '/src/app/customers/customer.component.ts',
@@ -129,7 +130,7 @@ const nestedModules: () => TestParameter = () => ({
       fileInfoPaths: ['/src/app/customers/ui/ui.component.ts'],
     },
     {
-      path: ROOT_MODULE,
+      path: '/',
       fileInfoPaths: ['/src/app/main.ts', '/src/app/app.component.ts'],
     },
   ],
@@ -164,7 +165,7 @@ const multipleDirectories: () => TestParameter = () => ({
       ],
     },
     {
-      path: ROOT_MODULE,
+      path: '/',
       fileInfoPaths: ['/src/app/main.ts', '/src/app/app.component.ts'],
     },
   ],
@@ -189,7 +190,12 @@ describe('create module infos', () => {
     'should create a moduleInfos for configuration: %s',
     (_, createTestParams) => {
       const { fileInfo, modulePaths, expectedModuleInfos } = createTestParams();
-      const moduleInfos = createModuleInfos(fileInfo, modulePaths);
+      modulePaths.forEach((modulePath) => getFs().writeFile(modulePath, ''));
+      const moduleInfos = createModuleInfos(
+        fileInfo,
+        modulePaths.map(toFsPath),
+        toFsPath('/')
+      );
 
       expect(moduleInfos).toEqual(
         expectedModuleInfos.map((mi) => {
@@ -199,7 +205,7 @@ describe('create module infos', () => {
               `${fip} does not exist in passed FileInfo`
             )
           );
-          const moduleInfo = new ModuleInfo(mi.path);
+          const moduleInfo = new ModuleInfo(toFsPath(mi.path));
           for (const fi of fileInfos) {
             moduleInfo.assignFileInfo(fi);
           }
