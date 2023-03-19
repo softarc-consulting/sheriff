@@ -33,7 +33,7 @@ In your _eslintrc.json_, insert the rules:
 
 _Example: eslintrc.json_
 
-```json
+```jsonc
 {
   "root": true,
   "ignorePatterns": ["**/*"],
