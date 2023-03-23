@@ -20,7 +20,7 @@ describe('check deep imports', () => {
       '/projects/customers/customer.component.ts',
     ]);
     getFs().writeFile('/projects/customers/index.ts', '');
-    const modulePaths = ['/projects/customers/index.ts'].map(toFsPath);
+    const modulePaths = new Set(['/projects/customers/index.ts'].map(toFsPath));
 
     const moduleInfos = createModules(
       fileInfo,
@@ -42,7 +42,7 @@ describe('check deep imports', () => {
     const fileInfo = buildFileInfo('/main.ts', [
       ['/customers/index.ts', ['/customers/customer.component.ts']],
     ]);
-    const modulePaths = ['/customers/index.ts'].map(toFsPath);
+    const modulePaths = new Set(['/customers/index.ts'].map(toFsPath));
 
     const moduleInfos = createModules(fileInfo, modulePaths, toFsPath('/'));
     expect(checkDeepImports(moduleInfos)).toBeUndefined();
