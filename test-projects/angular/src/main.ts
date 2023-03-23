@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom, LOCALE_ID } from '@angular/core';
+import { importProvidersFrom, LOCALE_ID } from '@angular/core';
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';

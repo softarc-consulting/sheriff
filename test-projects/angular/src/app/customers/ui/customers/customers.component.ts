@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -17,7 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomerPipe } from '../customer.pipe';
 import { RouterLinkWithHref } from '@angular/router';
 import { DatePipe, NgIf } from '@angular/common';
-import { customersActions } from '../../data';
+import { CustomersRepository } from '../../data';
 
 export interface CustomerWithSelected extends Customer {
   selected: boolean;
@@ -50,6 +51,7 @@ export class CustomersComponent implements OnChanges {
   @Output() setUnselected = new EventEmitter<number>();
   @Output() switchPage = new EventEmitter<number>();
 
+  repo = inject(CustomersRepository);
   displayedColumns = ['name', 'country', 'birthdate', 'action'];
   dataSource = new MatTableDataSource<CustomerWithSelected>([]);
 
