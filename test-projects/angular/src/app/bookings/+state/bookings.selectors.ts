@@ -1,4 +1,3 @@
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { selectSelectedCustomer } from '@eternal/customers/feature';
 import { createSelector } from '@ngrx/store';
 import { bookingsFeature } from './bookings.reducer';

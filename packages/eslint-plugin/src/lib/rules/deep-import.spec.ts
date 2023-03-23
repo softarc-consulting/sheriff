@@ -62,4 +62,7 @@ describe('deep-import', () => {
       ],
     });
   });
+
+  it.todo('should transform a thrown error to a linting error');
+  it.todo('should transform a thrown non-error to a linting error');
 });

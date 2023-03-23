@@ -6,6 +6,7 @@ import { bookingsActions } from '../+state/bookings.actions';
 import { Booking } from '../+state/bookings.reducer';
 import { fromBookings } from '../+state/bookings.selectors';
 import { DatePipe } from '@angular/common';
+// import { Booking, bookingsActions, fromBookings } from '../+state/';
 
 @Component({
   selector: 'eternal-overview',
