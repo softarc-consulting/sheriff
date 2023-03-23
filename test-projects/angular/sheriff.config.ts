@@ -8,14 +8,26 @@ export const config: SheriffConfig = {
         shared: {
           tags: ['domain:shared'],
         },
+        bookings: {
+          tags: ['domain:bookings'],
+          children: { '+state': { tags: ['type:data'] } },
+        },
         '{domain}': {
           tags: (_, { placeholders: { domain } }) => [`domain:${domain}`],
           children: {
-            '+state': { tags: ['type:data'] },
+            '{type}': {
+              tags: (_, { placeholders: { type } }) => [`type:${type}`],
+            },
           },
         },
       },
     },
   },
-  depRules: { 'domain:*': ({ from, to }) => from === to },
+  depRules: {
+    'domain:*': ({ from, to }) => from === to,
+    'type:feature': ({ to }) => to.startsWith('type:'),
+    'type:data': 'type:model',
+    'type:ui': 'type:model',
+    'type:model': [],
+  },
 };

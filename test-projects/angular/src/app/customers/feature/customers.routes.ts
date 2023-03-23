@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
-import { CustomersEffects } from './+state/customers.effects';
-import { customersFeature } from './+state/customers.reducer';
+import { CustomersEffects } from '../data/customers.effects';
+import { customersFeature } from '../data/customers.reducer';
 import { AddCustomerComponent } from './components/add-customer.component';
 import { CustomersContainerComponent } from './components/customers-container.component';
 import { EditCustomerComponent } from './components/edit-customer.component';

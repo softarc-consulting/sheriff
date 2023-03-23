@@ -1,10 +1,12 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';
-import { createSelector, Store } from '@ngrx/store';
-import { customersActions } from '../+state/customers.actions';
-import { fromCustomers } from '../+state/customers.selectors';
+import { Store } from '@ngrx/store';
+// import { customersActions } from '../../+state/customers.actions';
+// import { fromCustomers } from '../../+state/customers.selectors';
+import { CustomersRepository } from '../../data';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   template: ` <eternal-customers
@@ -18,21 +20,22 @@ import { Observable } from 'rxjs';
   imports: [CustomersComponent, NgIf, AsyncPipe],
 })
 export class CustomersContainerComponent {
-  #store = inject(Store);
-  viewModel$: Observable<CustomersViewModel> = this.#store.select(
-    createSelector(fromCustomers.selectPagedCustomers, (pagedCustomers) => ({
-      customers: pagedCustomers.customers,
-      pageIndex: pagedCustomers.page - 1,
-      length: pagedCustomers.total,
-    }))
-  );
+  #customersRepository = inject(CustomersRepository);
+  viewModel$: Observable<CustomersViewModel> =
+    this.#customersRepository.pagedCustomers$.pipe(
+      map((pagedCustomers) => ({
+        customers: pagedCustomers.customers,
+        pageIndex: pagedCustomers.page - 1,
+        length: pagedCustomers.total,
+      }))
+    );
 
   setSelected(id: number) {
-    this.#store.dispatch(customersActions.select({ id }));
+    this.#customersRepository.select(id);
   }
 
   setUnselected() {
-    this.#store.dispatch(customersActions.unselect());
+    this.#customersRepository.unselect();
   }
 
   switchPage(page: number) {

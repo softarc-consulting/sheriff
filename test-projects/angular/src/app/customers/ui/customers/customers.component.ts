@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomerPipe } from '../customer.pipe';
 import { RouterLinkWithHref } from '@angular/router';
 import { DatePipe, NgIf } from '@angular/common';
+import { customersActions } from '../../data';
 
 export interface CustomerWithSelected extends Customer {
   selected: boolean;

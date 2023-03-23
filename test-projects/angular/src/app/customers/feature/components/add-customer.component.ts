@@ -3,8 +3,8 @@ import { Component, inject } from '@angular/core';
 import { Customer } from '@eternal/customers/model';
 import { selectCountries } from '@eternal/shared/master-data';
 import { Store } from '@ngrx/store';
-import { customersActions } from '../+state/customers.actions';
 import { CustomerComponent } from '@eternal/customers/ui';
+import { CustomersRepository } from '../../data';
 
 @Component({
   selector: 'eternal-add-customer',
@@ -20,6 +20,7 @@ import { CustomerComponent } from '@eternal/customers/ui';
 })
 export class AddCustomerComponent {
   #store = inject(Store);
+  #customersRepository = inject(CustomersRepository);
   customer: Customer = {
     id: 0,
     firstname: '',
@@ -30,8 +31,6 @@ export class AddCustomerComponent {
   countries$ = this.#store.select(selectCountries);
 
   submit(customer: Customer) {
-    this.#store.dispatch(
-      customersActions.add({ customer: { ...customer, id: 0 } })
-    );
+    this.#customersRepository.add({ ...customer, id: 0 });
   }
 }

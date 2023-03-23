@@ -8,15 +8,14 @@ export const dependencyRule: Rule.RuleModule = {
     return {
       ImportDeclaration: (node) => {
         try {
-          if (
-            violatesDependencyRule(
-              toFsPath(context.getFilename()),
-              String(node.source.value) || '',
-              firstRun
-            )
-          ) {
+          const message = violatesDependencyRule(
+            toFsPath(context.getFilename()),
+            String(node.source.value) || '',
+            firstRun
+          );
+          if (message) {
             context.report({
-              message: 'Access to this module is not allowed',
+              message,
               node,
             });
           }
