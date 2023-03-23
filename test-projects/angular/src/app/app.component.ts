@@ -4,9 +4,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SidemenuComponent } from './shell/sidemenu/sidemenu.component';
 import { HeaderComponent } from './shell/header/header.component';
 import { RouterOutlet } from '@angular/router';
-import { LoaderComponent } from '@eternal/shared/ui-messaging';
-import { MessageComponent } from '@eternal/shared/ui-messaging';
-import { sharedUiMessagingProvider } from '@eternal/shared/ui-messaging';
+import {
+  LoaderComponent,
+  MessageComponent,
+} from '@eternal/shared/ui-messaging';
 
 @Component({
   selector: 'eternal-root',

@@ -11,7 +11,7 @@ type TestParameter = {
   name: string;
   fileInfo: FileInfo;
   modulePaths: string[];
-  expectedModuleInfos: { path: string; fileInfoPaths: string[] }[];
+  expectedModules: { path: string; fileInfoPaths: string[] }[];
 };
 
 const simple: () => TestParameter = () => ({
@@ -21,14 +21,17 @@ const simple: () => TestParameter = () => ({
     ['./holidays/index.ts', ['./holiday.component.ts']],
   ]),
   modulePaths: ['/src/app/customers/index.ts', '/src/app/holidays/index.ts'],
-  expectedModuleInfos: [
+  expectedModules: [
     {
       path: '/src/app/customers/index.ts',
       fileInfoPaths: ['/src/app/customers/customer.component.ts'],
     },
     {
       path: '/src/app/holidays/index.ts',
-      fileInfoPaths: ['/src/app/holidays/holiday.component.ts'],
+      fileInfoPaths: [
+        '/src/app/holidays/index.ts',
+        '/src/app/holidays/holiday.component.ts',
+      ],
     },
     {
       path: '/',
@@ -49,7 +52,7 @@ const multipleFilesPerModule: () => TestParameter = () => ({
     ],
   ]),
   modulePaths: ['/src/app/customers/index.ts', '/src/app/holidays/index.ts'],
-  expectedModuleInfos: [
+  expectedModules: [
     {
       path: '/src/app/customers/index.ts',
       fileInfoPaths: [
@@ -61,6 +64,7 @@ const multipleFilesPerModule: () => TestParameter = () => ({
     {
       path: '/src/app/holidays/index.ts',
       fileInfoPaths: [
+        '/src/app/holidays/index.ts',
         '/src/app/holidays/holiday.component.ts',
         '/src/app/holidays/detail.component.ts',
         '/src/app/holidays/holiday.pipe.ts',
@@ -77,7 +81,7 @@ const noModules: () => TestParameter = () => ({
     './holidays/holiday.component.ts',
   ]),
   modulePaths: [],
-  expectedModuleInfos: [
+  expectedModules: [
     {
       path: '/',
       fileInfoPaths: [
@@ -112,7 +116,7 @@ const nestedModules: () => TestParameter = () => ({
     '/src/app/customers/data/index.ts',
     '/src/app/customers/ui/index.ts',
   ],
-  expectedModuleInfos: [
+  expectedModules: [
     {
       path: '/src/app/customers/index.ts',
       fileInfoPaths: ['/src/app/customers/customer.component.ts'],
@@ -137,7 +141,7 @@ const nestedModules: () => TestParameter = () => ({
 });
 
 const multipleDirectories: () => TestParameter = () => ({
-  name: 'multipe directories',
+  name: 'multiple directories',
   fileInfo: buildFileInfo('/src/app/main.ts', [
     [
       './app.component.ts',
@@ -154,7 +158,7 @@ const multipleDirectories: () => TestParameter = () => ({
     ],
   ]),
   modulePaths: ['/src/app/customers/index.ts'],
-  expectedModuleInfos: [
+  expectedModules: [
     {
       path: '/src/app/customers/index.ts',
       fileInfoPaths: [
@@ -189,16 +193,16 @@ describe('create module infos', () => {
   ])(
     'should create a moduleInfos for configuration: %s',
     (_, createTestParams) => {
-      const { fileInfo, modulePaths, expectedModuleInfos } = createTestParams();
+      const { fileInfo, modulePaths, expectedModules } = createTestParams();
       modulePaths.forEach((modulePath) => getFs().writeFile(modulePath, ''));
       const moduleInfos = createModules(
         fileInfo,
-        modulePaths.map(toFsPath),
+        new Set(modulePaths.map(toFsPath)),
         toFsPath('/')
       );
 
       expect(moduleInfos).toEqual(
-        expectedModuleInfos.map((mi) => {
+        expectedModules.map((mi) => {
           const fileInfos = mi.fileInfoPaths.map((fip) =>
             throwIfNull(
               findFileInfo(fileInfo, fip),

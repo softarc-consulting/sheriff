@@ -2,6 +2,7 @@ import FileInfo from '../file-info/file-info';
 import getFs from '../fs/getFs';
 import traverseFileInfo from '../file-info/traverse-file-info';
 import { FsPath, toFsPath } from '../file-info/fs-path';
+import { log } from '../util/log';
 
 export const getProjectDirsFromFileInfo = (
   fileInfo: FileInfo,
@@ -27,5 +28,6 @@ export const getProjectDirsFromFileInfo = (
     projectDirs.add(toFsPath(projectDir));
   }
 
+  log('Project Directories', Array.from(projectDirs).join(', '));
   return Array.from(projectDirs);
 };

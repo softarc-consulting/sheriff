@@ -25,7 +25,6 @@
       "@eternal/customers/feature": ["src/app/customers/feature/index.ts"],
       "@eternal/customers/model": ["src/app/customers/model/index.ts"],
       "@eternal/customers/ui": ["src/app/customers/ui/index.ts"],
-      "@eternal/diary/feature": ["src/app/diary/feature/index.ts"],
       "@eternal/holidays/feature": ["src/app/holidays/feature/index.ts"],
       "@eternal/holidays/model": ["src/app/holidays/model/index.ts"],
       "@eternal/holidays/ui": ["src/app/holidays/ui/index.ts"],
@@ -38,8 +37,7 @@
       "@eternal/shared/testing": ["src/app/shared/testing/index.ts"],
       "@eternal/shared/ui": ["src/app/shared/ui/index.ts"],
       "@eternal/shared/ui-messaging": ["src/app/shared/ui-messaging/index.ts"],
-      "@eternal/shared/util": ["src/app/shared/util/index.ts"],
-      "@eternal/user": ["src/app/user/index.ts"]
+      "@eternal/shared/util": ["src/app/shared/util/index.ts"]
     }
   },
   "angularCompilerOptions": {

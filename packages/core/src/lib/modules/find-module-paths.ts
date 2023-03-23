@@ -1,7 +1,8 @@
 import getFs from '../fs/getFs';
 import { FsPath } from '../file-info/fs-path';
+import { log } from '../util/log';
 
-export const findModules = (projectDirs: FsPath[]): FsPath[] => {
+export const findModulePaths = (projectDirs: FsPath[]): Set<FsPath> => {
   const fs = getFs();
   let modules: FsPath[] = [];
 
@@ -9,5 +10,6 @@ export const findModules = (projectDirs: FsPath[]): FsPath[] => {
     modules = modules.concat(fs.findFiles(projectDir, 'index.ts'));
   }
 
-  return modules;
+  log('Module Paths', modules.join(', '));
+  return new Set(modules);
 };

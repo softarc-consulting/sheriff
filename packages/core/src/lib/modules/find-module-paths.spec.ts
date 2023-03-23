@@ -5,7 +5,7 @@ import { generateFileInfoAndGetRootDir } from '../file-info/generate-file-info-a
 import { ProjectCreator } from '../test/project-creator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
-import { findModules } from './find-modules';
+import { findModulePaths } from './find-module-paths';
 import { toFsPath } from '../file-info/fs-path';
 
 const angularStructure: FileTree = {
@@ -40,10 +40,12 @@ describe('should find two modules', () => {
       toFsPath('/project/integration/src/app/app.component.ts')
     );
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
-    const modules = findModules(projectDirs);
-    expect(modules).toEqual([
-      '/project/integration/src/app/customers/index.ts',
-      '/project/integration/src/app/holidays/index.ts',
-    ]);
+    const modules = findModulePaths(projectDirs);
+    expect(modules).toEqual(
+      new Set([
+        '/project/integration/src/app/customers/index.ts',
+        '/project/integration/src/app/holidays/index.ts',
+      ])
+    );
   });
 });

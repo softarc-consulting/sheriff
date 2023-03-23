@@ -27,7 +27,7 @@ export const getTsPathsAndRootDir = (
       configContent.config.compilerOptions.paths || {};
     currentTsConfigDir = fs.getParent(currentTsConfigPath);
     for (const [key, value] of Object.entries(newPaths)) {
-      paths[key] = toFsPath(fs.relativeTo(currentTsConfigDir, value[0]));
+      paths[key] = toFsPath(fs.join(currentTsConfigDir, value[0]));
     }
 
     if (configContent.config.extends) {
