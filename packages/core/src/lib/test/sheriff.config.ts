@@ -1,6 +1,7 @@
 import { SheriffConfig } from '../config/config';
 
 export const config: SheriffConfig = {
+  version: 1,
   tagging: {
     'apps/flight-app/src/app': {
       children: {
@@ -25,5 +26,7 @@ export const config: SheriffConfig = {
       ],
     },
   },
-  depRules: {},
+  depRules: {
+    'domain:*': ({ from, to }) => from === to,
+  },
 };

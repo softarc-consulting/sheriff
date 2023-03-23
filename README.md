@@ -52,6 +52,7 @@ _Example: eslintrc.json_
 
 - Testing Dependency Rules (ArchUnit)
 - Encapsulation by convention
+- Feature Shell: It shouldn't be necessary to create a feature subdirectory for a domain, since feature has access to everything
 - Highly configurable:
   - no deep import
   - hierarchy check

@@ -28,5 +28,5 @@ export const isDependencyAllowed = (
     }
   }
 
-  throw new Error(`cannot find module tag "${from}" in the dependency rules`);
+  throw new Error(`cannot find tag "${from}" in the dependency rules`);
 };

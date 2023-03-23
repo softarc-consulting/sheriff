@@ -81,9 +81,7 @@ describe('check dependency rules', () => {
 
     expect(() =>
       isDependencyAllowed('type:funktion', 'noop', config, dummyContext)
-    ).toThrowError(
-      'cannot find module tag "type:funktion" in the dependency rules'
-    );
+    ).toThrowError('cannot find tag "type:funktion" in the dependency rules');
   });
 
   it('should pass from, to, fromModulePath, fromFilePath, toModulePath, toFilePath to function', () => {

@@ -1,22 +1,22 @@
 import { Rule } from 'eslint';
-import { hasDeepImport } from '@softarc/sheriff-core';
+import { violatesDependencyRule } from '@softarc/sheriff-core';
+import { toFsPath } from '@softarc/sheriff-core/src/lib/file-info/fs-path';
 
-export const deepImport: Rule.RuleModule = {
+export const dependencyRule: Rule.RuleModule = {
   create: (context) => {
     let firstRun = true;
     return {
       ImportDeclaration: (node) => {
         try {
           if (
-            hasDeepImport(
-              context.getFilename(),
+            violatesDependencyRule(
+              toFsPath(context.getFilename()),
               String(node.source.value) || '',
               firstRun
             )
           ) {
             context.report({
-              message:
-                "Deep import is not allowed. Use the module's index.ts or path.",
+              message: 'Access to this module is not allowed',
               node,
             });
           }
@@ -24,7 +24,7 @@ export const deepImport: Rule.RuleModule = {
         } catch (error) {
           if (error instanceof Error) {
             context.report({
-              message: `Deep Import (internal error): ${error.message}`,
+              message: `Dependency Rule (internal error): ${error.message}`,
               node,
             });
           } else {

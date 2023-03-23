@@ -18,9 +18,9 @@ export class DefaultFs extends Fs {
     }
   };
 
-  exists = (path: string) => {
+  override exists(path: string): path is FsPath {
     return fs.existsSync(path);
-  };
+  }
 
   tmpdir = () => os.tmpdir();
 

@@ -77,9 +77,9 @@ export class VirtualFs extends Fs {
     }
   };
 
-  exists = (path: string): boolean => {
+  override exists(path: string): path is FsPath {
     return this.#getNode(path).exists;
-  };
+  }
 
   writeFile = (path: string, contents: string): void => {
     const node = this.#makeOrGet(path, 'file');

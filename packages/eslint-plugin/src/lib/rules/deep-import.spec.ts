@@ -1,6 +1,6 @@
 import { RuleTester } from 'eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
-import deepImport from './deep-import';
+import { deepImport } from './deep-import';
 import * as sheriffCore from '@softarc/sheriff-core';
 
 const tester = new RuleTester({

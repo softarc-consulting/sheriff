@@ -1,10 +1,10 @@
 import { FsPath } from '../file-info/fs-path';
 import * as fs from 'fs';
 import * as ts from 'typescript';
-import { SheriffConfig } from '../config/config';
+import { SheriffConfig } from './config';
 
-export const parseConfig = (configPath: FsPath): SheriffConfig => {
-  const tsCode = fs.readFileSync(configPath, {
+export const parseConfig = (configFile: FsPath): SheriffConfig => {
+  const tsCode = fs.readFileSync(configFile, {
     encoding: 'utf-8',
   });
 

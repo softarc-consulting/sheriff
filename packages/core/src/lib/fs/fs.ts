@@ -6,7 +6,7 @@ export abstract class Fs {
   abstract readFile: (path: FsPath) => string;
   abstract removeDir: (path: FsPath) => void;
   abstract createDir: (path: string) => void;
-  abstract exists: (path: string) => boolean;
+  abstract exists(path: string): path is FsPath;
 
   abstract tmpdir: () => string;
 
