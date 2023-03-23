@@ -1,4 +1,4 @@
-import { MatcherContext, TagConfig } from './tag-config';
+import { MatcherContext, TagConfig } from '../config/tag-config';
 import getFs from '../fs/getFs';
 import { FsPath } from '../file-info/fs-path';
 
