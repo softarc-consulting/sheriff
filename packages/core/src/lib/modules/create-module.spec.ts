@@ -220,3 +220,8 @@ describe('create module infos', () => {
     }
   );
 });
+
+it.todo('should check for directory path with implicit index.ts');
+it.todo(
+  'should assign two imports with implicit and explict index.ts to the same module'
+);

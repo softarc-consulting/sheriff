@@ -26,6 +26,7 @@ export const violatesDependencyRule = (
       toFsPath(filename),
       true
     );
+    console.log(`rootDir: ${rootDir}`);
     const configFile = findConfig(rootDir);
     if (configFile === undefined) {
       log('Dependency Rules', 'no sheriff.config.ts present in ' + rootDir);

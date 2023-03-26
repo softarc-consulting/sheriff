@@ -6,10 +6,14 @@ export class Module {
   readonly directory: string;
   assignedFileInfos: AssignedFileInfo[] = [];
   constructor(public path: FsPath) {
-    this.directory = this.path.substring(
-      0,
-      this.path.length - '/index.ts'.length
-    );
+    if (path.endsWith('index.ts')) {
+      this.directory = this.path.substring(
+        0,
+        this.path.length - '/index.ts'.length
+      );
+    } else {
+      this.directory = path;
+    }
   }
 
   assignFileInfo(fileInfo: FileInfo) {

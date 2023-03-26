@@ -13,5 +13,5 @@ export type RuleMatcherFn = (
     to: string;
   } & DependencyCheckContext
 ) => boolean;
-export type RuleMatcher = string | RuleMatcherFn;
+export type RuleMatcher = string | null | RuleMatcherFn;
 export type DependencyRulesConfig = Record<string, RuleMatcher | RuleMatcher[]>;

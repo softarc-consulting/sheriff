@@ -42,9 +42,9 @@ export const isFsPath = (path: string): path is FsPath => {
 export const toFsPath = (path: string): FsPath => {
   switch (checkPath(path)) {
     case 'not absolute':
-      throw new Error(`${path} is not absolute`);
+      throw new Error(`FsPath: ${path} is not absolute`);
     case 'not existing':
-      throw new Error(`${path} does not exist`);
+      throw new Error(`FsPath: ${path} does not exist`);
     default:
       return path as FsPath;
   }

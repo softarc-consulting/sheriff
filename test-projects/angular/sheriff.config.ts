@@ -3,31 +3,23 @@ import { SheriffConfig } from '@softarc/sheriff-core';
 export const config: SheriffConfig = {
   version: 1,
   tagging: {
-    'src/app': {
+    'src/app/': {
       children: {
-        shared: {
-          tags: ['domain:shared'],
-        },
-        bookings: {
-          tags: ['domain:bookings'],
-          children: { '+state': { tags: ['type:data'] } },
-        },
-        '{domain}': {
+        shared: { tags: 'shared' },
+        'domains/{domain}': {
           tags: (_, { placeholders: { domain } }) => [`domain:${domain}`],
           children: {
-            '{type}': {
-              tags: (_, { placeholders: { type } }) => [`type:${type}`],
-            },
+            data: { tags: 'type:data' },
+            'feat-{type}': { tags: 'type:feature' },
           },
         },
       },
     },
   },
   depRules: {
-    'domain:*': ({ from, to }) => from === to,
-    'type:feature': ({ to }) => to.startsWith('type:'),
-    'type:data': 'type:model',
-    'type:ui': 'type:model',
-    'type:model': [],
+    'domain:*': [({ from, to }) => from === to, 'shared'],
+    'type:feature': 'type:data',
+    'type:data': null,
+    shared: null,
   },
 };
