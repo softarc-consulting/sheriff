@@ -11,9 +11,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormErrorsComponent, Options } from '@eternal/shared/form';
+import { FormErrorsComponent } from '@eternal/shared/form';
 import { Customer } from '@eternal/customers/model';
-import { Option } from '../../../shared/form/options';
+import { Options } from '@eternal/shared/form';
 
 @Component({
   selector: 'eternal-customer',
@@ -36,7 +36,7 @@ import { Option } from '../../../shared/form/options';
 })
 export class CustomerComponent {
   @Input() customer: Customer | undefined;
-  @Input() countries: Option[] = [];
+  @Input() countries: Options = [];
   @Input() showDeleteButton = true;
   @Output() save = new EventEmitter<Customer>();
   @Output() remove = new EventEmitter<Customer>();

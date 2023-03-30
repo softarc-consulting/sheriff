@@ -6,7 +6,7 @@ export const config: SheriffConfig = {
     'src/app': {
       children: {
         'shared/{type}': {
-          tags: (_, { placeholders: { type } }) => ['shared', `shared:${type}`],
+          tags: (_, { placeholders: { type } }) => [`shared:${type}`],
         },
         bookings: {
           tags: ['domain:bookings', 'type:feature'],
@@ -26,12 +26,28 @@ export const config: SheriffConfig = {
     },
   },
   depRules: {
-    root: ['type:feature', 'shared'],
-    'domain:*': ({ from, to }) => from === to,
+    root: ['type: feature', ({ to }) => to.startsWith('shared:')],
+    'domain:*': ({ from, to }) => from === to || to.startsWith('shared:'),
     'domain:bookings': 'domain:customers:api',
-    'type:feature': ({ to }) => to.startsWith('type:'),
-    'type:data': 'type:model',
-    'type:ui': 'type:model',
+    'domain:customers:api': 'domain:customers',
+    'type:api': ({ to }) => to.startsWith('type:'),
+    'type:feature': [
+      ({ to }) => to.startsWith('type:'),
+      'shared:config',
+      'shared:form',
+      'shared:master-data',
+      'shared:ngrx-utils',
+      'shared:util',
+    ],
+    'type:data': [
+      'type:model',
+      'shared:http',
+      'shared:ngrx-utils',
+      'shared:ui-messaging',
+    ],
+    'type:ui': ['type:model', 'shared:form', 'shared:ui'],
     'type:model': [],
+    'shared:http': ['shared:config', 'shared:ui-messaging'],
+    'shared:ngrx-utils': ['shared:util'],
   },
 };

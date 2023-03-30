@@ -12,6 +12,10 @@ export class CustomersRepository {
     return this.#store.select(fromCustomers.selectPagedCustomers);
   }
 
+  get selectedCustomer$() {
+    return this.#store.select(fromCustomers.selectSelectedCustomer);
+  }
+
   findById(id: number) {
     return this.#store.select(fromCustomers.selectById(id));
   }
