@@ -3,6 +3,17 @@ import { describe, expect, it } from 'vitest';
 import { FsPath } from '../file-info/fs-path';
 
 describe('calc tags for module', () => {
+  it('should identify root as root', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        abc: { tags: 'domain:abc' },
+      })
+    ).toEqual(['root']);
+  });
+
   it('should calc for static value', () => {
     const rootDir = '/project' as FsPath;
     const moduleDir = '/project/abc' as FsPath;

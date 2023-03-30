@@ -7,6 +7,9 @@ export const calcTagsForModule = (
   rootDir: FsPath,
   tagConfig: TagConfig
 ): string[] => {
+  if (moduleDir === rootDir) {
+    return ['root'];
+  }
   const fs = getFs();
   const tags: string[] = [];
   let paths = fs.split(moduleDir.slice(rootDir.length + 1));
@@ -47,7 +50,7 @@ export const calcTagsForModule = (
     }
 
     if (!foundMatch) {
-      throw new Error(`did not find a match for ${moduleDir} `);
+      throw new Error(`[calcTags] did not find a match for ${moduleDir} `);
     }
   }
 

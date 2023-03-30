@@ -19,6 +19,6 @@ describe('parse Config', () => {
     const tsCode = parseConfig(
       toFsPath(__dirname + '/../test/sheriff.config.ts')
     );
-    expect(Object.keys(tsCode)).toEqual(['tagging', 'depRules']);
+    expect(Object.keys(tsCode)).toEqual(['version', 'tagging', 'depRules']);
   });
 });

@@ -1,12 +1,10 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';
-import { Store } from '@ngrx/store';
-// import { customersActions } from '../../+state/customers.actions';
-// import { fromCustomers } from '../../+state/customers.selectors';
 import { CustomersRepository } from '../../data';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AddressLookuper } from '@eternal/holidays/feature';
 
 @Component({
   template: ` <eternal-customers
