@@ -26,7 +26,6 @@ export const violatesDependencyRule = (
       toFsPath(filename),
       true
     );
-    console.log(`rootDir: ${rootDir}`);
     const configFile = findConfig(rootDir);
     if (configFile === undefined) {
       log('Dependency Rules', 'no sheriff.config.ts present in ' + rootDir);
@@ -94,7 +93,7 @@ export const violatesDependencyRule = (
               rootDir.length
             )} cannot access ${importedModulePath.substring(
               rootDir.length
-            )}. Tag ${fromTag} has no clearance to tag(s) ${toTags}`
+            )}. Tag ${fromTag} has no clearance to ${toTags.join(' or ')}`
           );
 
           break;

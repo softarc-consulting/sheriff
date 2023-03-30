@@ -4,7 +4,6 @@ import { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';
 import { CustomersRepository } from '../../data';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AddressLookuper } from '@eternal/holidays/feature';
 
 @Component({
   template: ` <eternal-customers

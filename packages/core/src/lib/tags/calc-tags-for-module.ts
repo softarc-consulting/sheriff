@@ -43,14 +43,16 @@ export const calcTagsForModule = (
         if (value.children) {
           currentTagConfig = value.children;
         } else {
-          throw new Error(`no full match on ${moduleDir}`);
+          throw new Error(
+            `tag configuration has no match for module ${moduleDir}`
+          );
         }
       }
       break;
     }
 
     if (!foundMatch) {
-      throw new Error(`[calcTags] did not find a match for ${moduleDir} `);
+      throw new Error(`did not find a match for ${moduleDir} `);
     }
   }
 

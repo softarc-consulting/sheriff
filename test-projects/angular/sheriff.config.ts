@@ -5,12 +5,15 @@ export const config: SheriffConfig = {
   tagging: {
     'src/app': {
       children: {
-        shared: {
-          tags: ['domain:shared'],
+        'shared/{type}': {
+          tags: (_, { placeholders: { type } }) => ['shared', `shared:${type}`],
         },
         bookings: {
           tags: ['domain:bookings'],
           children: { '+state': { tags: ['type:data'] } },
+        },
+        'customers/api': {
+          tags: ['type:api', 'domain:customers', 'domain:customers:api'],
         },
         '{domain}': {
           tags: (_, { placeholders: { domain } }) => [`domain:${domain}`],
@@ -24,7 +27,9 @@ export const config: SheriffConfig = {
     },
   },
   depRules: {
+    root: ['type:feature', 'shared'],
     'domain:*': ({ from, to }) => from === to,
+    'domain:bookings': 'domain:customers:api',
     'type:feature': ({ to }) => to.startsWith('type:'),
     'type:data': 'type:model',
     'type:ui': 'type:model',

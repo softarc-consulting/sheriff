@@ -267,7 +267,9 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         domain: {},
       })
-    ).toThrowError('no full match on /project/domain/holidays/feature');
+    ).toThrowError(
+      'tag configuration has no match for module /project/domain/holidays/feature'
+    );
   });
 
   it('should throw an error if tag already exists', () => {

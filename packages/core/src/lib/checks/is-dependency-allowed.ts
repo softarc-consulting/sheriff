@@ -10,6 +10,7 @@ export const isDependencyAllowed = (
   config: DependencyRulesConfig,
   context: DependencyCheckContext
 ): boolean => {
+  let isAllowed: boolean | undefined;
   for (const tag in config) {
     if (from.match(wildcardToRegex(tag))) {
       const value = config[tag];
@@ -24,9 +25,13 @@ export const isDependencyAllowed = (
           return true;
         }
       }
-      return false;
+      isAllowed = false;
     }
   }
 
-  throw new Error(`cannot find tag "${from}" in the dependency rules`);
+  if (isAllowed === false) {
+    return false;
+  } else {
+    throw new Error(`cannot find tag "${from}" in the dependency rules`);
+  }
 };

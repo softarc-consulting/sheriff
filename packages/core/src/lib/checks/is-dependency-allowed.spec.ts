@@ -138,4 +138,20 @@ describe('check dependency rules', () => {
       ).toBe(isAllowed);
     });
   }
+
+  it('should run multipe checks, if tag is configured multiple times', () => {
+    const config: DependencyRulesConfig = {
+      'domain:*': ({ from, to }) => from === to,
+      'domain:bookings': 'domain:customers:api',
+    };
+
+    expect(
+      isDependencyAllowed(
+        'domain:bookings',
+        'domain:customers:api',
+        config,
+        dummyContext
+      )
+    ).toBe(true);
+  });
 });
