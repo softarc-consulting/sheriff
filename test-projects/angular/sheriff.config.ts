@@ -9,8 +9,7 @@ export const config: SheriffConfig = {
           tags: (_, { placeholders: { type } }) => ['shared', `shared:${type}`],
         },
         bookings: {
-          tags: ['domain:bookings'],
-          children: { '+state': { tags: ['type:data'] } },
+          tags: ['domain:bookings', 'type:feature'],
         },
         'customers/api': {
           tags: ['type:api', 'domain:customers', 'domain:customers:api'],

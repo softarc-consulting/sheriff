@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { selectSelectedCustomer } from '@eternal/customers/api';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -37,7 +36,6 @@ bookings.set(3, [
 
 @Injectable()
 export class BookingsEffects {
-  #httpClient = inject(HttpClient);
   #actions$ = inject(Actions);
   #store = inject(Store);
 
