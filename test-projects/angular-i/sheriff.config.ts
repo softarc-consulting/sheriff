@@ -6,7 +6,7 @@ export const config: SheriffConfig = {
     'src/app': {
       children: {
         'shared/{type}': {
-          tags: (_, { placeholders: { type } }) => [`shared:${type}`],
+          tags: ({ type }) => [`shared:${type}`],
         },
         bookings: {
           tags: ['domain:bookings', 'type:feature'],
@@ -15,10 +15,10 @@ export const config: SheriffConfig = {
           tags: ['type:api', 'domain:customers', 'domain:customers:api'],
         },
         '{domain}': {
-          tags: (_, { placeholders: { domain } }) => [`domain:${domain}`],
+          tags: ({ domain }) => [`domain:${domain}`],
           children: {
             '{type}': {
-              tags: (_, { placeholders: { type } }) => [`type:${type}`],
+              tags: ({ type }) => [`type:${type}`],
             },
           },
         },

@@ -5,12 +5,12 @@ export type XOR<T, U> = T | U extends object
   : T | U;
 
 export type MatcherContext = {
-  placeholders: Record<string, string>;
+  segment: string;
   regexMatch?: RegExpMatchArray | null;
 };
 
 export type TagMatcherFn<ReturnType extends string | string[]> = (
-  segment: string,
+  placeholders: Record<string, string>,
   context: MatcherContext
 ) => ReturnType;
 

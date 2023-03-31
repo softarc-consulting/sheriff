@@ -1,0 +1,19 @@
+<h1>Passengers</h1>
+<!-- <pre>{{passengers | json}}</pre> -->
+<table class="table">
+  <tr>
+    <th>Id</th>
+    <th>FirstName</th>
+    <th>Name</th>
+    <th>Bonus Miles</th>
+    <th>Status</th>
+
+  </tr>
+  <tr *ngFor="let p of passengers">
+    <td>{{p.id}}</td>
+    <td>{{p.firstName}}</td>
+    <td>{{p.name}}</td>
+    <td>{{p.bonusMiles}}</td>
+    <td>{{p.passengerStatus}}</td>
+  </tr>
+</table>

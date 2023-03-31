@@ -53,7 +53,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        abc: { tags: (path) => `module:${path}` },
+        abc: { tags: (_, { segment }) => `module:${segment}` },
       })
     ).toEqual(['module:abc']);
   });
@@ -64,7 +64,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        abc: { tags: (path) => [`domain:${path}`, 'type:lib'] },
+        abc: { tags: (_, { segment }) => [`domain:${segment}`, 'type:lib'] },
       })
     ).toEqual(['domain:abc', 'type:lib']);
   });
@@ -87,7 +87,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         '{domain}': {
-          tags: (path, { placeholders }) => `domain:${placeholders['domain']}`,
+          tags: ({ domain }) => `domain:${domain}`,
         },
       })
     ).toEqual(['domain:holidays']);
@@ -100,7 +100,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'feature-{domain}': {
-          tags: (match, { placeholders }) => `domain:${placeholders['domain']}`,
+          tags: ({ domain }) => `domain:${domain}`,
         },
       })
     ).toEqual(['domain:holidays']);
@@ -159,10 +159,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'domain/{feature}/{type}': {
-          tags: (path, { placeholders }) => [
-            `domain:${placeholders['feature']}`,
-            `type:${placeholders['type']}`,
-          ],
+          tags: ({ feature, type }) => [`domain:${feature}`, `type:${type}`],
         },
       })
     ).toEqual(['domain:holidays', 'type:data']);
@@ -177,10 +174,7 @@ describe('calc tags for module', () => {
         'src/app/domain': {
           children: {
             '{domain}/{type}': {
-              tags: (_, { placeholders: { domain, type } }) => [
-                `domain:${domain}`,
-                `type:${type}`,
-              ],
+              tags: ({ domain, type }) => [`domain:${domain}`, `type:${type}`],
             },
           },
         },
@@ -197,7 +191,7 @@ describe('calc tags for module', () => {
         'src/app': {
           children: {
             'shared/{type}': {
-              tags: (_, { placeholders: { type } }) => [`type:${type}`],
+              tags: ({ type }) => [`type:${type}`],
             },
             '{domain}/{type}': {
               tags: [],
@@ -224,7 +218,7 @@ describe('calc tags for module', () => {
                     '{subDomain}': {
                       children: {
                         '{type}': {
-                          tags: (_, { placeholders }) => [
+                          tags: (placeholders) => [
                             `domain:${placeholders.domain}`,
                             `subDomain:${placeholders.subDomain}`,
                             `type:${placeholders.type}`,

@@ -21,8 +21,11 @@ export const calcTagsForModule = (
     let foundMatch = false;
     for (const pathMatcher in currentTagConfig) {
       const value = currentTagConfig[pathMatcher];
-      const { pathFragment, matcherContext, matches, pathFragmentSpan } =
-        matchSegment(pathMatcher, paths, placeholders);
+      const { matcherContext, matches, pathFragmentSpan } = matchSegment(
+        pathMatcher,
+        paths,
+        placeholders
+      );
 
       if (!matches) {
         continue;
@@ -31,7 +34,7 @@ export const calcTagsForModule = (
       const tagsProperty = value.tags;
       if (tagsProperty) {
         if (typeof tagsProperty === 'function') {
-          addToTags(tags, tagsProperty(pathFragment, matcherContext));
+          addToTags(tags, tagsProperty(placeholders, matcherContext));
         } else {
           addToTags(tags, tagsProperty);
         }
@@ -112,7 +115,7 @@ function matchSegment(
 ) {
   let matches = true;
   let pathFragment = paths[0];
-  const matcherContext: MatcherContext = { placeholders };
+  const matcherContext: MatcherContext = { segment: pathFragment };
   let pathFragmentSpan = 1;
 
   if (isRegularExpression(segmentMatcher)) {

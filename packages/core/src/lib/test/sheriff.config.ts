@@ -6,10 +6,7 @@ export const config: SheriffConfig = {
     'apps/flight-app/src/app': {
       children: {
         'domain/{domain}/{type}': {
-          tags: (_, { placeholders: { domain, type } }) => [
-            `domain:${domain}`,
-            `type:${type}`,
-          ],
+          tags: ({ domain, type }) => [`domain:${domain}`, `type:${type}`],
         },
         'shared/{libName}': {
           tags: 'domain:shared',
@@ -20,10 +17,7 @@ export const config: SheriffConfig = {
       tags: ['domain:shared'],
     },
     'libs/{domain}/{type}': {
-      tags: (_, { placeholders: { domain, type } }) => [
-        `domain:${domain}`,
-        `type:${type}`,
-      ],
+      tags: ({ domain, type }) => [`domain:${domain}`, `type:${type}`],
     },
   },
   depRules: {

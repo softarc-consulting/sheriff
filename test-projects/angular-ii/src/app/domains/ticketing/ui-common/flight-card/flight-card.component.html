@@ -1,0 +1,17 @@
+<div class="card" [ngClass]="{ 'active-card' : selected }">
+
+  <div class="card-header">
+      <h2 class="title">{{item.from | city:'short' }} - {{item.to | city:'short'}}</h2>
+  </div>
+
+  <div class="card-body">
+      <p>Flight-No.: #{{item.id}}</p>
+      <p>Date: {{item.date | date:'dd.MM.yyyy HH:mm:ss'}}</p>
+      <p>
+          <button class="btn btn-default" *ngIf="!selected" (click)="select()">Select</button>
+          <button class="btn btn-default" *ngIf="selected" (click)="deselect()">Remove</button>
+          <a *ngIf="showEditButton" class="btn btn-default" [routerLink]="['../flight-edit', item.id, {showDetails:false}]">Edit</a>
+      </p>
+  </div>
+
+</div>
