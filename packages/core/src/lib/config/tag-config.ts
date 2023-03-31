@@ -22,10 +22,11 @@ export type MultiTags = {
   tags?: string[] | TagMatcherFn<string[]>;
 };
 
-export type TagConfig = Record<
-  string,
-  {
-    tags?: string[] | string | TagMatcherFn<string[] | string>;
-    children?: TagConfig;
-  }
->;
+export type TagConfigValue =
+  | string
+  | string[]
+  | TagMatcherFn<string[] | string>;
+
+export interface TagConfig {
+  [pathMatcher: string]: TagConfigValue | TagConfig;
+}

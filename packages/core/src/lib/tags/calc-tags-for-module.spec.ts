@@ -9,7 +9,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        abc: { tags: 'domain:abc' },
+        abc: 'domain:abc',
       })
     ).toEqual(['root']);
   });
@@ -20,7 +20,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        abc: { tags: 'domain:abc' },
+        abc: 'domain:abc',
       })
     ).toEqual(['domain:abc']);
   });
@@ -31,7 +31,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        abc: { tags: ['domain:abc', 'type:generic'] },
+        abc: ['domain:abc', 'type:generic'],
       })
     ).toEqual(['domain:abc', 'type:generic']);
   });
@@ -53,7 +53,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        abc: { tags: (_, { segment }) => `module:${segment}` },
+        abc: (_, { segment }) => `module:${segment}`,
       })
     ).toEqual(['module:abc']);
   });
@@ -64,7 +64,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        abc: { tags: (_, { segment }) => [`domain:${segment}`, 'type:lib'] },
+        abc: (_, { segment }) => [`domain:${segment}`, 'type:lib'],
       })
     ).toEqual(['domain:abc', 'type:lib']);
   });
@@ -75,7 +75,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '/(\\w+)/': { tags: (_, { regexMatch }) => `domain:${regexMatch[0]}` },
+        '/(\\w+)/': (_, { regexMatch }) => `domain:${regexMatch[0]}`,
       })
     ).toEqual(['domain:abc']);
   });
@@ -86,9 +86,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '{domain}': {
-          tags: ({ domain }) => `domain:${domain}`,
-        },
+        '{domain}': ({ domain }) => `domain:${domain}`,
       })
     ).toEqual(['domain:holidays']);
   });
@@ -99,9 +97,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        'feature-{domain}': {
-          tags: ({ domain }) => `domain:${domain}`,
-        },
+        'feature-{domain}': ({ domain }) => `domain:${domain}`,
       })
     ).toEqual(['domain:holidays']);
   });
@@ -112,7 +108,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        'src/app/holidays': { tags: ['domain:holidays'] },
+        'src/app/holidays': ['domain:holidays'],
       })
     ).toEqual(['domain:holidays']);
   });
@@ -134,8 +130,8 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        customers: { tags: 'domain:customers' },
-        holidays: { tags: 'domain:holidays' },
+        customers: 'domain:customers',
+        holidays: 'domain:holidays',
       })
     ).toEqual(['domain:holidays']);
   });
@@ -146,8 +142,8 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '{domain}': { tags: 'domain:holidays' },
-        holidays: { tags: 'scope:holidays' },
+        '{domain}': 'domain:holidays',
+        holidays: 'scope:holidays',
       })
     ).toEqual(['domain:holidays']);
   });
@@ -158,9 +154,10 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        'domain/{feature}/{type}': {
-          tags: ({ feature, type }) => [`domain:${feature}`, `type:${type}`],
-        },
+        'domain/{feature}/{type}': ({ feature, type }) => [
+          `domain:${feature}`,
+          `type:${type}`,
+        ],
       })
     ).toEqual(['domain:holidays', 'type:data']);
   });
@@ -172,11 +169,10 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'src/app/domain': {
-          children: {
-            '{domain}/{type}': {
-              tags: ({ domain, type }) => [`domain:${domain}`, `type:${type}`],
-            },
-          },
+          '{domain}/{type}': ({ domain, type }) => [
+            `domain:${domain}`,
+            `type:${type}`,
+          ],
         },
       })
     ).toEqual(['domain:customers', 'type:ui']);
@@ -189,14 +185,8 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'src/app': {
-          children: {
-            'shared/{type}': {
-              tags: ({ type }) => [`type:${type}`],
-            },
-            '{domain}/{type}': {
-              tags: [],
-            },
-          },
+          'shared/{type}': ({ type }) => [`type:${type}`],
+          '{domain}/{type}': [],
         },
       })
     ).toEqual(['type:ngrx-util']);
@@ -210,24 +200,14 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'src/app': {
-          children: {
-            domains: {
-              children: {
-                '{domain}': {
-                  children: {
-                    '{subDomain}': {
-                      children: {
-                        '{type}': {
-                          tags: (placeholders) => [
-                            `domain:${placeholders.domain}`,
-                            `subDomain:${placeholders.subDomain}`,
-                            `type:${placeholders.type}`,
-                          ],
-                        },
-                      },
-                    },
-                  },
-                },
+          domains: {
+            '{domain}': {
+              '{subDomain}': {
+                '{type}': (placeholders) => [
+                  `domain:${placeholders.domain}`,
+                  `subDomain:${placeholders.subDomain}`,
+                  `type:${placeholders.type}`,
+                ],
               },
             },
           },
@@ -243,11 +223,7 @@ describe('calc tags for module', () => {
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
         '{str}': {
-          children: {
-            '{str}': {
-              tags: ['noop'],
-            },
-          },
+          '{str}': ['noop'],
         },
       })
     ).toThrowError('placeholder for value "str" does already exist');
@@ -259,25 +235,21 @@ describe('calc tags for module', () => {
 
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
-        domain: {},
+        domain: '',
       })
     ).toThrowError(
       'tag configuration has no match for module /project/domain/holidays/feature'
     );
   });
 
-  it('should throw an error if tag already exists', () => {
+  it('should throw an error if the placeholder already exists', () => {
     const rootDir = '/project' as FsPath;
     const moduleDir = '/project/holidays/feature' as FsPath;
 
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
         '{str}': {
-          children: {
-            '{str}': {
-              tags: ['noop'],
-            },
-          },
+          '{str}': ['noop'],
         },
       })
     ).toThrowError('placeholder for value "str" does already exist');
@@ -289,8 +261,8 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '/(\\w+)/': { tags: 'regex' },
-        'holidays-123': { tags: 'simple match' },
+        '/(\\w+)/': 'regex',
+        'holidays-123': 'simple match',
       })
     ).toEqual(['simple match']);
   });
@@ -301,8 +273,8 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '{feature}_{id}': { tags: 'placeholder' },
-        'holidays-123': { tags: 'simple match' },
+        '{feature}_{id}': 'placeholder',
+        'holidays-123': 'simple match',
       })
     ).toEqual(['simple match']);
   });

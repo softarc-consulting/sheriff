@@ -1,4 +1,8 @@
-import { MatcherContext, TagConfig } from '../config/tag-config';
+import {
+  MatcherContext,
+  TagConfig,
+  TagConfigValue,
+} from '../config/tag-config';
 import getFs from '../fs/getFs';
 import { FsPath } from '../file-info/fs-path';
 
@@ -31,20 +35,19 @@ export const calcTagsForModule = (
         continue;
       }
 
-      const tagsProperty = value.tags;
-      if (tagsProperty) {
-        if (typeof tagsProperty === 'function') {
-          addToTags(tags, tagsProperty(placeholders, matcherContext));
+      if (isTagConfigValue(value)) {
+        if (typeof value === 'function') {
+          addToTags(tags, value(placeholders, matcherContext));
         } else {
-          addToTags(tags, tagsProperty);
+          addToTags(tags, value);
         }
       }
       paths = paths.slice(pathFragmentSpan);
 
       foundMatch = true;
       if (paths.length > 0) {
-        if (value.children) {
-          currentTagConfig = value.children;
+        if (isTagConfig(value)) {
+          currentTagConfig = value;
         } else {
           throw new Error(
             `tag configuration has no match for module ${moduleDir}`
@@ -61,6 +64,16 @@ export const calcTagsForModule = (
 
   return tags;
 };
+
+function isTagConfigValue(
+  value: TagConfigValue | TagConfig
+): value is TagConfigValue {
+  return !(typeof value === 'object' && !Array.isArray(value));
+}
+
+function isTagConfig(value: TagConfigValue | TagConfig): value is TagConfig {
+  return !isTagConfigValue(value);
+}
 
 function addToTags(tags: string[], value: string | string[]) {
   if (typeof value === 'string') {
