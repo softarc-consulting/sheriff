@@ -1,11 +1,10 @@
 {
   "name": "@softarc/eslint-plugin-sheriff",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "commonjs",
-  "dependencies": {
-    "@softarc/sheriff-core": "0.0.5"
-  },
+  "dependencies": {},
   "peerDependencies": {
+    "@softarc/sheriff-core": "0.0.5",
     "eslint": ">=8.0.0"
   }
 }
