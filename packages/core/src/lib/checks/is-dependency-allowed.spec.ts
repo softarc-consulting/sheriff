@@ -5,6 +5,8 @@ import {
 } from '../config/dependency-rules-config';
 import { isDependencyAllowed } from './is-dependency-allowed';
 import { FsPath } from '../file-info/fs-path';
+import { sameTag } from './same-tag';
+import { noDependencies } from './no-dependencies';
 
 type TestParams = [string, boolean][];
 
@@ -180,4 +182,34 @@ describe('check dependency rules', () => {
       isDependencyAllowed(['type:feature'], 'shared:ui', config, dummyContext)
     ).toBe(true);
   });
+
+  for (const [to, from, isAllowed] of [
+    ['domain:customers', 'domain:customers', true],
+    ['domain:holidays', 'domain:holidays', true],
+    ['domain:customers', 'domain:holidays', false],
+    ['domain:holidays', 'domain:customers', false],
+  ] as [string, string, boolean][]) {
+    it(`should work with pre-defined \`sameTag\` from ${from} to ${to}`, () => {
+      const config: DependencyRulesConfig = {
+        'domain:*': sameTag,
+      };
+
+      expect(isDependencyAllowed([from], to, config, dummyContext)).toBe(
+        isAllowed
+      );
+    });
+  }
+
+  it.each(['type:model', '', 'shared'])(
+    'should allow no dependencies with `noDependencies` on %s',
+    (toTag) => {
+      const config: DependencyRulesConfig = {
+        'type:model': noDependencies,
+      };
+
+      expect(
+        isDependencyAllowed(['type:model'], toTag, config, dummyContext)
+      ).toBe(false);
+    }
+  );
 });

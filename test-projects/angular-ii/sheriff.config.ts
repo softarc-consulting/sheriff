@@ -1,4 +1,4 @@
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { noDependencies, sameTag, SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
   version: 1,
@@ -16,10 +16,10 @@ export const sheriffConfig: SheriffConfig = {
   },
   depRules: {
     root: ['app:state', 'app:shell', 'type:feature', 'shared', 'domain:*'],
-    'domain:*': [({ from, to }) => from === to, 'shared'],
+    'domain:*': [sameTag, 'shared'],
     shared: 'shared',
     'type:feature': ['type:feature', 'type:data', 'type:ui'],
     'type:ui': ['type:data'],
-    'type:data': [],
+    'type:data': noDependencies,
   },
 };

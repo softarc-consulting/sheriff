@@ -64,10 +64,10 @@ In your _eslintrc.json_, insert the rules:
 
 For feature requests, please add an issue at https://github.com/softarc/sheriff.
 
-- Print of modules with their tags
+- Print modules with their tags
 - Testing Dependency Rules
-- Encapsulation by convention
 - Feature Shell: It shouldn't be necessary to create a feature subdirectory for a domain, since feature has access to everything
+- Dependency rules for node_modules
 - CLI as alternative to eslint
 - Highly configurable:
   - no deep import

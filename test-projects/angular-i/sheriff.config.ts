@@ -1,4 +1,4 @@
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { noDependencies, sameTag, SheriffConfig } from '@softarc/sheriff-core';
 
 export const config: SheriffConfig = {
   version: 1,
@@ -12,7 +12,7 @@ export const config: SheriffConfig = {
   },
   depRules: {
     root: ['type: feature', 'shared:*'],
-    'domain:*': ({ from, to }) => from === to,
+    'domain:*': sameTag,
     'domain:bookings': 'domain:customers:api',
     'domain:customers:api': 'domain:customers',
     'type:api': 'type:*',
@@ -31,7 +31,7 @@ export const config: SheriffConfig = {
       'shared:ui-messaging',
     ],
     'type:ui': ['type:model', 'shared:form', 'shared:ui'],
-    'type:model': [],
+    'type:model': noDependencies,
     'shared:http': ['shared:config', 'shared:ui-messaging'],
     'shared:ngrx-utils': ['shared:util'],
   },
