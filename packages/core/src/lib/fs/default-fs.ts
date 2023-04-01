@@ -26,8 +26,6 @@ export class DefaultFs extends Fs {
 
   cwd = () => process.cwd();
 
-  normalise = (notNormalisedPath: string) => path.normalize(notNormalisedPath);
-
   override findFiles = (
     directory: FsPath,
     filename: string,

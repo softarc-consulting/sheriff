@@ -148,17 +148,6 @@ describe('Virtual Fs', () => {
     });
   });
 
-  describe('normalise', () => {
-    it('should normalise', () => {
-      expect(fs.normalise('/project/./..')).toBe('/');
-      expect(fs.normalise('/project/./.')).toBe('/project');
-      expect(fs.normalise('.')).toBe('.');
-      expect(fs.normalise('./abc/..')).toBe('.');
-      expect(fs.normalise('./main.ts')).toBe('main.ts');
-      expect(fs.normalise('./project/..')).toBe('.');
-    });
-  });
-
   describe('search', () => {
     it('should find the index.ts in project directory', () => {
       fs.writeFile('index.ts', 'hello');

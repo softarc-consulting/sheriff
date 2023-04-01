@@ -269,8 +269,6 @@ export class VirtualFs extends Fs {
 
   cwd = () => '/project';
 
-  normalise = (notNormalisedPath: string) => path.normalize(notNormalisedPath);
-
   reset() {
     this.init();
   }

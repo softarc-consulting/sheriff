@@ -14,8 +14,6 @@ export abstract class Fs {
 
   abstract cwd: () => string;
 
-  abstract normalise: (path: string) => string;
-
   abstract findFiles: (path: FsPath, filename: string) => FsPath[];
 
   abstract print: () => void;
