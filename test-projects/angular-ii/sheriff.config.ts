@@ -6,16 +6,10 @@ export const sheriffConfig: SheriffConfig = {
     'src/app': {
       '+state': 'app:state',
       'domains/shared/<type>': 'shared',
-      'domains/<domain>/<type>': ({ domain, type }) => {
-        const tags = [`domain:${domain}`];
-        if (type === 'data') {
-          tags.push('type:data');
-        } else if (type.startsWith('feature')) {
-          tags.push('type:feature');
-        } else if (type.startsWith('ui')) {
-          tags.push('type:ui');
-        }
-        return tags;
+      'domains/<domain>': {
+        data: ['domain:<domain>', 'type:data'],
+        'feature-<feature>': ['domain:<domain>', 'type:feature'],
+        'ui-<ui>': ['domain:<domain>', 'type:ui'],
       },
       shell: 'app:shell',
     },

@@ -36,10 +36,16 @@ export const calcTagsForModule = (
       }
 
       if (isTagConfigValue(value)) {
-        if (typeof value === 'function') {
-          addToTags(tags, value(placeholders, matcherContext));
+        const tagProperty = value;
+        if (typeof tagProperty === 'function') {
+          addToTags(
+            tags,
+            tagProperty(placeholders, matcherContext),
+            placeholders,
+            moduleDir
+          );
         } else {
-          addToTags(tags, value);
+          addToTags(tags, tagProperty, placeholders, moduleDir);
         }
       }
       paths = paths.slice(pathFragmentSpan);
@@ -75,12 +81,41 @@ function isTagConfig(value: TagConfigValue | TagConfig): value is TagConfig {
   return !isTagConfigValue(value);
 }
 
-function addToTags(tags: string[], value: string | string[]) {
-  if (typeof value === 'string') {
-    tags.push(value);
-  } else {
-    tags.push(...value);
+function addToTags(
+  tags: string[],
+  newTags: string | string[],
+  placeholders: Record<string, string>,
+  moduleDir: string
+) {
+  tags.push(
+    ...(Array.isArray(newTags) ? newTags : [newTags]).map((tag) =>
+      replacePlaceholdersInTag(tag, placeholders, moduleDir)
+    )
+  );
+}
+
+function replacePlaceholdersInTag(
+  tag: string,
+  placeholders: Record<string, string>,
+  fullDir: string
+) {
+  let replacedTag = tag;
+  for (const placeholder in placeholders) {
+    const value = placeholders[placeholder];
+    replacedTag = replacedTag.replace(
+      new RegExp(`<${placeholder}>`, 'g'),
+      value
+    );
   }
+
+  const unavailablePlaceholder = replacedTag.match(/<([a-zA-Z]+)>/);
+  if (unavailablePlaceholder) {
+    throw new Error(
+      `cannot find a placeholder for "${unavailablePlaceholder[1]}" in tag configuration. Module: ${fullDir}`
+    );
+  }
+
+  return replacedTag;
 }
 
 function isRegularExpression(segment: string) {

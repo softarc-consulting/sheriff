@@ -101,6 +101,41 @@ describe('calc tags for module', () => {
     ).toEqual(['domain:holidays']);
   });
 
+  it('should support placeholders in both matcher and tag value', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/holidays' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        '<domain>': 'domain:<domain>',
+      })
+    ).toEqual(['domain:holidays']);
+  });
+
+  it('should support multiple placeholders', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/feat-bookings' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        '<type>-<subdomain>': ['type:<type>', 'subdomain:<subdomain>'],
+      })
+    ).toEqual(['type:feat', 'subdomain:bookings']);
+  });
+
+  it('should throw if a placeholder in the tag value does not exist', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/feat-bookings' as FsPath;
+
+    expect(() =>
+      calcTagsForModule(moduleDir, rootDir, {
+        '<subdomain>': ['type:<type>', 'subdomain:<subdomain>'],
+      })
+    ).toThrowError(
+      'cannot find a placeholder for "type" in tag configuration. Module: /project/feat-bookings'
+    );
+  });
+
   it('should support a full placeholder with directory names - or +', () => {
     const moduleDir = '/project/+feat-booking' as FsPath;
     expect(
