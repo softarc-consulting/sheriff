@@ -18,7 +18,10 @@ export const isDependencyAllowed = (
         const value = config[tag];
         const matchers = Array.isArray(value) ? value : [value];
         for (const matcher of matchers) {
-          if (typeof matcher === 'string' && matcher === to) {
+          if (
+            typeof matcher === 'string' &&
+            to.match(wildcardToRegex(matcher))
+          ) {
             return true;
           } else if (
             typeof matcher === 'function' &&

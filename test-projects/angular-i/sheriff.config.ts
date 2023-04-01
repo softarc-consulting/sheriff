@@ -11,13 +11,13 @@ export const config: SheriffConfig = {
     },
   },
   depRules: {
-    root: ['type: feature', ({ to }) => to.startsWith('shared:')],
+    root: ['type: feature', 'shared:*'],
     'domain:*': ({ from, to }) => from === to,
     'domain:bookings': 'domain:customers:api',
     'domain:customers:api': 'domain:customers',
-    'type:api': ({ to }) => to.startsWith('type:'),
+    'type:api': 'type:*',
     'type:feature': [
-      ({ to }) => to.startsWith('type:'),
+      'type:*',
       'shared:config',
       'shared:form',
       'shared:master-data',

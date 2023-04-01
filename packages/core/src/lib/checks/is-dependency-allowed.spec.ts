@@ -170,4 +170,14 @@ describe('check dependency rules', () => {
       )
     ).toBe(true);
   });
+
+  it('should allow wildcard in rule values as well', () => {
+    const config: DependencyRulesConfig = {
+      'type:feature': ['type:data', 'type:ui', 'shared:*'],
+    };
+
+    expect(
+      isDependencyAllowed(['type:feature'], 'shared:ui', config, dummyContext)
+    ).toBe(true);
+  });
 });
