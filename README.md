@@ -4,22 +4,24 @@
 
 Sheriff enforces module boundaries and dependency rules in TypeScript.
 
-It comes with **zero dependencies**. The only peer dependency is TypeScript itself.
-
-Sheriff is available in two flavours: As eslint plugin or cli.
+It is easy to use and has **zero dependencies**. The only peer dependency is TypeScript itself.
 
 **Module Boundaries**
 
-Every directory with an _index.ts_ counts as a module. The _index.ts_ exports
+Every directory with an _index.ts_ is a module. The _index.ts_ exports
 those files that should be accessible from the outside. Therefore, every `import`
 into that module must point to the _index.ts_.
 
+**Dependency Rules**
+
+```typescript
+throw new DocsMissingException(); // ;)
+```
+
 ## Installation
 
-### Eslint
-
 ```shell
-npm install @softarc/eslint-plugin-sheriff
+npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
 ```
 
 In your _eslintrc.json_, insert the rules:
@@ -31,7 +33,9 @@ In your _eslintrc.json_, insert the rules:
     }
 ```
 
-_Example: eslintrc.json_
+<details>
+
+<summary>Show Example for Angular</summary>
 
 ```jsonc
 {
@@ -48,30 +52,31 @@ _Example: eslintrc.json_
 }
 ```
 
-# Feature Roadmap
+</details>
 
-- Testing Dependency Rules (ArchUnit)
+## Advantages
+
+- lightweight
+- powerful customisation
+- zero dependencies
+
+## Upcoming Features
+
+For feature requests, please add an issue at https://github.com/softarc/sheriff.
+
+- Print of modules with their tags
+- Testing Dependency Rules
 - Encapsulation by convention
 - Feature Shell: It shouldn't be necessary to create a feature subdirectory for a domain, since feature has access to everything
+- CLI as alternative to eslint
 - Highly configurable:
   - no deep import
   - hierarchy check
   - tags via config (static string, placeholder, regular expression, function )
-- Dependency Rules with individualistic
 - Find cyclic dependencies
 - Find unused files
 - Visualization
 - TestCoverage 100%
-- Zero-Dependencies
-- ESLint Plugin
 - UI for Konfiguration
 - Migration from Nx (automatic)
-- Rules: AND OR
 - Cache
-- Easy Debuggability: Anonymized export
-
-# Advantages
-
-- Less boilerplate
-- Testability much better because I just have one
-- Interchangable
