@@ -5,8 +5,8 @@ export const sheriffConfig: SheriffConfig = {
   tagging: {
     'src/app': {
       '+state': 'app:state',
-      'domains/shared/{type}': 'shared',
-      'domains/{domain}/{type}': ({ domain, type }) => {
+      'domains/shared/<type>': 'shared',
+      'domains/<domain>/<type>': ({ domain, type }) => {
         const tags = [`domain:${domain}`];
         if (type === 'data') {
           tags.push('type:data');
