@@ -96,7 +96,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '{domain}': ({ domain }) => `domain:${domain}`,
+        '<domain>': ({ domain }) => `domain:${domain}`,
       })
     ).toEqual(['domain:holidays']);
   });
@@ -105,7 +105,7 @@ describe('calc tags for module', () => {
     const moduleDir = '/project/+feat-booking' as FsPath;
     expect(
       calcTagsForModule(moduleDir, root, {
-        '{path}': 'feature:booking',
+        '<path>': 'feature:booking',
       })
     ).toEqual(['feature:booking']);
   });
@@ -116,7 +116,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        'feature-{domain}': ({ domain }) => `domain:${domain}`,
+        'feature-<domain>': ({ domain }) => `domain:${domain}`,
       })
     ).toEqual(['domain:holidays']);
   });
@@ -161,7 +161,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '{domain}': 'domain:holidays',
+        '<domain>': 'domain:holidays',
         holidays: 'scope:holidays',
       })
     ).toEqual(['domain:holidays']);
@@ -173,7 +173,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        'domain/{feature}/{type}': ({ feature, type }) => [
+        'domain/<feature>/<type>': ({ feature, type }) => [
           `domain:${feature}`,
           `type:${type}`,
         ],
@@ -188,7 +188,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'src/app/domain': {
-          '{domain}/{type}': ({ domain, type }) => [
+          '<domain>/<type>': ({ domain, type }) => [
             `domain:${domain}`,
             `type:${type}`,
           ],
@@ -204,8 +204,8 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'src/app': {
-          'shared/{type}': ({ type }) => [`type:${type}`],
-          '{domain}/{type}': [],
+          'shared/<type>': ({ type }) => [`type:${type}`],
+          '<domain>/<type>': [],
         },
       })
     ).toEqual(['type:ngrx-util']);
@@ -220,9 +220,9 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         'src/app': {
           domains: {
-            '{domain}': {
-              '{subDomain}': {
-                '{type}': (placeholders) => [
+            '<domain>': {
+              '<subDomain>': {
+                '<type>': (placeholders) => [
                   `domain:${placeholders.domain}`,
                   `subDomain:${placeholders.subDomain}`,
                   `type:${placeholders.type}`,
@@ -241,8 +241,8 @@ describe('calc tags for module', () => {
 
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
-        '{str}': {
-          '{str}': ['noop'],
+        '<str>': {
+          '<str>': ['noop'],
         },
       })
     ).toThrowError('placeholder for value "str" does already exist');
@@ -267,8 +267,8 @@ describe('calc tags for module', () => {
 
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
-        '{str}': {
-          '{str}': ['noop'],
+        '<str>': {
+          '<str>': ['noop'],
         },
       })
     ).toThrowError('placeholder for value "str" does already exist');
@@ -292,7 +292,7 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '{feature}_{id}': 'placeholder',
+        '<feature>_<id>': 'placeholder',
         'holidays-123': 'simple match',
       })
     ).toEqual(['simple match']);

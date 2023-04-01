@@ -93,7 +93,7 @@ function handlePlaceholderMatching(
   placeholderMatch: RegExpMatchArray,
   placeholders: Record<string, string>
 ) {
-  const placeholderRegex = pathMatcher.replace(/{[a-zA-Z]+}/g, '(.+)');
+  const placeholderRegex = pathMatcher.replace(/<[a-zA-Z]+>/g, '(.+)');
   const pathMatch = currentPath.match(new RegExp(placeholderRegex));
   if (!pathMatch) {
     return false;
@@ -144,7 +144,7 @@ function matchSegment(
       matches = false;
     }
     pathFragment = paths.slice(0, pathFragmentSpan).join('/');
-    const placeholderMatch = (segmentMatcher.match(/{[a-zA-Z]+}/g) || []).map(
+    const placeholderMatch = (segmentMatcher.match(/<[a-zA-Z]+>/g) || []).map(
       (str) => str.slice(1, str.length - 1)
     );
     if (placeholderMatch.length) {
