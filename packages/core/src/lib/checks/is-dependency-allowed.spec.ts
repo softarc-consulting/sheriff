@@ -22,10 +22,10 @@ describe('check dependency rules', () => {
     };
 
     expect(
-      isDependencyAllowed('type:feature', 'type:ui', config, dummyContext)
+      isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext)
     ).toBe(true);
     expect(
-      isDependencyAllowed('type:ui', 'type:feature', config, dummyContext)
+      isDependencyAllowed(['type:ui'], 'type:feature', config, dummyContext)
     ).toBe(false);
   });
 
@@ -35,10 +35,10 @@ describe('check dependency rules', () => {
     };
 
     expect(
-      isDependencyAllowed('type:feature', 'type:ui', config, dummyContext)
+      isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext)
     ).toBe(true);
     expect(
-      isDependencyAllowed('type:feature', 'domain:abc', config, dummyContext)
+      isDependencyAllowed(['type:feature'], 'domain:abc', config, dummyContext)
     ).toBe(false);
   });
 
@@ -54,7 +54,7 @@ describe('check dependency rules', () => {
       };
 
       expect(
-        isDependencyAllowed('type:feature', to, config, dummyContext)
+        isDependencyAllowed(['type:feature'], to, config, dummyContext)
       ).toBe(isAllowed);
     });
   }
@@ -69,7 +69,7 @@ describe('check dependency rules', () => {
       };
 
       expect(
-        isDependencyAllowed('type:feature', to, config, dummyContext)
+        isDependencyAllowed(['type:feature'], to, config, dummyContext)
       ).toBe(isAllowed);
     });
   }
@@ -80,13 +80,13 @@ describe('check dependency rules', () => {
     };
 
     expect(() =>
-      isDependencyAllowed('type:funktion', 'noop', config, dummyContext)
-    ).toThrowError('cannot find tag "type:funktion" in the dependency rules');
+      isDependencyAllowed(['type:funktion'], 'noop', config, dummyContext)
+    ).toThrowError('cannot find any dependency rule for tag type:funktion');
   });
 
   it('should pass from, to, fromModulePath, fromFilePath, toModulePath, toFilePath to function', () => {
     isDependencyAllowed(
-      'domain:customers',
+      ['domain:customers'],
       'domain:holidays',
       {
         'domain:customers': (context) => {
@@ -115,7 +115,7 @@ describe('check dependency rules', () => {
         ],
       };
       expect(
-        isDependencyAllowed('domain:customers', to, config, dummyContext)
+        isDependencyAllowed(['domain:customers'], to, config, dummyContext)
       ).toBe(isAllowed);
     });
   }
@@ -134,7 +134,7 @@ describe('check dependency rules', () => {
         ],
       };
       expect(
-        isDependencyAllowed('domain:customers', to, config, dummyContext)
+        isDependencyAllowed(['domain:customers'], to, config, dummyContext)
       ).toBe(isAllowed);
     });
   }
@@ -147,8 +147,24 @@ describe('check dependency rules', () => {
 
     expect(
       isDependencyAllowed(
-        'domain:bookings',
+        ['domain:bookings'],
         'domain:customers:api',
+        config,
+        dummyContext
+      )
+    ).toBe(true);
+  });
+
+  it('should have access to a module when of the tags allow it', () => {
+    const config: DependencyRulesConfig = {
+      'domain:*': [({ from, to }) => from === to, 'shared'],
+      'type:feature': ['type:data', 'type:ui'],
+    };
+
+    expect(
+      isDependencyAllowed(
+        ['domain:booking', 'type:feature'],
+        'shared',
         config,
         dummyContext
       )

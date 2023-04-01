@@ -71,29 +71,22 @@ export const violatesDependencyRule = (
         `Checking for from tags of ${fromTags.join(',')} to ${toTags.join(',')}`
       );
 
-      for (const fromTag of fromTags) {
-        let isAllowed = false;
-        for (const toTag of toTags) {
-          if (
-            isDependencyAllowed(fromTag, toTag, config.depRules, {
-              fromModulePath: fromModule,
-              toModulePath: toFsPath(importedModulePath),
-              fromFilePath: filename,
-              toFilePath: toFsPath(importedModulePath),
-            })
-          ) {
-            isAllowed = true;
-          }
-        }
-
-        if (!isAllowed) {
+      for (const toTag of toTags) {
+        if (
+          !isDependencyAllowed(fromTags, toTag, config.depRules, {
+            fromModulePath: fromModule,
+            toModulePath: toFsPath(importedModulePath),
+            fromFilePath: filename,
+            toFilePath: toFsPath(importedModulePath),
+          })
+        ) {
           cache.set(
             rawImport,
             `module ${fromModule.substring(
               rootDir.length
             )} cannot access ${importedModulePath.substring(
               rootDir.length
-            )}. Tag ${fromTag} has no clearance to ${toTags.join(' or ')}`
+            )}. Tags [${fromTags.join(',')}] have no clearance for ${toTag}`
           );
 
           break;

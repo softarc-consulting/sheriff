@@ -6,7 +6,7 @@ export const config: SheriffConfig = {
     'src/app': {
       'shared/{type}': ({ type }) => [`shared:${type}`],
       bookings: ['domain:bookings', 'type:feature'],
-      'customers/api': ['type:api', 'domain:customers', 'domain:customers:api'],
+      'customers/api': ['type:api', 'domain:customers:api'],
       '{domain}/{type}': ({ domain, type }) => [
         `domain:${domain}`,
         `type:${type}`,
@@ -15,7 +15,7 @@ export const config: SheriffConfig = {
   },
   depRules: {
     root: ['type: feature', ({ to }) => to.startsWith('shared:')],
-    'domain:*': ({ from, to }) => from === to || to.startsWith('shared:'),
+    'domain:*': ({ from, to }) => from === to,
     'domain:bookings': 'domain:customers:api',
     'domain:customers:api': 'domain:customers',
     'type:api': ({ to }) => to.startsWith('type:'),

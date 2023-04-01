@@ -21,7 +21,13 @@ export const sheriffConfig: SheriffConfig = {
     },
   },
   depRules: {
-    root: ['app:state', 'app:shell', 'type:feature', 'shared'],
+    root: [
+      'app:state',
+      'app:shell',
+      'type:feature',
+      'shared',
+      ({ to }) => to.startsWith('domain:'),
+    ],
     'domain:*': [({ from, to }) => from === to, 'shared'],
     shared: 'shared',
     'type:feature': ['type:feature', 'type:data', 'type:ui'],
