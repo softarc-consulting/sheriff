@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { FsPath } from '../file-info/fs-path';
 
 describe('calc tags for module', () => {
+  const root = '/project' as FsPath;
   it('should identify root as root', () => {
     const rootDir = '/project' as FsPath;
     const moduleDir = '/project' as FsPath;
@@ -23,6 +24,15 @@ describe('calc tags for module', () => {
         abc: 'domain:abc',
       })
     ).toEqual(['domain:abc']);
+  });
+
+  it('should match directory names with a - and +', () => {
+    const moduleDir = '/project/+feat-booking' as FsPath;
+    expect(
+      calcTagsForModule(moduleDir, root, {
+        '+feat-booking': 'feature:booking',
+      })
+    ).toEqual(['feature:booking']);
   });
 
   it('multiple tags', () => {
@@ -89,6 +99,15 @@ describe('calc tags for module', () => {
         '{domain}': ({ domain }) => `domain:${domain}`,
       })
     ).toEqual(['domain:holidays']);
+  });
+
+  it('should support a full placeholder with directory names - or +', () => {
+    const moduleDir = '/project/+feat-booking' as FsPath;
+    expect(
+      calcTagsForModule(moduleDir, root, {
+        '{path}': 'feature:booking',
+      })
+    ).toEqual(['feature:booking']);
   });
 
   it('should support a partial placeholder', () => {

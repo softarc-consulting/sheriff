@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MyTicketsComponent } from './my-tickets.component';
 import { RouterModule } from '@angular/router';
 import { TicketService } from './ticket.service';
-import { FlightCardComponent } from '../ui-common/flight-card';
+import { FlightCardComponent } from '../ui-common';
 
 // This is for demonstrating the interaction between
 // code that uses NgModules and code that doesn't.
@@ -13,19 +13,15 @@ import { FlightCardComponent } from '../ui-common/flight-card';
     CommonModule,
     FlightCardComponent,
     RouterModule.forChild([
-      { path: 'my-tickets', component: MyTicketsComponent }
-    ])
+      { path: 'my-tickets', component: MyTicketsComponent },
+    ]),
   ],
-  declarations: [
-    MyTicketsComponent
-  ],
+  declarations: [MyTicketsComponent],
   providers: [
     // For demo purposes
     // Please consider using providedIn: 'root' instead
-    TicketService
+    TicketService,
   ],
-  exports: [
-    MyTicketsComponent
-  ]
+  exports: [MyTicketsComponent],
 })
-export class TicketsModule { }
+export class TicketsModule {}
