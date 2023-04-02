@@ -57,7 +57,7 @@ const traverseFilesystem = (
     if (resolvedImport.resolvedModule) {
       const { resolvedFileName } = resolvedImport.resolvedModule;
       if (!resolvedImport.resolvedModule.isExternalLibraryImport) {
-        importPath = toFsPath(resolvedFileName);
+        importPath = fixPathSeparators(resolvedFileName);
         if (!importPath.startsWith(rootDir)) {
           throw new Error(`${importPath} is outside of root ${rootDir}`);
         }
@@ -92,5 +92,15 @@ const traverseFilesystem = (
 
   return fileInfo;
 };
+
+function fixPathSeparators(path: string): FsPath {
+  const fs = getFs();
+
+  if (fs.pathSeparator !== '/') {
+    return toFsPath(path.replace(/\//g, fs.pathSeparator));
+  }
+
+  return toFsPath(path);
+}
 
 export default traverseFilesystem;

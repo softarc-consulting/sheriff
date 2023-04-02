@@ -34,6 +34,8 @@ export abstract class Fs {
   getParent = (fileOrDirectory: FsPath): FsPath =>
     path.dirname(fileOrDirectory) as FsPath;
 
+  pathSeparator = path.sep;
+
   /**
    * Reset the VirtualFs, has no effect on the real `DefaultFs`.
    */
