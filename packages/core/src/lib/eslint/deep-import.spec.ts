@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { FileTree } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { ProjectCreator } from '../test/project-creator';
-import getFs, { useVirtualFs } from '../fs/getFs';
+import getFs, { useVirtualFs } from '../1-fs/getFs';
 import { hasDeepImport } from './deep-import';
 
 describe('deep import', () => {

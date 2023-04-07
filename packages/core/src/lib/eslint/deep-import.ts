@@ -1,9 +1,9 @@
-import { generateFileInfoAndGetRootDir } from '../file-info/generate-file-info-and-get-root-dir';
-import { FsPath, toFsPath } from '../file-info/fs-path';
-import { getProjectDirsFromFileInfo } from '../modules/get-project-dirs-from-file-info';
-import { createModules } from '../modules/create-modules';
-import { findModulePaths } from '../modules/find-module-paths';
-import { getAssignedFileInfoMap } from '../modules/get-assigned-file-info-map';
+import { generateFileInfoAndGetRootDir } from '../2-file-info/generate-file-info-and-get-root-dir';
+import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { getProjectDirsFromFileInfo } from '../3-modules/get-project-dirs-from-file-info';
+import { createModules } from '../3-modules/create-modules';
+import { findModulePaths } from '../3-modules/find-module-paths';
+import { getAssignedFileInfoMap } from '../3-modules/get-assigned-file-info-map';
 import throwIfNull from '../util/throw-if-null';
 
 const deepImportCache = new Map<string, Set<string>>();

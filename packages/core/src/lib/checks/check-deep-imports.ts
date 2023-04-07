@@ -1,5 +1,5 @@
-import { Module } from '../modules/module';
-import { AssignedFileInfo } from '../modules/assigned-file.info';
+import { Module } from '../3-modules/module';
+import { AssignedFileInfo } from '../3-modules/assigned-file.info';
 import throwIfNull from '../util/throw-if-null';
 
 export type DeepImport = {

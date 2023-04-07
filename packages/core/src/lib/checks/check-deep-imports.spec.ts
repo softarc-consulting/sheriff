@@ -1,10 +1,10 @@
-import { buildFileInfo } from '../file-info/file-info';
+import { buildFileInfo } from '../2-file-info/file-info';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { createModules } from '../modules/create-modules';
+import { createModules } from '../3-modules/create-modules';
 import { checkDeepImports } from './check-deep-imports';
 import { findAssignedFileInfo } from '../test/find-assigned-file-info';
-import getFs, { useVirtualFs } from '../fs/getFs';
-import { toFsPath } from '../file-info/fs-path';
+import getFs, { useVirtualFs } from '../1-fs/getFs';
+import { toFsPath } from '../2-file-info/fs-path';
 
 describe('check deep imports', () => {
   beforeAll(() => {

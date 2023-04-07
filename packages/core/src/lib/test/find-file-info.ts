@@ -1,5 +1,5 @@
-import FileInfo from '../file-info/file-info';
-import traverseFileInfo from '../file-info/traverse-file-info';
+import FileInfo from '../2-file-info/file-info';
+import traverseFileInfo from '../2-file-info/traverse-file-info';
 
 export default (fi: FileInfo, path: string): FileInfo | undefined => {
   for (const { fileInfo } of traverseFileInfo(fi)) {

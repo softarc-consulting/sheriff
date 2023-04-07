@@ -1,5 +1,5 @@
-import { AssignedFileInfo } from '../modules/assigned-file.info';
-import { Module } from '../modules/module';
+import { AssignedFileInfo } from '../3-modules/assigned-file.info';
+import { Module } from '../3-modules/module';
 
 export const findAssignedFileInfo = (
   moduleInfos: Module[],

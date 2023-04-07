@@ -1,7 +1,7 @@
 import {
   DependencyCheckContext,
   DependencyRulesConfig,
-} from '../config/dependency-rules-config';
+} from '../4-config/dependency-rules-config';
 import { wildcardToRegex } from '../util/wildcard-to-regex';
 
 export const isDependencyAllowed = (

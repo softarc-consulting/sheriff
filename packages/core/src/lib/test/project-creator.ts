@@ -1,8 +1,8 @@
 import { FileTree } from './project-configurator';
 import { EOL } from 'os';
 import * as crypto from 'crypto';
-import getFs from '../fs/getFs';
-import { toFsPath } from '../file-info/fs-path';
+import getFs from '../1-fs/getFs';
+import { toFsPath } from '../2-file-info/fs-path';
 
 export class ProjectCreator {
   fs = getFs();

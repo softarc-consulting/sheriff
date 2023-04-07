@@ -1,5 +1,5 @@
 import { expect } from 'vitest';
-import { FsPath } from '../file-info/fs-path';
+import { FsPath } from '../2-file-info/fs-path';
 import { inVfs } from './in-vfs';
 
 expect.extend({
