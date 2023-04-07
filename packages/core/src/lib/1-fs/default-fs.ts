@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { Fs } from './fs';
-import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { FsPath, assertFsPath } from '../2-file-info/fs-path';
 
 export class DefaultFs extends Fs {
   writeFile = (filename: string, contents: string): void =>
@@ -36,10 +36,10 @@ export class DefaultFs extends Fs {
     referencePath = referencePath || directory;
 
     for (const file of files) {
-      const filePath = toFsPath(path.join(directory, file));
+      const filePath = assertFsPath(path.join(directory, file));
       const info = fs.lstatSync(filePath);
       if (info.isFile() && file.toLowerCase() === filename.toLowerCase()) {
-        found.push(toFsPath(filePath));
+        found.push(assertFsPath(filePath));
       }
       if (info.isDirectory()) {
         this.findFiles(filePath, filename, found, referencePath);
@@ -63,29 +63,39 @@ export class DefaultFs extends Fs {
           const info = fs.lstatSync(filePath);
 
           if (info.isFile() && file === filename) {
-            return toFsPath(filePath);
+            return assertFsPath(filePath);
           }
         }
-      }
-      catch (e: unknown) {
-        if (!(e instanceof Error && e.message.startsWith("EPERM: operation not permitted"))) {
-          throw new Error(`encountered unkowno error while reading from ${current}`);
+      } catch (e: unknown) {
+        if (
+          !(
+            e instanceof Error &&
+            e.message.startsWith('EPERM: operation not permitted')
+          )
+        ) {
+          throw new Error(
+            `encountered unkowno error while reading from ${current}`
+          );
         }
       }
 
-        const parent = path.dirname(current);
-        if (parent === current) {
-          break;
-        }
-        current = parent;
+      const parent = path.dirname(current);
+      if (parent === current) {
+        break;
+      }
+      current = parent;
     }
 
     throw new Error(`cannot find ${filename} near ${referenceFile}`);
   };
 
-  isAbsolute = (p: string) => path.isAbsolute(p);
+  override isAbsolute = (p: string) => path.isAbsolute(p);
 
   override split = (p: string) => p.split(path.sep);
+
+  override join(...paths: string[]): string {
+    return path.join(...paths);
+  }
 
   print = () => void true;
 }

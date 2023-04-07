@@ -1,7 +1,7 @@
 import { DefaultFs } from './default-fs';
 import { describe, expect, it } from 'vitest';
 import * as path from 'path';
-import { toFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../2-file-info/fs-path';
 
 describe('Default Fs', () => {
   const fs = new DefaultFs();
@@ -9,7 +9,7 @@ describe('Default Fs', () => {
   describe('find files', () => {
     it('should find the index.ts in project directory test1', () => {
       const found = fs.findFiles(
-        toFsPath(path.join(__dirname, './find-files/test1')),
+        assertFsPath(path.join(__dirname, './find-files/test1')),
         'index.ts'
       );
       expect(found).toEqual([
@@ -19,7 +19,7 @@ describe('Default Fs', () => {
 
     it('should be case insensitive', () => {
       const found = fs.findFiles(
-        toFsPath(path.join(__dirname, './find-files/test1')),
+        assertFsPath(path.join(__dirname, './find-files/test1')),
         'INDEX.ts'
       );
       expect(found).toEqual([
@@ -29,7 +29,7 @@ describe('Default Fs', () => {
 
     it('should find the index.ts in sub directory', () => {
       const found = fs.findFiles(
-        toFsPath(path.join(__dirname, './find-files/test2')),
+        assertFsPath(path.join(__dirname, './find-files/test2')),
         'index.ts'
       );
       expect(found).toEqual([
@@ -39,7 +39,7 @@ describe('Default Fs', () => {
 
     it('should find multiple index.ts recursively', () => {
       const found = fs.findFiles(
-        toFsPath(path.join(__dirname, './find-files/test3')),
+        assertFsPath(path.join(__dirname, './find-files/test3')),
         'index.ts'
       );
       expect(found).toEqual(
@@ -54,7 +54,7 @@ describe('Default Fs', () => {
 
     it('should find none if not in directory', () => {
       const found = fs.findFiles(
-        toFsPath(path.join(__dirname, './find-files/test4')),
+        assertFsPath(path.join(__dirname, './find-files/test4')),
         'index.ts'
       );
       expect(found).toEqual([]);
@@ -64,7 +64,7 @@ describe('Default Fs', () => {
   describe('findNearest', () => {
     it('should find in second parent', () => {
       const found = fs.findNearestParentFile(
-        toFsPath(
+        assertFsPath(
           path.join(
             __dirname,
             './find-nearest/test1/customers/admin/core/feature/index.ts'
@@ -79,7 +79,7 @@ describe('Default Fs', () => {
 
     it('should stop at the first parent', () => {
       const found = fs.findNearestParentFile(
-        toFsPath(
+        assertFsPath(
           path.join(
             __dirname,
             './find-nearest/test2/customers/admin/core/feature/index.ts'
@@ -98,7 +98,7 @@ describe('Default Fs', () => {
     it('should throw an error if not found', () => {
       expect(() =>
         fs.findNearestParentFile(
-          toFsPath(
+          assertFsPath(
             path.join(
               __dirname,
               './find-nearest/test2/customers/admin/core/feature/index.ts'

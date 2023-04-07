@@ -5,7 +5,7 @@ import { Module } from './module';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../1-fs/getFs';
-import { toFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../2-file-info/fs-path';
 
 type TestParameter = {
   name: string;
@@ -197,8 +197,8 @@ describe('create module infos', () => {
       modulePaths.forEach((modulePath) => getFs().writeFile(modulePath, ''));
       const moduleInfos = createModules(
         fileInfo,
-        new Set(modulePaths.map(toFsPath)),
-        toFsPath('/')
+        new Set(modulePaths.map(assertFsPath)),
+        assertFsPath('/')
       );
 
       expect(moduleInfos).toEqual(
@@ -209,7 +209,7 @@ describe('create module infos', () => {
               `${fip} does not exist in passed FileInfo`
             )
           );
-          const moduleInfo = new Module(toFsPath(mi.path));
+          const moduleInfo = new Module(assertFsPath(mi.path));
           for (const fi of fileInfos) {
             moduleInfo.assignFileInfo(fi);
           }

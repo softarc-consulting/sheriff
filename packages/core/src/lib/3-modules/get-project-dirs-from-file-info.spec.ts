@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import getFs, { useVirtualFs } from '../1-fs/getFs';
 import FileInfo, { buildFileInfo } from '../2-file-info/file-info';
 import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
-import { toFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../2-file-info/fs-path';
 
 export type TestParam = {
   name: string;
@@ -88,7 +88,7 @@ describe('get project dirs from file info', () => {
       const param = paramSupplier();
       const projectDirs = getProjectDirsFromFileInfo(
         param.fileInfo,
-        toFsPath(param.rootDir)
+        assertFsPath(param.rootDir)
       );
       expect(projectDirs).toEqual(param.projectDirs);
     }
@@ -99,7 +99,7 @@ describe('get project dirs from file info', () => {
       '/customers/customer.component.ts',
     ]);
     expect(() =>
-      getProjectDirsFromFileInfo(fileInfo, toFsPath('/project'))
+      getProjectDirsFromFileInfo(fileInfo, assertFsPath('/project'))
     ).toThrowError(
       '/customers/customer.component.ts is outside of root directory: /project'
     );

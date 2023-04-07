@@ -10,7 +10,7 @@ export abstract class Fs {
 
   abstract tmpdir: () => string;
 
-  join = (...paths: string[]) => path.join(...paths);
+  abstract join(...paths: string[]): string;
 
   abstract cwd: () => string;
 
@@ -28,8 +28,6 @@ export abstract class Fs {
     referenceFile: FsPath,
     filename: string
   ) => FsPath;
-
-  relativeTo = (from: string, to: string) => path.relative(from, to);
 
   getParent = (fileOrDirectory: FsPath): FsPath =>
     path.dirname(fileOrDirectory) as FsPath;

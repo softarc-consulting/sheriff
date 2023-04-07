@@ -1,5 +1,5 @@
 import { generateFileInfoAndGetRootDir } from '../2-file-info/generate-file-info-and-get-root-dir';
-import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { FsPath, assertFsPath } from '../2-file-info/fs-path';
 import { getProjectDirsFromFileInfo } from '../3-modules/get-project-dirs-from-file-info';
 import { createModules } from '../3-modules/create-modules';
 import { findModulePaths } from '../3-modules/find-module-paths';
@@ -23,7 +23,7 @@ export const violatesDependencyRule = (
   }
   if (!cache.has(importCommand)) {
     const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
-      toFsPath(filename),
+      assertFsPath(filename),
       true
     );
     const configFile = findConfig(rootDir);
@@ -51,8 +51,8 @@ export const violatesDependencyRule = (
         iafi.moduleInfo.directory,
         assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
       ]);
-    const fromModule = toFsPath(
-      getAfi(toFsPath(filename)).moduleInfo.directory
+    const fromModule = assertFsPath(
+      getAfi(assertFsPath(filename)).moduleInfo.directory
     );
     const fromTags = calcTagsForModule(fromModule, rootDir, config.tagging);
 
@@ -61,7 +61,7 @@ export const violatesDependencyRule = (
       rawImport,
     ] of importedModulePathsWithRawImport) {
       const toTags: string[] = calcTagsForModule(
-        toFsPath(importedModulePath),
+        assertFsPath(importedModulePath),
         rootDir,
         config.tagging
       );
@@ -75,9 +75,9 @@ export const violatesDependencyRule = (
         if (
           !isDependencyAllowed(fromTags, toTag, config.depRules, {
             fromModulePath: fromModule,
-            toModulePath: toFsPath(importedModulePath),
+            toModulePath: assertFsPath(importedModulePath),
             fromFilePath: filename,
-            toFilePath: toFsPath(importedModulePath),
+            toFilePath: assertFsPath(importedModulePath),
           })
         ) {
           cache.set(

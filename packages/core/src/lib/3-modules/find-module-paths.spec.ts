@@ -6,7 +6,7 @@ import { ProjectCreator } from '../test/project-creator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
 import { findModulePaths } from './find-module-paths';
-import { toFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../2-file-info/fs-path';
 
 const angularStructure: FileTree = {
   'tsconfig.json': tsconfigMinimal,
@@ -37,7 +37,7 @@ describe('should find two modules', () => {
   it('should find two submodules src', () => {
     creator.create(angularStructure, 'integration');
     const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
-      toFsPath('/project/integration/src/app/app.component.ts')
+      assertFsPath('/project/integration/src/app/app.component.ts')
     );
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
     const modules = findModulePaths(projectDirs);

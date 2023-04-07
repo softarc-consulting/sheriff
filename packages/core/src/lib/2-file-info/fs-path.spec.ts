@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import getFs, { useDefaultFs, useVirtualFs } from '../1-fs/getFs';
 import { Fs } from '../1-fs/fs';
-import { isFsPath, toFsPath } from './fs-path';
+import { isFsPath, assertFsPath, toFsPath } from './fs-path';
 
 describe('FsPath', () => {
   describe('VirtualFs', () => {
@@ -16,11 +16,11 @@ describe('FsPath', () => {
     });
 
     it('should fail if path is not absolute', () => {
-      expect(() => toFsPath('index.ts')).toThrowError('not absolute');
+      expect(() => assertFsPath('index.ts')).toThrowError('not absolute');
     });
 
     it('should fail if path does not exist', () => {
-      expect(() => toFsPath('/index.ts')).toThrowError(
+      expect(() => assertFsPath('/index.ts')).toThrowError(
         '/index.ts does not exist'
       );
     });
@@ -31,6 +31,15 @@ describe('FsPath', () => {
 
     it('should return false on check for non-existing file', () => {
       expect(isFsPath('/index.ts')).toBe(false);
+    });
+
+    it.each([
+      ['c:\\app\\src\\main.ts', '/c/app/src/main.ts'],
+      ['a:\\app.ts', '/a/app.ts'],
+      ['/project/main.ts', '/project/main.ts'],
+    ])('should map %s to %s', (from, to) => {
+      getFs().writeFile(to, '');
+      expect(toFsPath(from)).toBe(to);
     });
   });
 

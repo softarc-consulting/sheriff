@@ -1,7 +1,7 @@
 import FileInfo from '../2-file-info/file-info';
 import getFs from '../1-fs/getFs';
 import traverseFileInfo from '../2-file-info/traverse-file-info';
-import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { FsPath, assertFsPath } from '../2-file-info/fs-path';
 import { log } from '../util/log';
 
 export const getProjectDirsFromFileInfo = (
@@ -25,7 +25,7 @@ export const getProjectDirsFromFileInfo = (
     const parts = fs.split(path);
     const projectDirPart = parts[rootDirPartsLength];
     const projectDir = fs.join(rootDir, projectDirPart);
-    projectDirs.add(toFsPath(projectDir));
+    projectDirs.add(assertFsPath(projectDir));
   }
 
   log('Project Directories', Array.from(projectDirs).join(', '));

@@ -1,7 +1,7 @@
-import * as path from 'path';
 import { Fs } from './fs';
 import throwIfNull from '../util/throw-if-null';
-import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { FsPath, assertFsPath } from '../2-file-info/fs-path';
+import * as path from 'path';
 
 type FsNodeType = 'file' | 'directory';
 
@@ -247,7 +247,7 @@ export class VirtualFs extends Fs {
       current = current.parent;
     }
 
-    return toFsPath('/' + paths.reverse().join('/'));
+    return assertFsPath('/' + paths.reverse().join('/'));
   };
 
   print = (node?: FsNode, indent = 0): void => {
@@ -275,6 +275,10 @@ export class VirtualFs extends Fs {
 
   override split(path: string): string[] {
     return path.split('/');
+  }
+
+  override join(...paths: string[]): string {
+    return path.join(...paths).replace(/\\/g, '/');
   }
 }
 

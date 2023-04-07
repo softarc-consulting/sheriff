@@ -2,7 +2,7 @@ import FileInfo from './file-info';
 import getFs from '../1-fs/getFs';
 import * as ts from 'typescript';
 import TsData from './ts-data';
-import { FsPath, toFsPath } from './fs-path';
+import { FsPath, assertFsPath } from './fs-path';
 
 // https://stackoverflow.com/questions/71815527/typescript-compiler-apihow-to-get-absolute-path-to-source-file-of-import-module
 /**
@@ -97,10 +97,10 @@ function fixPathSeparators(path: string): FsPath {
   const fs = getFs();
 
   if (fs.pathSeparator !== '/') {
-    return toFsPath(path.replace(/\//g, fs.pathSeparator));
+    return assertFsPath(path.replace(/\//g, fs.pathSeparator));
   }
 
-  return toFsPath(path);
+  return assertFsPath(path);
 }
 
 export default traverseFilesystem;

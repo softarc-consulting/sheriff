@@ -2,7 +2,7 @@ import FileInfo from './file-info';
 import { generateTsData } from './generate-ts-data';
 import traverseFilesystem from './traverse-filesystem';
 import getFs from '../1-fs/getFs';
-import { FsPath, toFsPath } from './fs-path';
+import { FsPath, assertFsPath } from './fs-path';
 import { log } from '../util/log';
 import { formatFileInfo } from './format-file-info';
 
@@ -16,7 +16,7 @@ export const generateFileInfoAndGetRootDir = (
   runOnce = false
 ): { fileInfo: FileInfo; rootDir: FsPath } => {
   const fs = getFs();
-  const tsConfigPath = toFsPath(
+  const tsConfigPath = assertFsPath(
     fs.findNearestParentFile(fsPath, 'tsconfig.json')
   );
   const fileInfoDict = new Map<FsPath, FileInfo>();

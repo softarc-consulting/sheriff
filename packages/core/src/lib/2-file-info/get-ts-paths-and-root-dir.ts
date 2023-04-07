@@ -1,6 +1,6 @@
 import getFs from '../1-fs/getFs';
 import * as ts from 'typescript';
-import { FsPath, toFsPath } from './fs-path';
+import { FsPath, assertFsPath } from './fs-path';
 
 /**
  * Retrieves the paths variable from a tsconfig and also traverses through
@@ -27,11 +27,11 @@ export const getTsPathsAndRootDir = (
       configContent.config.compilerOptions.paths || {};
     currentTsConfigDir = fs.getParent(currentTsConfigPath);
     for (const [key, value] of Object.entries(newPaths)) {
-      paths[key] = toFsPath(fs.join(currentTsConfigDir, value[0]));
+      paths[key] = assertFsPath(fs.join(currentTsConfigDir, value[0]));
     }
 
     if (configContent.config.extends) {
-      currentTsConfigPath = toFsPath(
+      currentTsConfigPath = assertFsPath(
         fs.join(fs.getParent(currentTsConfigPath), configContent.config.extends)
       );
     } else {

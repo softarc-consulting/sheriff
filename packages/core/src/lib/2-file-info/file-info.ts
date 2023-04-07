@@ -1,6 +1,7 @@
-import { FsPath, toFsPath } from './fs-path';
+import { FsPath, assertFsPath } from './fs-path';
 import throwIfNull from '../util/throw-if-null';
 import getFs from '../1-fs/getFs';
+import * as nodePath from 'path';
 
 export default class FileInfo {
   #rawImportMap = new Map<string, string>();
@@ -61,9 +62,9 @@ export const buildFileInfo = (
   });
 
   fs.writeFile(path, '');
-  const fileInfo = new FileInfo(toFsPath(path));
+  const fileInfo = new FileInfo(assertFsPath(path));
   for (const child of children) {
-    fileInfo.addImport(child, fs.relativeTo(fileInfo.path, child.path));
+    fileInfo.addImport(child, nodePath.relative(fileInfo.path, child.path));
   }
   return fileInfo;
 };

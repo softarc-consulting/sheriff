@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { VirtualFs } from './virtual-fs';
 import { inVfs } from '../test/in-vfs';
-import { toFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../2-file-info/fs-path';
 import getFs, { useVirtualFs } from './getFs';
 import '../test/matchers';
 
@@ -151,13 +151,13 @@ describe('Virtual Fs', () => {
   describe('search', () => {
     it('should find the index.ts in project directory', () => {
       fs.writeFile('index.ts', 'hello');
-      const found = fs.findFiles(toFsPath('/project'), 'index.ts');
+      const found = fs.findFiles(assertFsPath('/project'), 'index.ts');
       expect(found).toBeVfsFiles(['index.ts']);
     });
 
     it('should be case insensitive', () => {
       fs.writeFile('index.ts', 'hello');
-      const found = fs.findFiles(toFsPath('/project'), 'INDEX.ts');
+      const found = fs.findFiles(assertFsPath('/project'), 'INDEX.ts');
       expect(found).toBeVfsFiles(['index.ts']);
     });
 
@@ -166,13 +166,13 @@ describe('Virtual Fs', () => {
       fs.writeFile('index', 'hello');
       fs.writeFile('main.ts', 'hello');
       expect(() =>
-        fs.findFiles(toFsPath('/project/index.ts'), 'INDEX.ts')
+        fs.findFiles(assertFsPath('/project/index.ts'), 'INDEX.ts')
       ).toThrowError('index.ts is not a directory');
     });
 
     it('should find the index.ts in sub directory', () => {
       fs.writeFile('customers/index.ts', 'hello');
-      const found = fs.findFiles(toFsPath('/project'), 'index.ts');
+      const found = fs.findFiles(assertFsPath('/project'), 'index.ts');
       expect(found).toBeVfsFiles(['customers/index.ts']);
     });
 
@@ -181,7 +181,7 @@ describe('Virtual Fs', () => {
       fs.writeFile('holidays/index.ts', 'hello');
       fs.writeFile('admin/booking/data/index.ts', 'hello');
       fs.writeFile('admin/booking/feature/index.ts', 'hello');
-      const found = fs.findFiles(toFsPath('/project'), 'index.ts');
+      const found = fs.findFiles(assertFsPath('/project'), 'index.ts');
       expect(found).toBeVfsFiles([
         'customers/index.ts',
         'holidays/index.ts',
@@ -194,7 +194,7 @@ describe('Virtual Fs', () => {
       fs.createDir('shop');
       fs.writeFile('customers/index.ts', 'hello');
       fs.writeFile('holidays/index.ts', 'hello');
-      const found = fs.findFiles(toFsPath('/project/shop'), 'index.ts');
+      const found = fs.findFiles(assertFsPath('/project/shop'), 'index.ts');
       expect(found).toEqual([]);
     });
   });
@@ -238,12 +238,4 @@ describe('Virtual Fs', () => {
       expect(found).toBeVfsFile('customers/admin/core/feature/tsconfig.json');
     });
   });
-
-  for (const [path, solution] of [
-    ['/project/index.ts', 'index.ts'],
-    ['/project/customers/app', 'customers/app'],
-  ]) {
-    it(`should resolve ${path} to ${solution}`, () =>
-      expect(fs.relativeTo('/project', path)).toBe(solution));
-  }
 });

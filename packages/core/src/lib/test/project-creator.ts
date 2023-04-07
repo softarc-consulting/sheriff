@@ -2,7 +2,7 @@ import { FileTree } from './project-configurator';
 import { EOL } from 'os';
 import * as crypto from 'crypto';
 import getFs from '../1-fs/getFs';
-import { toFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../2-file-info/fs-path';
 
 export class ProjectCreator {
   fs = getFs();
@@ -14,7 +14,7 @@ export class ProjectCreator {
         crypto.randomUUID()
       );
     } else if (this.fs.exists(testDirName)) {
-      this.fs.removeDir(toFsPath(testDirName));
+      this.fs.removeDir(assertFsPath(testDirName));
     }
 
     this.fs.createDir(testDirName);
