@@ -55,22 +55,29 @@ export class DefaultFs extends Fs {
   findNearestParentFile = (referenceFile: FsPath, filename: string): FsPath => {
     let current = path.dirname(referenceFile);
     while (current) {
-      const files = fs.readdirSync(current);
+      try {
+        const files = fs.readdirSync(current);
 
-      for (const file of files) {
-        const filePath = path.join(current, file);
-        const info = fs.lstatSync(filePath);
+        for (const file of files) {
+          const filePath = path.join(current, file);
+          const info = fs.lstatSync(filePath);
 
-        if (info.isFile() && file === filename) {
-          return toFsPath(filePath);
+          if (info.isFile() && file === filename) {
+            return toFsPath(filePath);
+          }
+        }
+      }
+      catch (e: unknown) {
+        if (!(e instanceof Error && e.message.startsWith("EPERM: operation not permitted"))) {
+          throw new Error(`encountered unkowno error while reading from ${current}`);
         }
       }
 
-      const parent = path.dirname(current);
-      if (parent === current) {
-        break;
-      }
-      current = parent;
+        const parent = path.dirname(current);
+        if (parent === current) {
+          break;
+        }
+        current = parent;
     }
 
     throw new Error(`cannot find ${filename} near ${referenceFile}`);
