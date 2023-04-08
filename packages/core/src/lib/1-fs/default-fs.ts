@@ -2,7 +2,8 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { Fs } from './fs';
-import { FsPath, assertFsPath } from '../2-file-info/fs-path';
+import { assertFsPath, FsPath } from '../2-file-info/fs-path';
+import throwIfNull from '../util/throw-if-null';
 
 export class DefaultFs extends Fs {
   writeFile = (filename: string, contents: string): void =>
