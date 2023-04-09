@@ -1,5 +1,9 @@
 import getFs from '../1-fs/getFs';
 import { assertUnreachableCode } from '../util/assert-unreachable-code';
+import {
+  checkForPotentialFsPath,
+  PotentialFsPath,
+} from '../1-fs/potential-fs-path';
 
 /**
  * Domain Type representing an absolute and existing file
@@ -8,7 +12,7 @@ import { assertUnreachableCode } from '../util/assert-unreachable-code';
  * The window path of c:\app\src\main.ts, would have
  * the value /c/app/src/main.ts
  */
-export type FsPath = string & { type: 'FsPath' };
+export type FsPath = PotentialFsPath & { type: 'FsPath' };
 
 /**
  * Main Check function which is used by `isFsPath` and `toFsPath`.
@@ -22,14 +26,13 @@ const checkPath = (
     return 'valid';
   }
 
+  const potentialFsPathCheck = checkForPotentialFsPath(path);
+  if (potentialFsPathCheck !== 'valid') {
+    return potentialFsPathCheck;
+  }
+
   const fs = getFs();
-  if (path.includes('\\')) {
-    return 'invalid characters';
-  }
-  if (!path.startsWith('/')) {
-    return 'not absolute';
-  }
-  if (!fs.exists(path)) {
+  if (!fs.exists(path as PotentialFsPath)) {
     return 'not existing';
   }
 

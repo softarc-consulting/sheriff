@@ -1,16 +1,17 @@
 import * as path from 'path';
 import type { FsPath } from '../2-file-info/fs-path';
+import { PotentialFsPath } from './potential-fs-path';
 
 export abstract class Fs {
-  abstract writeFile: (filename: string, contents: string) => void;
+  abstract writeFile: (filename: PotentialFsPath, contents: string) => void;
   abstract readFile: (path: FsPath) => string;
   abstract removeDir: (path: FsPath) => void;
-  abstract createDir: (path: string) => void;
-  abstract exists(path: string): path is FsPath;
+  abstract createDir: (path: PotentialFsPath) => void;
+  abstract exists(path: PotentialFsPath): path is FsPath;
 
-  abstract tmpdir: () => string;
+  abstract tmpdir: () => FsPath;
 
-  abstract join(...paths: string[]): string;
+  abstract join(...paths: string[]): PotentialFsPath;
 
   abstract cwd: () => string;
 
@@ -39,7 +40,7 @@ export abstract class Fs {
    */
   abstract reset(): void;
 
-  abstract split(path: string): string[];
+  abstract split(path: PotentialFsPath): string[];
 
-  abstract isAbsolute(path: string): boolean;
+  abstract isAbsolute(path: PotentialFsPath): boolean;
 }

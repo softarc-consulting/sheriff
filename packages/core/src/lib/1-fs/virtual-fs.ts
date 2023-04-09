@@ -1,7 +1,8 @@
 import { Fs } from './fs';
 import throwIfNull from '../util/throw-if-null';
-import { FsPath, assertFsPath } from '../2-file-info/fs-path';
+import { FsPath, toFsPath } from '../2-file-info/fs-path';
 import * as path from 'path';
+import { PotentialFsPath, toPotentialFsPath } from './potential-fs-path';
 
 type FsNodeType = 'file' | 'directory';
 
@@ -115,7 +116,7 @@ export class VirtualFs extends Fs {
     result.parent.children.delete(result.nodeName);
   };
 
-  tmpdir = () => '/tmp';
+  tmpdir = () => toFsPath('/tmp');
 
   findNearestParentFile = (referenceFile: FsPath, filename: string): FsPath => {
     const { node } = this.#getNodeOrThrow(referenceFile);
@@ -247,7 +248,7 @@ export class VirtualFs extends Fs {
       current = current.parent;
     }
 
-    return assertFsPath('/' + paths.reverse().join('/'));
+    return toFsPath('/' + paths.reverse().join('/'));
   };
 
   print = (node?: FsNode, indent = 0): void => {
@@ -277,8 +278,8 @@ export class VirtualFs extends Fs {
     return path.split('/');
   }
 
-  override join(...paths: string[]): string {
-    return path.join(...paths).replace(/\\/g, '/');
+  override join(...paths: string[]): PotentialFsPath {
+    return toPotentialFsPath(path.join(...paths).replace(/\\/g, '/'));
   }
 }
 

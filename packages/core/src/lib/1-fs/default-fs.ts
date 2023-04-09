@@ -2,31 +2,33 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { Fs } from './fs';
-import {assertFsPath, FsPath, toFsPath} from '../2-file-info/fs-path';
-import throwIfNull from '../util/throw-if-null';
-import {toOsPath} from "./to-os-path";
+import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { toOsPath } from './to-os-path';
+import { PotentialFsPath, toPotentialFsPath } from './potential-fs-path';
 
 export class DefaultFs extends Fs {
-  writeFile = (filename: string, contents: string): void =>
+  override writeFile = (filename: string, contents: string): void =>
     fs.writeFileSync(filename, contents);
 
-  readFile = (path: string): string => fs.readFileSync(path).toString();
+  override readFile = (path: string): string =>
+    fs.readFileSync(path).toString();
 
-  removeDir = (path: string) => fs.rmSync(path, { recursive: true });
+  override removeDir = (path: FsPath) =>
+    fs.rmSync(toOsPath(path), { recursive: true });
 
-  createDir = (path: string) => {
+  override createDir = (path: string) => {
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path, { recursive: true });
     }
   };
 
-  override exists(path: string): path is FsPath {
+  override exists(path: PotentialFsPath): path is FsPath {
     return fs.existsSync(toOsPath(path as FsPath));
   }
 
-  tmpdir = () => os.tmpdir();
+  override tmpdir = () => toFsPath(os.tmpdir());
 
-  cwd = () => process.cwd();
+  override cwd = () => process.cwd();
 
   override findFiles = (
     directory: FsPath,
@@ -50,11 +52,14 @@ export class DefaultFs extends Fs {
     return found;
   };
 
-  reset(): void {
+  override reset(): void {
     return void true;
   }
 
-  findNearestParentFile = (referenceFile: FsPath, filename: string): FsPath => {
+  override findNearestParentFile = (
+    referenceFile: FsPath,
+    filename: string
+  ): FsPath => {
     let current = path.dirname(toOsPath(referenceFile));
     while (current) {
       try {
@@ -72,7 +77,8 @@ export class DefaultFs extends Fs {
         if (
           !(
             e instanceof Error &&
-            (e.message.startsWith('EPERM: operation not permitted') || e.message.startsWith('EBUSY'))
+            (e.message.startsWith('EPERM: operation not permitted') ||
+              e.message.startsWith('EBUSY'))
           )
         ) {
           throw new Error(
@@ -95,11 +101,11 @@ export class DefaultFs extends Fs {
 
   override split = (p: string) => p.split(path.sep);
 
-  override join(...paths: string[]): string {
-    return path.join(...paths);
+  override join(...paths: string[]): PotentialFsPath {
+    return toPotentialFsPath(path.join(...paths));
   }
 
-  print = () => void true;
+  override print = () => void true;
 }
 
 const defaultFs = new DefaultFs();

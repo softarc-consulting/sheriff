@@ -1,7 +1,8 @@
 import { DefaultFs } from './default-fs';
 import { describe, expect, it } from 'vitest';
 import * as path from 'path';
-import {assertFsPath, toFsPath} from '../2-file-info/fs-path';
+import { toFsPath } from '../2-file-info/fs-path';
+import { toPotentialFsPath } from './potential-fs-path';
 
 describe('Default Fs', () => {
   const fs = new DefaultFs();
@@ -23,7 +24,7 @@ describe('Default Fs', () => {
         'INDEX.ts'
       );
       expect(found).toEqual([
-        toFsPath(path.join(__dirname, 'find-files/test1/', 'index.ts'))
+        toFsPath(path.join(__dirname, 'find-files/test1/', 'index.ts')),
       ]);
     });
 
@@ -33,7 +34,9 @@ describe('Default Fs', () => {
         'index.ts'
       );
       expect(found).toEqual([
-        toFsPath(path.join(__dirname, 'find-files/test2', 'customers/index.ts')),
+        toFsPath(
+          path.join(__dirname, 'find-files/test2', 'customers/index.ts')
+        ),
       ]);
     });
 
@@ -48,7 +51,9 @@ describe('Default Fs', () => {
           'admin/booking/feature/index.ts',
           'customers/index.ts',
           'holidays/index.ts',
-        ].map((s) => path.join(__dirname, 'find-files/test3', s)).map(toFsPath)
+        ]
+          .map((s) => path.join(__dirname, 'find-files/test3', s))
+          .map(toFsPath)
       );
     });
 
@@ -73,7 +78,9 @@ describe('Default Fs', () => {
         'tsconfig.json'
       );
       expect(found).toBe(
-        toFsPath(path.join(__dirname, './find-nearest/test1/customers/tsconfig.json'))
+        toFsPath(
+          path.join(__dirname, './find-nearest/test1/customers/tsconfig.json')
+        )
       );
     });
 
@@ -88,10 +95,12 @@ describe('Default Fs', () => {
         'tsconfig.json'
       );
       expect(found).toBe(
-        toFsPath(path.join(
-          __dirname,
-          './find-nearest/test2/customers/admin/core/tsconfig.json'
-        ))
+        toFsPath(
+          path.join(
+            __dirname,
+            './find-nearest/test2/customers/admin/core/tsconfig.json'
+          )
+        )
       );
     });
 
@@ -108,5 +117,27 @@ describe('Default Fs', () => {
         )
       ).toThrowError('cannot find a file that does not exist');
     });
+  });
+
+  it('should test basic file I/O operations', () => {
+    const tmpdir = fs.tmpdir();
+    const filename = path.join(`${tmpdir}${fs.pathSeparator}dummy.txt`);
+    fs.writeFile(filename, 'This is some dummy text');
+    expect(fs.readFile(filename)).toBe('This is some dummy text');
+  });
+
+  it('should not run in tmpdir', () => {
+    expect(fs.tmpdir()).not.toBe(fs.cwd());
+  });
+
+  it('should do basic directory I/O operations', () => {
+    const tmpdir = fs.tmpdir();
+    const dirname = toPotentialFsPath(
+      path.join(`${tmpdir}${fs.pathSeparator}dummy-test`)
+    );
+    fs.createDir(dirname);
+    expect(fs.exists(dirname)).toBe(true);
+    fs.removeDir(toFsPath(dirname));
+    expect(fs.exists(dirname)).toBe(false);
   });
 });
