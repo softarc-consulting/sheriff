@@ -16,14 +16,15 @@ export class DefaultFs extends Fs {
   override removeDir = (path: FsPath) =>
     fs.rmSync(toOsPath(path), { recursive: true });
 
-  override createDir = (path: string) => {
-    if (!fs.existsSync(path)) {
-      fs.mkdirSync(path, { recursive: true });
+  override createDir = (path: PotentialFsPath) => {
+    const osPath = toOsPath(path);
+    if (!fs.existsSync(osPath)) {
+      fs.mkdirSync(osPath, { recursive: true });
     }
   };
 
   override exists(path: PotentialFsPath): path is FsPath {
-    return fs.existsSync(toOsPath(path as FsPath));
+    return fs.existsSync(toOsPath(path));
   }
 
   override tmpdir = () => toFsPath(os.tmpdir());
