@@ -2,8 +2,9 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { Fs } from './fs';
-import { assertFsPath, FsPath } from '../2-file-info/fs-path';
+import {assertFsPath, FsPath, toFsPath} from '../2-file-info/fs-path';
 import throwIfNull from '../util/throw-if-null';
+import {toOsPath} from "./to-os-path";
 
 export class DefaultFs extends Fs {
   writeFile = (filename: string, contents: string): void =>
@@ -20,7 +21,7 @@ export class DefaultFs extends Fs {
   };
 
   override exists(path: string): path is FsPath {
-    return fs.existsSync(path);
+    return fs.existsSync(toOsPath(path as FsPath));
   }
 
   tmpdir = () => os.tmpdir();
@@ -33,14 +34,14 @@ export class DefaultFs extends Fs {
     found: FsPath[] = [],
     referencePath = ''
   ): FsPath[] => {
-    const files = fs.readdirSync(directory);
+    const files = fs.readdirSync(toOsPath(directory));
     referencePath = referencePath || directory;
 
     for (const file of files) {
-      const filePath = assertFsPath(path.join(directory, file));
-      const info = fs.lstatSync(filePath);
+      const filePath = toFsPath(path.join(directory, file));
+      const info = fs.lstatSync(toOsPath(filePath));
       if (info.isFile() && file.toLowerCase() === filename.toLowerCase()) {
-        found.push(assertFsPath(filePath));
+        found.push(filePath);
       }
       if (info.isDirectory()) {
         this.findFiles(filePath, filename, found, referencePath);
@@ -54,7 +55,7 @@ export class DefaultFs extends Fs {
   }
 
   findNearestParentFile = (referenceFile: FsPath, filename: string): FsPath => {
-    let current = path.dirname(referenceFile);
+    let current = path.dirname(toOsPath(referenceFile));
     while (current) {
       try {
         const files = fs.readdirSync(current);
@@ -64,18 +65,18 @@ export class DefaultFs extends Fs {
           const info = fs.lstatSync(filePath);
 
           if (info.isFile() && file === filename) {
-            return assertFsPath(filePath);
+            return toFsPath(filePath);
           }
         }
       } catch (e: unknown) {
         if (
           !(
             e instanceof Error &&
-            e.message.startsWith('EPERM: operation not permitted')
+            (e.message.startsWith('EPERM: operation not permitted') || e.message.startsWith('EBUSY'))
           )
         ) {
           throw new Error(
-            `encountered unkowno error while reading from ${current}`
+            `encountered unknown error while reading from ${current}: ${e}`
           );
         }
       }
