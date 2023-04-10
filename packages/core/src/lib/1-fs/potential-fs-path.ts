@@ -1,5 +1,6 @@
 import { assertUnreachableCode } from '../util/assert-unreachable-code';
 
+// TODO: Should be able to generate by using only Template Literal Types
 export type PotentialFsPath = string & { type: 'PotentialFsPath' };
 
 export const checkForPotentialFsPath = (

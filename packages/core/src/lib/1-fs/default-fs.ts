@@ -16,11 +16,13 @@ export class DefaultFs extends Fs {
   override removeDir = (path: FsPath) =>
     fs.rmSync(toOsPath(path), { recursive: true });
 
-  override createDir = (path: PotentialFsPath) => {
+  override createDir = (path: PotentialFsPath): FsPath => {
     const osPath = toOsPath(path);
     if (!fs.existsSync(osPath)) {
       fs.mkdirSync(osPath, { recursive: true });
     }
+
+    return toFsPath(path);
   };
 
   override exists(path: PotentialFsPath): path is FsPath {
@@ -54,7 +56,7 @@ export class DefaultFs extends Fs {
   };
 
   override reset(): void {
-    return void true;
+    throw new Error();
   }
 
   override findNearestParentFile = (
@@ -98,15 +100,13 @@ export class DefaultFs extends Fs {
     throw new Error(`cannot find ${filename} near ${referenceFile}`);
   };
 
-  override isAbsolute = (p: string) => path.isAbsolute(p);
-
-  override split = (p: string) => p.split(path.sep);
-
   override join(...paths: string[]): PotentialFsPath {
     return toPotentialFsPath(path.join(...paths));
   }
 
-  override print = () => void true;
+  override print = () => {
+    throw new Error();
+  };
 }
 
 const defaultFs = new DefaultFs();

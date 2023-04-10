@@ -71,18 +71,19 @@ export class VirtualFs extends Fs {
     return this.#traverseFindFiles(referenceNode, filename, referenceNode);
   };
 
-  createDir = (path: string): void => {
+  override createDir = (path: PotentialFsPath): FsPath => {
     const node = this.#makeOrGet(path, 'directory');
     if (node.type === 'file') {
       throw new Error(`cannot create directory ${path} because it is a file`);
     }
+    return toFsPath(path);
   };
 
   override exists(path: string): path is FsPath {
     return this.#getNode(path).exists;
   }
 
-  writeFile = (path: string, contents: string): void => {
+  override writeFile = (path: PotentialFsPath, contents: string): void => {
     const node = this.#makeOrGet(path, 'file');
     if (node.type === 'directory') {
       throw new Error(`cannot write to file ${path} because it is a directory`);
@@ -137,7 +138,32 @@ export class VirtualFs extends Fs {
     throw new Error(`cannot find ${filename} near ${referenceFile}`);
   };
 
-  isAbsolute = (path: string) => path.startsWith('/');
+  print = (node?: FsNode, indent = 0): void => {
+    if (node === undefined) {
+      console.log('[root]');
+      return this.print(this.root, indent + 2);
+    }
+
+    for (const child of node.children.keys()) {
+      const childNode = node.children.get(child);
+      console.log(
+        `${' '.repeat(indent)}${
+          childNode?.type === 'directory' ? '[' + child + ']' : child
+        }`
+      );
+      this.print(node.children.get(child), indent + 2);
+    }
+  };
+
+  cwd = () => '/project';
+
+  reset() {
+    this.init();
+  }
+
+  override join(...paths: string[]): PotentialFsPath {
+    return toPotentialFsPath(path.join(...paths).replace(/\\/g, '/'));
+  }
 
   #makeOrGet = (path: string, type: FsNodeType): FsNode => {
     const result = this.#getNode(path);
@@ -250,37 +276,6 @@ export class VirtualFs extends Fs {
 
     return toFsPath('/' + paths.reverse().join('/'));
   };
-
-  print = (node?: FsNode, indent = 0): void => {
-    if (node === undefined) {
-      console.log('[root]');
-      return this.print(this.root, indent + 2);
-    }
-
-    for (const child of node.children.keys()) {
-      const childNode = node.children.get(child);
-      console.log(
-        `${' '.repeat(indent)}${
-          childNode?.type === 'directory' ? '[' + child + ']' : child
-        }`
-      );
-      this.print(node.children.get(child), indent + 2);
-    }
-  };
-
-  cwd = () => '/project';
-
-  reset() {
-    this.init();
-  }
-
-  override split(path: string): string[] {
-    return path.split('/');
-  }
-
-  override join(...paths: string[]): PotentialFsPath {
-    return toPotentialFsPath(path.join(...paths).replace(/\\/g, '/'));
-  }
 }
 
 const virtualFs = new VirtualFs();
