@@ -1,6 +1,6 @@
 import getFs from '../1-fs/getFs';
 import * as ts from 'typescript';
-import { FsPath, assertFsPath } from './fs-path';
+import { assertFsPath, FsPath } from '../1-fs/fs-path';
 
 /**
  * Retrieves the paths variable from a tsconfig and also traverses through

@@ -1,5 +1,5 @@
 import getFs from '../1-fs/getFs';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 
 export const findConfig = (rootDir: FsPath): FsPath | undefined => {
   const fs = getFs();

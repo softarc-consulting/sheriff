@@ -1,5 +1,5 @@
 import { Module } from './module';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 import { AssignedFileInfo } from './assigned-file.info';
 import { log } from '../util/log';
 

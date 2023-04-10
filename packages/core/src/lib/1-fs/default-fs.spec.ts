@@ -1,7 +1,7 @@
 import { DefaultFs } from './default-fs';
 import { describe, expect, it } from 'vitest';
 import * as path from 'path';
-import { toFsPath } from '../2-file-info/fs-path';
+import { toFsPath } from './fs-path';
 import { PotentialFsPath, toPotentialFsPath } from './potential-fs-path';
 
 describe('Default Fs', () => {

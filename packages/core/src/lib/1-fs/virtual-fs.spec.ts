@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { VirtualFs } from './virtual-fs';
-import { toFsPath } from '../2-file-info/fs-path';
+import { toFsPath } from './fs-path';
 import getFs, { useVirtualFs } from './getFs';
 import '../test/matchers';
 import { toPotentialFsPath } from './potential-fs-path';

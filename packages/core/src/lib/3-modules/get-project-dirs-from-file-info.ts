@@ -1,7 +1,7 @@
 import FileInfo from '../2-file-info/file-info';
 import getFs from '../1-fs/getFs';
 import traverseFileInfo from '../2-file-info/traverse-file-info';
-import { FsPath, assertFsPath } from '../2-file-info/fs-path';
+import { assertFsPath, FsPath } from '../1-fs/fs-path';
 import { log } from '../util/log';
 
 export const getProjectDirsFromFileInfo = (

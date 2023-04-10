@@ -1,6 +1,6 @@
 import { Fs } from './fs';
 import throwIfNull from '../util/throw-if-null';
-import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { FsPath, toFsPath } from './fs-path';
 import * as path from 'path';
 import { PotentialFsPath, toPotentialFsPath } from './potential-fs-path';
 

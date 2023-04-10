@@ -2,7 +2,7 @@ import { Module } from './module';
 import FileInfo from '../2-file-info/file-info';
 import traverseFileInfo from '../2-file-info/traverse-file-info';
 import throwIfNull from '../util/throw-if-null';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 import { log } from '../util/log';
 import { formatModules } from './format-modules';
 import get from '../util/get';

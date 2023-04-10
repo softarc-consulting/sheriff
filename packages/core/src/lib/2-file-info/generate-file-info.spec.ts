@@ -6,7 +6,7 @@ import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { generateFileInfoAndGetRootDir } from './generate-file-info-and-get-root-dir';
 import { ProjectCreator } from '../test/project-creator';
 import { inVfs } from '../test/in-vfs';
-import { assertFsPath } from './fs-path';
+import { assertFsPath } from '../1-fs/fs-path';
 
 describe('Generate File Info', () => {
   let fs: Fs;

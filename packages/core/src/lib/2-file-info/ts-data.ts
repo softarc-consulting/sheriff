@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { FsPath } from './fs-path';
+import { FsPath } from '../1-fs/fs-path';
 
 /**
  * Contains data needed by `traverseFilesystem`.

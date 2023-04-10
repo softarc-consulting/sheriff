@@ -4,7 +4,7 @@ import { createModules } from '../3-modules/create-modules';
 import { checkDeepImports } from './check-deep-imports';
 import { findAssignedFileInfo } from '../test/find-assigned-file-info';
 import getFs, { useVirtualFs } from '../1-fs/getFs';
-import { assertFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../1-fs/fs-path';
 
 describe('check deep imports', () => {
   beforeAll(() => {

@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import * as ts from 'typescript';
 import { parseConfig } from './parse-config';
-import { assertFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../1-fs/fs-path';
 
 describe('parse Config', () => {
   it('should read value', () => {

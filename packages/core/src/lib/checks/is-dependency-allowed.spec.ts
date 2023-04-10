@@ -1,10 +1,10 @@
-import { describe, expect, test, it } from 'vitest';
+import { describe, expect, it, test } from 'vitest';
 import {
   DependencyCheckContext,
   DependencyRulesConfig,
 } from '../4-config/dependency-rules-config';
 import { isDependencyAllowed } from './is-dependency-allowed';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 import { sameTag } from './same-tag';
 import { noDependencies } from './no-dependencies';
 

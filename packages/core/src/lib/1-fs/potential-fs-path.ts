@@ -1,6 +1,14 @@
 import { assertUnreachableCode } from '../util/assert-unreachable-code';
 
-// TODO: Should be able to generate by using only Template Literal Types
+type NoBackslash<Value extends string> = Value extends `${string}\\${string}`
+  ? never
+  : Value;
+type PotentialFsPathLiteral<S extends string> = S extends `/${infer Rest}`
+  ? Rest extends NoBackslash<Rest>
+    ? S
+    : never
+  : never;
+
 export type PotentialFsPath = string & { type: 'PotentialFsPath' };
 
 export const checkForPotentialFsPath = (

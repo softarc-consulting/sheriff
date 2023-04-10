@@ -1,9 +1,6 @@
-import getFs from '../1-fs/getFs';
+import getFs from './getFs';
 import { assertUnreachableCode } from '../util/assert-unreachable-code';
-import {
-  checkForPotentialFsPath,
-  PotentialFsPath,
-} from '../1-fs/potential-fs-path';
+import { checkForPotentialFsPath, PotentialFsPath } from './potential-fs-path';
 
 /**
  * Domain Type representing an absolute and existing file

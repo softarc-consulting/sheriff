@@ -1,5 +1,5 @@
 import getFs from '../1-fs/getFs';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 import { log } from '../util/log';
 
 export const findModulePaths = (projectDirs: FsPath[]): Set<FsPath> => {

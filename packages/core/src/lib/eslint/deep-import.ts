@@ -1,5 +1,5 @@
 import { generateFileInfoAndGetRootDir } from '../2-file-info/generate-file-info-and-get-root-dir';
-import { FsPath, assertFsPath } from '../2-file-info/fs-path';
+import { assertFsPath, FsPath } from '../1-fs/fs-path';
 import { getProjectDirsFromFileInfo } from '../3-modules/get-project-dirs-from-file-info';
 import { createModules } from '../3-modules/create-modules';
 import { findModulePaths } from '../3-modules/find-module-paths';

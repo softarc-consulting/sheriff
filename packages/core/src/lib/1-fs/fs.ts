@@ -1,5 +1,5 @@
 import * as nodePath from 'path';
-import type { FsPath } from '../2-file-info/fs-path';
+import type { FsPath } from './fs-path';
 import { PotentialFsPath } from './potential-fs-path';
 
 export abstract class Fs {

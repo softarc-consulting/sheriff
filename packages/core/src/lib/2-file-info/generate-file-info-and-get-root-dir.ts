@@ -2,7 +2,7 @@ import FileInfo from './file-info';
 import { generateTsData } from './generate-ts-data';
 import traverseFilesystem from './traverse-filesystem';
 import getFs from '../1-fs/getFs';
-import { FsPath, assertFsPath } from './fs-path';
+import { assertFsPath, FsPath } from '../1-fs/fs-path';
 import { log } from '../util/log';
 import { formatFileInfo } from './format-file-info';
 

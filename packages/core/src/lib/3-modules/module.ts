@@ -1,6 +1,6 @@
 import FileInfo from '../2-file-info/file-info';
 import { AssignedFileInfo } from './assigned-file.info';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 
 export class Module {
   readonly directory: string;

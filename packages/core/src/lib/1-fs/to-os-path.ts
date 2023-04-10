@@ -1,4 +1,4 @@
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from './fs-path';
 import throwIfNull from '../util/throw-if-null';
 import * as path from 'path';
 import { PotentialFsPath } from './potential-fs-path';

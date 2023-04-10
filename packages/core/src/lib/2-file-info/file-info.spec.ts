@@ -1,6 +1,6 @@
 import FileInfo, { buildFileInfo } from './file-info';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { assertFsPath } from './fs-path';
+import { assertFsPath } from '../1-fs/fs-path';
 import getFs, { useVirtualFs } from '../1-fs/getFs';
 
 const fi = (path: string, imports: FileInfo[] = []) =>

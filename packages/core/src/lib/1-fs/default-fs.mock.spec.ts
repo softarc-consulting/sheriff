@@ -1,6 +1,6 @@
 import { describe, expect, it, vitest } from 'vitest';
 import defaultFs from './default-fs';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from './fs-path';
 
 vitest.mock('path', () => ({
   dirname: (dirname: string) => dirname,

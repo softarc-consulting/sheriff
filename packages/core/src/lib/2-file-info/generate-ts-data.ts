@@ -2,7 +2,7 @@ import getFs from '../1-fs/getFs';
 import * as ts from 'typescript';
 import TsData from './ts-data';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
-import { FsPath } from './fs-path';
+import { FsPath } from '../1-fs/fs-path';
 
 export const generateTsData = (tsConfigPath: FsPath): TsData => {
   const { paths, rootDir } = getTsPathsAndRootDir(tsConfigPath);

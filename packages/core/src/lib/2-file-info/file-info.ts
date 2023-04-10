@@ -1,4 +1,4 @@
-import { FsPath, assertFsPath } from './fs-path';
+import { assertFsPath, FsPath } from '../1-fs/fs-path';
 import throwIfNull from '../util/throw-if-null';
 import getFs from '../1-fs/getFs';
 import * as nodePath from 'path';

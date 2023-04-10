@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import getFs, { useVirtualFs } from '../1-fs/getFs';
 import FileInfo, { buildFileInfo } from '../2-file-info/file-info';
 import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
-import { assertFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../1-fs/fs-path';
 
 export type TestParam = {
   name: string;

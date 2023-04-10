@@ -1,4 +1,4 @@
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 
 export type DependencyCheckContext = {
   fromModulePath: FsPath;

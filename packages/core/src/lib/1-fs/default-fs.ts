@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { Fs } from './fs';
-import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { FsPath, toFsPath } from './fs-path';
 import { toOsPath } from './to-os-path';
 import { PotentialFsPath, toPotentialFsPath } from './potential-fs-path';
 

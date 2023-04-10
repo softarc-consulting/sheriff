@@ -1,6 +1,6 @@
 import { calcTagsForModule } from './calc-tags-for-module';
 import { describe, expect, it } from 'vitest';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 
 describe('calc tags for module', () => {
   const root = '/project' as FsPath;

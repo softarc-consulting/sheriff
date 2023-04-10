@@ -5,7 +5,7 @@ import { Module } from './module';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../1-fs/getFs';
-import { assertFsPath } from '../2-file-info/fs-path';
+import { assertFsPath } from '../1-fs/fs-path';
 
 type TestParameter = {
   name: string;

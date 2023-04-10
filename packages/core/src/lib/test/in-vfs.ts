@@ -1,4 +1,4 @@
-import { FsPath, toFsPath } from '../2-file-info/fs-path';
+import { FsPath, toFsPath } from '../1-fs/fs-path';
 import getFs from '../1-fs/getFs';
 
 export const inVfs = (path: string): FsPath => {

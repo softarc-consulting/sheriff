@@ -1,6 +1,6 @@
 import FileInfo from '../2-file-info/file-info';
 import { Module } from './module';
-import { FsPath } from '../2-file-info/fs-path';
+import { FsPath } from '../1-fs/fs-path';
 
 export class AssignedFileInfo {
   constructor(private fileInfo: FileInfo, public moduleInfo: Module) {}
