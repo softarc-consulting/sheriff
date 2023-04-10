@@ -9,7 +9,9 @@ type PotentialFsPathLiteral<S extends string> = S extends `/${infer Rest}`
     : never
   : never;
 
-export type PotentialFsPath = string & { type: 'PotentialFsPath' };
+export type PotentialFsPath<Path extends string> =
+  | (string & { type: 'PotentialFsPath' })
+  | PotentialFsPathLiteral<Path>;
 
 export const checkForPotentialFsPath = (
   path: string
@@ -24,12 +26,13 @@ export const checkForPotentialFsPath = (
   return 'valid';
 };
 
-export const isPotentialFsPath = (path: string): path is PotentialFsPath =>
-  checkForPotentialFsPath(path) === 'valid';
-
-export function assertPotentialFsPath(
+export const isPotentialFsPath = (
   path: string
-): asserts path is PotentialFsPath {
+): path is PotentialFsPath<string> => checkForPotentialFsPath(path) === 'valid';
+
+export function assertPotentialFsPath<Path extends string>(
+  path: string
+): asserts path is PotentialFsPath<Path> {
   const fsPathCheck = checkForPotentialFsPath(path);
   switch (fsPathCheck) {
     case 'invalid characters':
@@ -45,7 +48,9 @@ export function assertPotentialFsPath(
   }
 }
 
-export function toPotentialFsPath(path: string): PotentialFsPath {
+export function toPotentialFsPath<Path extends string>(
+  path: Path
+): PotentialFsPath<Path> {
   const potentialFsPath: string = path
     .replace(/^([a-zA-Z]):\\/, `/${path[0]}/`)
     .replace(/\\/g, '/');
