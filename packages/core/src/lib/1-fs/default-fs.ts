@@ -16,7 +16,9 @@ export class DefaultFs extends Fs {
   override removeDir = (path: FsPath) =>
     fs.rmSync(toOsPath(path), { recursive: true });
 
-  override createDir = (path: PotentialFsPath): FsPath => {
+  override createDir = <Path extends string>(
+    path: PotentialFsPath<Path>
+  ): FsPath => {
     const osPath = toOsPath(path);
     if (!fs.existsSync(osPath)) {
       fs.mkdirSync(osPath, { recursive: true });
@@ -25,7 +27,9 @@ export class DefaultFs extends Fs {
     return toFsPath(path);
   };
 
-  override exists(path: PotentialFsPath): path is FsPath {
+  override exists<Path extends string>(
+    path: PotentialFsPath<Path>
+  ): path is FsPath {
     return fs.existsSync(toOsPath(path));
   }
 
@@ -100,7 +104,7 @@ export class DefaultFs extends Fs {
     throw new Error(`cannot find ${filename} near ${referenceFile}`);
   };
 
-  override join(...paths: string[]): PotentialFsPath {
+  override join(...paths: string[]): PotentialFsPath<string> {
     return toPotentialFsPath(path.join(...paths));
   }
 

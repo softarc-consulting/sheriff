@@ -71,7 +71,9 @@ export class VirtualFs extends Fs {
     return this.#traverseFindFiles(referenceNode, filename, referenceNode);
   };
 
-  override createDir = (path: PotentialFsPath): FsPath => {
+  override createDir = <Path extends string>(
+    path: PotentialFsPath<Path>
+  ): FsPath => {
     const node = this.#makeOrGet(path, 'directory');
     if (node.type === 'file') {
       throw new Error(`cannot create directory ${path} because it is a file`);
@@ -83,7 +85,10 @@ export class VirtualFs extends Fs {
     return this.#getNode(path).exists;
   }
 
-  override writeFile = (path: PotentialFsPath, contents: string): void => {
+  override writeFile = <Path extends string>(
+    path: PotentialFsPath<Path>,
+    contents: string
+  ): void => {
     const node = this.#makeOrGet(path, 'file');
     if (node.type === 'directory') {
       throw new Error(`cannot write to file ${path} because it is a directory`);
@@ -161,7 +166,7 @@ export class VirtualFs extends Fs {
     this.init();
   }
 
-  override join(...paths: string[]): PotentialFsPath {
+  override join(...paths: string[]): PotentialFsPath<string> {
     return toPotentialFsPath(path.join(...paths).replace(/\\/g, '/'));
   }
 

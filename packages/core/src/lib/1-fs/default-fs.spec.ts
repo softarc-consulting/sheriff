@@ -2,7 +2,7 @@ import { DefaultFs } from './default-fs';
 import { describe, expect, it } from 'vitest';
 import * as path from 'path';
 import { toFsPath } from './fs-path';
-import { PotentialFsPath, toPotentialFsPath } from './potential-fs-path';
+import { toPotentialFsPath } from './potential-fs-path';
 
 describe('Default Fs', () => {
   const fs = new DefaultFs();
@@ -39,7 +39,7 @@ describe('Default Fs', () => {
     });
 
     it('should split and join', () => {
-      const parts = fs.split('/project/src/app/main.ts' as PotentialFsPath);
+      const parts = fs.split('/project/src/app/main.ts');
       expect(parts).toEqual(['', 'project', 'src', 'app', 'main.ts']);
       expect(fs.join('/', ...parts)).toBe('/project/src/app/main.ts');
     });

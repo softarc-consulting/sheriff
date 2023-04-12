@@ -3,10 +3,15 @@ import type { FsPath } from './fs-path';
 import { PotentialFsPath } from './potential-fs-path';
 
 export abstract class Fs {
-  abstract writeFile: (filename: PotentialFsPath, contents: string) => void;
+  abstract writeFile: <Path extends string>(
+    filename: PotentialFsPath<Path>,
+    contents: string
+  ) => void;
   abstract readFile: (path: FsPath) => string;
   abstract removeDir: (path: FsPath) => void;
-  abstract createDir: (path: PotentialFsPath) => FsPath;
+  abstract createDir: <Path extends string>(
+    path: PotentialFsPath<Path>
+  ) => FsPath;
   abstract tmpdir: () => FsPath;
   abstract cwd: () => string;
   abstract findFiles: (path: FsPath, filename: string) => FsPath[];
@@ -23,9 +28,11 @@ export abstract class Fs {
   ) => FsPath;
   pathSeparator = nodePath.sep;
 
-  abstract exists(path: PotentialFsPath): path is FsPath;
+  abstract exists<Path extends string>(
+    path: PotentialFsPath<Path>
+  ): path is FsPath;
 
-  abstract join(...paths: string[]): PotentialFsPath;
+  abstract join(...paths: string[]): PotentialFsPath<string>;
 
   getParent = (fileOrDirectory: FsPath): FsPath =>
     nodePath.dirname(fileOrDirectory) as FsPath;
@@ -35,7 +42,7 @@ export abstract class Fs {
    */
   abstract reset(): void;
 
-  split(path: PotentialFsPath) {
+  split<Path extends string>(path: PotentialFsPath<Path>) {
     return path.split('/');
   }
 }
