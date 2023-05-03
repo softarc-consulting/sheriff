@@ -14,7 +14,7 @@ import { isDependencyAllowed } from '../checks/is-dependency-allowed';
 const cache = new Map<string, string>();
 
 export const violatesDependencyRule = (
-  filename: FsPath,
+  filename: string,
   importCommand: string,
   isFirstRun: boolean
 ): string => {
@@ -76,7 +76,7 @@ export const violatesDependencyRule = (
           !isDependencyAllowed(fromTags, toTag, config.depRules, {
             fromModulePath: fromModule,
             toModulePath: toFsPath(importedModulePath),
-            fromFilePath: filename,
+            fromFilePath: toFsPath(filename),
             toFilePath: toFsPath(importedModulePath),
           })
         ) {
