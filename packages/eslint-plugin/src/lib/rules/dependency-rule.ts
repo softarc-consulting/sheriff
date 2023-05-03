@@ -1,6 +1,5 @@
 import { Rule } from 'eslint';
 import { violatesDependencyRule } from '@softarc/sheriff-core';
-import { toFsPath } from '@softarc/sheriff-core/src/lib/file-info/fs-path';
 
 export const dependencyRule: Rule.RuleModule = {
   create: (context) => {
@@ -9,7 +8,7 @@ export const dependencyRule: Rule.RuleModule = {
       ImportDeclaration: (node) => {
         try {
           const message = violatesDependencyRule(
-            toFsPath(context.getFilename()),
+            context.getFilename(),
             String(node.source.value) || '',
             firstRun
           );

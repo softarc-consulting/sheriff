@@ -10,4 +10,6 @@ export const useVirtualFs = () => (fsImplementation = 'virtual');
 const getFs = (): Fs =>
   fsImplementation === 'default' ? defaultFs : virtualFs;
 
+export const isFsVirtualised = () => fsImplementation === 'virtual';
+
 export default getFs;
