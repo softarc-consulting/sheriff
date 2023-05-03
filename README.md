@@ -1,4 +1,4 @@
-![build status](https://github.com/softarcß/sheriff/actions/workflows/build.yml/badge.svg)
+![build status](https://github.com/softarc-consulting/sheriff/actions/workflows/build.yml/badge.svg)
 
 <p align="center">
 <img src="./logo.png" width="320" style="text-align: center">
