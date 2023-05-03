@@ -39,12 +39,6 @@ const traverseFilesystem = (
   for (const importedFile of preProcessedFile.importedFiles) {
     const { fileName } = importedFile;
 
-    /**
-     * Be aware that `sys` is not the real `ts.sys` but a proxy
-     * to fs:fileExists. If you get here an error, you'll have
-     * to compare the original `ts.sys` with the current implementation.
-     * The hack was done in order to write tests against a virtual filesystem.
-     */
     const resolvedImport = ts.resolveModuleName(
       fileName,
       fsPath,
