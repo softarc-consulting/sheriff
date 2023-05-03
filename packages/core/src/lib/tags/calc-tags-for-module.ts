@@ -125,7 +125,7 @@ function isRegularExpression(segment: string) {
 function handlePlaceholderMatching(
   pathMatcher: string,
   currentPath: string,
-  placeholderMatch: RegExpMatchArray,
+  placeholderMatch: string[],
   placeholders: Record<string, string>
 ) {
   const placeholderRegex = pathMatcher.replace(/<[a-zA-Z]+>/g, '(.+)');
