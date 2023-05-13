@@ -1,7 +1,10 @@
-# eslint-plugin
+<p align="center">
+<img src="../../logo.png" width="320" style="text-align: center">
+</p>
 
-This library was generated with [Nx](https://nx.dev).
+Sheriff enforces module boundaries and dependency rules in TypeScript.
 
-## Building
+This is the package for ESLint. You should download it together with the core package.
 
-Run `nx build eslint-plugin` to build the library.
+For more information, please go to https://github.com/softarc-consulting/sheriff.
+
