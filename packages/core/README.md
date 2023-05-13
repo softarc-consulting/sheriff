@@ -1,11 +1,10 @@
-# core
+<p align="center">
+<img src="../../logo.png" width="320" style="text-align: center">
+</p>
 
-This library was generated with [Nx](https://nx.dev).
+Sheriff enforces module boundaries and dependency rules in TypeScript.
 
-## Building
+This is the core package. You should download it together with the eslint-plugin.
 
-Run `nx build core` to build the library.
+For more information, please go to https://github.com/softarc-consulting/sheriff.
 
-## Running unit tests
-
-Run `nx test core` to execute the unit tests via [Jest](https://jestjs.io).
