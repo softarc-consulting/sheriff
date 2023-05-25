@@ -15,7 +15,5 @@ jobs:
       - run: yarn build:all
       - run: npm link dist/packages/core
       - run: npm link dist/packages/eslint-plugin
-      - run: cd test-projects/angular-i
-      - run: yarn
-      - run: npx ng lint
+      - run: cd test-projects/angular-i && yarn && npx ng lint
 
