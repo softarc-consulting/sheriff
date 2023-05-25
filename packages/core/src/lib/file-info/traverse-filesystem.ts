@@ -1,8 +1,12 @@
 import FileInfo from './file-info';
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
-import TsData from './ts-data';
+import TsData, { TsPaths } from './ts-data';
 import { FsPath, toFsPath } from './fs-path';
+
+export type ResolveFn = (
+  moduleName: string
+) => ReturnType<typeof ts.resolveModuleName>;
 
 // https://stackoverflow.com/questions/71815527/typescript-compiler-apihow-to-get-absolute-path-to-source-file-of-import-module
 /**
@@ -17,35 +21,29 @@ import { FsPath, toFsPath } from './fs-path';
  * filesystem happens. In case the abstraction does not emulate the original's
  * behaviour, "strange bugs" might occur. Look out for them.
  *
- * @param fsPath:
- * @param fileInfoDict
- * @param paths
- * @param configObject
- * @param cwd
- * @param sys
+ * @param fsPath: Filename to traverse from
+ * @param fileInfoDict: Dictionary of traversed files to catch circularity
+ * @param tsData
+ * @param runOnce: traverse only once. needed for ESLint mode
  */
 const traverseFilesystem = (
   fsPath: FsPath,
   fileInfoDict: Map<FsPath, FileInfo>,
-  { paths, configObject, cwd, sys, rootDir }: TsData,
+  tsData: TsData,
   runOnce = false
 ): FileInfo => {
+  const { paths, configObject, cwd, sys, rootDir } = tsData;
   const fileInfo: FileInfo = new FileInfo(fsPath, []);
   fileInfoDict.set(fsPath, fileInfo);
   const fs = getFs();
   const fileContent = fs.readFile(fsPath);
   const preProcessedFile = ts.preProcessFile(fileContent);
+  const resolveFn: ResolveFn = (moduleName: string) =>
+    ts.resolveModuleName(moduleName, fsPath, configObject.options, sys);
 
   for (const importedFile of preProcessedFile.importedFiles) {
     const { fileName } = importedFile;
-
-    const resolvedImport = ts.resolveModuleName(
-      fileName,
-      fsPath,
-      configObject.options,
-      sys
-    );
-
+    const resolvedImport = resolveFn(fileName);
     let importPath: FsPath | undefined;
 
     if (resolvedImport.resolvedModule) {
@@ -56,11 +54,19 @@ const traverseFilesystem = (
           throw new Error(`${importPath} is outside of root ${rootDir}`);
         }
       }
-    } else if (fileName in paths) {
-      importPath = paths[fileName];
     } else if (fileName.startsWith('.')) {
       // might be an undetected dependency in node_modules
       throw new Error(`cannot find import for ${fileName}`);
+    } else {
+      const resolvedTsPath = resolvePotentialTsPath(
+        fileName,
+        paths,
+        resolveFn,
+        fsPath
+      );
+      if (resolvedTsPath) {
+        importPath = resolvedTsPath;
+      }
     }
 
     if (importPath) {
@@ -86,6 +92,49 @@ const traverseFilesystem = (
 
   return fileInfo;
 };
+
+export function resolvePotentialTsPath(
+  moduleName: string,
+  tsPaths: TsPaths,
+  resolveFn: ResolveFn,
+  filename: string
+): FsPath | undefined {
+  let unpathedImport: string | undefined;
+  for (const tsPath in tsPaths) {
+    const { isWildcard, clearedTsPath } = clearTsPath(tsPath);
+    if (isWildcard && moduleName.startsWith(clearedTsPath)) {
+      const pathMapping = tsPaths[tsPath];
+      unpathedImport = moduleName.replace(clearedTsPath, pathMapping);
+    } else if (tsPath === moduleName) {
+      unpathedImport = tsPaths[tsPath];
+    }
+
+    if (unpathedImport) {
+      const resolvedImport = resolveFn(unpathedImport);
+
+      if (
+        !resolvedImport.resolvedModule ||
+        resolvedImport.resolvedModule.isExternalLibraryImport === true
+      ) {
+        throw new Error(
+          `unable to resolve import ${moduleName} in ${filename}`
+        );
+      }
+      return toFsPath(
+        fixPathSeparators(resolvedImport.resolvedModule.resolvedFileName)
+      );
+    }
+  }
+
+  return undefined;
+}
+
+function clearTsPath(tsPath: string) {
+  const [isWildcard, clearedPath] = tsPath.endsWith('/*')
+    ? [true, tsPath.slice(0, -2)]
+    : [false, tsPath];
+  return { isWildcard, clearedTsPath: clearedPath };
+}
 
 function fixPathSeparators(path: string): FsPath {
   const fs = getFs();

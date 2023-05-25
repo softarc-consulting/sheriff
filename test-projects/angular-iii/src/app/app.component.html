@@ -1,0 +1,17 @@
+<div class="main">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <eternal-header></eternal-header>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-drawer-container autosize>
+    <mat-drawer mode="side" opened>
+      <eternal-sidemenu></eternal-sidemenu>
+    </mat-drawer>
+    <mat-drawer-content>
+      <eternal-loader></eternal-loader>
+      <eternal-message></eternal-message>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

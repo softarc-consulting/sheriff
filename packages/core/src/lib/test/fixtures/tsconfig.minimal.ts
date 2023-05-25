@@ -1,4 +1,4 @@
-const config = {
+export const tsConfigMinimal = {
   compilerOptions: {
     target: 'es2016',
     module: 'commonjs',
@@ -7,4 +7,4 @@ const config = {
   },
 };
 
-export default JSON.stringify(config);
+export default JSON.stringify(tsConfigMinimal);

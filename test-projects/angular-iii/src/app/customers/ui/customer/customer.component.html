@@ -1,0 +1,76 @@
+<form (ngSubmit)="submit()" [formGroup]="formGroup" class="app-customer">
+  <input type="hidden" formControlName="id" />
+  <mat-form-field>
+    <mat-label>Firstname</mat-label>
+    <input data-testid="inp-firstname" formControlName="firstname" matInput />
+    <mat-error
+      ><eternal-form-errors
+        [control]="formGroup.controls.firstname"
+      ></eternal-form-errors>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input data-testid="inp-name" formControlName="name" matInput />
+    <mat-error
+      ><eternal-form-errors
+        [control]="formGroup.controls.name"
+      ></eternal-form-errors>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Country</mat-label>
+    <mat-select formControlName="country" data-testid="sel-country"
+      ><mat-option
+        *ngFor="let country of countries"
+        [value]="country.value"
+        data-testid="opt-country"
+        >{{ country.label }}</mat-option
+      >
+    </mat-select>
+    <mat-error
+      ><eternal-form-errors
+        [control]="formGroup.controls.country"
+      ></eternal-form-errors>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Birthdate</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="birthdate"
+      data-testid="inp-birthdate"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="picker" />
+    <mat-datepicker #picker />
+    <mat-error
+      ><eternal-form-errors
+        [control]="formGroup.controls.birthdate"
+      ></eternal-form-errors>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="buttons">
+    <a [routerLink]="['..']" mat-raised-button>Back</a>
+    <button
+      (click)="handleRemove()"
+      color="warn"
+      mat-raised-button
+      type="button"
+    >
+      Delete
+    </button>
+    <button
+      color="primary"
+      mat-raised-button
+      type="submit"
+      data-testid="btn-submit"
+    >
+      Save
+    </button>
+  </div>
+</form>
