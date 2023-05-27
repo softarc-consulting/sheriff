@@ -32,7 +32,7 @@ In your _eslintrc.json_, insert the rules:
 
 ```json
     {
-      "files": ["*.ts"]
+      "files": ["*.ts"],
       "extends": ["plugin:@softarc/sheriff/default"]
     }
 ```
