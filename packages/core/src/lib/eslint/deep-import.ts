@@ -11,12 +11,8 @@ const deepImportCache = new Map<string, Set<string>>();
 /* c8 ignore next */
 export const hasDeepImport = (
   filename: string,
-  importCommand: string,
-  isFirstRun: boolean
+  importCommand: string
 ): boolean => {
-  if (isFirstRun) {
-    deepImportCache.clear();
-  }
   if (!deepImportCache.has(filename)) {
     const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
       toFsPath(filename),

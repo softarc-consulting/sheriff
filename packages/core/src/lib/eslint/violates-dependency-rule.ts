@@ -15,12 +15,8 @@ const cache = new Map<string, string>();
 
 export const violatesDependencyRule = (
   filename: string,
-  importCommand: string,
-  isFirstRun: boolean
+  importCommand: string
 ): string => {
-  if (isFirstRun) {
-    cache.clear();
-  }
   if (!cache.has(importCommand)) {
     const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
       toFsPath(filename),
