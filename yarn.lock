@@ -411,11 +411,11 @@
     esquery "^1.0.1"
 
 "@softarc/eslint-plugin-sheriff@file:dist/packages/eslint-plugin":
-  version "0.9.0"
+  version "0.10.0"
   resolved "file:dist/packages/eslint-plugin"
 
-"@softarc/sheriff-core@0.9.0":
-  version "0.9.0"
+"@softarc/sheriff-core@0.10.0":
+  version "0.10.0"
   resolved "file:dist/packages/core"
 
 "@tsconfig/node10@^1.0.7":
