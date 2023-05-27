@@ -34,7 +34,7 @@ describe('deep-import', () => {
       valid: [{ code }],
       invalid: [],
     });
-    expect(spy).toHaveBeenCalledWith('<input>', moduleName);
+    expect(spy).toHaveBeenCalledWith('<input>', moduleName, true);
   });
 
   it('should not check for deep imports if no import are present', () => {
