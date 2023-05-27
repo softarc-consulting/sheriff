@@ -1,11 +1,9 @@
-import { describe, it, beforeEach, beforeAll, expect } from 'vitest';
-import { before } from '@nrwl/js/src/utils/typescript/__mocks__/plugin-a';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { Fs } from '../fs/fs';
 import { FileTree } from '../test/project-configurator';
 import { tsConfigMinimal } from '../test/fixtures/tsconfig.minimal';
 import { ProjectCreator } from '../test/project-creator';
-import { hasDeepImport } from '../eslint/deep-import';
 import traverseFilesystem, {
   ResolveFn,
   resolvePotentialTsPath,
