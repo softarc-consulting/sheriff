@@ -3,7 +3,6 @@ import * as ts from 'typescript';
 import TsData from './ts-data';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
 import { FsPath, toFsPath } from './fs-path';
-import * as fs from 'fs';
 
 export const generateTsData = (tsConfigPath: FsPath): TsData => {
   const { paths, rootDir } = getTsPathsAndRootDir(tsConfigPath);
@@ -29,7 +28,7 @@ function getTsSys(): ts.System {
     const fs = getFs();
     return {
       fileExists: (path: string) => fs.exists(path),
-      readFile(path: string, encoding?: string): string | undefined {
+      readFile(path: string): string | undefined {
         return fs.readFile(toFsPath(path));
       },
     } as typeof ts.sys;

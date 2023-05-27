@@ -1,5 +1,6 @@
 import { TagConfig } from './tag-config';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const angularCliConfig: TagConfig = {
   'src/app': {
     'domain/{domain}/{type}': ({ domain, type }) => [
@@ -10,6 +11,7 @@ const angularCliConfig: TagConfig = {
   },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const nxConfig: TagConfig = {
   'apps/flight-app/src/app': {
     'domain/{domain}/{type}': ({ domain, type }) => [

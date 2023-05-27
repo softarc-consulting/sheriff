@@ -1,7 +1,6 @@
 import { Rule } from 'eslint';
 import { violatesDependencyRule } from '@softarc/sheriff-core';
 import { ImportDeclaration, ImportExpression } from 'estree';
-import { isFirstRun } from 'vitest';
 
 const executeRule = (
   context: Rule.RuleContext,

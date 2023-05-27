@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { Fs } from './fs';
 import throwIfNull from '../util/throw-if-null';
 import { FsPath, toFsPath } from '../file-info/fs-path';
