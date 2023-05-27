@@ -1,0 +1,8 @@
+[0m[0m
+[0m[4m/Users/rainerh/sheriff/test-projects/angular-i/src/app/app.routes.ts[24m[0m
+[0m  [2m17:11[22m  [31merror[39m  module  cannot access /src/app/customers/feature. Tags [root] have no clearance for domain:customers  [2m@softarc/sheriff/dependency-rule[22m[0m
+[0m  [2m22:11[22m  [31merror[39m  module  cannot access /src/app/bookings. Tags [root] have no clearance for domain:bookings            [2m@softarc/sheriff/dependency-rule[22m[0m
+[0m  [2m27:11[22m  [31merror[39m  module  cannot access /src/app/holidays/feature. Tags [root] have no clearance for domain:holidays    [2m@softarc/sheriff/dependency-rule[22m[0m
+[0m[0m
+[0m[31m[1m✖ 3 problems (3 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
