@@ -11,7 +11,7 @@ export const config: SheriffConfig = {
     },
   },
   depRules: {
-    root: ['type: feature', 'shared:*'],
+    root: ['type:feature', 'shared:*', 'domain:*'],
     'domain:*': sameTag,
     'domain:bookings': 'domain:customers:api',
     'domain:customers:api': 'domain:customers',
