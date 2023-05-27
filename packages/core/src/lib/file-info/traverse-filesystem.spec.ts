@@ -86,6 +86,23 @@ describe('traverse file-system', () => {
     );
   });
 
+  it('should pick up dynamic imports', () => {
+    const { mainPath, tsData } = createProject({
+      'tsconfig.json': JSON.stringify(tsConfigMinimal),
+      src: {
+        'main.ts': `const routes = {[path: 'customers', loadChildren: () => import('./customers/index.ts')]};`,
+        customers: {
+          'index.ts': [],
+        },
+      },
+    });
+    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
+
+    expect(fileInfo).toEqual(
+      buildFileInfo('/project/src/main.ts', [['./customers/index.ts', []]])
+    );
+  });
+
   it('should pick index.ts automatically if path is a directory', () => {
     const tsConfig = structuredClone(tsConfigMinimal);
     tsConfig.compilerOptions.paths = { '@customers': ['/src/app/customers'] };
