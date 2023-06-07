@@ -1,4 +1,5 @@
 const fs = require('fs');
+const os = require('os');
 
 // Absolute filepaths has to be stripped from
 // lint output.
@@ -20,9 +21,15 @@ function readLintWithClearedFilePaths(file) {
 let expectedLinterErrors = readLintWithClearedFilePaths(
   '/expected-dynamic-import-lint.json'
 );
-console.log(expectedLinterErrors);
 
 let generatedLinterErrors = readLintWithClearedFilePaths(
   '/../dynamic-import-lint.json'
 );
-console.log(generatedLinterErrors);
+
+if (generatedLinterErrors !== expectedLinterErrors) {
+  throw new Error(
+    `Expected Linting failed:${os.EOL}expected:${os.EOL}${expectedLinterErrors}${os.EOL}generated:${os.EOL}${generatedLinterErrors}`
+  );
+} else {
+  ('Linting output matched');
+}
