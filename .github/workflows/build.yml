@@ -9,6 +9,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'yarn'
+      - run: npm install -g yarn
       - run: yarn
       - run: yarn lint:all
       - run: yarn test:coverage
