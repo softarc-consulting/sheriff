@@ -240,7 +240,7 @@ In your _eslintrc.json_, insert the rules:
 
 ## Upcoming Features
 
-For feature requests, please add an issue at https://github.com/softarc/sheriff.
+For feature requests, please add an issue at https://github.com/softarc-consulting/sheriff.
 
 - Print modules with their tags
 - Testing Dependency Rules
