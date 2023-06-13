@@ -10,7 +10,15 @@ Sheriff enforces module boundaries and dependency rules in TypeScript.
 
 It is easy to use and has **zero dependencies**. The only peer dependency is TypeScript itself.
 
-**Module Boundaries**
+Examples are located in _./test-projects/_.
+
+- [Module Boundaries](#module-boundaries)
+- [Dependency Rules](#dependency-rules)
+- [Installation](#installation)
+- [Advantages](#advantages)
+- [Upcoming Features](#upcoming-features)
+
+## Module Boundaries
 
 Every directory with an _index.ts_ is a module. The _index.ts_ exports
 those files that should be accessible from the outside. Therefore, every `import`
@@ -24,7 +32,7 @@ Every file outside of that directory (module) gets now a Linting Error when it i
 
 <img width="1000" alt="Screenshot 2023-06-13 at 17 07 40" src="https://github.com/softarc-consulting/sheriff/assets/5721205/9ebe7c50-7530-4605-a7c2-2ac2c0d77df9">
 
-**Dependency Rules**
+## Dependency Rules
 
 
 ```typescript
