@@ -16,7 +16,11 @@ Every directory with an _index.ts_ is a module. The _index.ts_ exports
 those files that should be accessible from the outside. Therefore, every `import`
 into that module must point to the _index.ts_.
 
-In the screenshots below, you see an _index.ts_, which exposes the _holidays.facade._ ts, but encapsulates the _internal.service.ts_.
+In the screenshots below, you see an _index.ts_, which exposes the _holidays-facade.service.ts_, but encapsulates the _internal.service.ts_.
+
+<img width="1000" alt="Screenshot 2023-06-13 at 17 07 40" src="https://github.com/softarc-consulting/sheriff/assets/5721205/db89179d-af7c-471b-b324-8bcf39108ee2">
+
+Every file outside of that directory (module) gets now a Linting Error when it imports it.
 
 <img width="1000" alt="Screenshot 2023-06-13 at 17 07 40" src="https://github.com/softarc-consulting/sheriff/assets/5721205/9ebe7c50-7530-4605-a7c2-2ac2c0d77df9">
 
