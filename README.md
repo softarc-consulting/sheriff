@@ -36,7 +36,7 @@ Every file outside of that directory (module) gets now a Linting Error when it i
 
 Sheriff allows the configuration of access rules between modules.
 
-For that, there has to be a _sheriff.config.ts_ in the project's root folder. The config assigns every directory that represents a module one or more tags.
+For that, there has to be a _sheriff.config.ts_ in the project's root folder. The config assigns tags to every directory that represents a module, i.e. it contains an _index.ts_.
 
 The dependency rules operate on these tags.
 
@@ -78,7 +78,12 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
+If those roles are broken, a linting error is raised:
+
+<img width="1512" alt="Screenshot 2023-06-13 at 17 50 41" src="https://github.com/softarc-consulting/sheriff/assets/5721205/37fe3f6c-1bf9-413c-999d-4da700f33257">
+
 ### Nested Paths
+
 The configuration can be simplified by nesting the paths. Multiple levels are allowed.
 
 ```typescript
@@ -109,7 +114,7 @@ export const sheriffConfig: SheriffConfig = {
 
 ### Placeholders
 
-For repeating patterns, one can also use placeholder which are marked with `<name>`:
+For repeating patterns, one can also use placeholders with the syntax `<name>`:
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
@@ -134,7 +139,7 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-Since placeholders are allowed on all levels, would lead to the following improved version:
+Since placeholders are allowed on all levels, we could have the following improved version:
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
@@ -142,7 +147,7 @@ import { SheriffConfig } from '@softarc/sheriff-core';
 export const sheriffConfig: SheriffConfig = {
   version: 1,
   tagging: {
-    'src/app/<domain>/<type>': ['domain:holidays', 'type:<type>'],
+    'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {
     'domain:holidays': ['domain:holidays', 'shared'],
@@ -154,7 +159,7 @@ export const sheriffConfig: SheriffConfig = {
 
 ### DepRules Functions & Wildcards
 
-The values of the dependency rules can also be implemented as functions. The keys allow wildcards.
+The values of the dependency rules can also be implemented as functions. The names of the tags can include wildcards.
 
 So an optimised version would look like this:
 
@@ -164,7 +169,7 @@ import { SheriffConfig } from '@softarc/sheriff-core';
 export const sheriffConfig: SheriffConfig = {
   version: 1,
   tagging: {
-    'src/app/<domain>/<type>': ['domain:holidays', 'type:<type>'],
+    'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {
     'domain:*': [({ from, to }) => from === to, 'shared'],
@@ -181,7 +186,7 @@ import { sameTag, SheriffConfig } from '@softarc/sheriff-core';
 export const sheriffConfig: SheriffConfig = {
   version: 1,
   tagging: {
-    'src/app/<domain>/<type>': ['domain:holidays', 'type:<type>'],
+    'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {
     'domain:*': [sameTag, 'shared'],
