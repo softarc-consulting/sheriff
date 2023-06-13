@@ -34,10 +34,162 @@ Every file outside of that directory (module) gets now a Linting Error when it i
 
 ## Dependency Rules
 
+Sheriff allows the configuration of access rules between modules.
+
+For that, there has to be a _sheriff.config.ts_ in the project's root folder. The config assigns every directory that represents a module one or more tags.
+
+The dependency rules operate on these tags.
+
+The following snippet shows a configuration where four directories are assigned to a domain and to a module type:
 
 ```typescript
-throw new DocsMissingException(); // ;)
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  version: 1,
+  tagging: {
+    'src/app/holidays/feature': ['domain:holidays', 'type:feature'],
+    'src/app/holidays/data': ['domain:holidays', 'type:data'],
+    'src/app/customers/feature': ['domain:customers', 'type:feature'],
+    'src/app/customers/data': ['domain:customers', 'type:data'],
+  },
+  depRules: {},
+};
 ```
+
+If modules of the same domains can access each other and if a module of type feature can access type data but not the other way around, the `depRules` in the config would have these values.
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  version: 1,
+  tagging: {
+    'src/app/holidays/feature': ['domain:holidays', 'type:feature'],
+    'src/app/holidays/data': ['domain:holidays', 'type:data'],
+    'src/app/customers/feature': ['domain:customers', 'type:feature'],
+    'src/app/customers/data': ['domain:customers', 'type:data'],
+  },
+  depRules: {
+    'domain:holidays': ['domain:holidays', 'shared'],
+    'domain:customers': ['domain:customers', 'shared'],
+    'type:feature': 'type:data',
+  },
+};
+```
+
+### Nested Paths
+The configuration can be simplified by nesting the paths. Multiple levels are allowed.
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  version: 1,
+  tagging: {
+    'src/app': {
+      'holidays': {
+        'feature': ['domain:holidays', 'type:feature'],
+        'data': ['domain:holidays', 'type:data'],
+      },
+      'customers': {
+        'feature': ['domain:customers', 'type:feature'],
+        'data': ['domain:customers', 'type:data'],
+      }
+    },
+    
+  },
+  depRules: {
+    'domain:holidays': ['domain:holidays', 'shared'],
+    'domain:customers': ['domain:customers', 'shared'],
+    'type:feature': 'type:data',
+  },
+};
+```
+
+### Placeholders
+
+For repeating patterns, one can also use placeholder which are marked with `<name>`:
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  version: 1,
+  tagging: {
+    'src/app': {
+      holidays: {
+        '<type>': ['domain:holidays', 'type:<type>'],
+      },
+      customers: {
+        '<type>': ['domain:customers', 'type:<type>'],
+      },
+    },
+  },
+  depRules: {
+    'domain:holidays': ['domain:holidays', 'shared'],
+    'domain:customers': ['domain:customers', 'shared'],
+    'type:feature': 'type:data',
+  },
+};
+```
+
+Since placeholders are allowed on all levels, would lead to the following improved version:
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  version: 1,
+  tagging: {
+    'src/app/<domain>/<type>': ['domain:holidays', 'type:<type>'],
+  },
+  depRules: {
+    'domain:holidays': ['domain:holidays', 'shared'],
+    'domain:customers': ['domain:customers', 'shared'],
+    'type:feature': 'type:data',
+  },
+};
+```
+
+### DepRules Functions & Wildcards
+
+The values of the dependency rules can also be implemented as functions. The keys allow wildcards.
+
+So an optimised version would look like this:
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  version: 1,
+  tagging: {
+    'src/app/<domain>/<type>': ['domain:holidays', 'type:<type>'],
+  },
+  depRules: {
+    'domain:*': [({ from, to }) => from === to, 'shared'],
+    'type:feature': 'type:data',
+  },
+};
+```
+
+or 
+
+```typescript
+import { sameTag, SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  version: 1,
+  tagging: {
+    'src/app/<domain>/<type>': ['domain:holidays', 'type:<type>'],
+  },
+  depRules: {
+    'domain:*': [sameTag, 'shared'],
+    'type:feature': 'type:data',
+  },
+};
+```
+
 
 ## Installation
 
