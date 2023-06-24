@@ -12,11 +12,71 @@ It is easy to use and has **zero dependencies**. The only peer dependency is Typ
 
 Examples are located in _./test-projects/_.
 
-- [Module Boundaries](#module-boundaries)
-- [Dependency Rules](#dependency-rules)
-- [Installation](#installation)
-- [Advantages](#advantages)
-- [Upcoming Features](#upcoming-features)
+- [Sheriff](#sheriff)
+  - [Installation \& Setup](#installation--setup)
+  - [Module Boundaries](#module-boundaries)
+  - [Dependency Rules](#dependency-rules)
+    - [Nested Paths](#nested-paths)
+    - [Placeholders](#placeholders)
+    - [DepRules Functions \& Wildcards](#deprules-functions--wildcards)
+  - [Advantages](#advantages)
+  - [Upcoming Features](#upcoming-features)
+
+## Installation & Setup
+
+```shell
+npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
+```
+
+In your _eslintrc.json_, insert the rules:
+
+```json
+{
+  "files": ["*.ts"],
+  "extends": ["plugin:@softarc/sheriff/default"]
+}
+```
+
+<details>
+
+<summary>Show Example for Angular (CLI)</summary>
+
+```jsonc
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "overrides": [
+    // existing rules...
+    {
+      "files": ["*.ts"]
+      "extends": ["plugin:@softarc/sheriff/default"]
+    }
+  ]
+}
+```
+
+</details>
+
+<details>
+
+<summary>Show Example for Angular (NX)</summary>
+
+```jsonc
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx"],
+  "overrides": [
+    // existing rules...
+    {
+      "files": ["*.ts"]
+      "extends": ["plugin:@softarc/sheriff/default"]
+    }
+  ]
+}
+```
+
+</details>
 
 ## Module Boundaries
 
@@ -30,7 +90,6 @@ In the screenshot below, you see an _index.ts_, which exposes the _holidays-faca
 Every file outside of that directory (module) now gets a linting error when it imports the _internal.service.ts_.
 
 <img width="1905" alt="Screenshot 2023-06-24 at 12 23 32" src="https://github.com/softarc-consulting/sheriff/assets/5721205/23db7bd9-1ce1-4cdc-9fc6-86dbdb71d0fe">
-
 
 ## Dependency Rules
 
@@ -93,16 +152,15 @@ export const sheriffConfig: SheriffConfig = {
   version: 1,
   tagging: {
     'src/app': {
-      'holidays': {
-        'feature': ['domain:holidays', 'type:feature'],
-        'data': ['domain:holidays', 'type:data'],
+      holidays: {
+        feature: ['domain:holidays', 'type:feature'],
+        data: ['domain:holidays', 'type:data'],
       },
-      'customers': {
-        'feature': ['domain:customers', 'type:feature'],
-        'data': ['domain:customers', 'type:data'],
-      }
+      customers: {
+        feature: ['domain:customers', 'type:feature'],
+        data: ['domain:customers', 'type:data'],
+      },
     },
-    
   },
   depRules: {
     'domain:holidays': ['domain:holidays', 'shared'],
@@ -178,7 +236,7 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-or 
+or
 
 ```typescript
 import { sameTag, SheriffConfig } from '@softarc/sheriff-core';
@@ -194,43 +252,6 @@ export const sheriffConfig: SheriffConfig = {
   },
 };
 ```
-
-
-## Installation
-
-```shell
-npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
-```
-
-In your _eslintrc.json_, insert the rules:
-
-```json
-    {
-      "files": ["*.ts"],
-      "extends": ["plugin:@softarc/sheriff/default"]
-    }
-```
-
-<details>
-
-<summary>Show Example for Angular</summary>
-
-```jsonc
-{
-  "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
-  "overrides": [
-    // existing rules...
-    {
-      "files": ["*.ts"]
-      "extends": ["plugin:@softarc/sheriff/default"]
-    }
-  ]
-}
-```
-
-</details>
 
 ## Advantages
 
