@@ -1,5 +1,18 @@
 {
   "name": "@softarc/sheriff-core",
-  "version": "0.10.0",
-  "type": "commonjs"
+  "version": "0.11.0",
+  "homepage": "https://github.com/softarc-consulting/sheriff",
+  "author": {
+    "name": "Rainer Hahnekamp",
+    "email": "rainer.hahnekamp@angulararchitects.io",
+    "url": "https://www.angulararchitects.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/softarc-consulting/sheriff"
+  },
+  "type": "commonjs",
+  "peerDependencies": {
+    "typescript": ">=4.8"
+  }
 }
