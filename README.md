@@ -21,16 +21,16 @@ Examples are located in _./test-projects/_.
 ## Module Boundaries
 
 Every directory with an _index.ts_ is a module. The _index.ts_ exports
-those files that should be accessible from the outside. Therefore, every `import`
-into that module must point to the _index.ts_.
+those files that should be accessible from the outside.
 
-In the screenshots below, you see an _index.ts_, which exposes the _holidays-facade.service.ts_, but encapsulates the _internal.service.ts_.
+In the screenshot below, you see an _index.ts_, which exposes the _holidays-facade.service.ts_, but encapsulates the _internal.service.ts_.
 
-<img width="1000" alt="Screenshot 2023-06-13 at 17 07 40" src="https://github.com/softarc-consulting/sheriff/assets/5721205/db89179d-af7c-471b-b324-8bcf39108ee2">
+<img width="1905" alt="Screenshot 2023-06-24 at 12 24 09" src="https://github.com/softarc-consulting/sheriff/assets/5721205/a581e3a2-9609-4fcf-b2ac-f5f761167200">
 
-Every file outside of that directory (module) gets now a Linting Error when it imports it.
+Every file outside of that directory (module) now gets a linting error when it imports the _internal.service.ts_.
 
-<img width="1000" alt="Screenshot 2023-06-13 at 17 07 40" src="https://github.com/softarc-consulting/sheriff/assets/5721205/9ebe7c50-7530-4605-a7c2-2ac2c0d77df9">
+<img width="1905" alt="Screenshot 2023-06-24 at 12 23 32" src="https://github.com/softarc-consulting/sheriff/assets/5721205/23db7bd9-1ce1-4cdc-9fc6-86dbdb71d0fe">
+
 
 ## Dependency Rules
 
