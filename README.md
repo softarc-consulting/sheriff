@@ -10,7 +10,7 @@ Sheriff enforces module boundaries and dependency rules in TypeScript.
 
 It is easy to use and has **zero dependencies**. The only peer dependency is TypeScript itself.
 
-Examples are located in _./test-projects/_.
+Some examples are located in _./test-projects/_.
 
 - [Sheriff](#sheriff)
   - [Installation \& Setup](#installation--setup)
@@ -77,6 +77,10 @@ In your _eslintrc.json_, insert the rules:
 ```
 
 </details>
+
+## Video Introduction
+
+For a quick overview, check out [this video](https://www.youtube.com/embed/yxVI6sAo8fU)
 
 ## Module Boundaries
 
