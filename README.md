@@ -14,6 +14,7 @@ Some examples are located in _./test-projects/_.
 
 - [Sheriff](#sheriff)
   - [Installation \& Setup](#installation--setup)
+  - [Video Introduction](#video-introduction)
   - [Module Boundaries](#module-boundaries)
   - [Dependency Rules](#dependency-rules)
     - [Nested Paths](#nested-paths)
