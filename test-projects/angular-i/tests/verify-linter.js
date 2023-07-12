@@ -1,11 +1,12 @@
 const fs = require('fs');
 const os = require('os');
+const path = require('path');
 
 // Absolute filepaths has to be stripped from
 // lint output.
 function readLintWithClearedFilePaths(file) {
   const linterErrors = JSON.parse(
-    fs.readFileSync(__dirname + file, {
+    fs.readFileSync(path.join(__dirname, file), {
       encoding: 'utf-8',
     })
   );
@@ -19,11 +20,11 @@ function readLintWithClearedFilePaths(file) {
 }
 
 let expectedLinterErrors = readLintWithClearedFilePaths(
-  '/expected-dynamic-import-lint.json'
+  'expected-dynamic-import-lint.json'
 );
 
 let generatedLinterErrors = readLintWithClearedFilePaths(
-  '/../dynamic-import-lint.json'
+  '../dynamic-import-lint.json'
 );
 
 if (generatedLinterErrors !== expectedLinterErrors) {
