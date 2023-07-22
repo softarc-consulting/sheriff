@@ -15,7 +15,7 @@ function readLintWithClearedFilePaths(file: string) {
   );
   return JSON.stringify(
     linterErrors.map((linterError) => {
-      linterError.filePath = linterError.filePath.replace(path.join(__dirname, '..'), '.');
+      linterError.filePath = linterError.filePath.replace( /.*\/test-projects\/angular-i\// , './');
       return linterError;
     })
   );
