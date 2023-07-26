@@ -3,13 +3,16 @@ import * as os from 'os';
 import * as path from 'path';
 import {fileURLToPath} from 'url';
 
+const expectedFile = process.argv[2];
+const actualFile = process.argv[3];
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Remove absolute filepaths
 function readLintWithClearedFilePaths(file: string) {
   const linterErrors: [{ filePath: string }] = JSON.parse(
-    fs.readFileSync(path.join(__dirname, file), {
+    fs.readFileSync(file, {
       encoding: 'utf-8',
     })
   );
@@ -21,13 +24,10 @@ function readLintWithClearedFilePaths(file: string) {
   );
 }
 
-const expectedLinterErrors = readLintWithClearedFilePaths(
-  'expected-dynamic-import-lint.json'
-);
 
-const generatedLinterErrors = readLintWithClearedFilePaths(
-  '../dynamic-import-lint.json'
-);
+
+const expectedLinterErrors = readLintWithClearedFilePaths(path.join(__dirname, expectedFile));
+const generatedLinterErrors = readLintWithClearedFilePaths(path.join(__dirname, '..', actualFile));
 
 if (generatedLinterErrors !== expectedLinterErrors) {
   throw new Error(
