@@ -23,6 +23,7 @@
     "paths": {
       "@eternal/bookings": ["src/app/bookings/index.ts"],
       "@eternal/customers/api": ["src/app/customers/api/index.ts"],
+      "@eternal/customers/data": ["src/app/customers/data/index.ts"],
       "@eternal/customers/feature": ["src/app/customers/feature/index.ts"],
       "@eternal/customers/model": ["src/app/customers/model/index.ts"],
       "@eternal/customers/ui": ["src/app/customers/ui/index.ts"],
