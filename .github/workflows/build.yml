@@ -9,6 +9,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'yarn'
+      - run: npm install -g yarn
       - run: yarn
       - run: yarn lint:all
       - run: yarn test:coverage
@@ -18,4 +19,5 @@ jobs:
       - run: cd test-projects/angular-i && yarn && npx ng lint
       - run: cd test-projects/angular-ii && yarn && npx ng lint
       - run: cd test-projects/angular-iii && yarn && npx ng lint
+      - run: ./run-integration-tests.sh
 
