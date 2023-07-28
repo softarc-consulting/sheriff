@@ -24,14 +24,14 @@ function readLintWithClearedFilePaths(file: string) {
   );
 }
 
-
-
 const expectedLinterErrors = readLintWithClearedFilePaths(path.join(__dirname, expectedFile));
 const generatedLinterErrors = readLintWithClearedFilePaths(path.join(__dirname, '..', actualFile));
 
 if (generatedLinterErrors !== expectedLinterErrors) {
+  const formattedExpected = JSON.stringify(JSON.parse(expectedLinterErrors), null, ' ');
+  const formattedGenerated = JSON.stringify(JSON.parse(generatedLinterErrors), null, ' ');
   throw new Error(
-    `Expected Linting failed:${os.EOL}expected:${os.EOL}${expectedLinterErrors}${os.EOL}generated:${os.EOL}${generatedLinterErrors}`
+    `Expected Linting failed:${os.EOL}expected:${os.EOL}${formattedExpected}${os.EOL}generated:${os.EOL}${formattedGenerated}`
   );
 } else {
   console.log('Linting output matched');
