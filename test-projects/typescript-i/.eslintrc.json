@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "warnOnUnsupportedTypeScriptVersion": true },
+  "env": {
+    "browser": false
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:@softarc/sheriff/default"]
+    }
+  ]
+}

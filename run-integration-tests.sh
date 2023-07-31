@@ -24,3 +24,11 @@ cp ./tests/customer.dependency-rule.component.ts src/app/customers/ui/customer/c
 npx ng lint --force --format json --output-file dependency-rule-lint.json
 npx ts-node --esm tests/verify-linter.mts expected-dependency-rule-lint.json dependency-rule-lint.json
 git checkout src/app/customers/ui/customer/customer.component.ts
+
+cd ../..
+
+## TypeScript Versions
+echo 'checking against different TypeScript versions'
+cp -rv ../../node_modules/@softarc node_modules
+npm install typescript@4.8
+
