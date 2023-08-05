@@ -27,8 +27,5 @@ git checkout src/app/customers/ui/customer/customer.component.ts
 
 cd ../..
 
-## TypeScript Versions
-echo 'checking against different TypeScript versions'
-cp -rv ../../node_modules/@softarc node_modules
-npm install typescript@4.8
+
 

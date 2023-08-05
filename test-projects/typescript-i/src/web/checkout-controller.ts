@@ -1,11 +1,10 @@
-import { credentials } from '../data/credentials';
 import { Checkout } from '../logic';
+import { DbService } from '@app/data';
 
 export class CheckoutController {
   constructor() {
-    console.log(
-      `attempting to connect to db with ${credentials.name}/${credentials.password}`
-    );
+    const dbService = new DbService();
+    console.log(`attempting to connect to db...`);
   }
 
   init() {
