@@ -18,14 +18,14 @@ function readLintWithClearedFilePaths(file: string) {
   );
   return JSON.stringify(
     linterErrors.map((linterError) => {
-      linterError.filePath = linterError.filePath.replace( /.*\/test-projects\/angular-i\// , './');
+      linterError.filePath = linterError.filePath.replace( /.*\/test-projects\// , './');
       return linterError;
     })
   );
 }
 
 const expectedLinterErrors = readLintWithClearedFilePaths(path.join(__dirname, expectedFile));
-const generatedLinterErrors = readLintWithClearedFilePaths(path.join(__dirname, '..', actualFile));
+const generatedLinterErrors = readLintWithClearedFilePaths(path.join(__dirname, actualFile));
 
 if (generatedLinterErrors !== expectedLinterErrors) {
   const formattedExpected = JSON.stringify(JSON.parse(expectedLinterErrors), null, ' ');
