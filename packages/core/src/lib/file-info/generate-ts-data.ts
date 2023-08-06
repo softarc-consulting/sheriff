@@ -1,8 +1,8 @@
-import getFs, { isFsVirtualised } from '../fs/getFs';
+import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import TsData from './ts-data';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
-import { FsPath, toFsPath } from './fs-path';
+import { FsPath } from './fs-path';
 
 export const generateTsData = (tsConfigPath: FsPath): TsData => {
   const { paths, rootDir } = getTsPathsAndRootDir(tsConfigPath);
@@ -17,22 +17,9 @@ export const generateTsData = (tsConfigPath: FsPath): TsData => {
     ts.sys,
     cwd
   );
+  const fakeTsSys = {
+    fileExists: (path: string) => fs.exists(path),
+  } as typeof ts.sys;
 
-  const sys = getTsSys();
-
-  return { paths, configObject, cwd, sys, rootDir };
+  return { paths, configObject, cwd, sys: fakeTsSys, rootDir };
 };
-
-function getTsSys(): ts.System {
-  if (isFsVirtualised()) {
-    const fs = getFs();
-    return {
-      fileExists: (path: string) => fs.exists(path),
-      readFile(path: string): string | undefined {
-        return fs.readFile(toFsPath(path));
-      },
-    } as typeof ts.sys;
-  } else {
-    return ts.sys;
-  }
-}
