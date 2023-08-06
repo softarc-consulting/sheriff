@@ -1,6 +1,9 @@
 #!/bin/bash
 
-## TypeScript Versions
+# This uses different TypeScript versions and verifies that Sheriff works.
+# We need to copy Sheriff from the parent node_modules. Otherwise, ESLint
+# would also pick the TypeScript version from the parent.
+
 echo 'checking against different TypeScript versions'
 
 declare -a versions=('4.8' '4.9' '5.0' '5.1')
