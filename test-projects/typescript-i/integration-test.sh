@@ -2,12 +2,12 @@
 
 ## TypeScript Versions
 echo 'checking against different TypeScript versions'
-cp -r ../../node_modules/@softarc node_modules
 
 declare -a versions=('4.8' '4.9' '5.0' '5.1')
 
 for version in ${versions[*]}; do
   npm install typescript@$version
+  cp -r ../../node_modules/@softarc node_modules/
   installed_version=$(npx tsc -v)
 
   if [[ ! $installed_version == "Version $version"* ]]
