@@ -42,3 +42,4 @@ testem.log
 Thumbs.db
 /dynamic-import-lint.json
 /deep-import-lint.json
+/internal-error-processing-lint.json

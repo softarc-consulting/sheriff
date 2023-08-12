@@ -1,6 +1,5 @@
 set -e
 yarn
-cp -r ../../node_modules/@softarc node_modules
 
 # Dynamic Import Check
 echo 'checking for dynamic import error'
@@ -25,7 +24,7 @@ git checkout src/app/customers/ui/customer/customer.component.ts
 
 ## Internal Error Processing
 echo 'checking for internal error processing'
-cp ./tests/empty-sheriff-config.ts ./sheriff.config.ts
+cp ./tests/empty-sheriff.config.ts ./sheriff.config.ts
 npx ng lint --force --format json --output-file internal-error-processing-lint.json
 npx ts-node --esm ../verify-linter.mts ./angular-i/tests/expected-internal-error-processing-lint.json ./angular-i/internal-error-processing-lint.json
 git checkout sheriff.config.ts
