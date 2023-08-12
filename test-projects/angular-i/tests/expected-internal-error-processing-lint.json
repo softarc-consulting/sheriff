@@ -1,0 +1,1658 @@
+[
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/app.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 43
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component } from '@angular/core';\nimport { MatToolbarModule } from '@angular/material/toolbar';\nimport { MatSidenavModule } from '@angular/material/sidenav';\nimport { SidemenuComponent } from './shell/sidemenu/sidemenu.component';\nimport { HeaderComponent } from './shell/header/header.component';\nimport { RouterOutlet } from '@angular/router';\nimport {\n  LoaderComponent,\n  MessageComponent,\n} from '@eternal/shared/ui-messaging';\n\n@Component({\n  selector: 'eternal-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss'],\n  standalone: true,\n  imports: [\n    MatToolbarModule,\n    MatSidenavModule,\n    LoaderComponent,\n    MessageComponent,\n    SidemenuComponent,\n    HeaderComponent,\n    RouterOutlet,\n  ],\n})\nexport class AppComponent {}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/app.routes.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 42
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Routes } from '@angular/router';\nimport { UserLoaderGuard } from './shell/services/user-loader.guard';\nimport { HomeComponent } from './shell/home.component';\n\nexport const appRoutes: Routes = [\n  {\n    path: '',\n    canActivate: [UserLoaderGuard],\n    children: [\n      {\n        path: '',\n        component: HomeComponent,\n      },\n      {\n        path: 'customers',\n        loadChildren: () =>\n          import('@eternal/customers/feature').then((m) => m.customersRoutes),\n      },\n      {\n        path: 'bookings',\n        loadChildren: () =>\n          import('@eternal/bookings').then((m) => m.bookingsRoutes),\n      },\n      {\n        path: 'holidays',\n        loadChildren: () =>\n          import('@eternal/holidays/feature').then((m) => m.holidaysRoutes),\n      },\n    ],\n  },\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings/+state/bookings.actions.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 68
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { createActionGroup, emptyProps, props } from '@ngrx/store';\nimport { Booking } from './bookings.reducer';\n\nexport const bookingsActions = createActionGroup({\n  source: 'Customer Bookings',\n  events: {\n    Load: emptyProps(),\n    Loaded: props<{ bookings: Booking[] }>(),\n    Reset: emptyProps(),\n  },\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings/+state/bookings.effects.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';\nimport { Store } from '@ngrx/store';\nimport { filter, map } from 'rxjs';\nimport { bookingsActions } from './bookings.actions';\nimport { Booking } from './bookings.reducer';\nimport { CustomersApi } from '@eternal/customers/api';\n\nconst bookings: Map<number, Booking[]> = new Map<number, Booking[]>();\nbookings.set(1, [\n  {\n    id: 1,\n    holidayId: 1,\n    bookingDate: new Date(2022, 1, 2),\n    status: 'pending',\n    comment: \"A little bit unsure about the holiday. Let's see\",\n  },\n  {\n    id: 2,\n    holidayId: 2,\n    bookingDate: new Date(2022, 1, 2),\n    status: 'cancelled',\n    comment: 'Seemed to be a little bit stressed out',\n  },\n]);\nbookings.set(3, [\n  {\n    id: 3,\n    holidayId: 1,\n    bookingDate: new Date(2022, 1, 2),\n    status: 'finished',\n    comment:\n      \"According to Jeremy, he's a quite a grumbler. Complains all the time and nothing seems to be satisfactory.\",\n  },\n]);\n\n@Injectable()\nexport class BookingsEffects {\n  #actions$ = inject(Actions);\n  #store = inject(Store);\n  #customersApi = inject(CustomersApi);\n\n  load$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(bookingsActions.load),\n      concatLatestFrom(() => this.#customersApi.selectedCustomer$),\n      map(([, customerId]) => customerId),\n      filter(Boolean),\n      map((customer) =>\n        bookingsActions.loaded({ bookings: bookings.get(customer.id) || [] })\n      )\n    );\n  });\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings/+state/bookings.reducer.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 64
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { createFeature, createReducer, on } from '@ngrx/store';\nimport { bookingsActions } from './bookings.actions';\n\nexport type BookingStatus =\n  | 'pending'\n  | 'booked'\n  | 'paid'\n  | 'cancelled'\n  | 'finished';\n\nexport interface Booking {\n  id: number;\n  holidayId: number;\n  bookingDate: Date;\n  status: BookingStatus;\n  comment: string;\n}\n\nexport interface BookingsState {\n  bookings: Booking[];\n  loaded: boolean;\n}\n\nconst initialState: BookingsState = {\n  bookings: [],\n  loaded: false,\n};\n\nexport const bookingsFeature = createFeature({\n  name: 'bookings',\n  reducer: createReducer(\n    initialState,\n    on(bookingsActions.loaded, (state, action): BookingsState => {\n      return {\n        ...state,\n        bookings: action.bookings,\n        loaded: true,\n      };\n    })\n  ),\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings/+state/bookings.selectors.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 54
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { bookingsFeature } from './bookings.reducer';\n\nconst { selectBookings, selectLoaded } = bookingsFeature;\n\nexport const fromBookings = { selectBookings, selectLoaded };\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings/bookings.routes.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 42
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Routes } from '@angular/router';\nimport { provideEffects } from '@ngrx/effects';\nimport { provideState } from '@ngrx/store';\nimport { bookingsFeature } from './+state/bookings.reducer';\nimport { OverviewComponent } from './overview/overview.component';\nimport { BookingsEffects } from './+state/bookings.effects';\n\nexport const bookingsRoutes: Routes = [\n  {\n    path: '',\n    providers: [\n      provideState(bookingsFeature),\n      provideEffects([BookingsEffects]),\n    ],\n    component: OverviewComponent,\n  },\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings/overview/overview.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/bookings ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 59
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, inject, OnInit } from '@angular/core';\nimport { MatTableDataSource, MatTableModule } from '@angular/material/table';\nimport { Store } from '@ngrx/store';\nimport { combineLatest } from 'rxjs';\nimport { DatePipe } from '@angular/common';\nimport { Booking } from '../+state/bookings.reducer';\nimport { fromBookings } from '../+state/bookings.selectors';\nimport { bookingsActions } from '../+state/bookings.actions';\nimport { CustomersApi } from '@eternal/customers/api';\nimport { map } from 'rxjs/operators';\nimport { filterDefined } from '@eternal/shared/ngrx-utils';\n\n@Component({\n  selector: 'eternal-overview',\n  templateUrl: './overview.component.html',\n  standalone: true,\n  imports: [MatTableModule, DatePipe],\n})\nexport class OverviewComponent implements OnInit {\n  userName = '';\n  displayedColumns = ['holidayId', 'date', 'status', 'comment'];\n  dataSource = new MatTableDataSource<Booking>([]);\n  customersApi = inject(CustomersApi);\n\n  #store = inject(Store);\n\n  bookings$ = combineLatest({\n    customer: this.customersApi.selectedCustomer$,\n    bookings: this.#store.select(fromBookings.selectBookings),\n    loaded: this.#store.select(fromBookings.selectLoaded),\n  }).pipe(\n    map(({ customer, bookings, loaded }) => {\n      if (customer === undefined) {\n        return undefined;\n      }\n\n      return {\n        customerName: customer.name + ', ' + customer.firstname,\n        bookings,\n        loaded,\n      };\n    }),\n    filterDefined\n  );\n\n  ngOnInit(): void {\n    this.bookings$.subscribe((bookingData) => {\n      if (bookingData?.loaded === false) {\n        this.#store.dispatch(bookingsActions.load());\n      } else {\n        this.userName = bookingData.customerName;\n        this.dataSource.data = bookingData.bookings;\n      }\n    });\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/api/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/api ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { CustomersRepository } from '../data';\n\n@Injectable({ providedIn: 'root' })\nexport class CustomersApi {\n  repo = inject(CustomersRepository);\n  get selectedCustomer$() {\n    return this.repo.selectedCustomer$;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data/customers-repository.service.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { Store } from '@ngrx/store';\nimport { customersActions } from './customers.actions';\nimport { Customer } from '@eternal/customers/model';\nimport { fromCustomers } from './customers.selectors';\n\n@Injectable({ providedIn: 'root' })\nexport class CustomersRepository {\n  #store = inject(Store);\n\n  get pagedCustomers$() {\n    return this.#store.select(fromCustomers.selectPagedCustomers);\n  }\n\n  get selectedCustomer$() {\n    return this.#store.select(fromCustomers.selectSelectedCustomer);\n  }\n\n  findById(id: number) {\n    return this.#store.select(fromCustomers.selectById(id));\n  }\n\n  add(customer: Customer) {\n    this.#store.dispatch(customersActions.add({ customer }));\n  }\n\n  update(customer: Customer) {\n    this.#store.dispatch(customersActions.update({ customer }));\n  }\n\n  remove(customer: Customer) {\n    this.#store.dispatch(customersActions.remove({ customer }));\n  }\n\n  load(page: number) {\n    this.#store.dispatch(customersActions.load({ page }));\n  }\n\n  select(id: number) {\n    this.#store.dispatch(customersActions.select({ id }));\n  }\n\n  unselect() {\n    this.#store.dispatch(customersActions.unselect());\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data/customers.actions.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 53
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Customer } from '@eternal/customers/model';\nimport { createActionGroup, emptyProps, props } from '@ngrx/store';\n\nexport const customersActions = createActionGroup({\n  source: 'Customers',\n  events: {\n    Load: props<{ page: number }>(),\n    Loaded: props<{ customers: Customer[]; total: number; page: number }>(),\n    Add: props<{ customer: Customer }>(),\n    Added: props<{ customers: Customer[] }>(),\n    Update: props<{ customer: Customer }>(),\n    Updated: props<{ customers: Customer[] }>(),\n    Remove: props<{ customer: Customer }>(),\n    Removed: props<{ customers: Customer[] }>(),\n    Select: props<{ id: number }>(),\n    Unselect: emptyProps(),\n  },\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data/customers.effects.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 63
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpClient, HttpParams } from '@angular/common/http';\nimport { inject, Injectable } from '@angular/core';\nimport { Router } from '@angular/router';\nimport { Customer } from '@eternal/customers/model';\nimport { MessageService } from '@eternal/shared/ui-messaging';\nimport { Actions, createEffect, ofType } from '@ngrx/effects';\nimport { concatMap, map, switchMap, tap } from 'rxjs/operators';\nimport { customersActions } from './customers.actions';\n\n@Injectable()\nexport class CustomersEffects {\n  #actions$ = inject(Actions);\n  #http = inject(HttpClient);\n  #router = inject(Router);\n  #uiMessage = inject(MessageService);\n  #baseUrl = '/customers';\n\n  load$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(customersActions.load),\n      switchMap(({ page }) =>\n        this.#http\n          .get<{ content: Customer[]; total: number }>(this.#baseUrl, {\n            params: new HttpParams().set('page', page),\n          })\n          .pipe(\n            map(({ content, total }) =>\n              customersActions.loaded({ customers: content, total, page })\n            )\n          )\n      )\n    );\n  });\n\n  add$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(customersActions.add),\n      concatMap(({ customer }) =>\n        this.#http.post<{ customers: Customer[]; id: number }>(\n          this.#baseUrl,\n          customer\n        )\n      ),\n\n      tap(() => this.#router.navigateByUrl('/customers')),\n      map(() => customersActions.load({ page: 1 }))\n    );\n  });\n\n  update$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(customersActions.update),\n      concatMap(({ customer }) =>\n        this.#http\n          .put<Customer[]>(this.#baseUrl, customer)\n          .pipe(tap(() => this.#uiMessage.info('Customer has been updated')))\n      ),\n      map(() => customersActions.load({ page: 1 }))\n    );\n  });\n\n  remove$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(customersActions.remove),\n      concatMap(({ customer }) =>\n        this.#http.delete<Customer[]>(`${this.#baseUrl}/${customer.id}`)\n      ),\n      tap(() => this.#router.navigateByUrl('/customers')),\n      map(() => customersActions.load({ page: 1 }))\n    );\n  });\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data/customers.reducer.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 53
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Customer } from '@eternal/customers/model';\nimport { createFeature, createReducer, on } from '@ngrx/store';\nimport { customersActions } from './customers.actions';\n\nexport interface CustomersState {\n  customers: Customer[];\n  page: number;\n  total: number;\n  selectedId: number | undefined;\n}\n\nexport const initialState: CustomersState = {\n  customers: [],\n  page: 0,\n  total: 0,\n  selectedId: undefined,\n};\n\nexport const customersFeature = createFeature({\n  name: 'customers',\n  reducer: createReducer<CustomersState>(\n    initialState,\n    on(\n      customersActions.load,\n      (state): CustomersState => ({\n        ...state,\n      })\n    ),\n    on(\n      customersActions.loaded,\n      (state, { customers, total, page }): CustomersState => ({\n        ...state,\n        customers,\n        total,\n        page,\n      })\n    ),\n    on(\n      customersActions.select,\n      (state, { id }): CustomersState => ({\n        ...state,\n        selectedId: id,\n      })\n    ),\n    on(\n      customersActions.unselect,\n      (state): CustomersState => ({\n        ...state,\n        selectedId: undefined,\n      })\n    )\n  ),\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data/customers.selectors.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 53
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Customer } from '@eternal/customers/model';\nimport { createSelector } from '@ngrx/store';\nimport { customersFeature } from './customers.reducer';\n\nconst { selectCustomers, selectSelectedId } = customersFeature;\n\nconst selectById = (id: number) =>\n  createSelector(selectCustomers, (state: Customer[]): Customer | undefined =>\n    state.find((p) => p.id === id)\n  );\n\nconst selectSelectedCustomer = createSelector(\n  selectCustomers,\n  selectSelectedId,\n  (customers, selectedId): Customer | undefined =>\n    customers.find((customer) => customer.id === selectedId)\n);\n\nconst selectPagedCustomers = createSelector(\n  selectCustomers,\n  selectSelectedId,\n  customersFeature.selectPage,\n  customersFeature.selectTotal,\n  (customers, selectedId, page, total) => ({\n    customers: customers.map((customer) => ({\n      ...customer,\n      selected: customer.id === selectedId,\n    })),\n    page,\n    total,\n  })\n);\n\nexport const fromCustomers = {\n  selectCustomers,\n  selectPagedCustomers,\n  selectSelectedCustomer,\n  selectById,\n};\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data/provide-customers.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { provideState } from '@ngrx/store';\nimport { customersFeature } from './customers.reducer';\nimport { provideEffects } from '@ngrx/effects';\nimport { CustomersEffects } from './customers.effects';\n\nexport const provideCustomers = [\n  provideState(customersFeature),\n  provideEffects([CustomersEffects]),\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature/components/add-customer.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { AsyncPipe, NgIf } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { Customer } from '@eternal/customers/model';\nimport { selectCountries } from '@eternal/shared/master-data';\nimport { Store } from '@ngrx/store';\nimport { CustomerComponent } from '@eternal/customers/ui';\nimport { CustomersRepository } from '../../data';\n\n@Component({\n  selector: 'eternal-add-customer',\n  template: ` <eternal-customer\n    [customer]=\"customer\"\n    *ngIf=\"countries$ | async as countries\"\n    [countries]=\"countries\"\n    (save)=\"submit($event)\"\n    [showDeleteButton]=\"false\"\n  ></eternal-customer>`,\n  standalone: true,\n  imports: [CustomerComponent, NgIf, AsyncPipe],\n})\nexport class AddCustomerComponent {\n  #store = inject(Store);\n  #customersRepository = inject(CustomersRepository);\n  customer: Customer = {\n    id: 0,\n    firstname: '',\n    name: '',\n    country: '',\n    birthdate: '',\n  };\n  countries$ = this.#store.select(selectCountries);\n\n  submit(customer: Customer) {\n    this.#customersRepository.add({ ...customer, id: 0 });\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature/components/customers-container.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { AsyncPipe, NgIf } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';\nimport { CustomersRepository } from '../../data';\nimport { Observable } from 'rxjs';\nimport { map } from 'rxjs/operators';\n\n@Component({\n  template: ` <eternal-customers\n    *ngIf=\"viewModel$ | async as viewModel\"\n    [viewModel]=\"viewModel\"\n    (setSelected)=\"setSelected($event)\"\n    (setUnselected)=\"setUnselected()\"\n    (switchPage)=\"switchPage($event)\"\n  ></eternal-customers>`,\n  standalone: true,\n  imports: [CustomersComponent, NgIf, AsyncPipe],\n})\nexport class CustomersContainerComponent {\n  #customersRepository = inject(CustomersRepository);\n  viewModel$: Observable<CustomersViewModel> =\n    this.#customersRepository.pagedCustomers$.pipe(\n      map((pagedCustomers) => ({\n        customers: pagedCustomers.customers,\n        pageIndex: pagedCustomers.page - 1,\n        length: pagedCustomers.total,\n      }))\n    );\n\n  setSelected(id: number) {\n    this.#customersRepository.select(id);\n  }\n\n  setUnselected() {\n    this.#customersRepository.unselect();\n  }\n\n  switchPage(page: number) {\n    console.log('switch to page ' + page + ' is not implemented');\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature/components/customers-root/customers-root.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 43
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component } from '@angular/core';\nimport { RouterOutlet } from '@angular/router';\n\n@Component({\n  templateUrl: './customers-root.component.html',\n  standalone: true,\n  imports: [RouterOutlet],\n})\nexport class CustomersRootComponent {}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature/components/edit-customer.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 43
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component } from '@angular/core';\nimport { ActivatedRoute } from '@angular/router';\nimport { Customer } from '@eternal/customers/model';\nimport { CustomerComponent } from '@eternal/customers/ui';\nimport { Options } from '@eternal/shared/form';\nimport { selectCountries } from '@eternal/shared/master-data';\nimport { Store } from '@ngrx/store';\nimport { combineLatest, Observable } from 'rxjs';\nimport { filter, map } from 'rxjs/operators';\nimport { AsyncPipe, NgIf } from '@angular/common';\nimport { CustomersRepository } from '../../data';\n\n@Component({\n  selector: 'eternal-edit-customer',\n  template: ` <eternal-customer\n    *ngIf=\"data$ | async as data\"\n    [customer]=\"data.customer\"\n    [countries]=\"data.countries\"\n    (save)=\"this.submit($event)\"\n    (remove)=\"this.remove($event)\"\n  ></eternal-customer>`,\n  standalone: true,\n  imports: [CustomerComponent, NgIf, AsyncPipe],\n})\nexport class EditCustomerComponent {\n  data$: Observable<{ customer: Customer; countries: Options }>;\n  customerId = 0;\n\n  constructor(\n    private store: Store,\n    private customersRepository: CustomersRepository,\n    private route: ActivatedRoute\n  ) {\n    const countries$: Observable<Options> = this.store.select(selectCountries);\n    const customer$ = this.customersRepository\n      .findById(Number(this.route.snapshot.paramMap.get('id') || ''))\n      .pipe(\n        this.#verifyCustomer,\n        map((customer) => {\n          this.customerId = customer.id;\n          return { ...customer };\n        })\n      );\n\n    this.data$ = combineLatest({\n      countries: countries$,\n      customer: customer$,\n    }).pipe(map(({ countries, customer }) => ({ countries, customer })));\n  }\n\n  submit(customer: Customer) {\n    this.customersRepository.update({ ...customer, id: this.customerId });\n  }\n\n  remove(customer: Customer) {\n    this.customersRepository.remove({ ...customer, id: this.customerId });\n  }\n\n  #verifyCustomer(customer$: Observable<undefined | Customer>) {\n    function customerGuard(\n      customer: undefined | Customer\n    ): customer is Customer {\n      return customer !== undefined;\n    }\n\n    return customer$.pipe(filter(customerGuard));\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature/customers.routes.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 42
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Routes } from '@angular/router';\nimport { AddCustomerComponent } from './components/add-customer.component';\nimport { CustomersContainerComponent } from './components/customers-container.component';\nimport { EditCustomerComponent } from './components/edit-customer.component';\nimport { DataGuard } from './services/data.guard';\nimport { CustomersRootComponent } from './components/customers-root/customers-root.component';\nimport { provideCustomers } from '../data';\n\nexport const customersRoutes: Routes = [\n  {\n    path: '',\n    canActivate: [DataGuard],\n    component: CustomersRootComponent,\n    providers: [provideCustomers],\n    children: [\n      {\n        path: '',\n        component: CustomersContainerComponent,\n      },\n      {\n        path: 'new',\n        component: AddCustomerComponent,\n        data: { mode: 'new' },\n      },\n      {\n        path: ':id',\n        component: EditCustomerComponent,\n        data: { mode: 'edit' },\n      },\n    ],\n  },\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature/services/data.guard.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { CanActivate } from '@angular/router';\nimport { CustomersRepository } from '../../data';\n\n@Injectable({\n  providedIn: 'root',\n})\nexport class DataGuard implements CanActivate {\n  #customersRepository = inject(CustomersRepository);\n\n  canActivate(): boolean {\n    this.#customersRepository.load(1);\n    return true;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature/services/data.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 53
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Customer } from '@eternal/customers/model';\n\nexport const customers: Customer[] = [\n  {\n    id: 1,\n    firstname: 'Hugo',\n    name: 'Brandt',\n    country: 'AT',\n    birthdate: '1974-05-12',\n  },\n  {\n    id: 2,\n    firstname: 'Natalia',\n    name: 'Rusnov',\n    country: 'RU',\n    birthdate: '1965-08-09',\n  },\n  {\n    id: 3,\n    firstname: 'Fernandez',\n    name: 'Rodriguez',\n    country: 'ES',\n    birthdate: '2001-01-05',\n  },\n  {\n    id: 4,\n    firstname: 'Li',\n    name: 'Qian',\n    country: 'CN',\n    birthdate: '1991-12-05',\n  },\n  {\n    id: 5,\n    firstname: 'Kakani',\n    name: 'Bhattacharjee',\n    country: 'IN',\n    birthdate: '1989-10-11',\n  },\n  {\n    id: 6,\n    firstname: 'Paul',\n    name: 'Sullivan',\n    country: 'UK',\n    birthdate: '1995-05-31',\n  },\n  {\n    id: 6,\n    firstname: 'Samantha',\n    name: 'Jones',\n    country: 'US',\n    birthdate: '2005-07-15',\n  },\n  {\n    id: 7,\n    firstname: 'Renate',\n    name: 'Hoffmann',\n    country: 'DE',\n    birthdate: '1987-11-15',\n  },\n  {\n    id: 8,\n    firstname: 'Angelika',\n    name: 'Hoffmann',\n    country: 'DE',\n    birthdate: '1987-11-15',\n  },\n  {\n    id: 9,\n    firstname: 'Jean-Paul',\n    name: 'Néro',\n    country: 'FR',\n    birthdate: '1955-09-21',\n  },\n  {\n    id: 10,\n    firstname: 'Stefanie',\n    name: 'Niederrein',\n    country: 'AT',\n    birthdate: '1997-03-12',\n  },\n  {\n    id: 11,\n    firstname: 'Denise',\n    name: 'Keller',\n    country: 'CH',\n    birthdate: '1998-07-01',\n  },\n  {\n    id: 12,\n    firstname: 'Johan',\n    name: 'Driekamp',\n    country: 'NL',\n    birthdate: '1958-09-12',\n  },\n  {\n    id: 13,\n    firstname: 'Estefanía',\n    name: 'Sánchez',\n    country: 'ES',\n    birthdate: '1985-10-10',\n  },\n  {\n    id: 14,\n    firstname: 'John',\n    name: 'Harrison',\n    country: 'UK',\n    birthdate: '1977-05-20',\n  },\n  {\n    id: 15,\n    firstname: 'Helene',\n    name: 'Ford',\n    country: 'CA',\n    birthdate: '1969-03-04',\n  },\n  {\n    id: 16,\n    firstname: 'Jan',\n    name: 'Janáček',\n    country: 'CZ',\n    birthdate: '2002-01-02',\n  },\n  {\n    id: 17,\n    firstname: 'Knut',\n    name: 'Eggen',\n    country: 'NO',\n    birthdate: '1999-07-17',\n  },\n  {\n    id: 18,\n    firstname: 'Oskar',\n    name: 'Sjögren',\n    country: 'SE',\n    birthdate: '1961-03-22',\n  },\n  {\n    id: 19,\n    firstname: 'Timéa',\n    name: 'Szabó',\n    country: 'HU',\n    birthdate: '1969-01-26',\n  },\n  {\n    id: 20,\n    firstname: 'Latitia',\n    name: 'Bellitissa',\n    country: 'IT',\n    birthdate: '2002-05-30',\n  },\n  {\n    id: 21,\n    firstname: 'Bjørn',\n    name: 'Larsson',\n    country: 'DK',\n    birthdate: '1964-11-11',\n  },\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/ui/customer.pipe.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/ui ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 53
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Pipe, PipeTransform } from '@angular/core';\nimport { Customer } from '@eternal/customers/model';\n\n@Pipe({\n  name: 'customer',\n  standalone: true,\n})\nexport class CustomerPipe implements PipeTransform {\n  transform(customer: Customer): string {\n    if (!customer.name && !customer.firstname) {\n      return '-';\n    }\n    return `${customer.name}, ${customer.firstname}`;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/ui/customer/customer.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/ui ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 80
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, EventEmitter, inject, Input, Output } from '@angular/core';\nimport {\n  NonNullableFormBuilder,\n  ReactiveFormsModule,\n  Validators,\n} from '@angular/forms';\nimport { RouterLink } from '@angular/router';\nimport { AsyncPipe, NgForOf, NgIf } from '@angular/common';\nimport { MatButtonModule } from '@angular/material/button';\nimport { MatDatepickerModule } from '@angular/material/datepicker';\nimport { MatFormFieldModule } from '@angular/material/form-field';\nimport { MatInputModule } from '@angular/material/input';\nimport { MatSelectModule } from '@angular/material/select';\nimport { FormErrorsComponent } from '@eternal/shared/form';\nimport { Customer } from '@eternal/customers/model';\nimport { Options } from '@eternal/shared/form';\n\n@Component({\n  selector: 'eternal-customer',\n  templateUrl: './customer.component.html',\n  styleUrls: ['./customer.component.scss'],\n  standalone: true,\n  imports: [\n    ReactiveFormsModule,\n    MatButtonModule,\n    MatDatepickerModule,\n    RouterLink,\n    AsyncPipe,\n    NgIf,\n    MatFormFieldModule,\n    FormErrorsComponent,\n    MatInputModule,\n    MatSelectModule,\n    NgForOf,\n  ],\n})\nexport class CustomerComponent {\n  @Input() customer: Customer | undefined;\n  @Input() countries: Options = [];\n  @Input() showDeleteButton = true;\n  @Output() save = new EventEmitter<Customer>();\n  @Output() remove = new EventEmitter<Customer>();\n\n  formGroup = inject(NonNullableFormBuilder).group({\n    id: [0],\n    firstname: ['', [Validators.required]],\n    name: ['', [Validators.required]],\n    country: ['', [Validators.required]],\n    birthdate: ['', [Validators.required]],\n  });\n\n  submit() {\n    if (this.formGroup.valid) {\n      this.save.emit(this.formGroup.getRawValue());\n    }\n  }\n\n  handleRemove() {\n    if (confirm(`Really delete?`)) {\n      this.remove.emit(this.formGroup.getRawValue());\n    }\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/ui/customers/customers.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/customers/ui ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 7,
+        "endColumn": 24
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import {\n  Component,\n  EventEmitter,\n  Input,\n  OnChanges,\n  Output,\n} from '@angular/core';\nimport {\n  MatSlideToggleChange,\n  MatSlideToggleModule,\n} from '@angular/material/slide-toggle';\nimport { MatTableDataSource, MatTableModule } from '@angular/material/table';\nimport { Customer } from '@eternal/customers/model';\nimport { MatIconModule } from '@angular/material/icon';\nimport { MatButtonModule } from '@angular/material/button';\nimport { MatPaginatorModule } from '@angular/material/paginator';\nimport { CustomerPipe } from '../customer.pipe';\nimport { RouterLinkWithHref } from '@angular/router';\nimport { DatePipe, NgIf } from '@angular/common';\n\nexport interface CustomerWithSelected extends Customer {\n  selected: boolean;\n}\nexport interface CustomersViewModel {\n  customers: CustomerWithSelected[];\n  pageIndex: number;\n  length: number;\n}\n\n@Component({\n  selector: 'eternal-customers',\n  templateUrl: './customers.component.html',\n  standalone: true,\n  imports: [\n    MatIconModule,\n    MatButtonModule,\n    CustomerPipe,\n    MatPaginatorModule,\n    MatTableModule,\n    MatSlideToggleModule,\n    RouterLinkWithHref,\n    NgIf,\n    DatePipe,\n  ],\n})\nexport class CustomersComponent implements OnChanges {\n  @Input() viewModel: CustomersViewModel | undefined;\n  @Output() setSelected = new EventEmitter<number>();\n  @Output() setUnselected = new EventEmitter<number>();\n  @Output() switchPage = new EventEmitter<number>();\n\n  displayedColumns = ['name', 'country', 'birthdate', 'action'];\n  dataSource = new MatTableDataSource<CustomerWithSelected>([]);\n\n  ngOnChanges(): void {\n    if (this.viewModel) {\n      this.dataSource.data = this.viewModel.customers;\n    }\n  }\n\n  toggleSelection(toggleChange: MatSlideToggleChange, id: number) {\n    if (toggleChange.checked) {\n      this.setSelected.emit(id);\n    } else {\n      this.setUnselected.emit(id);\n    }\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/+state/holidays.actions.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Holiday } from '@eternal/holidays/model';\nimport { createActionGroup, emptyProps, props } from '@ngrx/store';\n\nexport const holidaysActions = createActionGroup({\n  source: 'Holidays',\n  events: {\n    Load: emptyProps(),\n    Loaded: props<{ holidays: Holiday[] }>(),\n    'Add Favourite': props<{ id: number }>(),\n    'Favourite Added': props<{ id: number }>(),\n    'Remove Favourite': props<{ id: number }>(),\n    'Favourite Removed': props<{ id: number }>(),\n  },\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/+state/holidays.effects.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpClient } from '@angular/common/http';\nimport { inject, Injectable } from '@angular/core';\nimport { Holiday } from '@eternal/holidays/model';\nimport { Configuration } from '@eternal/shared/config';\nimport { Actions, createEffect, ofType } from '@ngrx/effects';\nimport { concatMap, map, switchMap } from 'rxjs/operators';\nimport { holidaysActions } from './holidays.actions';\n\n@Injectable()\nexport class HolidaysEffects {\n  #actions$ = inject(Actions);\n  #httpClient = inject(HttpClient);\n  #config = inject(Configuration);\n  #baseUrl = '/holiday';\n\n  load$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(holidaysActions.load),\n      switchMap(() => this.#httpClient.get<Holiday[]>(this.#baseUrl)),\n      map((holidays) =>\n        holidays.map((holiday) => ({\n          ...holiday,\n          imageUrl: `${this.#config.baseUrl}${holiday.imageUrl}`,\n        }))\n      ),\n      map((holidays) => holidaysActions.loaded({ holidays }))\n    );\n  });\n\n  addFavourite$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(holidaysActions.addFavourite),\n      concatMap(({ id }) =>\n        this.#httpClient\n          .post<void>(`${this.#baseUrl}/favourite/${id}`, {})\n          .pipe(map(() => holidaysActions.favouriteAdded({ id })))\n      )\n    );\n  });\n\n  removeFavourite$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(holidaysActions.removeFavourite),\n      concatMap(({ id }) =>\n        this.#httpClient\n          .delete(`${this.#baseUrl}/favourite/${id}`)\n          .pipe(map(() => holidaysActions.favouriteRemoved({ id })))\n      )\n    );\n  });\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/+state/holidays.reducer.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Holiday } from '@eternal/holidays/model';\nimport { createFeature, createReducer, on } from '@ngrx/store';\nimport { holidaysActions } from './holidays.actions';\n\nexport interface HolidaysState {\n  holidays: Holiday[];\n  favouriteIds: number[];\n}\n\nconst initialState: HolidaysState = { holidays: [], favouriteIds: [] };\n\nexport const holidaysFeature = createFeature({\n  name: 'holidays',\n  reducer: createReducer<HolidaysState>(\n    initialState,\n    on(\n      holidaysActions.loaded,\n      (state, { holidays }): HolidaysState => ({\n        ...state,\n        holidays,\n      })\n    ),\n    on(holidaysActions.favouriteAdded, (state, { id }): HolidaysState => {\n      if (state.favouriteIds.includes(id)) {\n        return state;\n      }\n\n      return { ...state, favouriteIds: [...state.favouriteIds, id] };\n    }),\n    on(\n      holidaysActions.favouriteRemoved,\n      (state, { id }): HolidaysState => ({\n        ...state,\n        favouriteIds: state.favouriteIds.filter(\n          (favouriteId) => favouriteId !== id\n        ),\n      })\n    )\n  ),\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/+state/holidays.selectors.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 54
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { holidaysFeature } from './holidays.reducer';\nimport { createSelector } from '@ngrx/store';\n\nconst selectHolidaysWithFavourite = createSelector(\n  holidaysFeature.selectHolidays,\n  holidaysFeature.selectFavouriteIds,\n  (holidays, favouriteIds) =>\n    holidays.map((holiday) => ({\n      ...holiday,\n      isFavourite: favouriteIds.includes(holiday.id),\n    }))\n);\n\nexport const fromHolidays = {\n  get: holidaysFeature.selectHolidays,\n  selectHolidaysWithFavourite,\n};\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/address-lookuper.service.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 63
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpClient, HttpParams } from '@angular/common/http';\nimport { inject, Injectable } from '@angular/core';\nimport { Observable } from 'rxjs';\nimport { map } from 'rxjs/operators';\nimport { parseAddress } from './parse-address';\n\n@Injectable({ providedIn: 'root' })\nexport class AddressLookuper {\n  #httpClient = inject(HttpClient);\n\n  lookup(query: string): Observable<boolean> {\n    parseAddress(query);\n    return this.#httpClient\n      .get<unknown[]>('https://nominatim.openstreetmap.org/search.php', {\n        params: new HttpParams().set('format', 'jsonv2').set('q', query),\n      })\n      .pipe(map((addresses) => addresses.length > 0));\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/holidays.routes.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 42
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Routes } from '@angular/router';\nimport { provideEffects } from '@ngrx/effects';\nimport { provideState } from '@ngrx/store';\nimport { HolidaysEffects } from './+state/holidays.effects';\nimport { holidaysFeature } from './+state/holidays.reducer';\nimport { HolidaysComponent } from './holidays/holidays.component';\nimport { RequestInfoComponent } from './request-info/request-info.component';\n\nexport const holidaysRoutes: Routes = [\n  {\n    path: '',\n    providers: [\n      provideState(holidaysFeature),\n      provideEffects([HolidaysEffects]),\n    ],\n    children: [\n      {\n        path: '',\n        component: HolidaysComponent,\n      },\n      {\n        path: 'request-info/:holidayId',\n        component: RequestInfoComponent,\n      },\n    ],\n  },\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/holidays/holidays.component.spec.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 60
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { fakeAsync, TestBed } from '@angular/core/testing';\nimport { render, screen } from '@testing-library/angular';\nimport {\n  HttpClientTestingModule,\n  HttpTestingController,\n} from '@angular/common/http/testing';\nimport { HolidaysComponent } from './holidays.component';\nimport { StoreModule } from '@ngrx/store';\nimport { EffectsModule } from '@ngrx/effects';\nimport { holidaysFeature } from '../+state/holidays.reducer';\nimport { HolidaysEffects } from '../+state/holidays.effects';\nimport { Configuration } from '@eternal/shared/config';\nimport { createHolidays } from '@eternal/holidays/model';\n\ndescribe('Request Info Component', () => {\n  const setup = async () =>\n    render(HolidaysComponent, {\n      imports: [\n        StoreModule.forRoot({}),\n        EffectsModule.forRoot([]),\n        StoreModule.forFeature(holidaysFeature),\n        EffectsModule.forFeature([HolidaysEffects]),\n        HttpClientTestingModule,\n      ],\n      providers: [\n        {\n          provide: Configuration,\n          useValue: {\n            baseUrl: 'http://localhost:8080/',\n          },\n        },\n      ],\n      excludeComponentDeclaration: true,\n    });\n\n  it('should instantiate', fakeAsync(async () => {\n    await setup();\n    await screen.findByText('Choose among our Holidays');\n  }));\n\n  it('should show holiday cards', fakeAsync(async () => {\n    await setup();\n    const controller = TestBed.inject(HttpTestingController);\n    const holidays = createHolidays({ title: 'Vienna' }, { title: 'London' });\n    controller.expectOne((req) => !!req.url.match(/holiday/)).flush(holidays);\n\n    await screen.findByText('Vienna');\n    await screen.findByText('London');\n  }));\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/holidays/holidays.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 59
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, inject, OnInit } from '@angular/core';\nimport { Store } from '@ngrx/store';\nimport { holidaysActions } from '../+state/holidays.actions';\nimport { fromHolidays } from '../+state/holidays.selectors';\nimport { Holiday } from '@eternal/holidays/model';\nimport { HolidayCardComponent } from '@eternal/holidays/ui';\nimport { AsyncPipe, NgForOf } from '@angular/common';\n\n@Component({\n  selector: 'eternal-holidays',\n  template: `<h2>Choose among our Holidays</h2>\n    <div class=\"flex flex-wrap justify-evenly\">\n      <eternal-holiday-card\n        *ngFor=\"let holiday of holidays$ | async; trackBy: byId\"\n        [holiday]=\"holiday\"\n        (addFavourite)=\"addFavourite($event)\"\n        (removeFavourite)=\"removeFavourite($event)\"\n      >\n      </eternal-holiday-card>\n    </div> `,\n  standalone: true,\n  imports: [AsyncPipe, HolidayCardComponent, NgForOf],\n})\nexport class HolidaysComponent implements OnInit {\n  #store = inject(Store);\n  holidays$ = this.#store.select(fromHolidays.selectHolidaysWithFavourite);\n\n  ngOnInit(): void {\n    this.#store.dispatch(holidaysActions.load());\n  }\n\n  addFavourite(id: number) {\n    this.#store.dispatch(holidaysActions.addFavourite({ id }));\n  }\n\n  removeFavourite(id: number) {\n    this.#store.dispatch(holidaysActions.removeFavourite({ id }));\n  }\n\n  byId(index: number, holiday: Holiday) {\n    return holiday.id;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/parse-address.spec.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 48
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { parseAddress } from './parse-address';\n\ndescribe('parseAddress', () => {\n  it('should provide a parse method', () => {\n    const address = parseAddress('Domgasse 5');\n    expect(address).toEqual({ street: 'Domgasse', streetNumber: '5' });\n  });\n\n  it('should parse a German address format with city and zip', () => {\n    const address = parseAddress('Domgasse 5, 1010 Wien');\n    expect(address).toEqual({\n      street: 'Domgasse',\n      streetNumber: '5',\n      city: 'Wien',\n      zip: '1010'\n    });\n  });\n\n  it('should throw an error if no street number is given', () => {\n    expect(() => parseAddress('Domgasse')).toThrowError('Could not parse address. Invalid format.');\n  });\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/parse-address.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 37
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Address } from './address';\n\nexport function parseAddress(query: string): Address {\n  const shortPattern = /^([\\w\\s]+)\\s(\\d+)$/;\n  const longPattern = /^([\\w\\s]+)\\s(\\d+),\\s(\\d+)\\s([\\w]+)$/;\n  let match: string[] | null = query.match(shortPattern);\n\n  if (match) {\n    const [, street, streetNumber] = match;\n    return { street, streetNumber };\n  } else {\n    match = query.match(longPattern);\n    if (match) {\n      const [, street, streetNumber, zip, city] = match;\n      return { street, streetNumber, zip, city };\n    }\n  }\n\n  throw new Error('Could not parse address. Invalid format.');\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/request-info/request-info.component.harness.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 57
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { ComponentHarness } from '@angular/cdk/testing';\nimport { MatButtonHarness } from '@angular/material/button/testing';\nimport { MatInputHarness } from '@angular/material/input/testing';\n\nexport class RequestInfoComponentHarness extends ComponentHarness {\n  static hostSelector = 'app-request-info';\n\n  protected getTitle = this.locatorFor('h2');\n  protected getInput = this.locatorFor(MatInputHarness);\n  protected getButton = this.locatorFor(\n    MatButtonHarness.with({ selector: '[data-testid=btn-search]' })\n  );\n  protected getLookupResult = this.locatorFor('[data-testid=lookup-result]');\n\n  async search(): Promise<void> {\n    const button = await this.getButton();\n    return button.click();\n  }\n\n  async writeAddress(address: string): Promise<void> {\n    const input = await this.getInput();\n    return input.setValue(address);\n  }\n\n  async getResult(): Promise<string> {\n    const p = await this.getLookupResult();\n    return p.text();\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature/request-info/request-info.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/feature ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 66
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, inject, Input, OnInit } from '@angular/core';\nimport { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';\nimport { Observable, Subject } from 'rxjs';\nimport { map, switchMap } from 'rxjs/operators';\nimport { AddressLookuper } from '../address-lookuper.service';\nimport { MatFormFieldModule } from '@angular/material/form-field';\nimport { MatIconModule } from '@angular/material/icon';\nimport { MatInputModule } from '@angular/material/input';\nimport { MatButtonModule } from '@angular/material/button';\nimport { assertDefined } from '@eternal/shared/util';\nimport { AsyncPipe, NgIf } from '@angular/common';\n\n@Component({\n  selector: 'eternal-request-info',\n  templateUrl: './request-info.component.html',\n  standalone: true,\n  imports: [\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatIconModule,\n    MatInputModule,\n    MatButtonModule,\n    AsyncPipe,\n    NgIf,\n  ],\n})\nexport class RequestInfoComponent implements OnInit {\n  #formBuilder = inject(NonNullableFormBuilder);\n  #lookuper = inject(AddressLookuper);\n\n  formGroup = this.#formBuilder.group({\n    address: [''],\n  });\n  title = 'Request More Information';\n  @Input() address = '';\n  submitter$ = new Subject<void>();\n  lookupResult$: Observable<string> | undefined;\n\n  ngOnInit(): void {\n    if (this.address) {\n      this.formGroup.setValue({ address: this.address });\n    }\n\n    this.lookupResult$ = this.submitter$.pipe(\n      switchMap(() => {\n        assertDefined(this.formGroup.value.address);\n        return this.#lookuper.lookup(this.formGroup.value.address);\n      }),\n      map((found) => (found ? 'Brochure sent' : 'Address not found'))\n    );\n  }\n\n  search(): void {\n    this.submitter$.next();\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/ui/holiday-card/holiday-card.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/holidays/ui ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 72
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { Holiday } from '@eternal/holidays/model';\nimport { MatCardModule } from '@angular/material/card';\nimport { MatButtonModule } from '@angular/material/button';\nimport { MatIconModule } from '@angular/material/icon';\nimport { BlinkerDirective } from '@eternal/shared/ui';\nimport { NgClass, NgIf } from '@angular/common';\nimport { RouterLinkWithHref } from '@angular/router';\n\n@Component({\n  selector: 'eternal-holiday-card',\n  templateUrl: './holiday-card.component.html',\n  styleUrls: ['./holiday-card.component.scss'],\n  standalone: true,\n  imports: [\n    MatCardModule,\n    MatButtonModule,\n    BlinkerDirective,\n    MatIconModule,\n    NgClass,\n    NgIf,\n    RouterLinkWithHref,\n  ],\n})\nexport class HolidayCardComponent {\n  @Input() holiday: (Holiday & { isFavourite: boolean }) | undefined;\n  @Output() addFavourite = new EventEmitter<number>();\n  @Output() removeFavourite = new EventEmitter<number>();\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/form/form-errors.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/form ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 50
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, Input } from '@angular/core';\nimport { FormControl } from '@angular/forms';\nimport { JsonPipe, NgIf } from '@angular/common';\nimport { MatInputModule } from '@angular/material/input';\n\n@Component({\n  selector: 'eternal-form-errors',\n  template: ` <ng-container *ngIf=\"control\">\n    <span *ngIf=\"control.hasError('required')\">This field is mandatory</span>\n  </ng-container>`,\n  standalone: true,\n  imports: [NgIf, JsonPipe, MatInputModule],\n})\nexport class FormErrorsComponent {\n  @Input() control: FormControl | undefined;\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http/base-url.interceptor.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 6,
+        "endColumn": 31
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import {\n  HttpEvent,\n  HttpHandler,\n  HttpInterceptor,\n  HttpRequest,\n} from '@angular/common/http';\nimport { inject, Injectable } from '@angular/core';\nimport { Configuration } from '@eternal/shared/config';\nimport { Observable } from 'rxjs';\n\n@Injectable()\nexport class BaseUrlInterceptor implements HttpInterceptor {\n  #config = inject(Configuration);\n\n  intercept(\n    req: HttpRequest<unknown>,\n    next: HttpHandler\n  ): Observable<HttpEvent<unknown>> {\n    if (!req.url.startsWith('/')) {\n      return next.handle(req);\n    }\n    return next.handle(\n      req.clone({\n        url: `${this.#config.baseUrl}${req.url}`,\n        withCredentials: true,\n      })\n    );\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http/error-message.context.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 57
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpContextToken } from '@angular/common/http';\n\nexport const ERROR_MESSAGE_CONTEXT = new HttpContextToken(\n  () => 'Sorry, something went wrong on our side.'\n);\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http/error.interceptor.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 6,
+        "endColumn": 31
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import {\n  HttpEvent,\n  HttpHandler,\n  HttpInterceptor,\n  HttpRequest,\n} from '@angular/common/http';\nimport { inject, Injectable } from '@angular/core';\nimport { MessageService } from '@eternal/shared/ui-messaging';\nimport { catchError, Observable, throwError } from 'rxjs';\nimport { ERROR_MESSAGE_CONTEXT } from './error-message.context';\n\n@Injectable()\nexport class ErrorInterceptor implements HttpInterceptor {\n  #uiMessage = inject(MessageService);\n\n  intercept(\n    req: HttpRequest<unknown>,\n    next: HttpHandler\n  ): Observable<HttpEvent<unknown>> {\n    return next.handle(req).pipe(\n      catchError((err) => {\n        const errorMessageContext = req.context.get(ERROR_MESSAGE_CONTEXT);\n        this.#uiMessage.error(errorMessageContext);\n        return throwError(() => err);\n      })\n    );\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http/with-error-message-context.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/http ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpContext } from '@angular/common/http';\nimport { ERROR_MESSAGE_CONTEXT } from './error-message.context';\n\nexport function withErrorMessageContext(message: string) {\n  return new HttpContext().set(ERROR_MESSAGE_CONTEXT, message);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/master-data/+state/master.reducer.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/master-data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 76
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { createFeature, createReducer, createSelector } from '@ngrx/store';\n\nexport const countries = [\n  ['AT', 'Austria'],\n  ['CA', 'Canada'],\n  ['CH', 'Switzerland'],\n  ['CN', 'China'],\n  ['CZ', 'Czechia'],\n  ['DE', 'Germany'],\n  ['DK', 'Denmark'],\n  ['ES', 'Spain'],\n  ['FR', 'France'],\n  ['HU', 'Hungary'],\n  ['IN', 'India'],\n  ['IT', 'Italy'],\n  ['NL', 'Netherlands'],\n  ['NO', 'Norway'],\n  ['RU', 'Russia'],\n  ['SE', 'Sweden'],\n  ['UK', 'United Kingdom'],\n  ['US', 'USA'],\n].map(([code, name]) => ({ code, name }));\n\nexport interface Country {\n  code: string;\n  name: string;\n}\n\ninterface MasterState {\n  countries: Country[];\n}\n\nconst initialState: MasterState = {\n  countries,\n};\n\nexport const masterFeature = createFeature({\n  name: 'master',\n  reducer: createReducer<MasterState>(initialState),\n});\n\nexport const selectCountries = createSelector(\n  masterFeature.selectCountries,\n  (countries) =>\n    countries.map(({ code, name }) => ({ value: code, label: name }))\n);\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/master-data/shared-master-data.provider.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/master-data ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { provideState } from '@ngrx/store';\nimport { masterFeature } from './+state/master.reducer';\n\nexport const sharedMasterDataProvider = provideState(masterFeature);\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils/deep-clone.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 40
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { map, Observable } from 'rxjs';\n\nexport function deepClone<T>(source$: Observable<T>): Observable<T> {\n  return source$.pipe(map((object) => structuredClone(object)));\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils/filter-defined.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 43
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { filter, Observable } from 'rxjs';\nimport { isDefined } from '@eternal/shared/util';\n\nexport function filterDefined<T>(\n  source$: Observable<T>\n): Observable<NonNullable<T>> {\n  return source$.pipe(filter(isDefined));\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils/noop.action.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { createAction } from '@ngrx/store';\n\nexport const noopAction = createAction('[Util] NOOP');\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils/safe-concat-map.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ngrx-utils ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 54
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { TypedAction } from '@ngrx/store/src/models';\nimport { catchError, concatMap, Observable, of, OperatorFunction } from 'rxjs';\nimport { noopAction } from './noop.action';\n\nexport function safeConcatMap<S, T extends string>(\n  project: (value: S) => Observable<TypedAction<T>>\n): OperatorFunction<S, TypedAction<T | '[Util] NOOP'>> {\n  return (source$: Observable<S>): Observable<TypedAction<T | '[Util] NOOP'>> =>\n    source$.pipe(\n      concatMap((value) =>\n        project(value).pipe(catchError(() => of(noopAction())))\n      )\n    );\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security/security.actions.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 68
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { createActionGroup, emptyProps, props } from '@ngrx/store';\nimport { User } from './security.reducer';\n\nexport const securityActions = createActionGroup({\n  source: 'Security',\n  events: {\n    'Load User': emptyProps(),\n    'Load User Success': props<{ user: User }>(),\n    'Sign In User': props<{ email: string; password: string }>(),\n    'Sign In User Success': props<{ user: User }>(),\n    'Sign Out User': emptyProps(),\n    'Sign Out User Success': props<{ user: User }>(),\n  },\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security/security.effects.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpClient } from '@angular/common/http';\nimport { inject, Injectable } from '@angular/core';\nimport { Actions, createEffect, ofType } from '@ngrx/effects';\nimport { map, switchMap } from 'rxjs/operators';\nimport { securityActions } from './security.actions';\nimport { User } from './security.reducer';\n\n@Injectable()\nexport class SecurityEffects {\n  #actions$ = inject(Actions);\n  #httpClient = inject(HttpClient);\n\n  loadUser$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(securityActions.loadUser),\n      switchMap(() => this.#httpClient.get<User>('/security/user-info')),\n      map((user) => securityActions.loadUserSuccess({ user }))\n    );\n  });\n\n  signInUser$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(securityActions.signInUser),\n      switchMap(({ email, password }) =>\n        this.#httpClient.post<User>('/security/sign-in', { email, password })\n      ),\n      map((user) => securityActions.signInUserSuccess({ user }))\n    );\n  });\n\n  signOutUser$ = createEffect(() => {\n    return this.#actions$.pipe(\n      ofType(securityActions.signOutUser),\n      switchMap(() => this.#httpClient.post<User>('/security/sign-out', {})),\n      map((user) => securityActions.signOutUserSuccess({ user }))\n    );\n  });\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security/security.provider.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 48
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { provideEffects } from '@ngrx/effects';\nimport { provideState } from '@ngrx/store';\nimport { SecurityEffects } from './security.effects';\nimport { securityFeature } from './security.reducer';\n\nexport const securityProvider = [\n  provideState(securityFeature),\n  provideEffects([SecurityEffects]),\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security/security.reducer.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 64
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { createFeature, createReducer, on } from '@ngrx/store';\nimport { securityActions } from './security.actions';\n\nexport interface User {\n  id: number;\n  email: string;\n  firstname: string;\n  name: string;\n  anonymous: boolean;\n}\n\nexport interface SecurityReducer {\n  loaded: boolean;\n  user: User | undefined;\n}\n\nconst initialState: SecurityReducer = {\n  loaded: false,\n  user: undefined,\n};\n\nexport const securityFeature = createFeature({\n  name: 'security',\n  reducer: createReducer<SecurityReducer>(\n    initialState,\n    on(\n      securityActions.loadUserSuccess,\n      securityActions.signInUserSuccess,\n      (state, { user }): SecurityReducer => ({\n        ...state,\n        user,\n        loaded: true,\n      })\n    ),\n    on(\n      securityActions.signOutUserSuccess,\n      (state, { user }): SecurityReducer => ({\n        ...state,\n        user,\n      })\n    )\n  ),\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security/security.selectors.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 46
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { createSelector } from '@ngrx/store';\nimport { securityFeature } from './security.reducer';\n\nconst { selectUser, selectLoaded } = securityFeature;\n\nconst selectSignedIn = createSelector(\n  selectUser,\n  selectLoaded,\n  (user, loaded) => loaded && !user?.anonymous\n);\n\nexport const fromSecurity = {\n  selectUser,\n  selectLoaded,\n  selectSignedIn,\n};\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security/security.service.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { Store } from '@ngrx/store';\nimport { combineLatest, Observable } from 'rxjs';\nimport { filter, map } from 'rxjs/operators';\nimport { securityActions } from './security.actions';\nimport { User } from './security.reducer';\nimport { fromSecurity } from './security.selectors';\n\n@Injectable({ providedIn: 'root' })\nexport class SecurityService {\n  #store = inject(Store);\n\n  getLoaded$(): Observable<boolean> {\n    return this.#store.select(fromSecurity.selectLoaded);\n  }\n\n  getLoadedUser$(): Observable<User> {\n    return combineLatest([\n      this.#store.select(fromSecurity.selectLoaded),\n      this.#store.select(fromSecurity.selectUser),\n    ]).pipe(\n      filter(([loaded]) => loaded),\n      map(([, user]) => user),\n      this.#verifyUser\n    );\n  }\n\n  getSignedIn$(): Observable<boolean> {\n    return this.#store.select(fromSecurity.selectSignedIn);\n  }\n\n  load() {\n    this.#store.dispatch(securityActions.loadUser());\n  }\n\n  signIn(email: string, password: string) {\n    this.#store.dispatch(securityActions.signInUser({ email, password }));\n  }\n\n  signOut() {\n    this.#store.dispatch(securityActions.signOutUser());\n  }\n\n  #verifyUser(user$: Observable<undefined | User>) {\n    function userGuard(user: undefined | User): user is User {\n      return user !== null;\n    }\n\n    return user$.pipe(filter(userGuard));\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/testing/mock-inject.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/testing ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 46
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import * as angularCore from '@angular/core';\nimport { ProviderToken } from '@angular/core';\n\nexport class MockInject {\n  mocks = new Map<ProviderToken<unknown>, unknown>();\n  spy: jest.SpyInstance;\n  constructor() {\n    this.spy = jest.spyOn(angularCore, 'inject');\n    this.spy.mockImplementation((token: ProviderToken<unknown>) => {\n      if (this.mocks.has(token)) {\n        return this.mocks.get(token);\n      } else {\n        throw new Error('injector was called with unknown token: ' + token);\n      }\n    });\n  }\n\n  with(token: ProviderToken<unknown>, mock: unknown) {\n    this.mocks.set(token, mock);\n    return this;\n  }\n\n  restore(): void {\n    this.spy.mockRestore();\n  }\n\n  getRestoreFn() {\n    return () => this.restore();\n  }\n}\n\nexport class SafeMockInject extends MockInject {\n  override with<T>(token: ProviderToken<T>, mock: T) {\n    super.with(token, mock);\n    return this;\n  }\n}\n\nexport const mockInject = {\n  with: (token: ProviderToken<unknown>, mock: unknown) => {\n    const instance = new MockInject();\n    return instance.with(token, mock);\n  },\n};\n\nexport const safeMockInject = {\n  with: (token: ProviderToken<unknown>, mock: unknown) => {\n    const instance = new SafeMockInject();\n    return instance.with(token, mock);\n  },\n};\n\nexport type RestoreFunction = () => void;\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/loader/loader.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 54
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { AsyncPipe, NgStyle } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { MatProgressBarModule } from '@angular/material/progress-bar';\nimport { LoadingService } from './loading.service';\n\n@Component({\n  selector: 'eternal-loader',\n  template: `<mat-progress-bar\n    [ngStyle]=\"{\n      visibility: (loadingService.loading$ | async) ? 'visible' : 'hidden'\n    }\"\n    mode=\"indeterminate\"\n  ></mat-progress-bar>`,\n  standalone: true,\n  imports: [MatProgressBarModule, NgStyle, AsyncPipe],\n})\nexport class LoaderComponent {\n  loadingService = inject(LoadingService);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/loader/loading.interceptor.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 7,
+        "endColumn": 31
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import {\n  HttpEvent,\n  HttpHandler,\n  HttpInterceptor,\n  HttpRequest,\n  HttpResponse,\n} from '@angular/common/http';\nimport { inject, Injectable } from '@angular/core';\nimport { catchError, Observable, throwError } from 'rxjs';\nimport { tap } from 'rxjs/operators';\nimport { LoadingService } from './loading.service';\nimport { SILENT_LOAD_CONTEXT } from './silent-load.context';\n\n@Injectable()\nexport class LoadingInterceptor implements HttpInterceptor {\n  #loadingService = inject(LoadingService);\n\n  intercept(\n    req: HttpRequest<unknown>,\n    next: HttpHandler\n  ): Observable<HttpEvent<unknown>> {\n    if (req.context.get(SILENT_LOAD_CONTEXT)) {\n      return next.handle(req);\n    }\n\n    this.#loadingService.start();\n    return next.handle(req).pipe(\n      tap((event) => {\n        if (event instanceof HttpResponse) {\n          this.#loadingService.stop();\n        }\n      }),\n      catchError((err) => {\n        this.#loadingService.stop();\n        return throwError(() => err);\n      })\n    );\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/loader/loading.service.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Injectable } from '@angular/core';\nimport { BehaviorSubject } from 'rxjs';\n\n@Injectable({ providedIn: 'root' })\nexport class LoadingService {\n  #loading$ = new BehaviorSubject(false);\n  loading$ = this.#loading$.asObservable();\n\n  start() {\n    this.#loading$.next(true);\n  }\n\n  stop() {\n    this.#loading$.next(false);\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/loader/silent-load.context.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 57
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpContextToken } from '@angular/common/http';\n\nexport const SILENT_LOAD_CONTEXT = new HttpContextToken(() => false);\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/loader/with-silent-load-context.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HttpContext } from '@angular/common/http';\nimport { SILENT_LOAD_CONTEXT } from './silent-load.context';\n\nexport function withSilentLoadContext() {\n  return new HttpContext().set(SILENT_LOAD_CONTEXT, true);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/message/confirmation.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, inject } from '@angular/core';\nimport {\n  MAT_DIALOG_DATA,\n  MatDialogModule,\n  MatDialogRef,\n} from '@angular/material/dialog';\nimport { MatButtonModule } from '@angular/material/button';\n\nexport interface ConfirmationData {\n  message: string;\n  deniable: boolean;\n}\n\n@Component({\n  template: `<h1 mat-dialog-title>Confirm</h1>\n    <div mat-dialog-content [innerHTML]=\"data.message\"></div>\n    <div mat-dialog-actions>\n      <button mat-button mat-dialog-close>OK</button>\n    </div>`,\n  standalone: true,\n  imports: [MatDialogModule, MatButtonModule],\n})\nexport class ConfirmationComponent {\n  dialogRef = inject(MatDialogRef<ConfirmationComponent>);\n  data = inject(MAT_DIALOG_DATA);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/message/message.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 75
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { animate, style, transition, trigger } from '@angular/animations';\nimport { Component } from '@angular/core';\nimport { Message } from './message';\nimport { MessageStore } from './message.store';\nimport { MatIconModule } from '@angular/material/icon';\nimport { NgClass, NgForOf, NgIf } from '@angular/common';\n\n@Component({\n  selector: 'eternal-message',\n  templateUrl: './message.component.html',\n  styles: [\n    `\n      .error {\n        background: #f44336;\n        color: white;\n      }\n\n      .info {\n        background: #2193b0;\n        color: white;\n      }\n    `,\n  ],\n  standalone: true,\n  imports: [MatIconModule, NgClass, NgForOf, NgIf],\n  animations: [\n    trigger('myTrigger', [\n      transition(':enter', [\n        style({ opacity: '0' }),\n        animate('500ms', style({ opacity: 1 })),\n      ]),\n      transition(':leave', [\n        style({ opacity: '1' }),\n        animate('500ms', style({ opacity: 0 })),\n      ]),\n    ]),\n  ],\n})\nexport class MessageComponent {\n  flag = true;\n  state = 'fadeInFlash';\n\n  constructor(messageStore: MessageStore) {\n    messageStore.messages$.subscribe((message) => {\n      this.messages.push(message);\n      window.setTimeout(\n        () => (this.messages = this.messages.filter((m) => m !== message)),\n        3000\n      );\n    });\n  }\n  messages: Message[] = [];\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/message/message.service.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { MessageStore } from './message.store';\nimport { MatDialog } from '@angular/material/dialog';\nimport { ConfirmationComponent } from './confirmation.component';\nimport { map, Observable } from 'rxjs';\n\n@Injectable({ providedIn: 'root' })\nexport class MessageService {\n  #messageStore = inject(MessageStore);\n  #dialog = inject(MatDialog);\n\n  info(message: string) {\n    this.#messageStore.add({ text: message, type: 'info' });\n  }\n\n  error(title: string) {\n    this.#messageStore.add({ text: title, type: 'error' });\n  }\n\n  confirm(message: string, deniable = false): Observable<boolean> {\n    return this.#dialog\n      .open(ConfirmationComponent, {\n        disableClose: true,\n        hasBackdrop: true,\n        data: {\n          message,\n          deniable,\n        },\n      })\n      .afterClosed()\n      .pipe(map(Boolean));\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/message/message.store.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Injectable } from '@angular/core';\nimport { Subject } from 'rxjs';\nimport { Message } from './message';\n\n@Injectable({ providedIn: 'root' })\nexport class MessageStore {\n  #messages$ = new Subject<Message>();\n\n  messages$ = this.#messages$.asObservable();\n\n  add(message: Message) {\n    this.#messages$.next(message);\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging/shared-ui-messaging.provider.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 58
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { HTTP_INTERCEPTORS } from '@angular/common/http';\nimport { LoadingInterceptor } from './loader/loading.interceptor';\nimport { importProvidersFrom } from '@angular/core';\nimport { MatDialogModule } from '@angular/material/dialog';\n\nexport const sharedUiMessagingProvider = [\n  {\n    provide: HTTP_INTERCEPTORS,\n    multi: true,\n    useClass: LoadingInterceptor,\n  },\n  importProvidersFrom(MatDialogModule),\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui/blinker.directive.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 69
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Directive, ElementRef, HostListener } from '@angular/core';\n\n@Directive({\n  selector: '[eternalBlinker]',\n  standalone: true,\n})\nexport class BlinkerDirective {\n  currentColor = '';\n  intervalId: number | undefined;\n  constructor(private el: ElementRef) {}\n\n  @HostListener('mouseenter') onMouseEnter() {\n    this.toggle();\n    this.intervalId = window.setInterval(() => this.toggle(), 500);\n  }\n\n  @HostListener('mouseleave') onMouseLeave() {\n    this.el.nativeElement.style.color = '';\n    if (this.intervalId) {\n      window.clearInterval(this.intervalId);\n      this.intervalId = undefined;\n    }\n  }\n\n  private toggle() {\n    const color = this.currentColor === '' ? 'coral' : '';\n    this.currentColor = color;\n    this.el.nativeElement.style.color = color;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shell/header/header.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { AsyncPipe, NgIf } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { MatButtonModule } from '@angular/material/button';\nimport { SecurityService } from '@eternal/shared/security';\nimport { RouterLinkWithHref } from '@angular/router';\n\n@Component({\n  selector: 'eternal-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss'],\n  standalone: true,\n  imports: [MatButtonModule, NgIf, AsyncPipe, RouterLinkWithHref],\n})\nexport class HeaderComponent {\n  #userService = inject(SecurityService);\n  user$ = this.#userService.getLoadedUser$();\n\n  signOut() {\n    this.#userService.signOut();\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shell/services/error-handler.service.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/ui-messaging ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 68
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { ErrorHandler, Injectable, Injector } from '@angular/core';\nimport { MessageService } from '@eternal/shared/ui-messaging';\n\n@Injectable()\nexport class ErrorHandlerService implements ErrorHandler {\n  constructor(private injector: Injector) {}\n\n  handleError(error: unknown): void {\n    const messageService = this.injector.get(MessageService);\n    messageService.error('We are sorry. An error happened.');\n    console.error(error);\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shell/services/user-loader.guard.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { CanActivate } from '@angular/router';\nimport { SecurityService } from '@eternal/shared/security';\nimport { Observable } from 'rxjs';\nimport { filter, map } from 'rxjs/operators';\n\n@Injectable({ providedIn: 'root' })\nexport class UserLoaderGuard implements CanActivate {\n  #securityService = inject(SecurityService);\n\n  canActivate(): Observable<boolean> | boolean {\n    return this.#securityService.getLoaded$().pipe(\n      map((loaded) => {\n        if (!loaded) {\n          this.#securityService.load();\n        }\n        return loaded;\n      }),\n      filter((loaded) => loaded)\n    );\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/app/shell/sidemenu/sidemenu.component.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/security ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 51
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Component, inject } from '@angular/core';\nimport { MatButtonModule } from '@angular/material/button';\nimport { SecurityService } from '@eternal/shared/security';\nimport { RouterLinkWithHref } from '@angular/router';\nimport { AsyncPipe, NgIf } from '@angular/common';\n\n@Component({\n  selector: 'eternal-sidemenu',\n  templateUrl: './sidemenu.component.html',\n  styleUrls: ['./sidemenu.component.scss'],\n  standalone: true,\n  imports: [MatButtonModule, RouterLinkWithHref, AsyncPipe, NgIf],\n})\nexport class SidemenuComponent {\n  #securityService = inject(SecurityService);\n  loaded$ = this.#securityService.getLoaded$();\n  signedIn$ = this.#securityService.getSignedIn$();\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/rainerh/sheriff/test-projects/angular-i/src/main.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "Dependency Rule (internal error): did not find a match for /Users/rainerh/sheriff/test-projects/angular-i/src/app/shared/config ",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ImportDeclaration",
+        "endLine": 1,
+        "endColumn": 64
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { importProvidersFrom, LOCALE_ID } from '@angular/core';\n\nimport { bootstrapApplication } from '@angular/platform-browser';\nimport { AppComponent } from './app/app.component';\nimport { Configuration } from '@eternal/shared/config';\nimport { MAT_DATE_LOCALE } from '@angular/material/core';\nimport { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';\nimport { BaseUrlInterceptor } from '@eternal/shared/http';\nimport {\n  LoadingInterceptor,\n  sharedUiMessagingProvider,\n} from '@eternal/shared/ui-messaging';\nimport { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';\nimport { provideAnimations } from '@angular/platform-browser/animations';\nimport { provideStore } from '@ngrx/store';\nimport { provideEffects } from '@ngrx/effects';\nimport { provideStoreDevtools } from '@ngrx/store-devtools';\nimport { securityProvider } from '@eternal/shared/security';\nimport { FormlyModule } from '@ngx-formly/core';\nimport { FormlyMaterialModule } from '@ngx-formly/material';\nimport { sharedMasterDataProvider } from '@eternal/shared/master-data';\nimport { appRoutes } from './app/app.routes';\nimport { provideRouter } from '@angular/router';\nimport { registerLocaleData } from '@angular/common';\n\nimport localeDeAt from '@angular/common/locales/de-AT';\nimport { deAT } from 'date-fns/locale';\nimport { environment } from './environments/environment';\nimport { MatDateFnsModule } from '@angular/material-date-fns-adapter';\n\nregisterLocaleData(localeDeAt, 'de-AT');\n\nbootstrapApplication(AppComponent, {\n  providers: [\n    provideAnimations(),\n    provideRouter(appRoutes),\n\n    provideStore(),\n    provideEffects([]),\n    provideStoreDevtools(),\n\n    ...securityProvider,\n    sharedMasterDataProvider,\n\n    importProvidersFrom(\n      HttpClientModule,\n      FormlyModule.forRoot({\n        extras: { lazyRender: true },\n        validationMessages: [\n          {\n            name: 'required',\n            message: 'This field is mandatory',\n          },\n        ],\n      }),\n      FormlyMaterialModule,\n      MatDateFnsModule\n    ),\n    sharedUiMessagingProvider,\n    {\n      provide: Configuration,\n      useFactory: () => new Configuration(environment.baseUrl),\n    },\n    {\n      provide: MAT_DATE_LOCALE,\n      useValue: deAT,\n    },\n    { provide: HTTP_INTERCEPTORS, multi: true, useClass: BaseUrlInterceptor },\n    { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },\n    { provide: LOCALE_ID, useValue: 'de-AT' },\n    {\n      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,\n      useValue: { appearance: 'outline' },\n    },\n  ],\n});\n",
+    "usedDeprecatedRules": []
+  }
+]

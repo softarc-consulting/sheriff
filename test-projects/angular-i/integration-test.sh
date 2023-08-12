@@ -22,3 +22,10 @@ cp ./tests/customer.dependency-rule.component.ts src/app/customers/ui/customer/c
 npx ng lint --force --format json --output-file dependency-rule-lint.json
 npx ts-node --esm ../verify-linter.mts ./angular-i/tests/expected-dependency-rule-lint.json ./angular-i/dependency-rule-lint.json
 git checkout src/app/customers/ui/customer/customer.component.ts
+
+## Internal Error Processing
+echo 'checking for internal error processing'
+cp ./tests/empty-sheriff-config.ts ./sheriff.config.ts
+npx ng lint --force --format json --output-file internal-error-processing-lint.json
+npx ts-node --esm ../verify-linter.mts ./angular-i/tests/expected-internal-error-processing-lint.json ./angular-i/internal-error-processing-lint.json
+git checkout sheriff.config.ts
