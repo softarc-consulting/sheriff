@@ -26,5 +26,5 @@ git checkout src/app/customers/ui/customer/customer.component.ts
 echo 'checking for internal error processing'
 cp ./tests/empty-sheriff.config.ts ./sheriff.config.ts
 npx ng lint --force --format json --output-file internal-error-processing-lint.json
-npx ts-node --esm ../verify-linter.mts ./angular-i/tests/expected-internal-error-processing-lint.json ./angular-i/internal-error-processing-lint.json $(pwd)
+npx ts-node --esm ../verify-linter.mts ./angular-i/tests/expected-internal-error-processing-lint.json ./angular-i/internal-error-processing-lint.json "$(pwd)"
 git checkout sheriff.config.ts

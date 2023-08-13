@@ -16,7 +16,7 @@ function readLintWithClearedFilePaths(file: string) {
     encoding: "utf-8"
   });
   if (projectPath) {
-    content.replaceAll(projectPath, '')
+   content = content.replaceAll(projectPath, 'PROJECT_DIR')
   }
   const linterErrors: [{ filePath: string }] = JSON.parse(content);
 
