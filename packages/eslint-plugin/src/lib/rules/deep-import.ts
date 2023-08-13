@@ -1,15 +1,17 @@
 import { Rule } from 'eslint';
 import { hasDeepImport } from '@softarc/sheriff-core';
 import { ImportDeclaration, ImportExpression } from 'estree';
+import { createRule } from './create-rule';
 
-const executeRule = (
-  context: Rule.RuleContext,
-  node: ImportExpression | ImportDeclaration,
-  isFirstRun: boolean
-) => {
-  // ESTree does not have source on `ImportExpression`.
-  const importValue = (node.source as { value: string }).value;
-  try {
+export const deepImport = createRule(
+  'Deep Import',
+  (
+    context: Rule.RuleContext,
+    node: ImportExpression | ImportDeclaration,
+    isFirstRun: boolean
+  ) => {
+    // ESTree does not have source on `ImportExpression`.
+    const importValue = (node.source as { value: string }).value;
     if (hasDeepImport(context.getFilename(), importValue, isFirstRun)) {
       context.report({
         message:
@@ -17,33 +19,5 @@ const executeRule = (
         node,
       });
     }
-  } catch (error) {
-    if (error instanceof Error) {
-      context.report({
-        message: `Deep Import (internal error): ${error.message}`,
-        node,
-      });
-    } else {
-      context.report({
-        message: String(error),
-        node,
-      });
-    }
   }
-};
-
-export const deepImport: Rule.RuleModule = {
-  create: (context) => {
-    let isFirstRun = true;
-    const executeRuleWithContext = (
-      node: ImportExpression | ImportDeclaration
-    ) => {
-      executeRule(context, node, isFirstRun);
-      isFirstRun = false;
-    };
-    return {
-      ImportExpression: executeRuleWithContext,
-      ImportDeclaration: executeRuleWithContext,
-    };
-  },
-};
+);

@@ -12,7 +12,7 @@ describe('deep-import', () => {
   const spy = vitest.spyOn(sheriffCore, 'hasDeepImport');
 
   afterEach(() => {
-    spy.mockRestore();
+    spy.mockReset();
   });
 
   it.each([
@@ -63,6 +63,24 @@ describe('deep-import', () => {
     });
   });
 
-  it.todo('should transform a thrown error to a linting error');
-  it.todo('should transform a thrown non-error to a linting error');
+  it('should report an internal error only once', () => {
+    spy.mockImplementation(() => {
+      throw new Error('This is an error');
+    });
+    tester.run('deep-import', deepImport, {
+      valid: [],
+      invalid: [
+        {
+          code:
+            'import {AppComponent} from "./app.component";' +
+            'import {Service} from "somewhere";',
+          errors: [
+            {
+              message: 'Deep Import (internal error): This is an error',
+            },
+          ],
+        },
+      ],
+    });
+  });
 });
