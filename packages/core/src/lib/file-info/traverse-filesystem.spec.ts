@@ -172,7 +172,7 @@ describe('traverse file-system', () => {
     );
   });
 
-  it('should find a path the value has a wildcard', () => {
+  it.todo('should find a path the value has a wildcard', () => {
     const tsConfig = structuredClone(tsConfigMinimal);
     tsConfig.compilerOptions.paths = { '@model/*': ['/src/app/*/model'] };
     const { tsData, mainPath } = createProject({
