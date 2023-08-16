@@ -172,6 +172,44 @@ describe('traverse file-system', () => {
     );
   });
 
+  it('should find a path the value has a wildcard', () => {
+    const tsConfig = structuredClone(tsConfigMinimal);
+    tsConfig.compilerOptions.paths = { '@model/*': ['/src/app/*/model'] };
+    const { tsData, mainPath } = createProject({
+      'tsconfig.json': JSON.stringify(tsConfig),
+      src: {
+        'main.ts': ['@model/holiday'],
+        app: {
+          customers: {
+            feature: {
+              'customer.container.component.ts': [],
+            },
+            model: { 'customer.ts': [] },
+          },
+          holidays: {
+            data: {
+              'holidays.facade.ts': [],
+            },
+            model: { 'holiday.ts': [] },
+          },
+        },
+      },
+    });
+    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
+
+    expect(fileInfo).toEqual(
+      buildFileInfo('/project/src/main.ts', ['./holidays/model/model.ts'])
+    );
+  });
+
+  it.todo('should also work for wildcards only in the value');
+  it.todo('should return first occurrence with wildcards');
+  it.todo('should throw an error on double wildcard', () => {
+    expect(() => void true).toThrow(
+      '** are not supported. Please raise an issue on https://github.com/softarc-consulting/sheriff/issues'
+    );
+  });
+
   it('should throw an error in resolvePotentialTsPath when path is a nodeJs dependency', () => {
     const resolveFn: ResolveFn = () => ({
       resolvedModule: { isExternalLibraryImport: true } as ResolvedModuleFull,

@@ -21,10 +21,10 @@ export type ResolveFn = (
  * filesystem happens. In case the abstraction does not emulate the original's
  * behaviour, "strange bugs" might occur. Look out for them.
  *
- * @param fsPath: Filename to traverse from
- * @param fileInfoDict: Dictionary of traversed files to catch circularity
+ * @param fsPath filename to traverse from
+ * @param fileInfoDict Dictionary of traversed files to catch circularity
  * @param tsData
- * @param runOnce: traverse only once. needed for ESLint mode
+ * @param runOnce traverse only once. needed for ESLint mode
  */
 const traverseFilesystem = (
   fsPath: FsPath,
