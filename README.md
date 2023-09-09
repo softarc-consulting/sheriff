@@ -78,7 +78,7 @@ In your _eslintrc.json_, insert the rules:
 
 ## 2. Video Introduction
 
-<a href="https://www.youtube.com/embed/yxVI6sAo8fU" target="_blank"><img src="https://github.com/softarc-consulting/sheriff/blob/main/video-preview.jpg?raw=true" width="600" height="auto" /></a>
+<a href="https://youtu.be/yxVI6sAo8fU?si=kH8fwJwLaiYaFniO" target="_blank"><img src="https://github.com/softarc-consulting/sheriff/blob/main/video-preview.jpg?raw=true" width="600" height="auto" /></a>
 
 ## 3. Module Boundaries
 
