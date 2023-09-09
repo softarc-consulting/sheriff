@@ -8,7 +8,8 @@ export class DefaultFs extends Fs {
   writeFile = (filename: string, contents: string): void =>
     fs.writeFileSync(filename, contents);
 
-  readFile = (path: string): string => fs.readFileSync(path).toString();
+  readFile = (path: string): string =>
+    fs.readFileSync(path, { encoding: 'utf-8' }).toString();
 
   removeDir = (path: string) => fs.rmSync(path, { recursive: true });
 

@@ -9,7 +9,7 @@ import { formatFileInfo } from './format-file-info';
 /**
  * initialises the generation of the `FileInfo` tree.
  * @param fsPath
- * @param runOnce: do not traverse the chain of imports.
+ * @param runOnce do not traverse the chain of imports.
  */
 export const generateFileInfoAndGetRootDir = (
   fsPath: FsPath,

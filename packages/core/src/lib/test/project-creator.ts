@@ -1,4 +1,4 @@
-import { FileTree } from './project-configurator';
+import { FileTree, isSheriffConfigContent } from './project-configurator';
 import { EOL } from 'os';
 import * as crypto from 'crypto';
 import getFs from '../fs/getFs';
@@ -32,6 +32,11 @@ export class ProjectCreator {
         );
       } else if (typeof value === 'string') {
         this.fs.writeFile(`${currentDir}/${child}`, value);
+      } else if (isSheriffConfigContent(value)) {
+        this.fs.writeFile(
+          `${currentDir}/${child}`,
+          `export const config = ${JSON.stringify(value.content)};`
+        );
       } else {
         this.traverseFileTree(`${currentDir}/${child}`, value);
       }
