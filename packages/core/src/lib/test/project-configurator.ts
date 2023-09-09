@@ -1,4 +1,4 @@
-import { SheriffConfig } from '../config/config';
+import { SheriffConfig } from '../config/sheriff-config';
 
 const sheriffConfigContentSymbol = Symbol();
 

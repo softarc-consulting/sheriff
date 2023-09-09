@@ -1,6 +1,6 @@
 import { FsPath } from '../file-info/fs-path';
 import * as ts from 'typescript';
-import { SheriffConfig } from './config';
+import { SheriffConfig } from './sheriff-config';
 import getFs from '../fs/getFs';
 
 export const parseConfig = (configFile: FsPath): SheriffConfig => {
