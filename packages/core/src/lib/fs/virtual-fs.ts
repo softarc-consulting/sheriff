@@ -4,27 +4,27 @@ import { FsPath, toFsPath } from '../file-info/fs-path';
 
 type FsNodeType = 'file' | 'directory';
 
-type FsNode = {
+interface FsNode {
   parent: FsNode | undefined;
   children: Map<string, FsNode>;
   contents: string;
   type: FsNodeType;
   name: string;
-};
+}
 
-type GetPathReturnSuccess = {
+interface GetPathReturnSuccess {
   exists: true;
   node: FsNode;
   parent: FsNode | undefined;
   nodeName: string;
-};
+}
 
-type GetPathReturnFailure = {
+interface GetPathReturnFailure {
   exists: false;
   node: undefined;
-  parent: FsNode;
+  parent: FsNode | undefined;
   restPaths: string[];
-};
+}
 
 type GetPathReturn = GetPathReturnSuccess | GetPathReturnFailure;
 
@@ -191,7 +191,7 @@ export class VirtualFs extends Fs {
       exists: true,
       node,
       parent: node.parent,
-      nodeName: paths.at(-1) || '',
+      nodeName: paths.at(-1) ?? '',
     };
   };
 
@@ -252,7 +252,8 @@ export class VirtualFs extends Fs {
   print = (node?: FsNode, indent = 0): void => {
     if (node === undefined) {
       console.log('[root]');
-      return this.print(this.root, indent + 2);
+      this.print(this.root, indent + 2);
+      return;
     }
 
     for (const child of node.children.keys()) {

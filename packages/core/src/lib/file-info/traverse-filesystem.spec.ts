@@ -12,6 +12,7 @@ import { FsPath, toFsPath } from './fs-path';
 import FileInfo, { buildFileInfo } from './file-info';
 import { generateTsData } from './generate-ts-data';
 import { ResolvedModuleFull } from 'typescript';
+import { TsConfig } from './ts-config';
 
 function createProject(fileTree: FileTree) {
   new ProjectCreator().create(fileTree, '/project');
@@ -59,7 +60,7 @@ describe('traverse file-system', () => {
   });
 
   it('should work with paths', () => {
-    const tsConfig = structuredClone(tsConfigMinimal);
+    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
     tsConfig.compilerOptions.paths = {
       '@customers': ['/src/app/customers/index.ts'],
     };
@@ -102,7 +103,7 @@ describe('traverse file-system', () => {
   });
 
   it('should pick index.ts automatically if path is a directory', () => {
-    const tsConfig = structuredClone(tsConfigMinimal);
+    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
     tsConfig.compilerOptions.paths = { '@customers': ['/src/app/customers'] };
     const { tsData, mainPath } = createProject({
       'tsconfig.json': JSON.stringify(tsConfig),
@@ -126,7 +127,7 @@ describe('traverse file-system', () => {
   });
 
   it('should ignore an import if a non-wildcard path is used like a wildcard', () => {
-    const tsConfig = structuredClone(tsConfigMinimal);
+    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
     tsConfig.compilerOptions.paths = { '@customers': ['/src/app/customers'] };
     const { tsData, mainPath } = createProject({
       'tsconfig.json': JSON.stringify(tsConfig),
@@ -149,7 +150,7 @@ describe('traverse file-system', () => {
   });
 
   it('should find a path with wildcards', () => {
-    const tsConfig = structuredClone(tsConfigMinimal);
+    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
     tsConfig.compilerOptions.paths = { '@app/*': ['/src/app/*'] };
     const { tsData, mainPath } = createProject({
       'tsconfig.json': JSON.stringify(tsConfig),

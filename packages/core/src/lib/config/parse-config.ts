@@ -11,7 +11,5 @@ export const parseConfig = (configFile: FsPath): SheriffConfig => {
   const { outputText } = ts.transpileModule(tsCode, {
     compilerOptions: { module: ts.ModuleKind.NodeNext },
   });
-  const result = eval(outputText);
-
-  return result as unknown as SheriffConfig;
+  return eval(outputText) as SheriffConfig;
 };

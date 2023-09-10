@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import * as ts from 'typescript';
 import { parseConfig } from './parse-config';
 import { toFsPath } from '../file-info/fs-path';
+import { TsConfig } from '../file-info/ts-config';
 
 describe('parse Config', () => {
   it('should read value', () => {
@@ -11,7 +12,7 @@ describe('parse Config', () => {
       compilerOptions: { module: ts.ModuleKind.NodeNext },
     });
 
-    const result = eval(outputText);
+    const result = eval(outputText) as TsConfig;
     expect(result).toBe(1);
   });
 

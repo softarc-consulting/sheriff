@@ -1,6 +1,8 @@
-export type FileTree = { [key: string]: FileTree | string | string[] };
+export interface FileTree {
+  [key: string]: FileTree | string | string[];
+}
 
-export type ProjectConfig = {
+export interface ProjectConfig {
   nodeModules: string[];
   fileTree: FileTree;
-};
+}

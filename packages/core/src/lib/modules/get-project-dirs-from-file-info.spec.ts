@@ -4,12 +4,12 @@ import FileInfo, { buildFileInfo } from '../file-info/file-info';
 import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
 import { toFsPath } from '../file-info/fs-path';
 
-export type TestParam = {
+export interface TestParam {
   name: string;
   rootDir: string;
   projectDirs: string[];
   fileInfo: FileInfo;
-};
+}
 
 const cli = (): TestParam => ({
   name: 'cli',

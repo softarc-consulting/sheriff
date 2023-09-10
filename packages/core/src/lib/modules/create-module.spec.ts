@@ -7,12 +7,12 @@ import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
 
-type TestParameter = {
+interface TestParameter {
   name: string;
   fileInfo: FileInfo;
   modulePaths: string[];
   expectedModules: { path: string; fileInfoPaths: string[] }[];
-};
+}
 
 const simple: () => TestParameter = () => ({
   name: 'simple',
@@ -194,7 +194,9 @@ describe('create module infos', () => {
     'should create a moduleInfos for configuration: %s',
     (_, createTestParams) => {
       const { fileInfo, modulePaths, expectedModules } = createTestParams();
-      modulePaths.forEach((modulePath) => getFs().writeFile(modulePath, ''));
+      modulePaths.forEach((modulePath) => {
+        getFs().writeFile(modulePath, '');
+      });
       const moduleInfos = createModules(
         fileInfo,
         new Set(modulePaths.map(toFsPath)),

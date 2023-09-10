@@ -1,7 +1,6 @@
-import { Rule, RuleTester } from 'eslint';
+import { RuleTester } from 'eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from './create-rule';
-import { ImportDeclaration, ImportExpression } from 'estree';
 
 const tester = new RuleTester({
   parser: require.resolve('@typescript-eslint/parser'),
@@ -11,16 +10,9 @@ const tester = new RuleTester({
 const ruleExecutor = { foo: () => void true };
 const spy = vitest.spyOn(ruleExecutor, 'foo');
 
-export const testRule = createRule(
-  'Test Rule',
-  (
-    context: Rule.RuleContext,
-    node: ImportExpression | ImportDeclaration,
-    isFirstRun: boolean
-  ) => {
-    ruleExecutor.foo();
-  }
-);
+export const testRule = createRule('Test Rule', () => {
+  ruleExecutor.foo();
+});
 
 describe('create rule', () => {
   afterEach(() => {
@@ -47,6 +39,7 @@ describe('create rule', () => {
   ]) {
     it(`should assign an error only once and show ${message}`, () => {
       spy.mockImplementation(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw throwing;
       });
       tester.run('error', testRule, {

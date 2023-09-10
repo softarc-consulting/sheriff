@@ -2,10 +2,10 @@ import { Module } from '../modules/module';
 import { AssignedFileInfo } from '../modules/assigned-file.info';
 import throwIfNull from '../util/throw-if-null';
 
-export type DeepImport = {
+export interface DeepImport {
   file: AssignedFileInfo;
   deepImport: AssignedFileInfo;
-};
+}
 
 export const checkDeepImports = (
   moduleInfos: Module[]

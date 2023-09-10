@@ -1,6 +1,5 @@
 import { RuleTester } from 'eslint';
-import { afterEach, describe, expect, it, vitest } from 'vitest';
-import { deepImport } from './deep-import';
+import { afterEach, describe, it, vitest } from 'vitest';
 import * as sheriffCore from '@softarc/sheriff-core';
 import { dependencyRule } from './dependency-rule';
 

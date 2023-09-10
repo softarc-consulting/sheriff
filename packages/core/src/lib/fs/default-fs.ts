@@ -5,12 +5,15 @@ import { Fs } from './fs';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 
 export class DefaultFs extends Fs {
-  writeFile = (filename: string, contents: string): void =>
+  writeFile = (filename: string, contents: string): void => {
     fs.writeFileSync(filename, contents);
+  };
 
   readFile = (path: string): string => fs.readFileSync(path).toString();
 
-  removeDir = (path: string) => fs.rmSync(path, { recursive: true });
+  removeDir = (path: string) => {
+    fs.rmSync(path, { recursive: true });
+  };
 
   createDir = (path: string) => {
     if (!fs.existsSync(path)) {

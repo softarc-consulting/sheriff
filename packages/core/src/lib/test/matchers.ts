@@ -15,7 +15,8 @@ expect.extend({
       pass:
         JSON.stringify(received.sort()) ===
         JSON.stringify(expected.map(inVfs).sort()),
-      message: () => `expected ${received} to be ${expected}`,
+      message: () =>
+        `expected ${received.toString()} to be ${expected.toString()}`,
     };
   },
 });
