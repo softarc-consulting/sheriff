@@ -23,7 +23,10 @@ export type FileTreeContentType =
   | string[]
   | SheriffConfigContent;
 
-export type FileTree = Record<string, FileTreeContentType>;
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+export interface FileTree {
+  [key: string]: FileTreeContentType;
+}
 
 export const isSheriffConfigContent = (
   fileTreeContentType: FileTreeContentType
