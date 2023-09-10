@@ -5,10 +5,11 @@ import { createModules } from '../modules/create-modules';
 import { findModulePaths } from '../modules/find-module-paths';
 import { getAssignedFileInfoMap } from '../modules/get-assigned-file-info-map';
 import throwIfNull from '../util/throw-if-null';
+import { findConfig } from '../config/find-config';
+import { parseConfig } from '../config/parse-config';
 
 const deepImportCache = new Map<string, Set<string>>();
 
-/* c8 ignore next */
 export const hasDeepImport = (
   filename: string,
   importCommand: string,
@@ -17,20 +18,25 @@ export const hasDeepImport = (
   if (isFirstRun) {
     deepImportCache.clear();
   }
+
   if (!deepImportCache.has(filename)) {
     const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
       toFsPath(filename),
       true
     );
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
+    const isRootAndExcluded = createIsRootAndExcluded(rootDir);
 
     const modulePaths = findModulePaths(projectDirs);
     const modules = createModules(fileInfo, modulePaths, rootDir);
 
-    const afiMap = getAssignedFileInfoMap(modules);
+    const assignedFileInfoMap = getAssignedFileInfoMap(modules);
 
     const getAfi = (path: FsPath) =>
-      throwIfNull(afiMap.get(path), `cannot find AssignedFileInfo for ${path}`);
+      throwIfNull(
+        assignedFileInfoMap.get(path),
+        `cannot find AssignedFileInfo for ${path}`
+      );
 
     const isNotAModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
 
@@ -40,6 +46,7 @@ export const hasDeepImport = (
       const importedAfi = getAfi(importedFileInfo.path);
       if (
         isNotAModuleIndex(importedAfi.path) &&
+        !isRootAndExcluded(importedAfi.moduleInfo.path) &&
         importedAfi.moduleInfo !== assignedFileInfo.moduleInfo
       ) {
         deepImports.add(
@@ -54,4 +61,23 @@ export const hasDeepImport = (
     deepImportCache.get(filename),
     `${filename} does not exist in deepImportCache`
   ).has(importCommand);
+};
+
+/**
+ * creates a function which returns allows a deep import, if
+ * `excludeRoot` in the config is `true` and the
+ * importedModulePath is the root module.
+ */
+const createIsRootAndExcluded = (rootDir: FsPath) => {
+  let excludeRoot = false;
+  const configFile = findConfig(rootDir);
+  if (configFile === undefined) {
+    excludeRoot = false;
+  } else {
+    const config = parseConfig(configFile);
+    excludeRoot = Boolean(config.excludeRoot);
+  }
+
+  return (importedModulePath: string): boolean =>
+    excludeRoot && importedModulePath === rootDir;
 };

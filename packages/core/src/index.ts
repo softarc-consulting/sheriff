@@ -1,5 +1,6 @@
 export { hasDeepImport } from './lib/eslint/deep-import';
 export { violatesDependencyRule } from './lib/eslint/violates-dependency-rule';
+export { anyTag } from './lib/checks/any-tag';
 export { sameTag } from './lib/checks/same-tag';
 export { noDependencies } from './lib/checks/no-dependencies';
-export { SheriffConfig } from './lib/config/config';
+export { SheriffConfig } from './lib/config/sheriff-config';

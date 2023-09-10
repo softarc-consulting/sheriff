@@ -4,26 +4,23 @@
 <img src="https://raw.githubusercontent.com/softarc-consulting/sheriff/main/logo.png" width="320" style="text-align: center">
 </p>
 
-# Sheriff
-
 Sheriff enforces module boundaries and dependency rules in TypeScript.
 
 It is easy to use and has **zero dependencies**. The only peer dependency is TypeScript itself.
 
 Some examples are located in _./test-projects/_.
 
-- [Sheriff](#sheriff)
-  - [Installation \& Setup](#installation--setup)
-  - [Video Introduction](#video-introduction)
-  - [Module Boundaries](#module-boundaries)
-  - [Dependency Rules](#dependency-rules)
-    - [Nested Paths](#nested-paths)
-    - [Placeholders](#placeholders)
-    - [DepRules Functions \& Wildcards](#deprules-functions--wildcards)
-  - [Advantages](#advantages)
-  - [Upcoming Features](#upcoming-features)
+- [1. Installation \& Setup](#1-installation--setup)
+- [2. Video Introduction](#2-video-introduction)
+- [3. Module Boundaries](#3-module-boundaries)
+- [4. Dependency Rules](#4-dependency-rules)
+  - [4.1. Nested Paths](#41-nested-paths)
+  - [4.2. Placeholders](#42-placeholders)
+  - [4.3. DepRules Functions \& Wildcards](#43-deprules-functions--wildcards)
+- [5. Integrating Sheriff into large Projects](#5-integrating-sheriff-into-large-projects)
+- [6. Planned Features](#6-planned-features)
 
-## Installation & Setup
+## 1. Installation & Setup
 
 ```shell
 npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
@@ -79,11 +76,11 @@ In your _eslintrc.json_, insert the rules:
 
 </details>
 
-## Video Introduction
+## 2. Video Introduction
 
-For a quick overview, check out [this video](https://www.youtube.com/embed/yxVI6sAo8fU)
+<a href="https://youtu.be/yxVI6sAo8fU?si=kH8fwJwLaiYaFniO" target="_blank"><img src="https://github.com/softarc-consulting/sheriff/blob/main/video-preview.jpg?raw=true" width="600" height="auto" /></a>
 
-## Module Boundaries
+## 3. Module Boundaries
 
 Every directory with an _index.ts_ is a module. The _index.ts_ exports
 those files that should be accessible from the outside.
@@ -96,7 +93,7 @@ Every file outside of that directory (module) now gets a linting error when it i
 
 <img width="1905" alt="Screenshot 2023-06-24 at 12 23 32" src="https://github.com/softarc-consulting/sheriff/assets/5721205/23db7bd9-1ce1-4cdc-9fc6-86dbdb71d0fe">
 
-## Dependency Rules
+## 4. Dependency Rules
 
 Sheriff allows the configuration of access rules between modules.
 
@@ -146,7 +143,7 @@ If those roles are broken, a linting error is raised:
 
 <img width="1512" alt="Screenshot 2023-06-13 at 17 50 41" src="https://github.com/softarc-consulting/sheriff/assets/5721205/37fe3f6c-1bf9-413c-999d-4da700f33257">
 
-### Nested Paths
+### 4.1. Nested Paths
 
 The configuration can be simplified by nesting the paths. Multiple levels are allowed.
 
@@ -175,7 +172,7 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-### Placeholders
+### 4.2. Placeholders
 
 For repeating patterns, one can also use placeholders with the syntax `<name>`:
 
@@ -220,7 +217,7 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-### DepRules Functions & Wildcards
+### 4.3. DepRules Functions & Wildcards
 
 The values of the dependency rules can also be implemented as functions. The names of the tags can include wildcards.
 
@@ -258,30 +255,50 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-## Advantages
+## 5. Integrating Sheriff into large Projects
 
-- lightweight
-- powerful customisation
-- zero dependencies
+It is usually not possible to modularise an existing codebase at once. Instead, we have to integrate Sheriff incrementally.
 
-## Upcoming Features
+The recommended approach is to pick one directory and set it as a module. Let's call that module **shared**. All files from the outside have to import now from the module's _index.ts_.
+
+Once a single module does exist, Sheriff automatically assigned the **root** module to
+the rest. If files from _shared_ need to import from **root**, an _index.ts_ in **root** is required as well.
+
+We can disable the deep import checks for the **root** module by setting `excludeRoot` in _sheriff.config.ts_ to false.
+
+Example:
+
+```typescript
+export const config: SheriffConfig = {
+  excludeRoot: true,
+  tags: {
+    'src/shared': 'shared',
+  },
+  depRules: {
+    '*': anyTag,
+  },
+};
+```
+
+Note, that dependency rules are also disabled.
+
+2. Once **shared** is complete, create a new module and do the same.
+3. You can wait to configure the dependency rules at the end or together with the modules incrementally.
+
+## 6. Planned Features
 
 For feature requests, please add an issue at https://github.com/softarc-consulting/sheriff.
 
+- Editor
 - Print modules with their tags
 - Testing Dependency Rules
 - Angular Schematic
 - Feature Shell: It shouldn't be necessary to create a feature subdirectory for a domain, since feature has access to everything
 - Dependency rules for node_modules
 - CLI as alternative to eslint
-- Highly configurable:
-  - no deep import
-  - hierarchy check
-  - tags via config (static string, placeholder, regular expression, function )
 - Find cyclic dependencies
 - Find unused files
-- Visualization
 - TestCoverage 100%
-- UI for Konfiguration
+- UI for Configuration
 - Migration from Nx (automatic)
 - Cache

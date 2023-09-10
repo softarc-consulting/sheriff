@@ -1,12 +1,10 @@
 import { FsPath } from '../file-info/fs-path';
-import * as fs from 'fs';
 import * as ts from 'typescript';
-import { SheriffConfig } from './config';
+import { SheriffConfig } from './sheriff-config';
+import getFs from '../fs/getFs';
 
 export const parseConfig = (configFile: FsPath): SheriffConfig => {
-  const tsCode = fs.readFileSync(configFile, {
-    encoding: 'utf-8',
-  });
+  const tsCode = getFs().readFile(configFile);
 
   const { outputText } = ts.transpileModule(tsCode, {
     compilerOptions: { module: ts.ModuleKind.NodeNext },
