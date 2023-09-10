@@ -47,7 +47,7 @@ import { DependencyRulesConfig } from './dependency-rules-config';
  * }
  * ```
  */
-export type SheriffConfig = {
+export interface SheriffConfig {
   tagging: TagConfig;
   depRules: DependencyRulesConfig;
   // optional property. Has the value `1` by default.
@@ -102,4 +102,4 @@ export type SheriffConfig = {
    * ```
    */
   excludeRoot?: boolean;
-};
+}
