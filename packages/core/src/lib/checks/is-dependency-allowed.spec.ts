@@ -1,4 +1,4 @@
-import { describe, expect, test, it } from 'vitest';
+import { describe, expect, it, test } from 'vitest';
 import {
   DependencyCheckContext,
   DependencyRulesConfig,
@@ -25,23 +25,26 @@ describe('check dependency rules', () => {
 
     expect(
       isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext)
-    ).toBe(true);
+    ).toEqual({ allowed: true });
     expect(
       isDependencyAllowed(['type:ui'], 'type:feature', config, dummyContext)
-    ).toBe(false);
+    ).toEqual({ allowed: false });
   });
 
   test('multiple string rules', () => {
     const config: DependencyRulesConfig = {
-      'type:feature': ['type:data', 'type:ui'],
+      'type:feature': {
+        matcher: ['type:data', 'type:ui'],
+        message: (to) => `not allowed for ${to}`,
+      },
     };
 
     expect(
       isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext)
-    ).toBe(true);
+    ).toEqual({ allowed: true });
     expect(
       isDependencyAllowed(['type:feature'], 'domain:abc', config, dummyContext)
-    ).toBe(false);
+    ).toEqual({ allowed: false, customMessage: 'not allowed for domain:abc' });
   });
 
   for (const [to, isAllowed] of [
@@ -57,7 +60,7 @@ describe('check dependency rules', () => {
 
       expect(
         isDependencyAllowed(['type:feature'], to, config, dummyContext)
-      ).toBe(isAllowed);
+      ).toEqual({ allowed: isAllowed });
     });
   }
 
@@ -72,7 +75,7 @@ describe('check dependency rules', () => {
 
       expect(
         isDependencyAllowed(['type:feature'], to, config, dummyContext)
-      ).toBe(isAllowed);
+      ).toEqual({ allowed: isAllowed });
     });
   }
 
@@ -118,7 +121,7 @@ describe('check dependency rules', () => {
       };
       expect(
         isDependencyAllowed(['domain:customers'], to, config, dummyContext)
-      ).toBe(isAllowed);
+      ).toEqual({ allowed: isAllowed });
     });
   }
 
@@ -137,7 +140,7 @@ describe('check dependency rules', () => {
       };
       expect(
         isDependencyAllowed(['domain:customers'], to, config, dummyContext)
-      ).toBe(isAllowed);
+      ).toEqual({ allowed: isAllowed });
     });
   }
 
@@ -154,7 +157,7 @@ describe('check dependency rules', () => {
         config,
         dummyContext
       )
-    ).toBe(true);
+    ).toEqual({ allowed: true });
   });
 
   it('should have access to a module when of the tags allow it', () => {
@@ -170,7 +173,7 @@ describe('check dependency rules', () => {
         config,
         dummyContext
       )
-    ).toBe(true);
+    ).toEqual({ allowed: true });
   });
 
   it('should allow wildcard in rule values as well', () => {
@@ -180,7 +183,7 @@ describe('check dependency rules', () => {
 
     expect(
       isDependencyAllowed(['type:feature'], 'shared:ui', config, dummyContext)
-    ).toBe(true);
+    ).toEqual({ allowed: true });
   });
 
   for (const [to, from, isAllowed] of [
@@ -194,9 +197,9 @@ describe('check dependency rules', () => {
         'domain:*': sameTag,
       };
 
-      expect(isDependencyAllowed([from], to, config, dummyContext)).toBe(
-        isAllowed
-      );
+      expect(isDependencyAllowed([from], to, config, dummyContext)).toEqual({
+        allowed: isAllowed,
+      });
     });
   }
 
@@ -209,7 +212,7 @@ describe('check dependency rules', () => {
 
       expect(
         isDependencyAllowed(['type:model'], toTag, config, dummyContext)
-      ).toBe(false);
+      ).toEqual({ allowed: false });
     }
   );
 });
