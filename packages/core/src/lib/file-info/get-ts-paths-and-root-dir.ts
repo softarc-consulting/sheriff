@@ -1,6 +1,7 @@
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import { FsPath, toFsPath } from './fs-path';
+import { TsConfig } from './ts-config';
 
 /**
  * Retrieves the paths variable from a tsconfig and also traverses through
@@ -26,17 +27,19 @@ export const getTsPathsAndRootDir = (
       () => configRawContent
     );
 
+    const config = configContent.config as TsConfig;
+
     const newPaths: Record<string, string[]> =
-      configContent.config.compilerOptions.paths || {};
+      config.compilerOptions.paths ?? {};
     currentTsConfigDir = fs.getParent(currentTsConfigPath);
     for (const [key, [value]] of Object.entries(newPaths)) {
       const valueForFsPath = value.endsWith('/*') ? value.slice(0, -2) : value;
       paths[key] = toFsPath(fs.join(currentTsConfigDir, valueForFsPath));
     }
 
-    if (configContent.config.extends) {
+    if (config.extends) {
       currentTsConfigPath = toFsPath(
-        fs.join(fs.getParent(currentTsConfigPath), configContent.config.extends)
+        fs.join(fs.getParent(currentTsConfigPath), config.extends)
       );
     } else {
       break;

@@ -6,10 +6,10 @@ const sheriffConfigContentSymbol = Symbol();
  * TypeScript object literals which are used
  * as content in @FileTree.
  */
-export type SheriffConfigContent = {
+export interface SheriffConfigContent {
   content: SheriffConfig;
   _type: typeof sheriffConfigContentSymbol;
-};
+}
 
 /**
  * Type FileTree makes it a directory
@@ -23,7 +23,10 @@ export type FileTreeContentType =
   | string[]
   | SheriffConfigContent;
 
-export type FileTree = { [key: string]: FileTreeContentType };
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+export interface FileTree {
+  [key: string]: FileTreeContentType;
+}
 
 export const isSheriffConfigContent = (
   fileTreeContentType: FileTreeContentType
@@ -31,7 +34,7 @@ export const isSheriffConfigContent = (
   return (
     typeof fileTreeContentType !== 'string' &&
     !Array.isArray(fileTreeContentType) &&
-    fileTreeContentType['_type'] === sheriffConfigContentSymbol
+    fileTreeContentType._type === sheriffConfigContentSymbol
   );
 };
 

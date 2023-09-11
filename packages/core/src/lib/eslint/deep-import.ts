@@ -41,7 +41,7 @@ export const hasDeepImport = (
     const isNotAModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
 
     const assignedFileInfo = getAfi(fileInfo.path);
-    const deepImports: Set<string> = new Set();
+    const deepImports = new Set<string>();
     for (const importedFileInfo of assignedFileInfo.imports) {
       const importedAfi = getAfi(importedFileInfo.path);
       if (

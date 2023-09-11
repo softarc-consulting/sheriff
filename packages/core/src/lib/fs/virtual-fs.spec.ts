@@ -98,7 +98,9 @@ describe('Virtual Fs', () => {
     it('fails if it is a directory', () => {
       fs.createDir('dir1');
 
-      expect(() => fs.writeFile('/project/dir1', 'content 1')).toThrowError(
+      expect(() => {
+        fs.writeFile('/project/dir1', 'content 1');
+      }).toThrowError(
         'cannot write to file /project/dir1 because it is a directory'
       );
     });
@@ -106,9 +108,9 @@ describe('Virtual Fs', () => {
     it('should fail if directory is created on existing file', () => {
       fs.writeFile('dir1', '');
 
-      expect(() => fs.createDir('dir1')).toThrowError(
-        'cannot create directory dir1 because it is a file'
-      );
+      expect(() => {
+        fs.createDir('dir1');
+      }).toThrowError('cannot create directory dir1 because it is a file');
     });
 
     it('should reject on read, if file does not exist', () => {
@@ -136,15 +138,15 @@ describe('Virtual Fs', () => {
     });
 
     it('should reject on /', () => {
-      expect(() => fs.removeDir('/')).toThrowError(
-        'cannot delete root directory'
-      );
+      expect(() => {
+        fs.removeDir('/');
+      }).toThrowError('cannot delete root directory');
     });
 
     it('should reject on not existing directory', () => {
-      expect(() => fs.removeDir('/abc')).toThrowError(
-        'cannot delete directory /abc because it does not exist'
-      );
+      expect(() => {
+        fs.removeDir('/abc');
+      }).toThrowError('cannot delete directory /abc because it does not exist');
     });
   });
 
@@ -243,7 +245,8 @@ describe('Virtual Fs', () => {
     ['/project/index.ts', 'index.ts'],
     ['/project/customers/app', 'customers/app'],
   ]) {
-    it(`should resolve ${path} to ${solution}`, () =>
-      expect(fs.relativeTo('/project', path)).toBe(solution));
+    it(`should resolve ${path} to ${solution}`, () => {
+      expect(fs.relativeTo('/project', path)).toBe(solution);
+    });
   }
 });

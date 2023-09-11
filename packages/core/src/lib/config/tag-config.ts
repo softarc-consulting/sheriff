@@ -4,23 +4,23 @@ export type XOR<T, U> = T | U extends object
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
 
-export type MatcherContext = {
+export interface MatcherContext {
   segment: string;
   regexMatch?: RegExpMatchArray | null;
-};
+}
 
 export type TagMatcherFn<ReturnType extends string | string[]> = (
   placeholders: Record<string, string>,
   context: MatcherContext
 ) => ReturnType;
 
-export type SingleTag = {
+export interface SingleTag {
   tag?: string | TagMatcherFn<string>;
-};
+}
 
-export type MultiTags = {
+export interface MultiTags {
   tags?: string[] | TagMatcherFn<string[]>;
-};
+}
 
 export type TagConfigValue =
   | string

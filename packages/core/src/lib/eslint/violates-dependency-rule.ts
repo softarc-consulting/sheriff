@@ -99,5 +99,5 @@ export const violatesDependencyRule = (
     }
   }
 
-  return cache.get(importCommand) || '';
+  return cache.get(importCommand) ?? '';
 };

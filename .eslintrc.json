@@ -1,9 +1,16 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
+  "extends": ["plugin:@typescript-eslint/strict-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked"
+  ],
   "plugins": ["@nrwl/nx"],
+
   "overrides": [
     {
+      "parserOptions": {
+        "project": ["tsconfig.base.json"]
+      },
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [

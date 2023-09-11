@@ -19,7 +19,7 @@ export default class FileInfo {
   }
 }
 
-type NestedArray = Array<string | NestedArray>;
+type NestedArray = (string | NestedArray)[];
 
 const createPath = (path: string, parentPath: string) => {
   let currentPath = path;

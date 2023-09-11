@@ -18,10 +18,9 @@ export const calcTagsForModule = (
   const tags: string[] = [];
   let paths = fs.split(moduleDir.slice(rootDir.length + 1));
   const placeholders: Record<string, string> = {};
-  const counter = 0;
   let currentTagConfig = tagConfig;
 
-  while (paths.length > 0 && counter < 20) {
+  while (paths.length > 0) {
     let foundMatch = false;
     for (const pathMatcher in currentTagConfig) {
       const value = currentTagConfig[pathMatcher];
@@ -179,7 +178,7 @@ function matchSegment(
       matches = false;
     }
     pathFragment = paths.slice(0, pathFragmentSpan).join('/');
-    const placeholderMatch = (segmentMatcher.match(/<[a-zA-Z]+>/g) || []).map(
+    const placeholderMatch = (segmentMatcher.match(/<[a-zA-Z]+>/g) ?? []).map(
       (str) => str.slice(1, str.length - 1)
     );
     if (placeholderMatch.length) {

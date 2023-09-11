@@ -1,11 +1,11 @@
 import { FsPath } from '../file-info/fs-path';
 
-export type DependencyCheckContext = {
+export interface DependencyCheckContext {
   fromModulePath: FsPath;
   toModulePath: FsPath;
   fromFilePath: FsPath;
   toFilePath: FsPath;
-};
+}
 
 export type RuleMatcherFn = (
   context: {
