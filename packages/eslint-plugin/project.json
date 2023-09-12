@@ -5,13 +5,14 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/eslint-plugin",
         "main": "packages/eslint-plugin/src/index.ts",
         "tsConfig": "packages/eslint-plugin/tsconfig.lib.json",
-        "assets": ["packages/eslint-plugin/*.md"]
+        "assets": ["packages/eslint-plugin/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "publish": {
@@ -22,7 +23,7 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/eslint-plugin/**/*.ts"]
