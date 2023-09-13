@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
   "packages": {
     "packages/core": {
@@ -13,7 +14,8 @@
       "type": "linked-versions",
       "groupName": "sheriff",
       "components": [
-        "core", "eslint-plugin"
+        "core",
+        "eslint-plugin"
       ]
     }
   ]
