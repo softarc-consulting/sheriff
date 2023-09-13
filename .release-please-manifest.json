@@ -1,0 +1,20 @@
+{
+  "release-type": "node",
+  "packages": {
+    "packages/core": {
+      "component": "core"
+    },
+    "packages/eslint-plugin": {
+      "component": "eslint-plugin"
+    }
+  },
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "sheriff",
+      "components": [
+        "core", "eslint-plugin"
+      ]
+    }
+  ]
+}
