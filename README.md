@@ -46,7 +46,7 @@ In your _eslintrc.json_, insert the rules:
   "overrides": [
     // existing rules...
     {
-      "files": ["*.ts"]
+      "files": ["*.ts"],
       "extends": ["plugin:@softarc/sheriff/default"]
     }
   ]
@@ -67,7 +67,7 @@ In your _eslintrc.json_, insert the rules:
   "overrides": [
     // existing rules...
     {
-      "files": ["*.ts"]
+      "files": ["*.ts"],
       "extends": ["plugin:@softarc/sheriff/default"]
     }
   ]
