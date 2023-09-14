@@ -264,14 +264,14 @@ The recommended approach is to pick one directory and set it as a module. Let's 
 Once a single module does exist, Sheriff automatically assigned the **root** module to
 the rest. If files from _shared_ need to import from **root**, an _index.ts_ in **root** is required as well.
 
-We can disable the deep import checks for the **root** module by setting `excludeRoot` in _sheriff.config.ts_ to false.
+We can disable the deep import checks for the **root** module by setting `excludeRoot` in _sheriff.config.ts_ to true.
 
 Example:
 
 ```typescript
 export const config: SheriffConfig = {
   excludeRoot: true,
-  tags: {
+  tagging: {
     'src/shared': 'shared',
   },
   depRules: {
