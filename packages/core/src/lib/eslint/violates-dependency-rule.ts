@@ -21,81 +21,86 @@ export const violatesDependencyRule = (
   if (isFirstRun) {
     cache.clear();
   }
-  if (!cache.has(importCommand)) {
-    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
-      toFsPath(filename),
-      true
+  if (cache.has(importCommand)) {
+    return cache.get(importCommand) || '';
+  }
+  const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
+    toFsPath(filename),
+    true
+  );
+  const configFile = findConfig(rootDir);
+  if (configFile === undefined) {
+    log('Dependency Rules', 'no sheriff.config.ts present in ' + rootDir);
+    return '';
+  }
+
+  const config = parseConfig(configFile);
+
+  const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
+
+  const modulePaths = findModulePaths(projectDirs);
+  const modules = createModules(fileInfo, modulePaths, rootDir);
+  const afiMap = getAssignedFileInfoMap(modules);
+
+  const getAfi = (path: FsPath) =>
+    throwIfNull(afiMap.get(path), `cannot find AssignedFileInfo for ${path}`);
+
+  const assignedFileInfo = getAfi(fileInfo.path);
+  const importedModulePathsWithRawImport = assignedFileInfo.imports
+    .filter((importedFi) => modulePaths.has(importedFi.path))
+    .map((importedFi) => getAfi(importedFi.path))
+    .map((iafi) => [
+      iafi.moduleInfo.directory,
+      assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
+    ]);
+  const fromModulePath = toFsPath(
+    getAfi(toFsPath(filename)).moduleInfo.directory
+  );
+  const fromTags = calcTagsForModule(fromModulePath, rootDir, config.tagging);
+  const removeRoot = (module: string) => module.substring(rootDir.length);
+  const fromTagString = fromTags.join(', ');
+  for (const [
+    importedModulePath,
+    rawImport,
+  ] of importedModulePathsWithRawImport) {
+    const importedModuleFsPath = toFsPath(importedModulePath);
+    const toTags: string[] = calcTagsForModule(
+      importedModuleFsPath,
+      rootDir,
+      config.tagging
     );
-    const configFile = findConfig(rootDir);
-    if (configFile === undefined) {
-      log('Dependency Rules', 'no sheriff.config.ts present in ' + rootDir);
-      return '';
+
+    log(
+      'Dependency Rules',
+      `Checking for from tags of ${fromTagString} to ${toTags.join(',')}`
+    );
+
+    for (const toTag of toTags) {
+      const { allowed, customMessage } = isDependencyAllowed(
+        fromTags,
+        toTag,
+        config.depRules,
+        {
+          fromModulePath,
+          toModulePath: importedModuleFsPath,
+          fromFilePath: toFsPath(filename),
+          toFilePath: importedModuleFsPath,
+        }
+      );
+      if (!allowed) {
+        cache.set(
+          rawImport,
+          `module ${removeRoot(fromModulePath)} cannot access ${removeRoot(
+            importedModulePath
+          )}. Tags [${fromTagString}] have no clearance for ${toTag}${customMessage}`
+        );
+
+        break;
+      }
     }
 
-    const config = parseConfig(configFile);
-
-    const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
-
-    const modulePaths = findModulePaths(projectDirs);
-    const modules = createModules(fileInfo, modulePaths, rootDir);
-    const afiMap = getAssignedFileInfoMap(modules);
-
-    const getAfi = (path: FsPath) =>
-      throwIfNull(afiMap.get(path), `cannot find AssignedFileInfo for ${path}`);
-
-    const assignedFileInfo = getAfi(fileInfo.path);
-    const importedModulePathsWithRawImport = assignedFileInfo.imports
-      .filter((importedFi) => modulePaths.has(importedFi.path))
-      .map((importedFi) => getAfi(importedFi.path))
-      .map((iafi) => [
-        iafi.moduleInfo.directory,
-        assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
-      ]);
-    const fromModule = toFsPath(
-      getAfi(toFsPath(filename)).moduleInfo.directory
-    );
-    const fromTags = calcTagsForModule(fromModule, rootDir, config.tagging);
-
-    for (const [
-      importedModulePath,
-      rawImport,
-    ] of importedModulePathsWithRawImport) {
-      const toTags: string[] = calcTagsForModule(
-        toFsPath(importedModulePath),
-        rootDir,
-        config.tagging
-      );
-
-      log(
-        'Dependency Rules',
-        `Checking for from tags of ${fromTags.join(',')} to ${toTags.join(',')}`
-      );
-
-      for (const toTag of toTags) {
-        if (
-          !isDependencyAllowed(fromTags, toTag, config.depRules, {
-            fromModulePath: fromModule,
-            toModulePath: toFsPath(importedModulePath),
-            fromFilePath: toFsPath(filename),
-            toFilePath: toFsPath(importedModulePath),
-          })
-        ) {
-          cache.set(
-            rawImport,
-            `module ${fromModule.substring(
-              rootDir.length
-            )} cannot access ${importedModulePath.substring(
-              rootDir.length
-            )}. Tags [${fromTags.join(',')}] have no clearance for ${toTag}`
-          );
-
-          break;
-        }
-      }
-
-      if (!cache.has(importCommand)) {
-        cache.set(importCommand, '');
-      }
+    if (!cache.has(importCommand)) {
+      cache.set(importCommand, '');
     }
   }
 

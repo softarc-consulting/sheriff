@@ -13,5 +13,12 @@ export type RuleMatcherFn = (
     to: string;
   } & DependencyCheckContext
 ) => boolean;
+type CustomMessageFn = (to: string) => string | undefined;
+
+export interface RuleWithCustomMessage {
+  message: CustomMessageFn;
+  matcher: RuleMatcher | RuleMatcher[];
+}
+export type Rule = RuleWithCustomMessage | RuleMatcher[] | RuleMatcher;
 export type RuleMatcher = string | null | RuleMatcherFn;
-export type DependencyRulesConfig = Record<string, RuleMatcher | RuleMatcher[]>;
+export type DependencyRulesConfig = Record<string, Rule>;
