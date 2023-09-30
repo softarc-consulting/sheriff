@@ -4,6 +4,7 @@ import { inVfs } from '../test/in-vfs';
 import { toFsPath } from '../file-info/fs-path';
 import getFs, { useVirtualFs } from './getFs';
 import '../test/matchers';
+import { EOL } from 'os';
 
 describe('Virtual Fs', () => {
   let fs: VirtualFs;
@@ -93,6 +94,18 @@ describe('Virtual Fs', () => {
 
       expect(fs.readFile('/project/sub-dir1/file1')).toBe('content 1');
       expect(fs.readFile('/project/sub-dir1/sub-dir2/file1')).toBe('content 2');
+    });
+
+    it('should append to a file', () => {
+      fs.writeFile('/log.txt', 'abc');
+      fs.appendFile('/log.txt', 'efg');
+
+      expect(fs.readFile('/log.txt')).toBe(`abc${EOL}efg`);
+    });
+
+    it('should create the file when appending file', () => {
+      fs.appendFile('/not-existing.txt', 'hello');
+      expect(fs.readFile('/not-existing.txt')).toBe(`hello`);
     });
 
     it('fails if it is a directory', () => {

@@ -8,11 +8,13 @@ export const deepImport = createRule(
   (
     context: Rule.RuleContext,
     node: ImportExpression | ImportDeclaration,
-    isFirstRun: boolean
+    isFirstRun: boolean,
+    filename: string,
+    sourceCode: string
   ) => {
     // ESTree does not have source on `ImportExpression`.
     const importValue = (node.source as { value: string }).value;
-    if (hasDeepImport(context.getFilename(), importValue, isFirstRun)) {
+    if (hasDeepImport(filename, importValue, isFirstRun, sourceCode)) {
       context.report({
         message:
           "Deep import is not allowed. Use the module's index.ts or path.",

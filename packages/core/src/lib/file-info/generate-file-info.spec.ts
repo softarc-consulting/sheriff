@@ -3,10 +3,11 @@ import { Fs } from '../fs/fs';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { FileTree } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
-import { generateFileInfoAndGetRootDir } from './generate-file-info-and-get-root-dir';
+import { generateFileInfo } from './generate-file-info';
 import { ProjectCreator } from '../test/project-creator';
 import { inVfs } from '../test/in-vfs';
 import { toFsPath } from './fs-path';
+import { generateTsData } from './generate-ts-data';
 
 describe('Generate File Info', () => {
   let fs: Fs;
@@ -22,6 +23,9 @@ describe('Generate File Info', () => {
     creator = new ProjectCreator();
   });
 
+  const getTsData = () =>
+    generateTsData(toFsPath('/project/integration/tsconfig.json'));
+
   it('should test a simple case', () => {
     const projectConfig: FileTree = {
       'tsconfig.json': tsconfigMinimal,
@@ -30,11 +34,12 @@ describe('Generate File Info', () => {
         'app.component.ts': ['./home.component'],
       },
     };
-
     creator.create(projectConfig, 'integration');
 
-    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
-      inVfs('integration/src/app/app.component.ts')
+    const fileInfo = generateFileInfo(
+      inVfs('integration/src/app/app.component.ts'),
+      true,
+      getTsData()
     );
 
     expect(fileInfo).toEqual({
@@ -43,7 +48,6 @@ describe('Generate File Info', () => {
         { path: '/project/integration/src/app/home.component.ts', imports: [] },
       ],
     });
-    expect(rootDir).toBe('/project/integration');
   });
 
   it('should generate for sub-modules', () => {
@@ -69,8 +73,10 @@ describe('Generate File Info', () => {
 
     creator.create(projectConfig, 'integration');
 
-    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
-      inVfs('integration/src/main.ts')
+    const fileInfo = generateFileInfo(
+      inVfs('integration/src/main.ts'),
+      false,
+      getTsData()
     );
 
     expect(fileInfo).toEqual({
@@ -116,7 +122,6 @@ describe('Generate File Info', () => {
         },
       ],
     });
-    expect(rootDir).toBe('/project/integration');
   });
 
   it('should throw an error if an import is outside of the root dir', () => {
@@ -128,7 +133,11 @@ describe('Generate File Info', () => {
     creator.create(projectConfig, 'integration');
     fs.writeFile('/project/outside.component.ts', '');
     expect(() =>
-      generateFileInfoAndGetRootDir(toFsPath('/project/integration/main.ts'))
+      generateFileInfo(
+        toFsPath('/project/integration/main.ts'),
+        true,
+        getTsData()
+      )
     ).toThrowError(
       '/project/outside.component.ts is outside of root /project/integration'
     );

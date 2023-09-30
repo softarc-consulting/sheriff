@@ -102,4 +102,9 @@ export interface SheriffConfig {
    * ```
    */
   excludeRoot?: boolean;
+
+  /**
+   * enable internal logging and save it to `sheriff.log`
+   */
+  log?: boolean;
 }

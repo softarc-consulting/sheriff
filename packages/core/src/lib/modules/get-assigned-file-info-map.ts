@@ -1,7 +1,9 @@
 import { Module } from './module';
 import { FsPath } from '../file-info/fs-path';
 import { AssignedFileInfo } from './assigned-file.info';
-import { log } from '../util/log';
+import { logger } from '../log';
+
+const log = logger('core.modules.assigned-file-info-map');
 
 export const getAssignedFileInfoMap = (moduleInfos: Module[]) => {
   const assignedFileInfoMap = new Map<FsPath, AssignedFileInfo>();
@@ -11,7 +13,7 @@ export const getAssignedFileInfoMap = (moduleInfos: Module[]) => {
     }
   }
 
-  log('Assigned File Infos Map', Array.from(assignedFileInfoMap).join(', '));
+  log.info(Array.from(assignedFileInfoMap).join(', '));
 
   return assignedFileInfoMap;
 };

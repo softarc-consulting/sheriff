@@ -3,9 +3,11 @@ import FileInfo from '../file-info/file-info';
 import traverseFileInfo from '../file-info/traverse-file-info';
 import throwIfNull from '../util/throw-if-null';
 import { FsPath } from '../file-info/fs-path';
-import { log } from '../util/log';
 import { formatModules } from './format-modules';
 import get from '../util/get';
+import { logger } from '../log';
+
+const log = logger('core.modules.create');
 
 const findClosestModule = (path: string, moduleInfos: Module[]) => {
   return throwIfNull(
@@ -41,7 +43,7 @@ export const createModules = (
   }
 
   const foundModules = Array.from(moduleInfoMap.values());
-  log('Modules', formatModules(foundModules));
+  log.info(formatModules(foundModules));
   return foundModules;
 };
 

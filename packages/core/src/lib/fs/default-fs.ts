@@ -5,6 +5,10 @@ import { Fs } from './fs';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 
 export class DefaultFs extends Fs {
+  override appendFile(filename: string, contents: string): void {
+    fs.appendFileSync(filename, contents, { encoding: 'utf-8' });
+  }
+
   writeFile = (filename: string, contents: string): void => {
     fs.writeFileSync(filename, contents);
   };

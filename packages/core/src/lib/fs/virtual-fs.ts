@@ -1,6 +1,7 @@
 import { Fs } from './fs';
 import throwIfNull from '../util/throw-if-null';
 import { FsPath, toFsPath } from '../file-info/fs-path';
+import { EOL } from 'os';
 
 type FsNodeType = 'file' | 'directory';
 
@@ -87,6 +88,15 @@ export class VirtualFs extends Fs {
     }
     node.contents = contents;
   };
+
+  appendFile(filename: string, contents: string): void {
+    const node = this.#makeOrGet(filename, 'file');
+    if (node.contents === '') {
+      node.contents = contents;
+    } else {
+      node.contents = node.contents + EOL + contents;
+    }
+  }
 
   readFile = (path: string): string => {
     const result = this.#getNode(path);

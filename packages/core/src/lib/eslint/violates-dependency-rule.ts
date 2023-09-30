@@ -1,38 +1,42 @@
-import { generateFileInfoAndGetRootDir } from '../file-info/generate-file-info-and-get-root-dir';
+import { generateFileInfo } from '../file-info/generate-file-info';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { getProjectDirsFromFileInfo } from '../modules/get-project-dirs-from-file-info';
 import { createModules } from '../modules/create-modules';
 import { findModulePaths } from '../modules/find-module-paths';
 import { getAssignedFileInfoMap } from '../modules/get-assigned-file-info-map';
-import { findConfig } from '../config/find-config';
-import { parseConfig } from '../config/parse-config';
-import { log } from '../util/log';
 import throwIfNull from '../util/throw-if-null';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
 import { isDependencyAllowed } from '../checks/is-dependency-allowed';
+import { logger } from '../log';
+import { init } from '../init/init';
 
 const cache = new Map<string, string>();
+const log = logger('core.eslint.dependency-rules');
 
 export const violatesDependencyRule = (
   filename: string,
   importCommand: string,
-  isFirstRun: boolean
+  isFirstRun: boolean,
+  fileContent: string
 ): string => {
   if (isFirstRun) {
     cache.clear();
   }
   if (!cache.has(importCommand)) {
-    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
-      toFsPath(filename),
-      true
-    );
-    const configFile = findConfig(rootDir);
-    if (configFile === undefined) {
-      log('Dependency Rules', 'no sheriff.config.ts present in ' + rootDir);
+    const { tsData, config } = init(toFsPath(filename), true);
+    const { rootDir } = tsData;
+
+    if (!config) {
+      log.info('no sheriff.config.ts present in ' + rootDir);
       return '';
     }
 
-    const config = parseConfig(configFile);
+    const fileInfo = generateFileInfo(
+      toFsPath(filename),
+      true,
+      tsData,
+      fileContent
+    );
 
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
 
@@ -66,8 +70,7 @@ export const violatesDependencyRule = (
         config.tagging
       );
 
-      log(
-        'Dependency Rules',
+      log.info(
         `Checking for from tags of ${fromTags.join(',')} to ${toTags.join(',')}`
       );
 
