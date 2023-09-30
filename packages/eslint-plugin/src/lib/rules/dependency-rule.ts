@@ -8,13 +8,16 @@ export const dependencyRule = createRule(
   (
     context: Rule.RuleContext,
     node: ImportExpression | ImportDeclaration,
-    isFirstRun: boolean
+    isFirstRun: boolean,
+    filename: string,
+    sourceCode: string
   ) => {
     const importValue = (node.source as { value: string }).value;
     const message = violatesDependencyRule(
-      context.getFilename(),
+      filename,
       importValue,
-      isFirstRun
+      isFirstRun,
+      sourceCode
     );
     if (message) {
       context.report({

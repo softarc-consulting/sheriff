@@ -23,9 +23,12 @@ export const createRule: (
     const executeRuleWithContext = (
       node: ImportExpression | ImportDeclaration
     ) => {
+      const filename = context.filename ?? context.getFilename();
+      const sourceCode =
+        context.sourceCode?.text ?? context.getSourceCode().text;
       if (!hasInternalError) {
         try {
-          executor(context, node, isFirstRun);
+          executor(context, node, isFirstRun, filename, sourceCode);
         } catch (error) {
           hasInternalError = true;
           const message =

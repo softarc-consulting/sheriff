@@ -21,22 +21,25 @@ export type ResolveFn = (
  * filesystem happens. In case the abstraction does not emulate the original's
  * behaviour, "strange bugs" might occur. Look out for them.
  *
- * @param fsPath: Filename to traverse from
- * @param fileInfoDict: Dictionary of traversed files to catch circularity
+ * @param fsPath Filename to traverse from
+ * @param fileInfoDict Dictionary of traversed files to catch circularity
  * @param tsData
- * @param runOnce: traverse only once. needed for ESLint mode
+ * @param runOnce traverse only once. needed for ESLint mode
+ * @param fileContent if passed, is used instead the content of @fsPath.
+ * necessary for unsaved files inESLint
  */
 const traverseFilesystem = (
   fsPath: FsPath,
   fileInfoDict: Map<FsPath, FileInfo>,
   tsData: TsData,
-  runOnce = false
+  runOnce = false,
+  fileContent?: string
 ): FileInfo => {
   const { paths, configObject, cwd, sys, rootDir } = tsData;
   const fileInfo: FileInfo = new FileInfo(fsPath, []);
   fileInfoDict.set(fsPath, fileInfo);
   const fs = getFs();
-  const fileContent = fs.readFile(fsPath);
+  fileContent = fileContent ?? fs.readFile(fsPath);
   const preProcessedFile = ts.preProcessFile(fileContent);
   const resolveFn: ResolveFn = (moduleName: string) =>
     ts.resolveModuleName(moduleName, fsPath, configObject.options, sys);

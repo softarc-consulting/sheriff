@@ -5,6 +5,7 @@ import { ProjectCreator } from '../test/project-creator';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { hasDeepImport } from './deep-import';
 import { anyTag } from '../checks/any-tag';
+import { toFsPath } from '../file-info/fs-path';
 
 describe('deep import', () => {
   const assertDeepImport = (
@@ -13,7 +14,12 @@ describe('deep import', () => {
     isDeepImport = true
   ) => {
     expect(
-      hasDeepImport(filename, importCommand, true),
+      hasDeepImport(
+        filename,
+        importCommand,
+        true,
+        getFs().readFile(toFsPath(filename))
+      ),
       `deep import in ${filename} from ${importCommand} should be ${isDeepImport}`
     ).toBe(isDeepImport);
   };

@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { afterEach, describe, it, vitest } from 'vitest';
+import { afterEach, describe, expect, it, vitest } from 'vitest';
 import * as sheriffCore from '@softarc/sheriff-core';
 import { dependencyRule } from './dependency-rule';
 
@@ -15,9 +15,19 @@ describe('dependency rule', () => {
     spy.mockReset();
   });
 
+  it('should pass file contents', () => {
+    const code = 'import {AppComponent} from "./app.component"';
+    spy.mockReturnValue('');
+    tester.run('dependency-rule', dependencyRule, {
+      valid: [{ code }],
+      invalid: [],
+    });
+    expect(spy).toHaveBeenCalledWith('<input>', './app.component', true, code);
+  });
+
   it('should not fail when returned message is empty', () => {
     spy.mockReturnValue('');
-    tester.run('depdency-rule', dependencyRule, {
+    tester.run('dependency-rule', dependencyRule, {
       valid: [{ code: 'import {AppComponent} from "@app";' }],
       invalid: [],
     });
@@ -25,7 +35,7 @@ describe('dependency rule', () => {
 
   it('should fail when returned message has a value', () => {
     spy.mockReturnValue('access is not allowed');
-    tester.run('depdency-rule', dependencyRule, {
+    tester.run('dependency-rule', dependencyRule, {
       valid: [],
       invalid: [
         {

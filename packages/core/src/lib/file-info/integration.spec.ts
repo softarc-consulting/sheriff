@@ -1,7 +1,8 @@
 import { describe, it } from 'vitest';
 import * as path from 'path';
-import { generateFileInfoAndGetRootDir } from './generate-file-info-and-get-root-dir';
+import { generateFileInfo } from './generate-file-info';
 import { toFsPath } from './fs-path';
+import { init } from '../init/init';
 
 describe('integration test', () => {
   it.each(['angular-i', 'angular-ii'])('should test $s', (project) => {
@@ -12,6 +13,7 @@ describe('integration test', () => {
       project,
       'src/main.ts'
     );
-    generateFileInfoAndGetRootDir(toFsPath(angularMain1), false);
+    const { tsData } = init(toFsPath(angularMain1), false);
+    generateFileInfo(toFsPath(angularMain1), false, tsData);
   });
 });

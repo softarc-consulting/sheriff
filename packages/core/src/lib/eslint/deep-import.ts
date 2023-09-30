@@ -1,4 +1,4 @@
-import { generateFileInfoAndGetRootDir } from '../file-info/generate-file-info-and-get-root-dir';
+import { generateFileInfo } from '../file-info/generate-file-info';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { getProjectDirsFromFileInfo } from '../modules/get-project-dirs-from-file-info';
 import { createModules } from '../modules/create-modules';
@@ -7,23 +7,30 @@ import { getAssignedFileInfoMap } from '../modules/get-assigned-file-info-map';
 import throwIfNull from '../util/throw-if-null';
 import { findConfig } from '../config/find-config';
 import { parseConfig } from '../config/parse-config';
+import { init } from '../init/init';
 
 const deepImportCache = new Map<string, Set<string>>();
 
 export const hasDeepImport = (
   filename: string,
   importCommand: string,
-  isFirstRun: boolean
+  isFirstRun: boolean,
+  fileContent: string
 ): boolean => {
   if (isFirstRun) {
     deepImportCache.clear();
   }
 
   if (!deepImportCache.has(filename)) {
-    const { fileInfo, rootDir } = generateFileInfoAndGetRootDir(
+    const { tsData } = init(toFsPath(filename), false);
+    const { rootDir } = tsData;
+    const fileInfo = generateFileInfo(
       toFsPath(filename),
-      true
+      true,
+      tsData,
+      fileContent
     );
+
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
     const isRootAndExcluded = createIsRootAndExcluded(rootDir);
 

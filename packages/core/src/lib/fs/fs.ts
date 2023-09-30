@@ -3,6 +3,7 @@ import type { FsPath } from '../file-info/fs-path';
 
 export abstract class Fs {
   abstract writeFile: (filename: string, contents: string) => void;
+  abstract appendFile(filename: string, contents: string): void;
   abstract readFile: (path: FsPath) => string;
   abstract removeDir: (path: FsPath) => void;
   abstract createDir: (path: string) => void;
