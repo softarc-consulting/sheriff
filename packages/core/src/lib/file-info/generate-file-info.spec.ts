@@ -142,4 +142,26 @@ describe('Generate File Info', () => {
       '/project/outside.component.ts is outside of root /project/integration'
     );
   });
+
+  for (const importCommand of [
+    './holiday.component',
+    './customers/customer.service',
+  ]) {
+    it(`should add an unresolvable import for "${importCommand}"`, () => {
+      const projectConfig: FileTree = {
+        'tsconfig.json': tsconfigMinimal,
+        'main.ts': [importCommand],
+      };
+
+      creator.create(projectConfig, 'integration');
+      const fileInfo = generateFileInfo(
+        toFsPath('/project/integration/main.ts'),
+        true,
+        getTsData()
+      );
+
+      expect(fileInfo.isUnresolvableImport(importCommand)).toBe(true);
+      expect(fileInfo.hasUnresolvableImports()).toBe(true);
+    });
+  }
 });

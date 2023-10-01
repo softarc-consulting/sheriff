@@ -14,10 +14,15 @@ export const deepImport = createRule(
   ) => {
     // ESTree does not have source on `ImportExpression`.
     const importValue = (node.source as { value: string }).value;
-    if (hasDeepImport(filename, importValue, isFirstRun, sourceCode)) {
+    const message = hasDeepImport(
+      filename,
+      importValue,
+      isFirstRun,
+      sourceCode
+    );
+    if (message) {
       context.report({
-        message:
-          "Deep import is not allowed. Use the module's index.ts or path.",
+        message,
         node,
       });
     }

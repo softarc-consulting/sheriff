@@ -8,28 +8,26 @@ import throwIfNull from '../util/throw-if-null';
 import { findConfig } from '../config/find-config';
 import { parseConfig } from '../config/parse-config';
 import { init } from '../init/init';
+import FileInfo from '../file-info/file-info';
 
-const deepImportCache = new Map<string, Set<string>>();
+let cache: string[] = [];
+let fileInfo: FileInfo | undefined;
 
 export const hasDeepImport = (
   filename: string,
   importCommand: string,
   isFirstRun: boolean,
   fileContent: string
-): boolean => {
+): string => {
   if (isFirstRun) {
-    deepImportCache.clear();
+    cache = [];
+    fileInfo = undefined;
   }
 
-  if (!deepImportCache.has(filename)) {
+  if (!fileInfo) {
     const { tsData } = init(toFsPath(filename), false);
     const { rootDir } = tsData;
-    const fileInfo = generateFileInfo(
-      toFsPath(filename),
-      true,
-      tsData,
-      fileContent
-    );
+    fileInfo = generateFileInfo(toFsPath(filename), true, tsData, fileContent);
 
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
     const isRootAndExcluded = createIsRootAndExcluded(rootDir);
@@ -48,7 +46,6 @@ export const hasDeepImport = (
     const isNotAModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
 
     const assignedFileInfo = getAfi(fileInfo.path);
-    const deepImports = new Set<string>();
     for (const importedFileInfo of assignedFileInfo.imports) {
       const importedAfi = getAfi(importedFileInfo.path);
       if (
@@ -56,18 +53,20 @@ export const hasDeepImport = (
         !isRootAndExcluded(importedAfi.moduleInfo.path) &&
         importedAfi.moduleInfo !== assignedFileInfo.moduleInfo
       ) {
-        deepImports.add(
+        cache.push(
           assignedFileInfo.getRawImportForImportedFileInfo(importedAfi.path)
         );
       }
     }
-    deepImportCache.set(filename, deepImports);
   }
 
-  return throwIfNull(
-    deepImportCache.get(filename),
-    `${filename} does not exist in deepImportCache`
-  ).has(importCommand);
+  if (fileInfo.isUnresolvableImport(importCommand)) {
+    return `import ${importCommand} cannot be resolved`;
+  }
+
+  return cache.includes(importCommand)
+    ? "Deep import is not allowed. Use the module's index.ts or path."
+    : '';
 };
 
 /**

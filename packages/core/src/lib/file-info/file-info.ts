@@ -2,9 +2,30 @@ import { FsPath, toFsPath } from './fs-path';
 import throwIfNull from '../util/throw-if-null';
 import getFs from '../fs/getFs';
 
+/**
+ * Class representing a TypeScript file with its dependencies.
+ * If an import cannot be resolved, it doesn't throw an error
+ * but is added to unresolvableImports.
+ *
+ * It is up to the consumer, e.g. ESLinter, to decide if that
+ * should cause an error or not.
+ */
 export default class FileInfo {
   #rawImportMap = new Map<string, string>();
+  #unresolvableImports: string[] = [];
   constructor(public path: FsPath, public imports: FileInfo[] = []) {}
+
+  addUnresolvableImport(importCommand: string) {
+    this.#unresolvableImports.push(importCommand);
+  }
+
+  isUnresolvableImport(importCommand: string) {
+    return this.#unresolvableImports.includes(importCommand);
+  }
+
+  hasUnresolvableImports() {
+    return this.#unresolvableImports.length > 0;
+  }
 
   addImport(importedFileInfo: FileInfo, rawImport: string) {
     this.imports.push(importedFileInfo);

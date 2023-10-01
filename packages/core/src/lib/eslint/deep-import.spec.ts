@@ -21,7 +21,11 @@ describe('deep import', () => {
         getFs().readFile(toFsPath(filename))
       ),
       `deep import in ${filename} from ${importCommand} should be ${isDeepImport}`
-    ).toBe(isDeepImport);
+    ).toBe(
+      isDeepImport
+        ? "Deep import is not allowed. Use the module's index.ts or path."
+        : ''
+    );
   };
 
   beforeAll(() => {
@@ -54,6 +58,25 @@ describe('deep import', () => {
       '/project/src/app/app.component.ts',
       './customers/customer.component'
     );
+  });
+
+  it('should mark an unresolvable import', () => {
+    const fileTree: FileTree = {
+      'tsconfig.json': tsconfigMinimal,
+      src: {
+        'main.ts': ['./app/app.component'],
+      },
+    };
+    new ProjectCreator().create(fileTree, '/project');
+
+    expect(
+      hasDeepImport(
+        '/project/src/main.ts',
+        './app/app.component',
+        true,
+        getFs().readFile(toFsPath('/project/src/main.ts'))
+      )
+    ).toBe('import ./app/app.component cannot be resolved');
   });
 
   describe('rootExcluded', () => {

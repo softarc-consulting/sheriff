@@ -59,7 +59,9 @@ const traverseFilesystem = (
       }
     } else if (fileName.startsWith('.')) {
       // might be an undetected dependency in node_modules
-      throw new Error(`cannot find import for ${fileName}`);
+      // or an incomplete import (= developer is still typing),
+      // if we read from an unsaved file via ESLint.
+      fileInfo.addUnresolvableImport(fileName);
     } else {
       const resolvedTsPath = resolvePotentialTsPath(
         fileName,
