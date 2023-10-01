@@ -9,8 +9,10 @@ import { calcTagsForModule } from '../tags/calc-tags-for-module';
 import { isDependencyAllowed } from '../checks/is-dependency-allowed';
 import { logger } from '../log';
 import { init } from '../init/init';
+import FileInfo from '../file-info/file-info';
 
 const cache = new Map<string, string>();
+let fileInfo: FileInfo | undefined;
 const log = logger('core.eslint.dependency-rules');
 
 export const violatesDependencyRule = (
@@ -21,6 +23,7 @@ export const violatesDependencyRule = (
 ): string => {
   if (isFirstRun) {
     cache.clear();
+    fileInfo = undefined;
   }
   if (!cache.has(importCommand)) {
     const { tsData, config } = init(toFsPath(filename), true);
@@ -31,12 +34,7 @@ export const violatesDependencyRule = (
       return '';
     }
 
-    const fileInfo = generateFileInfo(
-      toFsPath(filename),
-      true,
-      tsData,
-      fileContent
-    );
+    fileInfo = generateFileInfo(toFsPath(filename), true, tsData, fileContent);
 
     const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
 
@@ -100,6 +98,10 @@ export const violatesDependencyRule = (
         cache.set(importCommand, '');
       }
     }
+  }
+
+  if (throwIfNull(fileInfo).isUnresolvableImport(importCommand)) {
+    return `import ${importCommand} cannot be resolved`;
   }
 
   return cache.get(importCommand) ?? '';

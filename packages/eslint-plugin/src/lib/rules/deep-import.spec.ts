@@ -29,7 +29,7 @@ describe('deep-import', () => {
       moduleName: '@angular/core',
     },
   ])('should check for $moduleName in $code', ({ code, moduleName }) => {
-    spy.mockImplementation(() => false);
+    spy.mockImplementation(() => '');
     tester.run('deep-import', deepImport, {
       valid: [{ code }],
       invalid: [],
@@ -45,8 +45,8 @@ describe('deep-import', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should report error when deepImports returns false', () => {
-    spy.mockImplementation(() => true);
+  it('should use any message from deep import', () => {
+    spy.mockImplementation(() => 'nothing works');
     tester.run('deep-import', deepImport, {
       valid: [],
       invalid: [
@@ -54,8 +54,7 @@ describe('deep-import', () => {
           code: 'import {AppComponent} from "./app.component"',
           errors: [
             {
-              message:
-                "Deep import is not allowed. Use the module's index.ts or path.",
+              message: 'nothing works',
             },
           ],
         },
