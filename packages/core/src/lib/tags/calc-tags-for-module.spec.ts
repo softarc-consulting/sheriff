@@ -46,15 +46,21 @@ describe('calc tags for module', () => {
     ).toEqual(['domain:abc', 'type:generic']);
   });
 
-  it('optional tags', () => {
+  it('should throw if leaf has not tags', () => {
     const rootDir = '/project' as FsPath;
-    const moduleDir = '/project/abc' as FsPath;
+    const moduleDir = '/project/abc/def/ghj' as FsPath;
 
-    expect(
+    expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
-        abc: {},
+        abc: {
+          def: {
+            ghj: {},
+          },
+        },
       })
-    ).toEqual([]);
+    ).toThrowError(
+      `Tag configuration '/abc/def/ghj' in sheriff.config.ts has no value`
+    );
   });
 
   it('should allow a function returning a string', () => {
@@ -175,7 +181,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         'src/app/holidays': { tags: ['domain:holidays'] },
       })
-    ).toThrowError('did not find a match for /project/src');
+    ).toThrowError(`No assigned Tag for '/project/src' in sheriff.config.ts`);
   });
 
   it('should skip rules that do not apply', () => {
@@ -292,7 +298,7 @@ describe('calc tags for module', () => {
         domain: '',
       })
     ).toThrowError(
-      'tag configuration has no match for module /project/domain/holidays/feature'
+      "No assigned Tag for '/project/domain/holidays/feature' in sheriff.config.ts"
     );
   });
 
@@ -331,5 +337,17 @@ describe('calc tags for module', () => {
         'holidays-123': 'simple match',
       })
     ).toEqual(['simple match']);
+  });
+
+  it('should match nested modules', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/libs/customers/src/lib/data' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        'libs/customers': '',
+        'libs/customers/src/lib/data': 'data',
+      })
+    ).toEqual(['data']);
   });
 });

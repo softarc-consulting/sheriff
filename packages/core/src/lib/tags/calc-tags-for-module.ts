@@ -15,60 +15,81 @@ export const calcTagsForModule = (
     return ['root'];
   }
   const fs = getFs();
-  const tags: string[] = [];
-  let paths = fs.split(moduleDir.slice(rootDir.length + 1));
+  const paths = fs.split(moduleDir.slice(rootDir.length + 1));
   const placeholders: Record<string, string> = {};
-  let currentTagConfig = tagConfig;
 
-  while (paths.length > 0) {
-    let foundMatch = false;
-    for (const pathMatcher in currentTagConfig) {
-      const value = currentTagConfig[pathMatcher];
-      const { matcherContext, matches, pathFragmentSpan } = matchSegment(
-        pathMatcher,
-        paths,
-        placeholders
-      );
+  const tags = traverseTagConfig(
+    paths,
+    tagConfig,
+    placeholders,
+    moduleDir,
+    [],
+    true
+  );
 
-      if (!matches) {
-        continue;
-      }
-
-      if (isTagConfigValue(value)) {
-        const tagProperty = value;
-        if (typeof tagProperty === 'function') {
-          addToTags(
-            tags,
-            tagProperty(placeholders, matcherContext),
-            placeholders,
-            moduleDir
-          );
-        } else {
-          addToTags(tags, tagProperty, placeholders, moduleDir);
-        }
-      }
-      paths = paths.slice(pathFragmentSpan);
-
-      foundMatch = true;
-      if (paths.length > 0) {
-        if (isTagConfig(value)) {
-          currentTagConfig = value;
-        } else {
-          throw new Error(
-            `tag configuration has no match for module ${moduleDir}`
-          );
-        }
-      }
-      break;
-    }
-
-    if (!foundMatch) {
-      throw new Error(`did not find a match for ${moduleDir} `);
-    }
+  if (tags === false) {
+    throw new Error(`No assigned Tag for '${moduleDir}' in sheriff.config.ts`);
   }
 
   return tags;
 };
+
+function traverseTagConfig(
+  paths: string[],
+  tagConfig: TagConfig,
+  placeholders: Record<string, string>,
+  moduleDir: string,
+  tagConfigPath: string[],
+  isRoot: boolean
+): string[] | false {
+  for (const pathMatcher in tagConfig) {
+    if (isRoot) {
+      placeholders = {};
+    }
+
+    const { matcherContext, matches, pathFragmentSpan } = matchSegment(
+      pathMatcher,
+      paths,
+      placeholders
+    );
+
+    if (!matches) {
+      continue;
+    }
+
+    const restPaths = paths.slice(pathFragmentSpan);
+
+    const value = tagConfig[pathMatcher];
+    if (restPaths.length === 0) {
+      assertLeafHasTag(value, [...tagConfigPath, pathMatcher]);
+      const tagProperty = value;
+      if (typeof tagProperty === 'function') {
+        return addToTags(
+          tagProperty(placeholders, matcherContext),
+          placeholders,
+          moduleDir
+        );
+      } else {
+        return addToTags(tagProperty, placeholders, moduleDir);
+      }
+    } else {
+      if (isTagConfigValue(value)) {
+        continue;
+      }
+
+      return traverseTagConfig(
+        restPaths,
+        value,
+        placeholders,
+        moduleDir,
+        [...tagConfigPath, pathMatcher],
+        false
+      );
+    }
+  }
+
+  return false;
+}
 
 function isTagConfigValue(
   value: TagConfigValue | TagConfig
@@ -76,20 +97,26 @@ function isTagConfigValue(
   return !(typeof value === 'object' && !Array.isArray(value));
 }
 
-function isTagConfig(value: TagConfigValue | TagConfig): value is TagConfig {
-  return !isTagConfigValue(value);
+function assertLeafHasTag(
+  value: TagConfigValue | TagConfig,
+  tagConfigPath: string[]
+): asserts value is TagConfigValue {
+  if (!isTagConfigValue(value)) {
+    throw new Error(
+      `Tag configuration '/${tagConfigPath.join(
+        '/'
+      )}' in sheriff.config.ts has no value`
+    );
+  }
 }
 
 function addToTags(
-  tags: string[],
   newTags: string | string[],
   placeholders: Record<string, string>,
   moduleDir: string
 ) {
-  tags.push(
-    ...(Array.isArray(newTags) ? newTags : [newTags]).map((tag) =>
-      replacePlaceholdersInTag(tag, placeholders, moduleDir)
-    )
+  return (Array.isArray(newTags) ? newTags : [newTags]).map((tag) =>
+    replacePlaceholdersInTag(tag, placeholders, moduleDir)
   );
 }
 
