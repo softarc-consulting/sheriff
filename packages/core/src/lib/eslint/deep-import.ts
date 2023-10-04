@@ -1,17 +1,12 @@
-import { generateFileInfo } from '../file-info/generate-file-info';
 import { FsPath, toFsPath } from '../file-info/fs-path';
-import { getProjectDirsFromFileInfo } from '../modules/get-project-dirs-from-file-info';
-import { createModules } from '../modules/create-modules';
-import { findModulePaths } from '../modules/find-module-paths';
-import { getAssignedFileInfoMap } from '../modules/get-assigned-file-info-map';
-import throwIfNull from '../util/throw-if-null';
 import { findConfig } from '../config/find-config';
 import { parseConfig } from '../config/parse-config';
-import { init } from '../init/init';
+import { init } from '../main/init';
 import FileInfo from '../file-info/file-info';
+import { analyseProject } from '../main/analyse-project';
 
 let cache: string[] = [];
-let fileInfo: FileInfo | undefined;
+let cachedFileInfo: FileInfo | undefined;
 
 export const hasDeepImport = (
   filename: string,
@@ -21,28 +16,21 @@ export const hasDeepImport = (
 ): string => {
   if (isFirstRun) {
     cache = [];
-    fileInfo = undefined;
+    cachedFileInfo = undefined;
   }
 
-  if (!fileInfo) {
+  if (!cachedFileInfo) {
     const { tsData } = init(toFsPath(filename), false);
     const { rootDir } = tsData;
-    fileInfo = generateFileInfo(toFsPath(filename), true, tsData, fileContent);
+    const { getAfi, modulePaths, fileInfo } = analyseProject(
+      toFsPath(filename),
+      false,
+      tsData,
+      fileContent
+    );
+    cachedFileInfo = fileInfo;
 
-    const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
     const isRootAndExcluded = createIsRootAndExcluded(rootDir);
-
-    const modulePaths = findModulePaths(projectDirs);
-    const modules = createModules(fileInfo, modulePaths, rootDir);
-
-    const assignedFileInfoMap = getAssignedFileInfoMap(modules);
-
-    const getAfi = (path: FsPath) =>
-      throwIfNull(
-        assignedFileInfoMap.get(path),
-        `cannot find AssignedFileInfo for ${path}`
-      );
-
     const isNotAModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
 
     const assignedFileInfo = getAfi(fileInfo.path);
@@ -60,7 +48,7 @@ export const hasDeepImport = (
     }
   }
 
-  if (fileInfo.isUnresolvableImport(importCommand)) {
+  if (cachedFileInfo.isUnresolvableImport(importCommand)) {
     return `import ${importCommand} cannot be resolved`;
   }
 

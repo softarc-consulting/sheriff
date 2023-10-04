@@ -4,10 +4,10 @@
   "description": "Modularity for TypeScript applications",
   "private": true,
   "scripts": {
-    "build:all": "npx nx run-many --target=build --skip-nx-cache",
+    "build:all": "npx nx run-many --target=build --skip-nx-cache && chmod +x dist/packages/cli/src/index.js",
     "commit": "commit",
     "lint:all": "npx nx run-many --target lint",
-    "link:sheriff": "npm run build:all && npm link dist/packages/core && npm link dist/packages/eslint-plugin",
+    "link:sheriff": "npm run build:all && npm link dist/packages/core && npm link dist/packages/eslint-plugin && npm link dist/packages/cli --force ",
     "test": "vitest",
     "test:coverage": "vitest --coverage"
   },
@@ -16,6 +16,7 @@
     "email": "rainer.hahnekamp@gmail.com"
   },
   "dependencies": {
+    "commander": "^11.0.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
