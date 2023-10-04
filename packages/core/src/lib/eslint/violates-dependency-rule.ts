@@ -1,15 +1,11 @@
-import { generateFileInfo } from '../file-info/generate-file-info';
-import { FsPath, toFsPath } from '../file-info/fs-path';
-import { getProjectDirsFromFileInfo } from '../modules/get-project-dirs-from-file-info';
-import { createModules } from '../modules/create-modules';
-import { findModulePaths } from '../modules/find-module-paths';
-import { getAssignedFileInfoMap } from '../modules/get-assigned-file-info-map';
+import { toFsPath } from '../file-info/fs-path';
 import throwIfNull from '../util/throw-if-null';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
 import { isDependencyAllowed } from '../checks/is-dependency-allowed';
 import { logger } from '../log';
-import { init } from '../init/init';
+import { init } from '../main/init';
 import FileInfo from '../file-info/file-info';
+import { analyseProject } from '../main/analyse-project';
 
 const cache = new Map<string, string>();
 let fileInfo: FileInfo | undefined;
@@ -34,16 +30,12 @@ export const violatesDependencyRule = (
       return '';
     }
 
-    fileInfo = generateFileInfo(toFsPath(filename), true, tsData, fileContent);
-
-    const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
-
-    const modulePaths = findModulePaths(projectDirs);
-    const modules = createModules(fileInfo, modulePaths, rootDir);
-    const afiMap = getAssignedFileInfoMap(modules);
-
-    const getAfi = (path: FsPath) =>
-      throwIfNull(afiMap.get(path), `cannot find AssignedFileInfo for ${path}`);
+    const { getAfi, modulePaths, fileInfo } = analyseProject(
+      toFsPath(filename),
+      false,
+      tsData,
+      fileContent
+    );
 
     const assignedFileInfo = getAfi(fileInfo.path);
     const importedModulePathsWithRawImport = assignedFileInfo.imports
