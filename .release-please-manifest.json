@@ -1,4 +1,4 @@
 {
-  "packages/core": "0.13.1",
-  "packages/eslint-plugin": "0.13.1"
+  "packages/core": "0.14.0",
+  "packages/eslint-plugin": "0.14.0"
 }
