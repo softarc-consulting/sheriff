@@ -5,7 +5,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -28,7 +28,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -51,7 +51,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/bookings ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/bookings' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -74,7 +74,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/bookings ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/bookings' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -97,7 +97,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/bookings ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/bookings' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -120,7 +120,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/bookings ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/bookings' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -143,7 +143,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/bookings ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/bookings' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -166,7 +166,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/bookings ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/bookings' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -189,7 +189,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/api ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/api' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -212,7 +212,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -235,7 +235,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -258,7 +258,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -281,7 +281,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -304,7 +304,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -327,7 +327,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -350,7 +350,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -373,7 +373,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -396,7 +396,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -419,7 +419,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -442,7 +442,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -465,7 +465,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -488,7 +488,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -511,7 +511,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/ui ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/ui' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -534,7 +534,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/ui ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/ui' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -557,7 +557,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/customers/ui ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/customers/ui' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -580,7 +580,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -603,7 +603,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -626,7 +626,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -649,7 +649,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -672,7 +672,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -695,7 +695,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -718,7 +718,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -741,7 +741,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -764,7 +764,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -787,7 +787,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -810,7 +810,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -833,7 +833,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/feature ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -856,7 +856,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/holidays/ui ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/holidays/ui' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -879,7 +879,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/form ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/form' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -902,7 +902,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/http ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/http' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -925,7 +925,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/http ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/http' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -948,7 +948,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/http ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/http' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -971,7 +971,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/http ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/http' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -994,7 +994,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/master-data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/master-data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1017,7 +1017,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/master-data ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/master-data' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1040,7 +1040,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ngrx-utils ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1063,7 +1063,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ngrx-utils ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1086,7 +1086,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ngrx-utils ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1109,7 +1109,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ngrx-utils ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1132,7 +1132,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1155,7 +1155,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1178,7 +1178,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1201,7 +1201,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1224,7 +1224,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1247,7 +1247,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1270,7 +1270,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/testing ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/testing' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1293,7 +1293,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1316,7 +1316,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1339,7 +1339,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1362,7 +1362,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1385,7 +1385,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1408,7 +1408,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1431,7 +1431,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1454,7 +1454,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1477,7 +1477,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1500,7 +1500,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1523,7 +1523,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1546,7 +1546,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1569,7 +1569,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/ui-messaging ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1592,7 +1592,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1615,7 +1615,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/security ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/security' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
@@ -1638,7 +1638,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "Dependency Rule (internal error): did not find a match for PROJECT_DIR/src/app/shared/config ",
+        "message": "Dependency Rule (internal error): No assigned Tag for 'PROJECT_DIR/src/app/shared/config' in sheriff.config.ts",
         "line": 1,
         "column": 1,
         "nodeType": "ImportDeclaration",
