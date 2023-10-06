@@ -31,13 +31,14 @@ export const hasDeepImport = (
     cachedFileInfo = fileInfo;
 
     const isRootAndExcluded = createIsRootAndExcluded(rootDir);
-    const isNotAModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
+    const isModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
 
     const assignedFileInfo = getAfi(fileInfo.path);
+
     for (const importedFileInfo of assignedFileInfo.imports) {
       const importedAfi = getAfi(importedFileInfo.path);
       if (
-        isNotAModuleIndex(importedAfi.path) &&
+        !isModuleIndex(importedAfi.path) &&
         !isRootAndExcluded(importedAfi.moduleInfo.path) &&
         importedAfi.moduleInfo !== assignedFileInfo.moduleInfo
       ) {
