@@ -1,6 +1,6 @@
 import { pid } from 'process';
 import { LogLevel } from './log-level';
-import { afterInit } from '../init/init';
+import { afterInit } from '../main/init';
 import getFs from '../fs/getFs';
 
 let logQueue: string[] = [];

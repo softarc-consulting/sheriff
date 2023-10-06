@@ -1,6 +1,6 @@
 {
   "name": "@softarc/sheriff-cli",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "homepage": "https://github.com/softarc-consulting/sheriff",
   "author": {
     "name": "Rainer Hahnekamp",
@@ -16,7 +16,7 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@softarc/sheriff-core": "0.14.0"
+    "@softarc/sheriff-core": "0.14.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
