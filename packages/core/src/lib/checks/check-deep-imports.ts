@@ -1,46 +1,55 @@
 import { Module } from '../modules/module';
 import { AssignedFileInfo } from '../modules/assigned-file.info';
-import throwIfNull from '../util/throw-if-null';
+import { FsPath } from '../file-info/fs-path';
+import { SheriffConfig } from '../config/sheriff-config';
+import { getAfi } from './get-afi';
 
 export interface DeepImport {
   file: AssignedFileInfo;
   deepImport: AssignedFileInfo;
 }
 
-export const checkDeepImports = (
-  moduleInfos: Module[]
-): DeepImport | undefined => {
-  const assignedFileInfoMap = new Map<string, AssignedFileInfo>();
-  const moduleInfoMap = new Map<string, Module>(
-    moduleInfos.map((moduleInfo) => [moduleInfo.path, moduleInfo])
-  );
+export function checkDeepImports(
+  moduleInfos: Module[],
+  config: SheriffConfig | undefined,
+  rootDir: FsPath,
+  modulePaths: Set<FsPath[]>,
+  assignedFileInfoMap: Map<FsPath, AssignedFileInfo>
+): DeepImport | undefined {
+  const deepImports: DeepImport[] = [];
+  const isRootAndExcluded = createIsRootAndExcluded(rootDir, config);
+  const isModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
 
-  for (const moduleInfo of moduleInfos) {
-    for (const assignedFileInfo of moduleInfo.assignedFileInfos) {
-      assignedFileInfoMap.set(assignedFileInfo.path, assignedFileInfo);
+  for (const importedFileInfo of assignedFileInfo.imports) {
+    const importedAfi = getAfi(importedFileInfo.path, assignedFileInfoMap);
+    if (
+      !isModuleIndex(importedAfi.path) &&
+      !isRootAndExcluded(importedAfi.moduleInfo.path) &&
+      importedAfi.moduleInfo !== assignedFileInfo.moduleInfo
+    ) {
+      cache.push(
+        assignedFileInfo.getRawImportForImportedFileInfo(importedAfi.path)
+      );
     }
   }
+}
 
-  for (const [, assignedFileInfo] of assignedFileInfoMap) {
-    for (const importedFileInfo of assignedFileInfo.imports) {
-      if (!moduleInfoMap.has(importedFileInfo.path)) {
-        const assignedImportedFileInfo = throwIfNull(
-          assignedFileInfoMap.get(importedFileInfo.path),
-          `cannot find ${importedFileInfo.path} among the assignedFileInfos`
-        );
-
-        if (
-          assignedImportedFileInfo.moduleInfo !== assignedFileInfo.moduleInfo
-        ) {
-          if (!moduleInfoMap.has(assignedImportedFileInfo.path)) {
-            return {
-              file: assignedFileInfo,
-              deepImport: assignedImportedFileInfo,
-            };
-          }
-        }
-      }
-    }
+/**
+ * creates a function which returns allows a deep import, if
+ * `excludeRoot` in the config is `true` and the
+ * importedModulePath is the root module.
+ */
+const createIsRootAndExcluded = (
+  rootDir: FsPath,
+  config: SheriffConfig | undefined
+) => {
+  let excludeRoot = false;
+  if (config === undefined) {
+    excludeRoot = false;
+  } else {
+    excludeRoot = Boolean(config.excludeRoot);
   }
-  return undefined;
+
+  return (importedModulePath: string): boolean =>
+    excludeRoot && importedModulePath === rootDir;
 };
