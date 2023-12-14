@@ -20,5 +20,5 @@ for version in ${versions[*]}; do
   fi
 
   npx eslint src --format json --output-file lint.json
-  npx ts-node --esm ../verify-linter.mts ./typescript-i/tests/expected-lint.json ./typescript-i/lint.json
+  node ../verify-linter.mjs ./typescript-i/tests/expected-lint.json ./typescript-i/lint.json
 done

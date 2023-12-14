@@ -11,14 +11,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Remove absolute filepaths
-function readLintWithClearedFilePaths(file: string) {
+function readLintWithClearedFilePaths(file) {
   let content = fs.readFileSync(file, {
     encoding: "utf-8"
   });
   if (projectPath) {
    content = content.replaceAll(projectPath, 'PROJECT_DIR')
   }
-  const linterErrors: [{ filePath: string }] = JSON.parse(content);
+  const linterErrors = JSON.parse(content);
 
   return JSON.stringify(
     linterErrors.map((linterError) => {
