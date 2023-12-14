@@ -34,7 +34,19 @@ export const getTsPathsAndRootDir = (
     currentTsConfigDir = fs.getParent(currentTsConfigPath);
     for (const [key, [value]] of Object.entries(newPaths)) {
       const valueForFsPath = value.endsWith('/*') ? value.slice(0, -2) : value;
-      paths[key] = toFsPath(fs.join(currentTsConfigDir, valueForFsPath));
+      const potentialFilename = fs.join(currentTsConfigDir, valueForFsPath);
+      if (fs.exists(potentialFilename)) {
+        paths[key] = toFsPath(potentialFilename);
+      } else if (
+        !potentialFilename.endsWith('.ts') &&
+        fs.exists(potentialFilename + '.ts')
+      ) {
+        paths[key] = toFsPath(potentialFilename + '.ts');
+      } else {
+        throw new Error(
+          `invalid path mapping detected: ${key}: ${value}. Please verify that the path exists.`
+        );
+      }
     }
 
     if (config.extends) {

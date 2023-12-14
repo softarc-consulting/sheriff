@@ -126,6 +126,32 @@ describe('traverse file-system', () => {
     );
   });
 
+  it('should automatically pick the file extension if missing in path', () => {
+    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
+    tsConfig.compilerOptions.paths = {
+      '@customers': ['/src/app/customers/index'],
+    };
+    const { tsData, mainPath } = createProject({
+      'tsconfig.json': JSON.stringify(tsConfig),
+      src: {
+        'main.ts': ['./app/app.component'],
+        app: {
+          'app.component.ts': ['@customers'],
+          customers: {
+            'index.ts': [],
+          },
+        },
+      },
+    });
+    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
+
+    expect(fileInfo).toEqual(
+      buildFileInfo('/project/src/main.ts', [
+        ['./app/app.component.ts', ['./customers/index.ts']],
+      ])
+    );
+  });
+
   it('should ignore an import if a non-wildcard path is used like a wildcard', () => {
     const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
     tsConfig.compilerOptions.paths = { '@customers': ['/src/app/customers'] };
