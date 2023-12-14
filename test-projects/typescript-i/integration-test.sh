@@ -6,7 +6,7 @@
 
 echo 'checking against different TypeScript versions'
 
-declare -a versions=('4.8' '4.9' '5.0' '5.1')
+declare -a versions=('4.8' '4.9' '5.0' '5.1', '5.2', '5.3')
 
 for version in ${versions[*]}; do
   npm install typescript@$version
