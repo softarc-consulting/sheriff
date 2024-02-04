@@ -6,7 +6,8 @@ import { init } from '../main/init';
 
 
 describe('integration test', () => {
-  it.each(['angular-i', 'angular-ii'])('should test $s', (project) => {
+  for(const project of ['angular-i', 'angular-ii']) {
+  it(`should test ${project}`, () => {
     const angularMain1 = path.join(
       __dirname,
       '../../../../..',
@@ -17,4 +18,5 @@ describe('integration test', () => {
     const { tsData } = init(toFsPath(angularMain1),  {traverse: true});
     generateFileInfo(toFsPath(angularMain1), false, tsData);
   });
+  }
 });
