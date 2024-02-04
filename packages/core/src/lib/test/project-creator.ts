@@ -1,8 +1,15 @@
 import { FileTree, isSheriffConfigContent } from './project-configurator';
 import { EOL } from 'os';
 import * as crypto from 'crypto';
-import getFs from '../fs/getFs';
+import getFs, { useVirtualFs } from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
+
+export function createProject(fileTree: FileTree) {
+  useVirtualFs();
+  getFs().reset();
+
+  new ProjectCreator().create(fileTree, '/project');
+}
 
 export class ProjectCreator {
   fs = getFs();

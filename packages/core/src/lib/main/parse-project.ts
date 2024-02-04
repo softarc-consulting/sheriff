@@ -9,19 +9,20 @@ import throwIfNull from '../util/throw-if-null';
 import TsData from '../file-info/ts-data';
 import FileInfo from '../file-info/file-info';
 
-export type Analysis = {
+export type ParsedResult = {
   fileInfo: FileInfo;
   modulePaths: Set<FsPath>;
   assignedFileInfoMap: Map<FsPath, AssignedFileInfo>;
+  rootDir: FsPath;
   getAfi: (path: FsPath) => AssignedFileInfo;
 };
 
-export const analyseProject = (
+export const parseProject = (
   entryFile: FsPath,
   traverse: boolean,
   tsData: TsData,
   fileContent?: string
-) => {
+): ParsedResult => {
   const fileInfo = generateFileInfo(entryFile, !traverse, tsData, fileContent);
   const rootDir = tsData.rootDir;
 
@@ -38,5 +39,11 @@ export const analyseProject = (
       `cannot find AssignedFileInfo for ${path}`
     );
 
-  return { fileInfo, getAfi, assignedFileInfoMap, modulePaths };
+  return {
+    fileInfo,
+    rootDir,
+    getAfi,
+    assignedFileInfoMap,
+    modulePaths,
+  };
 };

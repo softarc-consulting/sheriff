@@ -1,8 +1,20 @@
-import { FsPath, toFsPath } from '../file-info/fs-path';
+import { toFsPath } from '../file-info/fs-path';
 import { init } from '../main/init';
 import FileInfo from '../file-info/file-info';
-import { analyseProject } from '../main/analyse-project';
+import { checkForDeepImports } from '../checks/check-for-deep-imports';
 
+/**
+ * This is the adapter for the ESLint plugin
+ * This file needs to store the deep imports in a
+ * cache because ESLint requests for every import
+ * separately.
+ *
+ * We need both variables in order to distinguish
+ * if we have an existing cache.
+ * In case `cache` is empty we can't say if that
+ * is because we never or run or because there no
+ * deep imports.
+ */
 let cache: string[] = [];
 let cachedFileInfo: FileInfo | undefined;
 
@@ -18,33 +30,15 @@ export const hasDeepImport = (
   }
 
   if (!cachedFileInfo) {
-    const { tsData } = init(toFsPath(filename), false);
-    const { rootDir } = tsData;
-    const { getAfi, modulePaths, fileInfo } = analyseProject(
-      toFsPath(filename),
-      false,
-      tsData,
-      fileContent
-    );
-    cachedFileInfo = fileInfo;
+    const fsPath = toFsPath(filename);
+    const projectInfo = init(fsPath, {
+      traverse: false,
+      entryFileContent: fileContent,
+      returnOnMissingConfig: false,
+    });
 
-    const isRootAndExcluded = createIsRootAndExcluded(rootDir);
-    const isModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
-
-    const assignedFileInfo = getAfi(fileInfo.path);
-
-    for (const importedFileInfo of assignedFileInfo.imports) {
-      const importedAfi = getAfi(importedFileInfo.path);
-      if (
-        !isModuleIndex(importedAfi.path) &&
-        !isRootAndExcluded(importedAfi.moduleInfo.path) &&
-        importedAfi.moduleInfo !== assignedFileInfo.moduleInfo
-      ) {
-        cache.push(
-          assignedFileInfo.getRawImportForImportedFileInfo(importedAfi.path)
-        );
-      }
-    }
+    cachedFileInfo = projectInfo.fileInfo;
+    cache = checkForDeepImports(fsPath, projectInfo);
   }
 
   if (cachedFileInfo.isUnresolvableImport(importCommand)) {
