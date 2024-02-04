@@ -38,7 +38,18 @@ export const isSheriffConfigContent = (
   );
 };
 
+export const isFileTree = (
+  fileTreeContentType: FileTreeContentType
+): fileTreeContentType is FileTree => {
+  return (
+    !isSheriffConfigContent(fileTreeContentType) &&
+    typeof fileTreeContentType !== 'string' &&
+    !Array.isArray(fileTreeContentType)
+  );
+};
+
 export const sheriffConfig = (config: SheriffConfig): SheriffConfigContent => ({
   content: config,
   _type: sheriffConfigContentSymbol,
 });
+

@@ -3,6 +3,7 @@ import { EOL } from 'os';
 import * as crypto from 'crypto';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
+import { SheriffConfig } from '../config/sheriff-config';
 
 export function createProject(fileTree: FileTree) {
   useVirtualFs();
@@ -40,13 +41,27 @@ export class ProjectCreator {
       } else if (typeof value === 'string') {
         this.fs.writeFile(`${currentDir}/${child}`, value);
       } else if (isSheriffConfigContent(value)) {
+        const serializedConfig = JSON.stringify(serializeDepRules(value.content)).replace(/"α([^ω]+)ω"/g, '$1');
         this.fs.writeFile(
           `${currentDir}/${child}`,
-          `export const config = ${JSON.stringify(value.content)};`
+          `export const config = ${serializedConfig};`
         );
       } else {
         this.traverseFileTree(`${currentDir}/${child}`, value);
       }
     }
+  };
+}
+
+function serializeDepRules(config: SheriffConfig): SheriffConfig {
+  return {
+    ...config,
+    depRules: Object.entries(config.depRules).reduce(
+      (current, [from, tos]) => ({
+        ...current,
+        [from]: (Array.isArray(tos) ? tos : [tos]).map(matcher => typeof matcher === 'function' ? `α${matcher.toString()}ω` : matcher)
+      }),
+      {}
+    ),
   };
 }

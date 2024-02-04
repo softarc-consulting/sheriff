@@ -14,7 +14,7 @@ export type DependencyRuleViolation = {
 
 export function checkForDependencyRuleViolation(
   fsPath: FsPath,
-  { config, getAfi, rootDir }: ProjectInfo
+  { config, getAfi, rootDir, modulePaths }: ProjectInfo
 ): DependencyRuleViolation[] {
   const violations: DependencyRuleViolation[] = [];
 
@@ -22,6 +22,8 @@ export function checkForDependencyRuleViolation(
 
   const assignedFileInfo = getAfi(fsPath);
   const importedModulePathsWithRawImport = assignedFileInfo.imports
+    // skip deep imports
+    .filter((importedFi) => modulePaths.has(importedFi.path))
     .map((importedFi) => getAfi(importedFi.path))
     .map((iafi) => [
       iafi.moduleInfo.directory,

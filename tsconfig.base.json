@@ -16,7 +16,6 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@sheriff/cli": ["packages/cli/src/index.ts"],
       "@softarc/eslint-plugin-sheriff": ["packages/eslint-plugin/src/index.ts"],
       "@softarc/sheriff-core": ["packages/core/src/index.ts"]
     }
