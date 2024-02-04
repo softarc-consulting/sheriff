@@ -1,13 +1,15 @@
-import { toFsPath } from '../file-info/fs-path';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 import throwIfNull from '../util/throw-if-null';
-import { calcTagsForModule } from '../tags/calc-tags-for-module';
-import { isDependencyAllowed } from '../checks/is-dependency-allowed';
 import { logger } from '../log';
 import { init } from '../main/init';
 import FileInfo from '../file-info/file-info';
-import { analyseProject } from '../main/analyse-project';
+import {
+  checkForDependencyRuleViolation,
+  DependencyRuleViolation,
+} from '../checks/check-for-dependency-rule-violation';
 
-const cache = new Map<string, string>();
+let cache: Record<string, string> = {};
+let cacheActive = false;
 let fileInfo: FileInfo | undefined;
 const log = logger('core.eslint.dependency-rules');
 
@@ -18,77 +20,31 @@ export const violatesDependencyRule = (
   fileContent: string
 ): string => {
   if (isFirstRun) {
-    cache.clear();
+    cache = {};
     fileInfo = undefined;
+    cacheActive = false;
   }
-  if (!cache.has(importCommand)) {
-    const { tsData, config } = init(toFsPath(filename), true);
-    const { rootDir } = tsData;
+  if (!cacheActive) {
+    cacheActive = true;
+    const projectInfo = init(toFsPath(filename), {
+      traverse: false,
+      entryFileContent: fileContent,
+      returnOnMissingConfig: true,
+    });
 
-    if (!config) {
-      log.info('no sheriff.config.ts present in ' + rootDir);
+    if (!projectInfo) {
+      log.info('no sheriff.config.ts present');
       return '';
     }
 
-    const { getAfi, modulePaths, fileInfo } = analyseProject(
+    fileInfo = projectInfo.fileInfo;
+    const violations = checkForDependencyRuleViolation(
       toFsPath(filename),
-      false,
-      tsData,
-      fileContent
+      projectInfo
     );
-
-    const assignedFileInfo = getAfi(fileInfo.path);
-    const importedModulePathsWithRawImport = assignedFileInfo.imports
-      .filter((importedFi) => modulePaths.has(importedFi.path))
-      .map((importedFi) => getAfi(importedFi.path))
-      .map((iafi) => [
-        iafi.moduleInfo.directory,
-        assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
-      ]);
-    const fromModule = toFsPath(
-      getAfi(toFsPath(filename)).moduleInfo.directory
-    );
-    const fromTags = calcTagsForModule(fromModule, rootDir, config.tagging);
-
-    for (const [
-      importedModulePath,
-      rawImport,
-    ] of importedModulePathsWithRawImport) {
-      const toTags: string[] = calcTagsForModule(
-        toFsPath(importedModulePath),
-        rootDir,
-        config.tagging
-      );
-
-      log.info(
-        `Checking for from tags of ${fromTags.join(',')} to ${toTags.join(',')}`
-      );
-
-      for (const toTag of toTags) {
-        if (
-          !isDependencyAllowed(fromTags, toTag, config.depRules, {
-            fromModulePath: fromModule,
-            toModulePath: toFsPath(importedModulePath),
-            fromFilePath: toFsPath(filename),
-            toFilePath: toFsPath(importedModulePath),
-          })
-        ) {
-          cache.set(
-            rawImport,
-            `module ${fromModule.substring(
-              rootDir.length
-            )} cannot access ${importedModulePath.substring(
-              rootDir.length
-            )}. Tags [${fromTags.join(',')}] have no clearance for ${toTag}`
-          );
-
-          break;
-        }
-      }
-
-      if (!cache.has(importCommand)) {
-        cache.set(importCommand, '');
-      }
+    const { rootDir } = projectInfo;
+    for (const violation of violations) {
+      cache[violation.rawImport] = formatViolation(violation, rootDir);
     }
   }
 
@@ -96,5 +52,17 @@ export const violatesDependencyRule = (
     return `import ${importCommand} cannot be resolved`;
   }
 
-  return cache.get(importCommand) ?? '';
+  return cache[importCommand] ?? '';
 };
+
+function formatViolation(
+  violation: DependencyRuleViolation,
+  rootDir: FsPath
+): string {
+  const { fromModulePath, toModulePath, fromTags, toTag } = violation;
+  return `module ${fromModulePath.substring(
+    rootDir.length
+  )} cannot access ${toModulePath.substring(
+    rootDir.length
+  )}. Tags [${fromTags.join(',')}] have no clearance for ${toTag}`;
+}

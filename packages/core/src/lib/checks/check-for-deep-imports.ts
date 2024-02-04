@@ -1,24 +1,24 @@
-import { Module } from '../modules/module';
-import { AssignedFileInfo } from '../modules/assigned-file.info';
 import { FsPath } from '../file-info/fs-path';
 import { SheriffConfig } from '../config/sheriff-config';
 import { getAfi } from './get-afi';
+import throwIfNull from '../util/throw-if-null';
+import { ProjectInfo } from '../main/init';
 
-export interface DeepImport {
-  file: AssignedFileInfo;
-  deepImport: AssignedFileInfo;
-}
+/**
+ * verifies if an existing file has deep imports which are forbidden.
+ * Unresolvable imports are skipped.
+ *
+ * It is up to the caller to decide.
+ */
+export function checkForDeepImports(
+  fsPath: FsPath,
+  { assignedFileInfoMap, rootDir, config, modulePaths }: ProjectInfo
+): string[] {
+  const deepImports: string[] = [];
+  const assignedFileInfo = throwIfNull(assignedFileInfoMap.get(fsPath));
 
-export function checkDeepImports(
-  moduleInfos: Module[],
-  config: SheriffConfig | undefined,
-  rootDir: FsPath,
-  modulePaths: Set<FsPath[]>,
-  assignedFileInfoMap: Map<FsPath, AssignedFileInfo>
-): DeepImport | undefined {
-  const deepImports: DeepImport[] = [];
   const isRootAndExcluded = createIsRootAndExcluded(rootDir, config);
-  const isModuleIndex = (fsPath: FsPath) => !modulePaths.has(fsPath);
+  const isModuleIndex = (fsPath: FsPath) => modulePaths.has(fsPath);
 
   for (const importedFileInfo of assignedFileInfo.imports) {
     const importedAfi = getAfi(importedFileInfo.path, assignedFileInfoMap);
@@ -27,15 +27,17 @@ export function checkDeepImports(
       !isRootAndExcluded(importedAfi.moduleInfo.path) &&
       importedAfi.moduleInfo !== assignedFileInfo.moduleInfo
     ) {
-      cache.push(
+      deepImports.push(
         assignedFileInfo.getRawImportForImportedFileInfo(importedAfi.path)
       );
     }
   }
+
+  return deepImports;
 }
 
 /**
- * creates a function which returns allows a deep import, if
+ * creates a function which allows a deep import, if
  * `excludeRoot` in the config is `true` and the
  * importedModulePath is the root module.
  */

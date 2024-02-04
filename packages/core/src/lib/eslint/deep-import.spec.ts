@@ -1,11 +1,11 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { FileTree, sheriffConfig } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
-import { ProjectCreator } from '../test/project-creator';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { hasDeepImport } from './deep-import';
 import { anyTag } from '../checks/any-tag';
 import { toFsPath } from '../file-info/fs-path';
+import { testInit } from '../test/test-init';
 
 describe('deep import', () => {
   const assertDeepImport = (
@@ -37,7 +37,7 @@ describe('deep import', () => {
   });
 
   it('should find a deep import', () => {
-    const fileTree: FileTree = {
+    testInit('src/main.ts', {
       'tsconfig.json': tsconfigMinimal,
       src: {
         'main.ts': ['./app/app.component', './app/app.routes'],
@@ -51,8 +51,7 @@ describe('deep import', () => {
           },
         },
       },
-    };
-    new ProjectCreator().create(fileTree, '/project');
+    });
 
     assertDeepImport(
       '/project/src/app/app.component.ts',
@@ -61,13 +60,12 @@ describe('deep import', () => {
   });
 
   it('should mark an unresolvable import', () => {
-    const fileTree: FileTree = {
+    testInit('src/main.ts', {
       'tsconfig.json': tsconfigMinimal,
       src: {
         'main.ts': ['./app/app.component'],
       },
-    };
-    new ProjectCreator().create(fileTree, '/project');
+    });
 
     expect(
       hasDeepImport(
@@ -110,8 +108,7 @@ describe('deep import', () => {
       it(`should be ${
         outcome ? 'valid' : 'invalid'
       } for rootExcluded: ${excludeRoot}`, () => {
-        const fileTree = createFileTree(excludeRoot);
-        new ProjectCreator().create(fileTree, '/project');
+        testInit('src/main.ts', createFileTree(excludeRoot));
 
         assertDeepImport('/project/src/router.ts', './shared/dialog');
         assertDeepImport(
