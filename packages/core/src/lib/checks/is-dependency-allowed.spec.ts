@@ -44,6 +44,16 @@ describe('check dependency rules', () => {
     ).toBe(false);
   });
 
+  test('same tag not automatically allowed', () => {
+    const config: DependencyRulesConfig = {
+      'type:feature': [],
+    };
+
+    expect(
+      isDependencyAllowed(['type:feature'], 'type:feature', config, dummyContext)
+    ).toBe(false);
+  });
+
   for (const [to, isAllowed] of [
     ['type:ui', true],
     ['type:data', true],

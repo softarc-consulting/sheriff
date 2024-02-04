@@ -18,10 +18,8 @@ jobs:
       - run: npm install -g yarn
       - run: yarn
       - run: yarn lint:all
+      - run: yarn link:sheriff
       - run: yarn test:coverage
-      - run: yarn build:all
-      - run: npm link dist/packages/core
-      - run: npm link dist/packages/eslint-plugin
       - run: cd test-projects/angular-i && yarn && npx ng lint
       - run: cd test-projects/angular-ii && yarn && npx ng lint
       - run: cd test-projects/angular-iii && yarn && npx ng lint

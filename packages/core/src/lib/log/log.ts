@@ -1,17 +1,17 @@
 import { pid } from 'process';
 import { LogLevel } from './log-level';
-import { afterInit } from '../init/init';
+import { afterInit } from '../main/after-init';
 import getFs from '../fs/getFs';
 
 let logQueue: string[] = [];
-let initialised = false;
+let initialized = false;
 let enabled = false;
 
 /**
  * resets the logger. only used in tests.
  */
 export const reset = () => {
-  initialised = false;
+  initialized = false;
   enabled = false;
   logQueue = [];
 };
@@ -24,14 +24,14 @@ afterInit((config) => {
     }
   }
   logQueue = [];
-  initialised = true;
+  initialized = true;
 });
 
 export function log(message: string, scope = '', level: LogLevel) {
   const data = [scope, new Date().toISOString(), level, pid, message].join(
     ' - '
   );
-  if (initialised) {
+  if (initialized) {
     if (enabled) {
       doLog(data);
     }

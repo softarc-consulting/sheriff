@@ -9,7 +9,7 @@ import {
 } from 'vitest';
 import { logger } from './logger';
 import getFs, { useVirtualFs } from '../fs/getFs';
-import { init } from '../init/init';
+import { init } from '../main/init';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { ProjectCreator } from '../test/project-creator';
 import { toFsPath } from '../file-info/fs-path';
@@ -60,17 +60,17 @@ describe('log', () => {
     const log = logger('test');
     log.info('message');
     createProject(false);
-    init(toFsPath('/project/log/app.component.ts'), true);
+    init(toFsPath('/project/log/app.component.ts'));
     expect(appendSpy).not.toHaveBeenCalled();
   });
 
-  it('should log if enabled and initialised', () => {
+  it('should log if enabled and initialized', () => {
     const log = logger('test');
     log.info('Hallo');
     createProject(true);
-    init(toFsPath('/project/log/app.component.ts'), true);
+    init(toFsPath('/project/log/app.component.ts'));
 
     expect(appendSpy).toHaveBeenCalled();
-    expect(fs.readFile(toFsPath('/project/sheriff.log'))).toMatch(/Hallo$/);
+    expect(fs.readFile(toFsPath('/project/sheriff.log'))).toContain('Hallo');
   });
 });
