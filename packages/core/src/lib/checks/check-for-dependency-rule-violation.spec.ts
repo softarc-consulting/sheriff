@@ -1,19 +1,25 @@
-import { it, describe, expect } from 'vitest';
-import { createProject } from '../test/project-creator';
+import { describe, expect, it } from 'vitest';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { sheriffConfig } from '../test/project-configurator';
 import { sameTag } from './same-tag';
 import { noDependencies } from './no-dependencies';
-import { testInit } from "../test/test-init";
-import { checkForDependencyRuleViolation } from "./check-for-dependency-rule-violation";
-import { toFsPath } from "../file-info/fs-path";
+import { testInit } from '../test/test-init';
+import {
+  checkForDependencyRuleViolation,
+  DependencyRuleViolation,
+} from './check-for-dependency-rule-violation';
+import { FsPath } from '../file-info/fs-path';
+import { traverseProject } from '../test/traverse-project';
 
 const projectTemplate = () => ({
   'tsconfig.json': tsconfigMinimal,
   'sheriff.config.ts': sheriffConfig({
-    tagging: { 'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'] },
+    tagging: {
+      'src/<domain>/feat-<type>': ['domain:<domain>', 'type:feature'],
+      'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
+    },
     depRules: {
-      root: 'type:feature',
+      root: ['type:feature', 'domain:*'],
       'domain:*': sameTag,
       'type:feature': ['type:ui', 'type:data', 'type:model'],
       'type:data': 'type:model',
@@ -23,64 +29,173 @@ const projectTemplate = () => ({
   }),
   src: {
     'app.component.ts': ['./app.routes'],
-    'app.routes.ts': ['./customers/feature', './holidays/feature'],
+    'app.routes.ts': [
+      './customers/feature',
+      './holidays/feat-admin',
+      './holidays/feat-booking',
+    ],
     customers: {
       feature: {
-        'index.ts': []
+        'index.ts': ['../ui', '../data', '../model'],
       },
       ui: {
-        'index.ts': []
+        'index.ts': ['../model'],
       },
       data: {
-        'index.ts': []
+        'index.ts': ['../model'],
       },
       model: {
-        'index.ts': []
+        'index.ts': [] as string[],
       },
     },
     holidays: {
-      feature: {
-        'index.ts': []
+      'feat-admin': {
+        'index.ts': ['../ui', '../data', '../model'],
+      },
+      'feat-booking': {
+        'index.ts': ['../ui', '../data', '../model'],
       },
       ui: {
-        'index.ts': []
+        'index.ts': ['../model'],
       },
       data: {
-        'index.ts': []
+        'index.ts': ['../model'],
       },
       model: {
-        'index.ts': []
+        'index.ts': [] as string[],
       },
     },
   },
 });
 
+export type Project = ReturnType<typeof projectTemplate>;
+
+export type TestParam = [
+  string,
+  Record<string, { from: string[]; to: string }[]>,
+  (project: Project) => void
+];
+
+const params: TestParam[] = [
+  ['no violations', {}, () => true],
+  [
+    'root -> ui',
+    { 'app.component.ts': [{ from: ['root'], to: 'type:ui' }] },
+    (project) => project.src['app.component.ts'].push('./customers/ui'),
+  ],
+  [
+    'root -> model',
+    { 'app.component.ts': [{ from: ['root'], to: 'type:model' }] },
+    (project) => project.src['app.component.ts'].push('./customers/model'),
+  ],
+  [
+    'root -> data',
+    { 'app.component.ts': [{ from: ['root'], to: 'type:data' }] },
+    (project) => project.src['app.component.ts'].push('./customers/data'),
+  ],
+  [
+    'feature -> feature',
+    {
+      'holidays/feat-admin/index.ts': [
+        { from: ['domain:holidays', 'type:feature'], to: 'type:feature' },
+      ],
+    },
+    (project) =>
+      project.src.holidays['feat-admin']['index.ts'].push('../feat-booking'),
+  ],
+  [
+    'feature -> ui (other domain)',
+    {
+      'customers/feature/index.ts': [
+        { from: ['domain:customers', 'type:feature'], to: 'domain:holidays' },
+      ],
+    },
+    (project) =>
+      project.src.customers.feature['index.ts'].push('../../holidays/ui'),
+  ],
+  [
+    'data -> ui',
+    {
+      'customers/data/index.ts': [
+        { from: ['domain:customers', 'type:data'], to: 'type:ui' },
+      ],
+    },
+    (project) =>
+      project.src.customers.data['index.ts'].push('../../customers/ui'),
+  ],
+  [
+    'ui -> data',
+    {
+      'customers/ui/index.ts': [
+        { from: ['domain:customers', 'type:ui'], to: 'type:data' },
+      ],
+    },
+    (project) =>
+      project.src.customers.ui['index.ts'].push('../../customers/data'),
+  ],
+  [
+    'model -> ui, data, feature',
+    {
+      'customers/model/index.ts': [
+        {
+          from: ['domain:customers', 'type:model'],
+          to: 'type:data',
+        },
+        { from: ['domain:customers', 'type:model'], to: 'type:ui' },
+        {
+          from: ['domain:customers', 'type:model'],
+          to: 'type:feature',
+        },
+      ],
+    },
+    (project) =>
+      project.src.customers.model['index.ts'].push(
+        '../../customers/data',
+        '../../customers/ui',
+        '../../customers/feature'
+      ),
+  ],
+];
+
 describe('check for dependency rule violation', () => {
-  it('should detect dependency violations', () => {
-    const project = projectTemplate();
-    const projectInfo = testInit('src/app.component.ts', project);
-    const violations = checkForDependencyRuleViolation(
-      toFsPath('/project/src/app.component.ts'),
-      projectInfo
-    );
+  for (const [name, expected, setup] of params) {
+    it(`should handle ${name} `, () => {
+      const project = projectTemplate();
+      setup(project);
+      const projectInfo = testInit('src/app.component.ts', project);
+      const violationMap: Record<FsPath, DependencyRuleViolation[]> = {};
 
-    expect(violations).toEqual([]);
-  });
+      for (const path of traverseProject(project.src, '/project/src')) {
+        const violations = checkForDependencyRuleViolation(path, projectInfo);
 
-  it('should not allow root to access a non-feature domain module', () => {
-    const project = projectTemplate();
-    project.src["app.component.ts"] = ["./customers/feature"];
-    const projectInfo = testInit('src/app.component.ts', project);
+        if (violations.length) {
+          violationMap[path] = violations;
+        }
+      }
 
-    const violations = checkForDependencyRuleViolation(
-      toFsPath('/project/src/app.component.ts'),
-      projectInfo
-    );
-
-    expect(violations).toEqual([{'fromTags':['root'], 'toTag': 'type:ui'}]);
-  });
-
-  it.todo('all combis in terms of types');
-  it.todo('shared to shared (2 shared)');
-  it.todo('')
+      expect(mapViolations(violationMap)).toEqual(expected);
+    });
+  }
 });
+
+function mapViolations(
+  violations: Record<string, DependencyRuleViolation[]>
+): Record<
+  string,
+  {
+    from: string[];
+    to: string;
+  }[]
+> {
+  const result: Record<string, { from: string[]; to: string }[]> = {};
+
+  for (const [path, violation] of Object.entries(violations)) {
+    const shortenedPath = path.replace('/project/src/', '');
+    result[shortenedPath] = violation.map((v) => ({
+      from: v.fromTags,
+      to: v.toTag,
+    }));
+  }
+
+  return result;
+}

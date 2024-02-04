@@ -1,12 +1,11 @@
-import { beforeAll, beforeEach, describe, expect, it, vitest } from 'vitest';
+import { describe, expect, it, vitest } from 'vitest';
 import * as fileInfoGenerator from '../file-info/generate-file-info';
-import { FileTree, sheriffConfig } from '../test/project-configurator';
+import { sheriffConfig } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
-import { createProject, ProjectCreator } from '../test/project-creator';
-import getFs, { useVirtualFs } from '../fs/getFs';
+import { createProject } from '../test/project-creator';
+import getFs from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
 import { violatesDependencyRule } from './violates-dependency-rule';
-import { testInit } from '../test/test-init';
 
 describe('violates dependency rules', () => {
   it('should not generate fileInfo when no config file available', () => {
@@ -29,9 +28,6 @@ describe('violates dependency rules', () => {
     ).toBe('');
     expect(spy).not.toBeCalled();
   });
-
-
-
 
   it('should show a unresolvable import', () => {
     createProject({
