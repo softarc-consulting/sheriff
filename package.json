@@ -4,10 +4,10 @@
   "description": "Modularity for TypeScript applications",
   "private": true,
   "scripts": {
-    "build:all": "npx nx run-many --target=build --skip-nx-cache && chmod +x dist/packages/cli/src/index.js",
+    "build:all": "npx nx run-many --target=build --skip-nx-cache",
     "commit": "commit",
     "lint:all": "npx nx run-many --target lint",
-    "link:sheriff": "npm run build:all && npm link dist/packages/core && npm link dist/packages/eslint-plugin && npm link dist/packages/cli --force ",
+    "link:sheriff": "npm run build:all && npm link dist/packages/core && npm link dist/packages/eslint-plugin",
     "test": "vitest",
     "test:coverage": "vitest --coverage"
   },
@@ -16,25 +16,18 @@
     "email": "rainer.hahnekamp@gmail.com"
   },
   "dependencies": {
-    "commander": "^11.0.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@commitlint/prompt-cli": "^17.4.4",
-    "@nx/eslint-plugin": "16.8.1",
-    "@nx/js": "16.8.1",
-    "@nx/linter": "16.8.1",
-    "@nx/vite": "16.8.1",
-    "@nx/workspace": "16.8.1",
     "@types/eslint": "^8.4.6",
     "@types/estree": "^1.0.0",
-    "@types/node": "18.7.1",
+    "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
-    "@vitest/coverage-c8": "~0.32.0",
-    "@vitest/ui": "~0.32.0",
+    "@vitest/coverage-c8": "^0.29.2",
     "eslint": "8.46.0",
     "eslint-config-prettier": "8.1.0",
     "husky": "^8.0.3",
@@ -43,7 +36,10 @@
     "prettier": "^2.6.2",
     "ts-node": "10.9.1",
     "typescript": "5.1.6",
-    "vite": "~4.3.9",
-    "vitest": "~0.32.0"
+    "vitest": "^0.29.1",
+    "@nx/workspace": "16.8.1",
+    "@nx/js": "16.8.1",
+    "@nx/eslint-plugin": "16.8.1",
+    "@nx/linter": "16.8.1"
   }
 }
