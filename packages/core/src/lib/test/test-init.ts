@@ -8,13 +8,13 @@ export function testInit(filename: string, fileTree: FileTree): ProjectInfo;
 export function testInit(
   filename: string,
   options: InitOptions,
-  fileTree: FileTree
+  fileTree: FileTree,
 ): ProjectInfo;
 
 export function testInit(
   filename: string,
   optionsOrFileTree: InitOptions | FileTree,
-  fileTree?: FileTree
+  fileTree?: FileTree,
 ): ProjectInfo {
   useVirtualFs();
   getFs().reset();

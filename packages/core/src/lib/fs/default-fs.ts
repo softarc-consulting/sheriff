@@ -38,7 +38,7 @@ export class DefaultFs extends Fs {
     directory: FsPath,
     filename: string,
     found: FsPath[] = [],
-    referencePath = ''
+    referencePath = '',
   ): FsPath[] => {
     const files = fs.readdirSync(directory);
     referencePath = referencePath || directory;

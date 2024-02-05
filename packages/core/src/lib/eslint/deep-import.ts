@@ -1,7 +1,7 @@
 import { toFsPath } from '../file-info/fs-path';
 import { init } from '../main/init';
 import { checkForDeepImports } from '../checks/check-for-deep-imports';
-import { FileInfo } from "../modules/file.info";
+import { FileInfo } from '../modules/file.info';
 
 /**
  * This is the adapter for the ESLint plugin
@@ -22,7 +22,7 @@ export const hasDeepImport = (
   filename: string,
   importCommand: string,
   isFirstRun: boolean,
-  fileContent: string
+  fileContent: string,
 ): string => {
   if (isFirstRun) {
     cache = [];

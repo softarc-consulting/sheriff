@@ -29,7 +29,7 @@ export interface FileTree {
 }
 
 export const isSheriffConfigContent = (
-  fileTreeContentType: FileTreeContentType
+  fileTreeContentType: FileTreeContentType,
 ): fileTreeContentType is SheriffConfigContent => {
   return (
     typeof fileTreeContentType !== 'string' &&
@@ -39,7 +39,7 @@ export const isSheriffConfigContent = (
 };
 
 export const isFileTree = (
-  fileTreeContentType: FileTreeContentType
+  fileTreeContentType: FileTreeContentType,
 ): fileTreeContentType is FileTree => {
   return (
     !isSheriffConfigContent(fileTreeContentType) &&
@@ -52,4 +52,3 @@ export const sheriffConfig = (config: SheriffConfig): SheriffConfigContent => ({
   content: config,
   _type: sheriffConfigContentSymbol,
 });
-

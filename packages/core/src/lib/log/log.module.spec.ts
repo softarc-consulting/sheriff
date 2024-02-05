@@ -33,7 +33,7 @@ describe('log', () => {
         }),
         'app.component.ts': '',
       },
-      'log'
+      'log',
     );
   };
 

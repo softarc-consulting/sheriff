@@ -19,7 +19,7 @@ export class ProjectCreator {
       testDirName = this.fs.join(
         this.fs.tmpdir(),
         'sheriff',
-        crypto.randomUUID()
+        crypto.randomUUID(),
       );
     } else if (this.fs.exists(testDirName)) {
       this.fs.removeDir(toFsPath(testDirName));
@@ -36,15 +36,17 @@ export class ProjectCreator {
       if (Array.isArray(value)) {
         this.fs.writeFile(
           `${currentDir}/${child}`,
-          value.map((imp) => `import '${imp}';`).join(EOL)
+          value.map((imp) => `import '${imp}';`).join(EOL),
         );
       } else if (typeof value === 'string') {
         this.fs.writeFile(`${currentDir}/${child}`, value);
       } else if (isSheriffConfigContent(value)) {
-        const serializedConfig = JSON.stringify(serializeDepRules(value.content)).replace(/"α([^ω]+)ω"/g, '$1');
+        const serializedConfig = JSON.stringify(
+          serializeDepRules(value.content),
+        ).replace(/"α([^ω]+)ω"/g, '$1');
         this.fs.writeFile(
           `${currentDir}/${child}`,
-          `export const config = ${serializedConfig};`
+          `export const config = ${serializedConfig};`,
         );
       } else {
         this.traverseFileTree(`${currentDir}/${child}`, value);
@@ -59,9 +61,11 @@ function serializeDepRules(config: SheriffConfig): SheriffConfig {
     depRules: Object.entries(config.depRules).reduce(
       (current, [from, tos]) => ({
         ...current,
-        [from]: (Array.isArray(tos) ? tos : [tos]).map(matcher => typeof matcher === 'function' ? `α${matcher.toString()}ω` : matcher)
+        [from]: (Array.isArray(tos) ? tos : [tos]).map((matcher) =>
+          typeof matcher === 'function' ? `α${matcher.toString()}ω` : matcher,
+        ),
       }),
-      {}
+      {},
     ),
   };
 }

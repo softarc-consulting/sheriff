@@ -14,7 +14,7 @@ export type DependencyRuleViolation = {
 
 export function checkForDependencyRuleViolation(
   fsPath: FsPath,
-  { config, getFileInfo, rootDir, modulePaths }: ProjectInfo
+  { config, getFileInfo, rootDir, modulePaths }: ProjectInfo,
 ): DependencyRuleViolation[] {
   const violations: DependencyRuleViolation[] = [];
 
@@ -38,7 +38,7 @@ export function checkForDependencyRuleViolation(
     const toTags: string[] = calcTagsForModule(
       toFsPath(importedModulePath),
       rootDir,
-      config.tagging
+      config.tagging,
     );
     for (const toTag of toTags) {
       if (

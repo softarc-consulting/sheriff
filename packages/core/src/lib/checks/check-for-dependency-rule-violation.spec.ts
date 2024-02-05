@@ -73,7 +73,7 @@ export type Project = ReturnType<typeof projectTemplate>;
 export type TestParam = [
   string,
   Record<string, { from: string[]; to: string }[]>,
-  (project: Project) => void
+  (project: Project) => void,
 ];
 
 const params: TestParam[] = [
@@ -152,7 +152,7 @@ const params: TestParam[] = [
       project.src.customers.model['index.ts'].push(
         '../../customers/data',
         '../../customers/ui',
-        '../../customers/feature'
+        '../../customers/feature',
       ),
   ],
 ];
@@ -179,7 +179,7 @@ describe('check for dependency rule violation', () => {
 });
 
 function mapViolations(
-  violations: Record<string, DependencyRuleViolation[]>
+  violations: Record<string, DependencyRuleViolation[]>,
 ): Record<
   string,
   {

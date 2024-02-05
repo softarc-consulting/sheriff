@@ -10,7 +10,7 @@ export const deepImport = createRule(
     node: ImportExpression | ImportDeclaration,
     isFirstRun: boolean,
     filename: string,
-    sourceCode: string
+    sourceCode: string,
   ) => {
     // ESTree does not have source on `ImportExpression`.
     const importValue = (node.source as { value: string }).value;
@@ -18,7 +18,7 @@ export const deepImport = createRule(
       filename,
       importValue,
       isFirstRun,
-      sourceCode
+      sourceCode,
     );
     if (message) {
       context.report({
@@ -26,5 +26,5 @@ export const deepImport = createRule(
         node,
       });
     }
-  }
+  },
 );

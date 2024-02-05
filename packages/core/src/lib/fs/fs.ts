@@ -27,7 +27,7 @@ export abstract class Fs {
    */
   abstract findNearestParentFile: (
     referenceFile: FsPath,
-    filename: string
+    filename: string,
   ) => FsPath;
 
   relativeTo = (from: string, to: string) => path.relative(from, to);

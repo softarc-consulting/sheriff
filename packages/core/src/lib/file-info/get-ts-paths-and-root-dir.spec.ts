@@ -70,11 +70,11 @@ describe('get ts paths and root dir', () => {
             },
           },
         },
-        '/project'
+        '/project',
       );
 
       expect(
-        getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')).paths
+        getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')).paths,
       ).toEqual(fsPaths);
     });
   }
@@ -120,13 +120,13 @@ describe('get ts paths and root dir', () => {
             },
           },
         },
-        '/project'
+        '/project',
       );
 
       expect(() =>
-        getTsPathsAndRootDir(toFsPath('/project/tsconfig.json'))
+        getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')),
       ).toThrowError(
-        `invalid path mapping detected: ${errorMessage}. Please verify that the path exists.`
+        `invalid path mapping detected: ${errorMessage}. Please verify that the path exists.`,
       );
     });
   }

@@ -11,7 +11,7 @@ export interface MatcherContext {
 
 export type TagMatcherFn<ReturnType extends string | string[]> = (
   placeholders: Record<string, string>,
-  context: MatcherContext
+  context: MatcherContext,
 ) => ReturnType;
 
 export interface SingleTag {

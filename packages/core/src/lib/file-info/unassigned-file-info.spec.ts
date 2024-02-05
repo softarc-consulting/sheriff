@@ -17,7 +17,7 @@ describe('Find File', () => {
 
   it('should generate a single FileInfo', () => {
     expect(buildFileInfo('/src/app/app.component.ts')).toEqual(
-      fi('/src/app/app.component.ts')
+      fi('/src/app/app.component.ts'),
     );
   });
 
@@ -31,7 +31,7 @@ describe('Find File', () => {
       fi('/apps/main.ts', [
         fi('/apps/customers/customer.component.ts'),
         fi('/apps/customers/index.ts'),
-      ])
+      ]),
     );
   });
 
@@ -52,19 +52,19 @@ describe('Find File', () => {
           fi('/apps/customers/customer.component.ts'),
           fi('/apps/customers/customer.service.ts'),
         ]),
-      ])
+      ]),
     );
   });
 
   it('should append path if relative', () => {
     expect(buildFileInfo('/app/main.ts', ['./customer/index.ts'])).toEqual(
-      fi('/app/main.ts', [fi('/app/customer/index.ts')])
+      fi('/app/main.ts', [fi('/app/customer/index.ts')]),
     );
   });
 
   it('should work with relative in same directory', () => {
     expect(buildFileInfo('/app/main.ts', ['./app.component.ts'])).toEqual(
-      fi('/app/main.ts', [fi('/app/app.component.ts')])
+      fi('/app/main.ts', [fi('/app/app.component.ts')]),
     );
   });
 
@@ -72,11 +72,11 @@ describe('Find File', () => {
     expect(
       buildFileInfo('/app/main.ts', [
         ['./customer/index.ts', ['./feature/index.ts']],
-      ])
+      ]),
     ).toEqual(
       fi('/app/main.ts', [
         fi('/app/customer/index.ts', [fi('/app/customer/feature/index.ts')]),
-      ])
+      ]),
     );
   });
 });

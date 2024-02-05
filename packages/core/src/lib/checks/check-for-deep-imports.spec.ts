@@ -31,7 +31,7 @@ describe('check deep imports', () => {
       ['src/app/customers/index.ts', []],
     ]) {
       expect(
-        checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo)
+        checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo),
       ).toEqual(deepImports);
     }
   });
@@ -52,7 +52,7 @@ describe('check deep imports', () => {
       ['src/app/app.component.ts', []],
     ]) {
       expect(
-        checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo)
+        checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo),
       ).toEqual(deepImports);
     }
   });

@@ -9,7 +9,7 @@ import { FsPath } from '../file-info/fs-path';
 export const calcTagsForModule = (
   moduleDir: FsPath,
   rootDir: FsPath,
-  tagConfig: TagConfig
+  tagConfig: TagConfig,
 ): string[] => {
   if (moduleDir === rootDir) {
     return ['root'];
@@ -24,7 +24,7 @@ export const calcTagsForModule = (
     placeholders,
     moduleDir,
     [],
-    true
+    true,
   );
 
   if (tags === false) {
@@ -40,7 +40,7 @@ function traverseTagConfig(
   placeholders: Record<string, string>,
   moduleDir: string,
   tagConfigPath: string[],
-  isRoot: boolean
+  isRoot: boolean,
 ): string[] | false {
   for (const pathMatcher in tagConfig) {
     if (isRoot) {
@@ -50,7 +50,7 @@ function traverseTagConfig(
     const { matcherContext, matches, pathFragmentSpan } = matchSegment(
       pathMatcher,
       paths,
-      placeholders
+      placeholders,
     );
 
     if (!matches) {
@@ -67,7 +67,7 @@ function traverseTagConfig(
         return addToTags(
           tagProperty(placeholders, matcherContext),
           placeholders,
-          moduleDir
+          moduleDir,
         );
       } else {
         return addToTags(tagProperty, placeholders, moduleDir);
@@ -83,7 +83,7 @@ function traverseTagConfig(
         placeholders,
         moduleDir,
         [...tagConfigPath, pathMatcher],
-        false
+        false,
       );
     }
   }
@@ -92,20 +92,20 @@ function traverseTagConfig(
 }
 
 function isTagConfigValue(
-  value: TagConfigValue | TagConfig
+  value: TagConfigValue | TagConfig,
 ): value is TagConfigValue {
   return !(typeof value === 'object' && !Array.isArray(value));
 }
 
 function assertLeafHasTag(
   value: TagConfigValue | TagConfig,
-  tagConfigPath: string[]
+  tagConfigPath: string[],
 ): asserts value is TagConfigValue {
   if (!isTagConfigValue(value)) {
     throw new Error(
       `Tag configuration '/${tagConfigPath.join(
-        '/'
-      )}' in sheriff.config.ts has no value`
+        '/',
+      )}' in sheriff.config.ts has no value`,
     );
   }
 }
@@ -113,31 +113,31 @@ function assertLeafHasTag(
 function addToTags(
   newTags: string | string[],
   placeholders: Record<string, string>,
-  moduleDir: string
+  moduleDir: string,
 ) {
   return (Array.isArray(newTags) ? newTags : [newTags]).map((tag) =>
-    replacePlaceholdersInTag(tag, placeholders, moduleDir)
+    replacePlaceholdersInTag(tag, placeholders, moduleDir),
   );
 }
 
 function replacePlaceholdersInTag(
   tag: string,
   placeholders: Record<string, string>,
-  fullDir: string
+  fullDir: string,
 ) {
   let replacedTag = tag;
   for (const placeholder in placeholders) {
     const value = placeholders[placeholder];
     replacedTag = replacedTag.replace(
       new RegExp(`<${placeholder}>`, 'g'),
-      value
+      value,
     );
   }
 
   const unavailablePlaceholder = replacedTag.match(/<([a-zA-Z]+)>/);
   if (unavailablePlaceholder) {
     throw new Error(
-      `cannot find a placeholder for "${unavailablePlaceholder[1]}" in tag configuration. Module: ${fullDir}`
+      `cannot find a placeholder for "${unavailablePlaceholder[1]}" in tag configuration. Module: ${fullDir}`,
     );
   }
 
@@ -152,7 +152,7 @@ function handlePlaceholderMatching(
   pathMatcher: string,
   currentPath: string,
   placeholderMatch: string[],
-  placeholders: Record<string, string>
+  placeholders: Record<string, string>,
 ) {
   const placeholderRegex = pathMatcher.replace(/<[a-zA-Z]+>/g, '(.+)');
   const pathMatch = currentPath.match(new RegExp(placeholderRegex));
@@ -163,7 +163,7 @@ function handlePlaceholderMatching(
   placeholderMatch.forEach((placeholder, ix) => {
     if (placeholder in placeholders) {
       throw new Error(
-        `placeholder for value "${placeholder}" does already exist`
+        `placeholder for value "${placeholder}" does already exist`,
       );
     }
     placeholders[placeholder] = pathMatch[ix + 1];
@@ -173,7 +173,7 @@ function handlePlaceholderMatching(
 
 function handleRegularExpression(
   paths: string[],
-  segment: string
+  segment: string,
 ): RegExpMatchArray | null {
   const currentPath = paths[0];
   const regExpString = segment.substring(1, segment.length - 1);
@@ -185,7 +185,7 @@ function handleRegularExpression(
 function matchSegment(
   segmentMatcher: string,
   paths: string[],
-  placeholders: Record<string, string>
+  placeholders: Record<string, string>,
 ) {
   let matches = true;
   let pathFragment = paths[0];
@@ -206,14 +206,14 @@ function matchSegment(
     }
     pathFragment = paths.slice(0, pathFragmentSpan).join('/');
     const placeholderMatch = (segmentMatcher.match(/<[a-zA-Z]+>/g) ?? []).map(
-      (str) => str.slice(1, str.length - 1)
+      (str) => str.slice(1, str.length - 1),
     );
     if (placeholderMatch.length) {
       matches = handlePlaceholderMatching(
         segmentMatcher,
         pathFragment,
         placeholderMatch,
-        placeholders
+        placeholders,
       );
     } else {
       if (segmentMatcher !== pathFragment) {

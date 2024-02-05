@@ -11,7 +11,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         abc: 'domain:abc',
-      })
+      }),
     ).toEqual(['root']);
   });
 
@@ -22,7 +22,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         abc: 'domain:abc',
-      })
+      }),
     ).toEqual(['domain:abc']);
   });
 
@@ -31,7 +31,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, root, {
         '+feat-booking': 'feature:booking',
-      })
+      }),
     ).toEqual(['feature:booking']);
   });
 
@@ -42,7 +42,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         abc: ['domain:abc', 'type:generic'],
-      })
+      }),
     ).toEqual(['domain:abc', 'type:generic']);
   });
 
@@ -57,9 +57,9 @@ describe('calc tags for module', () => {
             ghj: {},
           },
         },
-      })
+      }),
     ).toThrowError(
-      `Tag configuration '/abc/def/ghj' in sheriff.config.ts has no value`
+      `Tag configuration '/abc/def/ghj' in sheriff.config.ts has no value`,
     );
   });
 
@@ -70,7 +70,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         abc: (_, { segment }) => `module:${segment}`,
-      })
+      }),
     ).toEqual(['module:abc']);
   });
 
@@ -81,7 +81,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         abc: (_, { segment }) => [`domain:${segment}`, 'type:lib'],
-      })
+      }),
     ).toEqual(['domain:abc', 'type:lib']);
   });
 
@@ -92,7 +92,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         '/(\\w+)/': (_, { regexMatch }) => `domain:${regexMatch[0]}`,
-      })
+      }),
     ).toEqual(['domain:abc']);
   });
 
@@ -103,7 +103,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         '<domain>': ({ domain }) => `domain:${domain}`,
-      })
+      }),
     ).toEqual(['domain:holidays']);
   });
 
@@ -114,7 +114,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         '<domain>': 'domain:<domain>',
-      })
+      }),
     ).toEqual(['domain:holidays']);
   });
 
@@ -125,7 +125,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         '<type>-<subdomain>': ['type:<type>', 'subdomain:<subdomain>'],
-      })
+      }),
     ).toEqual(['type:feat', 'subdomain:bookings']);
   });
 
@@ -136,9 +136,9 @@ describe('calc tags for module', () => {
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
         '<subdomain>': ['type:<type>', 'subdomain:<subdomain>'],
-      })
+      }),
     ).toThrowError(
-      'cannot find a placeholder for "type" in tag configuration. Module: /project/feat-bookings'
+      'cannot find a placeholder for "type" in tag configuration. Module: /project/feat-bookings',
     );
   });
 
@@ -147,7 +147,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, root, {
         '<path>': 'feature:booking',
-      })
+      }),
     ).toEqual(['feature:booking']);
   });
 
@@ -158,7 +158,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'feature-<domain>': ({ domain }) => `domain:${domain}`,
-      })
+      }),
     ).toEqual(['domain:holidays']);
   });
 
@@ -169,7 +169,7 @@ describe('calc tags for module', () => {
     expect(
       calcTagsForModule(moduleDir, rootDir, {
         'src/app/holidays': ['domain:holidays'],
-      })
+      }),
     ).toEqual(['domain:holidays']);
   });
 
@@ -180,7 +180,7 @@ describe('calc tags for module', () => {
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
         'src/app/holidays': { tags: ['domain:holidays'] },
-      })
+      }),
     ).toThrowError(`No assigned Tag for '/project/src' in sheriff.config.ts`);
   });
 
@@ -192,7 +192,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         customers: 'domain:customers',
         holidays: 'domain:holidays',
-      })
+      }),
     ).toEqual(['domain:holidays']);
   });
 
@@ -204,7 +204,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         '<domain>': 'domain:holidays',
         holidays: 'scope:holidays',
-      })
+      }),
     ).toEqual(['domain:holidays']);
   });
 
@@ -218,7 +218,7 @@ describe('calc tags for module', () => {
           `domain:${feature}`,
           `type:${type}`,
         ],
-      })
+      }),
     ).toEqual(['domain:holidays', 'type:data']);
   });
 
@@ -234,7 +234,7 @@ describe('calc tags for module', () => {
             `type:${type}`,
           ],
         },
-      })
+      }),
     ).toEqual(['domain:customers', 'type:ui']);
   });
 
@@ -248,7 +248,7 @@ describe('calc tags for module', () => {
           'shared/<type>': ({ type }) => [`type:${type}`],
           '<domain>/<type>': [],
         },
-      })
+      }),
     ).toEqual(['type:ngrx-util']);
   });
 
@@ -272,7 +272,7 @@ describe('calc tags for module', () => {
             },
           },
         },
-      })
+      }),
     ).toEqual(['domain:holidays', 'subDomain:core', 'type:feature']);
   });
 
@@ -285,7 +285,7 @@ describe('calc tags for module', () => {
         '<str>': {
           '<str>': ['noop'],
         },
-      })
+      }),
     ).toThrowError('placeholder for value "str" does already exist');
   });
 
@@ -296,9 +296,9 @@ describe('calc tags for module', () => {
     expect(() =>
       calcTagsForModule(moduleDir, rootDir, {
         domain: '',
-      })
+      }),
     ).toThrowError(
-      "No assigned Tag for '/project/domain/holidays/feature' in sheriff.config.ts"
+      "No assigned Tag for '/project/domain/holidays/feature' in sheriff.config.ts",
     );
   });
 
@@ -311,7 +311,7 @@ describe('calc tags for module', () => {
         '<str>': {
           '<str>': ['noop'],
         },
-      })
+      }),
     ).toThrowError('placeholder for value "str" does already exist');
   });
 
@@ -323,7 +323,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         '/(\\w+)/': 'regex',
         'holidays-123': 'simple match',
-      })
+      }),
     ).toEqual(['simple match']);
   });
 
@@ -335,7 +335,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         '<feature>_<id>': 'placeholder',
         'holidays-123': 'simple match',
-      })
+      }),
     ).toEqual(['simple match']);
   });
 
@@ -347,7 +347,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         'libs/customers': '',
         'libs/customers/src/lib/data': 'data',
-      })
+      }),
     ).toEqual(['data']);
   });
 });

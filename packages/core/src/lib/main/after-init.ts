@@ -4,7 +4,7 @@ import { initialized } from './internal/initialized';
 import { callbacks } from './internal/callback';
 
 export function afterInit(
-  callback: (config: SheriffConfig | undefined) => void
+  callback: (config: SheriffConfig | undefined) => void,
 ) {
   if (initialized.status) {
     callback(config);

@@ -6,7 +6,7 @@ import {
   checkForDependencyRuleViolation,
   DependencyRuleViolation,
 } from '../checks/check-for-dependency-rule-violation';
-import { FileInfo } from "../modules/file.info";
+import { FileInfo } from '../modules/file.info';
 
 let cache: Record<string, string> = {};
 let cacheActive = false;
@@ -17,7 +17,7 @@ export const violatesDependencyRule = (
   filename: string,
   importCommand: string,
   isFirstRun: boolean,
-  fileContent: string
+  fileContent: string,
 ): string => {
   if (isFirstRun) {
     cache = {};
@@ -40,7 +40,7 @@ export const violatesDependencyRule = (
     fileInfo = projectInfo.fileInfo;
     const violations = checkForDependencyRuleViolation(
       toFsPath(filename),
-      projectInfo
+      projectInfo,
     );
     const { rootDir } = projectInfo;
     for (const violation of violations) {
@@ -57,12 +57,12 @@ export const violatesDependencyRule = (
 
 function formatViolation(
   violation: DependencyRuleViolation,
-  rootDir: FsPath
+  rootDir: FsPath,
 ): string {
   const { fromModulePath, toModulePath, fromTags, toTag } = violation;
   return `module ${fromModulePath.substring(
-    rootDir.length
+    rootDir.length,
   )} cannot access ${toModulePath.substring(
-    rootDir.length
+    rootDir.length,
   )}. Tags [${fromTags.join(',')}] have no clearance for ${toTag}`;
 }

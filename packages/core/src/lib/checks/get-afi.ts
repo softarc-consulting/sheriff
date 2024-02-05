@@ -4,10 +4,10 @@ import { FileInfo } from '../modules/file.info';
 
 export function getAfi(
   path: FsPath,
-  assignedFileInfoMap: Map<FsPath, FileInfo>
+  assignedFileInfoMap: Map<FsPath, FileInfo>,
 ) {
   return throwIfNull(
     assignedFileInfoMap.get(path),
-    `cannot find AssignedFileInfo for ${path}`
+    `cannot find AssignedFileInfo for ${path}`,
   );
 }

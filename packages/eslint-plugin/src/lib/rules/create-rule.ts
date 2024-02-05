@@ -15,13 +15,13 @@ import { Executor } from './executor';
  */
 export const createRule: (
   ruleName: string,
-  executor: Executor
+  executor: Executor,
 ) => Rule.RuleModule = (ruleName, executor) => ({
   create: (context) => {
     let isFirstRun = true;
     let hasInternalError = false;
     const executeRuleWithContext = (
-      node: ImportExpression | ImportDeclaration
+      node: ImportExpression | ImportDeclaration,
     ) => {
       const filename = context.filename ?? context.getFilename();
       const sourceCode =

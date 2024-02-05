@@ -13,7 +13,7 @@ import { TsConfig } from './ts-config';
  * @param tsConfigPath path of the tsconfig.json
  */
 export const getTsPathsAndRootDir = (
-  tsConfigPath: FsPath
+  tsConfigPath: FsPath,
 ): { paths: Record<string, FsPath>; rootDir: FsPath } => {
   const fs = getFs();
   let currentTsConfigPath = tsConfigPath;
@@ -24,7 +24,7 @@ export const getTsPathsAndRootDir = (
     const configRawContent = fs.readFile(currentTsConfigPath);
     const configContent = ts.readConfigFile(
       currentTsConfigPath,
-      () => configRawContent
+      () => configRawContent,
     );
 
     const config = configContent.config as TsConfig;
@@ -44,14 +44,14 @@ export const getTsPathsAndRootDir = (
         paths[key] = toFsPath(potentialFilename + '.ts');
       } else {
         throw new Error(
-          `invalid path mapping detected: ${key}: ${value}. Please verify that the path exists.`
+          `invalid path mapping detected: ${key}: ${value}. Please verify that the path exists.`,
         );
       }
     }
 
     if (config.extends) {
       currentTsConfigPath = toFsPath(
-        fs.join(fs.getParent(currentTsConfigPath), config.extends)
+        fs.join(fs.getParent(currentTsConfigPath), config.extends),
       );
     } else {
       break;

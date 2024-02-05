@@ -10,14 +10,14 @@ export const dependencyRule = createRule(
     node: ImportExpression | ImportDeclaration,
     isFirstRun: boolean,
     filename: string,
-    sourceCode: string
+    sourceCode: string,
   ) => {
     const importValue = (node.source as { value: string }).value;
     const message = violatesDependencyRule(
       filename,
       importValue,
       isFirstRun,
-      sourceCode
+      sourceCode,
     );
     if (message) {
       context.report({
@@ -25,5 +25,5 @@ export const dependencyRule = createRule(
         node,
       });
     }
-  }
+  },
 );

@@ -11,20 +11,20 @@ describe('deep import', () => {
   const assertDeepImport = (
     filename: string,
     importCommand: string,
-    isDeepImport = true
+    isDeepImport = true,
   ) => {
     expect(
       hasDeepImport(
         filename,
         importCommand,
         true,
-        getFs().readFile(toFsPath(filename))
+        getFs().readFile(toFsPath(filename)),
       ),
-      `deep import in ${filename} from ${importCommand} should be ${isDeepImport}`
+      `deep import in ${filename} from ${importCommand} should be ${isDeepImport}`,
     ).toBe(
       isDeepImport
         ? "Deep import is not allowed. Use the module's index.ts or path."
-        : ''
+        : '',
     );
   };
 
@@ -55,7 +55,7 @@ describe('deep import', () => {
 
     assertDeepImport(
       '/project/src/app/app.component.ts',
-      './customers/customer.component'
+      './customers/customer.component',
     );
   });
 
@@ -72,8 +72,8 @@ describe('deep import', () => {
         '/project/src/main.ts',
         './app/app.component',
         true,
-        getFs().readFile(toFsPath('/project/src/main.ts'))
-      )
+        getFs().readFile(toFsPath('/project/src/main.ts')),
+      ),
     ).toBe('import ./app/app.component cannot be resolved');
   });
 
@@ -114,19 +114,19 @@ describe('deep import', () => {
         assertDeepImport(
           '/project/src/holidays/holidays-component.ts',
           '../config',
-          false
+          false,
         );
 
         assertDeepImport(
           '/project/src/shared/get.ts',
           '../config',
-          !excludeRoot
+          !excludeRoot,
         );
 
         assertDeepImport(
           '/project/src/shared/get.ts',
           '../holidays/holidays-component',
-          !excludeRoot
+          !excludeRoot,
         );
       });
     }

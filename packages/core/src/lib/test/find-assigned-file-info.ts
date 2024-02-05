@@ -3,7 +3,7 @@ import { Module } from '../modules/module';
 
 export const findAssignedFileInfo = (
   moduleInfos: Module[],
-  path: string
+  path: string,
 ): FileInfo => {
   for (const moduleInfo of moduleInfos) {
     for (const assignedFileInfo of moduleInfo.fileInfos) {

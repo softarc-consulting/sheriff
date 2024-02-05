@@ -1,12 +1,14 @@
-import UnassignedFileInfo, { buildFileInfo } from '../file-info/unassigned-file-info';
+import UnassignedFileInfo, {
+  buildFileInfo,
+} from '../file-info/unassigned-file-info';
 import { createModules } from './create-modules';
 import findFileInfo from '../test/find-file-info';
 import { Module } from './module';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../fs/getFs';
-import { FsPath, toFsPath } from "../file-info/fs-path";
-import { FileInfo } from "./file.info";
+import { FsPath, toFsPath } from '../file-info/fs-path';
+import { FileInfo } from './file.info';
 
 interface TestParameter {
   name: string;
@@ -199,7 +201,7 @@ describe('create module infos', () => {
       const getFileInfo = (path: FsPath) =>
         throwIfNull(
           fileInfoMap.get(path),
-          `cannot find AssignedFileInfo for ${path}`
+          `cannot find AssignedFileInfo for ${path}`,
         );
 
       modulePaths.forEach((modulePath) => {
@@ -208,7 +210,9 @@ describe('create module infos', () => {
       const moduleInfos = createModules(
         fileInfo,
         new Set(modulePaths.map(toFsPath)),
-        toFsPath('/'), fileInfoMap, getFileInfo
+        toFsPath('/'),
+        fileInfoMap,
+        getFileInfo,
       );
 
       expect(moduleInfos).toEqual(
@@ -216,22 +220,26 @@ describe('create module infos', () => {
           const fileInfos = mi.fileInfoPaths.map((fip) =>
             throwIfNull(
               findFileInfo(fileInfo, fip),
-              `${fip} does not exist in passed FileInfo`
-            )
+              `${fip} does not exist in passed FileInfo`,
+            ),
           );
-          const moduleInfo = new Module(toFsPath(mi.path), fileInfoMap, getFileInfo);
+          const moduleInfo = new Module(
+            toFsPath(mi.path),
+            fileInfoMap,
+            getFileInfo,
+          );
           for (const fi of fileInfos) {
             moduleInfo.addFileInfo(fi);
           }
 
           return moduleInfo;
-        })
+        }),
       );
-    }
+    },
   );
 });
 
 it.todo('should check for directory path with implicit index.ts');
 it.todo(
-  'should assign two imports with implicit and explict index.ts to the same module'
+  'should assign two imports with implicit and explict index.ts to the same module',
 );

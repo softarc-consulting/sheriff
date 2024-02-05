@@ -40,7 +40,7 @@ describe('ESLint features', () => {
           },
         },
       },
-      '/project'
+      '/project',
     );
 
     const fsPath = toFsPath('/project/src/shared/get.ts');

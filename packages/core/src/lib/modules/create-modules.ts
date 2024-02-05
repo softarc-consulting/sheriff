@@ -6,7 +6,7 @@ import { FsPath } from '../file-info/fs-path';
 import { formatModules } from './format-modules';
 import get from '../util/get';
 import { logger } from '../log';
-import { FileInfo } from "./file.info";
+import { FileInfo } from './file.info';
 
 const log = logger('core.modules.create');
 
@@ -16,7 +16,7 @@ const findClosestModule = (path: string, moduleInfos: Module[]) => {
       .filter((moduleInfo) => path.startsWith(moduleInfo.directory))
       .sort((p1, p2) => (p1.directory.length > p2.directory.length ? -1 : 1))
       .at(0),
-    `findClosestModule for ${path}`
+    `findClosestModule for ${path}`,
   );
 };
 
@@ -25,15 +25,17 @@ export const createModules = (
   existingModules: Set<FsPath>,
   rootDir: FsPath,
   fileInfoMap: Map<FsPath, FileInfo>,
-  getFileInfo: (path: FsPath) => FileInfo
+  getFileInfo: (path: FsPath) => FileInfo,
 ): Module[] => {
   const modules = [...Array.from(existingModules), rootDir];
-  const moduleInfos = modules.map((module) => new Module(module, fileInfoMap, getFileInfo));
+  const moduleInfos = modules.map(
+    (module) => new Module(module, fileInfoMap, getFileInfo),
+  );
   const moduleInfoMapPerIndexTs = new Map<string, Module>(
-    moduleInfos.map((moduleInfo) => [moduleInfo.path, moduleInfo])
+    moduleInfos.map((moduleInfo) => [moduleInfo.path, moduleInfo]),
   );
   const moduleInfoMap = new Map<string, Module>(
-    moduleInfos.map((moduleInfo) => [moduleInfo.directory, moduleInfo])
+    moduleInfos.map((moduleInfo) => [moduleInfo.directory, moduleInfo]),
   );
 
   for (const element of traverseUnassignedFileInfo(fileInfo)) {
@@ -50,5 +52,7 @@ export const createModules = (
   return foundModules;
 };
 
-const isFileInfoAModule = ({ path }: UnassignedFileInfo, existingModules: Set<string>) =>
-  existingModules.has(path);
+const isFileInfoAModule = (
+  { path }: UnassignedFileInfo,
+  existingModules: Set<string>,
+) => existingModules.has(path);

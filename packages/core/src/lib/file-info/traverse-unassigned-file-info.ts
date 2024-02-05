@@ -5,7 +5,7 @@ export function* traverseUnassignedFileInfo(fileInfo: UnassignedFileInfo) {
 
   function* traverse(
     fileInfo: UnassignedFileInfo,
-    level = 1
+    level = 1,
   ): Generator<{ fileInfo: UnassignedFileInfo; level: number }, void> {
     if (traversed.has(fileInfo.path)) {
       return;

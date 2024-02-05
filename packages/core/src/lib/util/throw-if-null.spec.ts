@@ -11,7 +11,7 @@ describe('throw if null', () => {
   ]);
   it('should throw an error', () => {
     expect(() =>
-      throwIfNull(colours.get('yellow'), 'yellow does not exist')
+      throwIfNull(colours.get('yellow'), 'yellow does not exist'),
     ).toThrow('yellow does not exist');
   });
 });

@@ -33,7 +33,7 @@ describe('Virtual Fs', () => {
       'should confirm existing directories: %s',
       (path) => {
         expect(fs.exists(path)).toBe(true);
-      }
+      },
     );
 
     it('should not confirm non-existing directories', () => {
@@ -44,7 +44,7 @@ describe('Virtual Fs', () => {
       'should throw if directory below root is requested: %s',
       (path) => {
         expect(() => fs.exists(path)).toThrowError('/ has no parent');
-      }
+      },
     );
 
     it('should use /project as cwd', () => {
@@ -114,7 +114,7 @@ describe('Virtual Fs', () => {
       expect(() => {
         fs.writeFile('/project/dir1', 'content 1');
       }).toThrowError(
-        'cannot write to file /project/dir1 because it is a directory'
+        'cannot write to file /project/dir1 because it is a directory',
       );
     });
 
@@ -128,13 +128,13 @@ describe('Virtual Fs', () => {
 
     it('should reject on read, if file does not exist', () => {
       expect(() => fs.readFile('dir1')).toThrowError(
-        'File dir1 does not exist'
+        'File dir1 does not exist',
       );
     });
 
     it('should reject on read, if file is a directory', () => {
       expect(() => fs.readFile('/project')).toThrowError(
-        'cannot read from file /project because it is a directory'
+        'cannot read from file /project because it is a directory',
       );
     });
   });
@@ -181,7 +181,7 @@ describe('Virtual Fs', () => {
       fs.writeFile('index', 'hello');
       fs.writeFile('main.ts', 'hello');
       expect(() =>
-        fs.findFiles(toFsPath('/project/index.ts'), 'INDEX.ts')
+        fs.findFiles(toFsPath('/project/index.ts'), 'INDEX.ts'),
       ).toThrowError('index.ts is not a directory');
     });
 
@@ -220,7 +220,7 @@ describe('Virtual Fs', () => {
       fs.writeFile('customers/tsconfig.json', '');
       const found = fs.findNearestParentFile(
         inVfs('./customers/admin/core/feature/index.ts'),
-        'tsconfig.json'
+        'tsconfig.json',
       );
       expect(found).toBeVfsFile('customers/tsconfig.json');
     });
@@ -231,7 +231,7 @@ describe('Virtual Fs', () => {
       fs.writeFile('customers/admin/core/tsconfig.json', '');
       const found = fs.findNearestParentFile(
         inVfs('./customers/admin/core/feature/index.ts'),
-        'tsconfig.json'
+        'tsconfig.json',
       );
       expect(found).toBeVfsFile('customers/admin/core/tsconfig.json');
     });
@@ -239,7 +239,7 @@ describe('Virtual Fs', () => {
     it('should not find it', () => {
       fs.writeFile('index.ts', 'hello');
       expect(() =>
-        fs.findNearestParentFile(inVfs('index.ts'), 'tsconfig.json')
+        fs.findNearestParentFile(inVfs('index.ts'), 'tsconfig.json'),
       ).toThrowError('cannot find tsconfig.json near /project/index.ts');
     });
 
@@ -248,7 +248,7 @@ describe('Virtual Fs', () => {
       fs.writeFile('customers/admin/core/feature/tsconfig.json', '');
       const found = fs.findNearestParentFile(
         inVfs('./customers/admin/core/feature/index.ts'),
-        'tsconfig.json'
+        'tsconfig.json',
       );
       expect(found).toBeVfsFile('customers/admin/core/feature/tsconfig.json');
     });

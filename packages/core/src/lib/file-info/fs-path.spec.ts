@@ -21,7 +21,7 @@ describe('FsPath', () => {
 
     it('should fail if path does not exist', () => {
       expect(() => toFsPath('/index.ts')).toThrowError(
-        '/index.ts does not exist'
+        '/index.ts does not exist',
       );
     });
 

@@ -8,7 +8,7 @@ export const isDependencyAllowed = (
   froms: string[],
   to: string,
   config: DependencyRulesConfig,
-  context: DependencyCheckContext
+  context: DependencyCheckContext,
 ): boolean => {
   let isAllowed: boolean | undefined;
   for (const from of froms) {

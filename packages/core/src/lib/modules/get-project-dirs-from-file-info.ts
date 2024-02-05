@@ -8,7 +8,7 @@ const log = logger('core.modules.project-dirs');
 
 export const getProjectDirsFromFileInfo = (
   fileInfo: UnassignedFileInfo,
-  rootDir: FsPath
+  rootDir: FsPath,
 ): FsPath[] => {
   const fs = getFs();
   const rootDirPartsLength = fs.split(rootDir).length;

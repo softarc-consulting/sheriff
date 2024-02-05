@@ -6,5 +6,5 @@ export type Executor = (
   node: ImportExpression | ImportDeclaration,
   isFirstRun: boolean,
   filename: string,
-  sourceCode: string
+  sourceCode: string,
 ) => void;

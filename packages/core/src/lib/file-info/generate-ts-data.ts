@@ -15,7 +15,7 @@ export const generateTsData = (tsConfigPath: FsPath): TsData => {
   const configObject = ts.parseJsonConfigFileContent(
     configContent,
     ts.sys,
-    cwd
+    cwd,
   );
 
   const sys = getTsSys();
