@@ -104,7 +104,7 @@ export class VirtualFs extends Fs {
       throw new Error(`File ${path} does not exist`);
     } else if (result.node.type === 'directory') {
       throw new Error(
-        `cannot read from file ${path} because it is a directory`
+        `cannot read from file ${path} because it is a directory`,
       );
     } else {
       return result.node.contents;
@@ -115,7 +115,7 @@ export class VirtualFs extends Fs {
     const result = this.#getNode(path);
     if (!result.exists) {
       throw new Error(
-        `cannot delete directory ${path} because it does not exist`
+        `cannot delete directory ${path} because it does not exist`,
       );
     }
     if (result.parent === undefined) {
@@ -130,11 +130,11 @@ export class VirtualFs extends Fs {
     const { node } = this.#getNodeOrThrow(referenceFile);
     let current = throwIfNull(
       node.parent,
-      `${referenceFile} must have a parent`
+      `${referenceFile} must have a parent`,
     );
     while (current.parent !== undefined) {
       const searchedNode = Array.from(current.children.values()).find(
-        (childNode) => childNode.name === filename && childNode.type === 'file'
+        (childNode) => childNode.name === filename && childNode.type === 'file',
       );
       if (searchedNode) {
         return this.#absolutePath(searchedNode);
@@ -163,7 +163,7 @@ export class VirtualFs extends Fs {
       const childNode = this.#createNode(
         node,
         i === result.restPaths.length - 1 ? type : 'directory',
-        path
+        path,
       );
       node.children.set(path, childNode);
       node = childNode;
@@ -227,7 +227,7 @@ export class VirtualFs extends Fs {
   #traverseFindFiles = (
     node: FsNode,
     filename: string,
-    referenceNode: FsNode
+    referenceNode: FsNode,
   ): FsPath[] => {
     const found: FsPath[] = [];
     for (const childNode of node.children.values()) {
@@ -240,7 +240,7 @@ export class VirtualFs extends Fs {
 
       if (childNode.type === 'directory') {
         found.push(
-          ...this.#traverseFindFiles(childNode, filename, referenceNode)
+          ...this.#traverseFindFiles(childNode, filename, referenceNode),
         );
       }
     }
@@ -271,7 +271,7 @@ export class VirtualFs extends Fs {
       console.log(
         `${' '.repeat(indent)}${
           childNode?.type === 'directory' ? '[' + child + ']' : child
-        }`
+        }`,
       );
       this.print(node.children.get(child), indent + 2);
     }

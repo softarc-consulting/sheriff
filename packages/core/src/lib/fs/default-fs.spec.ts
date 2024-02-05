@@ -10,7 +10,7 @@ describe('Default Fs', () => {
     it('should find the index.ts in project directory test1', () => {
       const found = fs.findFiles(
         toFsPath(path.join(__dirname, './find-files/test1')),
-        'index.ts'
+        'index.ts',
       );
       expect(found).toEqual([
         path.join(__dirname, 'find-files/test1/', 'index.ts'),
@@ -20,7 +20,7 @@ describe('Default Fs', () => {
     it('should be case insensitive', () => {
       const found = fs.findFiles(
         toFsPath(path.join(__dirname, './find-files/test1')),
-        'INDEX.ts'
+        'INDEX.ts',
       );
       expect(found).toEqual([
         path.join(__dirname, 'find-files/test1/', 'index.ts'),
@@ -30,7 +30,7 @@ describe('Default Fs', () => {
     it('should find the index.ts in sub directory', () => {
       const found = fs.findFiles(
         toFsPath(path.join(__dirname, './find-files/test2')),
-        'index.ts'
+        'index.ts',
       );
       expect(found).toEqual([
         path.join(__dirname, 'find-files/test2', 'customers/index.ts'),
@@ -40,7 +40,7 @@ describe('Default Fs', () => {
     it('should find multiple index.ts recursively', () => {
       const found = fs.findFiles(
         toFsPath(path.join(__dirname, './find-files/test3')),
-        'index.ts'
+        'index.ts',
       );
       expect(found).toEqual(
         [
@@ -48,14 +48,14 @@ describe('Default Fs', () => {
           'admin/booking/feature/index.ts',
           'customers/index.ts',
           'holidays/index.ts',
-        ].map((s) => path.join(__dirname, 'find-files/test3', s))
+        ].map((s) => path.join(__dirname, 'find-files/test3', s)),
       );
     });
 
     it('should find none if not in directory', () => {
       const found = fs.findFiles(
         toFsPath(path.join(__dirname, './find-files/test4')),
-        'index.ts'
+        'index.ts',
       );
       expect(found).toEqual([]);
     });
@@ -67,13 +67,13 @@ describe('Default Fs', () => {
         toFsPath(
           path.join(
             __dirname,
-            './find-nearest/test1/customers/admin/core/feature/index.ts'
-          )
+            './find-nearest/test1/customers/admin/core/feature/index.ts',
+          ),
         ),
-        'tsconfig.json'
+        'tsconfig.json',
       );
       expect(found).toBe(
-        path.join(__dirname, './find-nearest/test1/customers/tsconfig.json')
+        path.join(__dirname, './find-nearest/test1/customers/tsconfig.json'),
       );
     });
 
@@ -82,16 +82,16 @@ describe('Default Fs', () => {
         toFsPath(
           path.join(
             __dirname,
-            './find-nearest/test2/customers/admin/core/feature/index.ts'
-          )
+            './find-nearest/test2/customers/admin/core/feature/index.ts',
+          ),
         ),
-        'tsconfig.json'
+        'tsconfig.json',
       );
       expect(found).toBe(
         path.join(
           __dirname,
-          './find-nearest/test2/customers/admin/core/tsconfig.json'
-        )
+          './find-nearest/test2/customers/admin/core/tsconfig.json',
+        ),
       );
     });
 
@@ -101,11 +101,11 @@ describe('Default Fs', () => {
           toFsPath(
             path.join(
               __dirname,
-              './find-nearest/test2/customers/admin/core/feature/index.ts'
-            )
+              './find-nearest/test2/customers/admin/core/feature/index.ts',
+            ),
           ),
-          'a file that does not exist'
-        )
+          'a file that does not exist',
+        ),
       ).toThrowError('cannot find a file that does not exist');
     });
   });

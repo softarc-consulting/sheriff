@@ -11,7 +11,7 @@ export type RuleMatcherFn = (
   context: {
     from: string;
     to: string;
-  } & DependencyCheckContext
+  } & DependencyCheckContext,
 ) => boolean;
 export type RuleMatcher = string | null | RuleMatcherFn;
 export type DependencyRulesConfig = Record<string, RuleMatcher | RuleMatcher[]>;

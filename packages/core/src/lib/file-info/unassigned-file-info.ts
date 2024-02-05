@@ -13,7 +13,10 @@ import getFs from '../fs/getFs';
 export default class UnassignedFileInfo {
   #rawImportMap = new Map<string, string>();
   #unresolvableImports: string[] = [];
-  constructor(public path: FsPath, public imports: UnassignedFileInfo[] = []) {}
+  constructor(
+    public path: FsPath,
+    public imports: UnassignedFileInfo[] = [],
+  ) {}
 
   addUnresolvableImport(importCommand: string) {
     this.#unresolvableImports.push(importCommand);
@@ -35,7 +38,7 @@ export default class UnassignedFileInfo {
   getRawImportForImportedFileInfo(path: FsPath): string {
     return throwIfNull(
       this.#rawImportMap.get(path),
-      `raw import for ${path} is not available in ${this.path}`
+      `raw import for ${path} is not available in ${this.path}`,
     );
   }
 }
@@ -62,7 +65,7 @@ const createPath = (path: string, parentPath: string) => {
  */
 export const buildFileInfo = (
   path: string,
-  imports: NestedArray = []
+  imports: NestedArray = [],
 ): UnassignedFileInfo => {
   const fs = getFs();
   const children: UnassignedFileInfo[] = imports.map((entry) => {

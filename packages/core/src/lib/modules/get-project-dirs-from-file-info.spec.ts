@@ -1,6 +1,8 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import getFs, { useVirtualFs } from '../fs/getFs';
-import UnassignedFileInfo, { buildFileInfo } from '../file-info/unassigned-file-info';
+import UnassignedFileInfo, {
+  buildFileInfo,
+} from '../file-info/unassigned-file-info';
 import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
 import { toFsPath } from '../file-info/fs-path';
 
@@ -88,10 +90,10 @@ describe('get project dirs from file info', () => {
       const param = paramSupplier();
       const projectDirs = getProjectDirsFromFileInfo(
         param.fileInfo,
-        toFsPath(param.rootDir)
+        toFsPath(param.rootDir),
       );
       expect(projectDirs).toEqual(param.projectDirs);
-    }
+    },
   );
 
   it('should throw if fileInfo is outside of project', () => {
@@ -99,9 +101,9 @@ describe('get project dirs from file info', () => {
       '/customers/customer.component.ts',
     ]);
     expect(() =>
-      getProjectDirsFromFileInfo(fileInfo, toFsPath('/project'))
+      getProjectDirsFromFileInfo(fileInfo, toFsPath('/project')),
     ).toThrowError(
-      '/customers/customer.component.ts is outside of root directory: /project'
+      '/customers/customer.component.ts is outside of root directory: /project',
     );
   });
 });

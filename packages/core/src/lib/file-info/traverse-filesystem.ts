@@ -5,7 +5,7 @@ import TsData, { TsPaths } from './ts-data';
 import { FsPath, toFsPath } from './fs-path';
 
 export type ResolveFn = (
-  moduleName: string
+  moduleName: string,
 ) => ReturnType<typeof ts.resolveModuleName>;
 
 // https://stackoverflow.com/questions/71815527/typescript-compiler-apihow-to-get-absolute-path-to-source-file-of-import-module
@@ -33,7 +33,7 @@ const traverseFilesystem = (
   fileInfoDict: Map<FsPath, UnassignedFileInfo>,
   tsData: TsData,
   runOnce = false,
-  fileContent?: string
+  fileContent?: string,
 ): UnassignedFileInfo => {
   const { paths, configObject, cwd, sys, rootDir } = tsData;
   const fileInfo: UnassignedFileInfo = new UnassignedFileInfo(fsPath, []);
@@ -67,7 +67,7 @@ const traverseFilesystem = (
         fileName,
         paths,
         resolveFn,
-        fsPath
+        fsPath,
       );
       if (resolvedTsPath) {
         importPath = resolvedTsPath;
@@ -89,7 +89,7 @@ const traverseFilesystem = (
             sys,
             rootDir,
           }),
-          fileName
+          fileName,
         );
       }
     }
@@ -102,7 +102,7 @@ export function resolvePotentialTsPath(
   moduleName: string,
   tsPaths: TsPaths,
   resolveFn: ResolveFn,
-  filename: string
+  filename: string,
 ): FsPath | undefined {
   let unpathedImport: string | undefined;
   for (const tsPath in tsPaths) {
@@ -122,11 +122,11 @@ export function resolvePotentialTsPath(
         resolvedImport.resolvedModule.isExternalLibraryImport === true
       ) {
         throw new Error(
-          `unable to resolve import ${moduleName} in ${filename}`
+          `unable to resolve import ${moduleName} in ${filename}`,
         );
       }
       return toFsPath(
-        fixPathSeparators(resolvedImport.resolvedModule.resolvedFileName)
+        fixPathSeparators(resolvedImport.resolvedModule.resolvedFileName),
       );
     }
   }

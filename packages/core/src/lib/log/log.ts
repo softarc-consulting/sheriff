@@ -29,7 +29,7 @@ afterInit((config) => {
 
 export function log(message: string, scope = '', level: LogLevel) {
   const data = [scope, new Date().toISOString(), level, pid, message].join(
-    ' - '
+    ' - ',
   );
   if (initialized) {
     if (enabled) {

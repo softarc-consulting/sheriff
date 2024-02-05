@@ -39,7 +39,7 @@ describe('Generate File Info', () => {
     const fileInfo = generateUnassignedFileInfo(
       inVfs('integration/src/app/app.component.ts'),
       true,
-      getTsData()
+      getTsData(),
     );
 
     expect(fileInfo).toEqual({
@@ -76,7 +76,7 @@ describe('Generate File Info', () => {
     const fileInfo = generateUnassignedFileInfo(
       inVfs('integration/src/main.ts'),
       false,
-      getTsData()
+      getTsData(),
     );
 
     expect(fileInfo).toEqual({
@@ -136,10 +136,10 @@ describe('Generate File Info', () => {
       generateUnassignedFileInfo(
         toFsPath('/project/integration/main.ts'),
         true,
-        getTsData()
-      )
+        getTsData(),
+      ),
     ).toThrowError(
-      '/project/outside.component.ts is outside of root /project/integration'
+      '/project/outside.component.ts is outside of root /project/integration',
     );
   });
 
@@ -157,7 +157,7 @@ describe('Generate File Info', () => {
       const fileInfo = generateUnassignedFileInfo(
         toFsPath('/project/integration/main.ts'),
         true,
-        getTsData()
+        getTsData(),
       );
 
       expect(fileInfo.isUnresolvableImport(importCommand)).toBe(true);

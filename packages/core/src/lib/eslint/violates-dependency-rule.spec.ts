@@ -23,8 +23,8 @@ describe('violates dependency rules', () => {
         '/project/src/main.ts',
         './app/app.component',
         true,
-        getFs().readFile(toFsPath('/project/src/main.ts'))
-      )
+        getFs().readFile(toFsPath('/project/src/main.ts')),
+      ),
     ).toBe('');
     expect(spy).not.toBeCalled();
   });
@@ -43,8 +43,8 @@ describe('violates dependency rules', () => {
         '/project/src/main.ts',
         './app.component',
         true,
-        getFs().readFile(toFsPath('/project/src/main.ts'))
-      )
+        getFs().readFile(toFsPath('/project/src/main.ts')),
+      ),
     ).toBe('import ./app.component cannot be resolved');
   });
 });

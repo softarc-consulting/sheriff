@@ -7,7 +7,6 @@ import { createModules } from '../modules/create-modules';
 import { fillFileInfoMap } from '../modules/fill-file-info-map';
 import throwIfNull from '../util/throw-if-null';
 import TsData from '../file-info/ts-data';
-import UnassignedFileInfo from '../file-info/unassigned-file-info';
 
 export type ParsedResult = {
   fileInfo: FileInfo;
@@ -20,9 +19,14 @@ export const parseProject = (
   entryFile: FsPath,
   traverse: boolean,
   tsData: TsData,
-  fileContent?: string
+  fileContent?: string,
 ): ParsedResult => {
-  const unassignedFileInfo = generateUnassignedFileInfo(entryFile, !traverse, tsData, fileContent);
+  const unassignedFileInfo = generateUnassignedFileInfo(
+    entryFile,
+    !traverse,
+    tsData,
+    fileContent,
+  );
   const rootDir = tsData.rootDir;
 
   const projectDirs = getProjectDirsFromFileInfo(unassignedFileInfo, rootDir);
@@ -31,16 +35,20 @@ export const parseProject = (
   const getFileInfo = (path: FsPath) =>
     throwIfNull(
       fileInfoMap.get(path),
-      `cannot find AssignedFileInfo for ${path}`
+      `cannot find AssignedFileInfo for ${path}`,
     );
 
   const modulePaths = findModulePaths(projectDirs);
-  const modules = createModules(unassignedFileInfo, modulePaths, rootDir, fileInfoMap, getFileInfo);
+  const modules = createModules(
+    unassignedFileInfo,
+    modulePaths,
+    rootDir,
+    fileInfoMap,
+    getFileInfo,
+  );
   fillFileInfoMap(fileInfoMap, modules);
 
-
-
-  const fileInfo = getFileInfo(unassignedFileInfo.path)
+  const fileInfo = getFileInfo(unassignedFileInfo.path);
 
   return {
     fileInfo,

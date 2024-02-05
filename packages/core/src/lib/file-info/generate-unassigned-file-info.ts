@@ -20,7 +20,7 @@ export const generateUnassignedFileInfo = (
   fsPath: FsPath,
   runOnce = false,
   tsData: TsData,
-  fileContent?: string
+  fileContent?: string,
 ): UnassignedFileInfo => {
   const fileInfoDict = new Map<FsPath, UnassignedFileInfo>();
 
@@ -29,7 +29,7 @@ export const generateUnassignedFileInfo = (
     fileInfoDict,
     tsData,
     runOnce,
-    fileContent
+    fileContent,
   );
 
   log.info(formatFileInfo(fileInfo));

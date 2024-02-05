@@ -1,7 +1,5 @@
 import { FsPath } from '../file-info/fs-path';
 import { SheriffConfig } from '../config/sheriff-config';
-import { getAfi } from './get-afi';
-import throwIfNull from '../util/throw-if-null';
 import { ProjectInfo } from '../main/init';
 
 /**
@@ -12,10 +10,10 @@ import { ProjectInfo } from '../main/init';
  */
 export function checkForDeepImports(
   fsPath: FsPath,
-  {  rootDir, config, modulePaths, getFileInfo }: ProjectInfo
+  { rootDir, config, modulePaths, getFileInfo }: ProjectInfo,
 ): string[] {
   const deepImports: string[] = [];
-  const assignedFileInfo = getFileInfo(fsPath)
+  const assignedFileInfo = getFileInfo(fsPath);
 
   const isRootAndExcluded = createIsRootAndExcluded(rootDir, config);
   const isModuleIndex = (fsPath: FsPath) => modulePaths.has(fsPath);
@@ -27,7 +25,7 @@ export function checkForDeepImports(
       importedFileInfo.moduleInfo !== assignedFileInfo.moduleInfo
     ) {
       deepImports.push(
-        assignedFileInfo.getRawImportForImportedFileInfo(importedFileInfo.path)
+        assignedFileInfo.getRawImportForImportedFileInfo(importedFileInfo.path),
       );
     }
   }
@@ -42,7 +40,7 @@ export function checkForDeepImports(
  */
 const createIsRootAndExcluded = (
   rootDir: FsPath,
-  config: SheriffConfig | undefined
+  config: SheriffConfig | undefined,
 ) => {
   let excludeRoot = false;
   if (config === undefined) {

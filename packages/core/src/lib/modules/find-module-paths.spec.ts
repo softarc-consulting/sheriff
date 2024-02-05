@@ -41,7 +41,7 @@ describe('should find two modules', () => {
       new Set([
         '/project/integration/src/app/customers/index.ts',
         '/project/integration/src/app/holidays/index.ts',
-      ])
+      ]),
     );
   });
 });

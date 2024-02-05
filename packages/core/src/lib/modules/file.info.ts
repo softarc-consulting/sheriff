@@ -11,7 +11,11 @@ import { FsPath } from '../file-info/fs-path';
  */
 export class FileInfo {
   #imports: FileInfo[] | undefined;
-  constructor(private unassignedFileInfo: UnassignedFileInfo, public moduleInfo: Module, private getFileInfo: (fsPath: FsPath) => FileInfo) {}
+  constructor(
+    private unassignedFileInfo: UnassignedFileInfo,
+    public moduleInfo: Module,
+    private getFileInfo: (fsPath: FsPath) => FileInfo,
+  ) {}
 
   get path(): FsPath {
     return this.unassignedFileInfo.path;
@@ -19,7 +23,9 @@ export class FileInfo {
 
   get imports(): FileInfo[] {
     if (this.#imports === undefined) {
-      this.#imports = this.unassignedFileInfo.imports.map((unassignedFileInfo) => this.getFileInfo(unassignedFileInfo.path));
+      this.#imports = this.unassignedFileInfo.imports.map(
+        (unassignedFileInfo) => this.getFileInfo(unassignedFileInfo.path),
+      );
     }
     return this.#imports;
   }

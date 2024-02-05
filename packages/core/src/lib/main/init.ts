@@ -54,7 +54,7 @@ export function init(entryFile: FsPath): ProjectInfo;
 
 export function init<Options extends { returnOnMissingConfig: true }>(
   entryFile: FsPath,
-  options: InitOptions & Options
+  options: InitOptions & Options,
 ): ProjectInfo | undefined;
 
 export function init(entryFile: FsPath, options: InitOptions): ProjectInfo;
@@ -66,7 +66,7 @@ export function init(entryFile: FsPath, options: InitOptions = {}) {
   };
   const fs = getFs();
   const tsConfigPath = toFsPath(
-    fs.findNearestParentFile(entryFile, 'tsconfig.json')
+    fs.findNearestParentFile(entryFile, 'tsconfig.json'),
   );
   const tsData = generateTsData(tsConfigPath);
   config = getConfig(tsData.rootDir);
@@ -86,7 +86,7 @@ export function init(entryFile: FsPath, options: InitOptions = {}) {
       entryFile,
       fullOptions.traverse,
       tsData,
-      options.entryFileContent
+      options.entryFileContent,
     ),
   };
 }

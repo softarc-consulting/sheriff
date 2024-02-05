@@ -24,10 +24,10 @@ describe('check dependency rules', () => {
     };
 
     expect(
-      isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext)
+      isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext),
     ).toBe(true);
     expect(
-      isDependencyAllowed(['type:ui'], 'type:feature', config, dummyContext)
+      isDependencyAllowed(['type:ui'], 'type:feature', config, dummyContext),
     ).toBe(false);
   });
 
@@ -37,10 +37,10 @@ describe('check dependency rules', () => {
     };
 
     expect(
-      isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext)
+      isDependencyAllowed(['type:feature'], 'type:ui', config, dummyContext),
     ).toBe(true);
     expect(
-      isDependencyAllowed(['type:feature'], 'domain:abc', config, dummyContext)
+      isDependencyAllowed(['type:feature'], 'domain:abc', config, dummyContext),
     ).toBe(false);
   });
 
@@ -50,7 +50,12 @@ describe('check dependency rules', () => {
     };
 
     expect(
-      isDependencyAllowed(['type:feature'], 'type:feature', config, dummyContext)
+      isDependencyAllowed(
+        ['type:feature'],
+        'type:feature',
+        config,
+        dummyContext,
+      ),
     ).toBe(false);
   });
 
@@ -66,7 +71,7 @@ describe('check dependency rules', () => {
       };
 
       expect(
-        isDependencyAllowed(['type:feature'], to, config, dummyContext)
+        isDependencyAllowed(['type:feature'], to, config, dummyContext),
       ).toBe(isAllowed);
     });
   }
@@ -81,7 +86,7 @@ describe('check dependency rules', () => {
       };
 
       expect(
-        isDependencyAllowed(['type:feature'], to, config, dummyContext)
+        isDependencyAllowed(['type:feature'], to, config, dummyContext),
       ).toBe(isAllowed);
     });
   }
@@ -92,7 +97,7 @@ describe('check dependency rules', () => {
     };
 
     expect(() =>
-      isDependencyAllowed(['type:funktion'], 'noop', config, dummyContext)
+      isDependencyAllowed(['type:funktion'], 'noop', config, dummyContext),
     ).toThrowError('cannot find any dependency rule for tag type:funktion');
   });
 
@@ -110,7 +115,7 @@ describe('check dependency rules', () => {
           return true;
         },
       },
-      dummyContext
+      dummyContext,
     );
   });
 
@@ -127,7 +132,7 @@ describe('check dependency rules', () => {
         ],
       };
       expect(
-        isDependencyAllowed(['domain:customers'], to, config, dummyContext)
+        isDependencyAllowed(['domain:customers'], to, config, dummyContext),
       ).toBe(isAllowed);
     });
   }
@@ -146,7 +151,7 @@ describe('check dependency rules', () => {
         ],
       };
       expect(
-        isDependencyAllowed(['domain:customers'], to, config, dummyContext)
+        isDependencyAllowed(['domain:customers'], to, config, dummyContext),
       ).toBe(isAllowed);
     });
   }
@@ -162,8 +167,8 @@ describe('check dependency rules', () => {
         ['domain:bookings'],
         'domain:customers:api',
         config,
-        dummyContext
-      )
+        dummyContext,
+      ),
     ).toBe(true);
   });
 
@@ -178,8 +183,8 @@ describe('check dependency rules', () => {
         ['domain:booking', 'type:feature'],
         'shared',
         config,
-        dummyContext
-      )
+        dummyContext,
+      ),
     ).toBe(true);
   });
 
@@ -189,7 +194,7 @@ describe('check dependency rules', () => {
     };
 
     expect(
-      isDependencyAllowed(['type:feature'], 'shared:ui', config, dummyContext)
+      isDependencyAllowed(['type:feature'], 'shared:ui', config, dummyContext),
     ).toBe(true);
   });
 
@@ -205,7 +210,7 @@ describe('check dependency rules', () => {
       };
 
       expect(isDependencyAllowed([from], to, config, dummyContext)).toBe(
-        isAllowed
+        isAllowed,
       );
     });
   }
@@ -218,8 +223,8 @@ describe('check dependency rules', () => {
       };
 
       expect(
-        isDependencyAllowed(['type:model'], toTag, config, dummyContext)
+        isDependencyAllowed(['type:model'], toTag, config, dummyContext),
       ).toBe(false);
-    }
+    },
   );
 });

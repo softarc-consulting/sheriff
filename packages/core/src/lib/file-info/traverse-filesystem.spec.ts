@@ -55,7 +55,7 @@ describe('traverse file-system', () => {
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
         ['./app/app.component.ts', ['./customers/customer.component.ts']],
-      ])
+      ]),
     );
   });
 
@@ -81,7 +81,7 @@ describe('traverse file-system', () => {
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
         ['./app/app.component.ts', ['./customers/index.ts']],
-      ])
+      ]),
     );
   });
 
@@ -98,7 +98,7 @@ describe('traverse file-system', () => {
     const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
-      buildFileInfo('/project/src/main.ts', [['./customers/index.ts', []]])
+      buildFileInfo('/project/src/main.ts', [['./customers/index.ts', []]]),
     );
   });
 
@@ -122,7 +122,7 @@ describe('traverse file-system', () => {
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
         ['./app/app.component.ts', ['./customers/index.ts']],
-      ])
+      ]),
     );
   });
 
@@ -148,7 +148,7 @@ describe('traverse file-system', () => {
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
         ['./app/app.component.ts', ['./customers/index.ts']],
-      ])
+      ]),
     );
   });
 
@@ -171,7 +171,7 @@ describe('traverse file-system', () => {
     const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
-      buildFileInfo('/project/src/main.ts', [['./app/app.component.ts', []]])
+      buildFileInfo('/project/src/main.ts', [['./app/app.component.ts', []]]),
     );
   });
 
@@ -195,7 +195,7 @@ describe('traverse file-system', () => {
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
         ['./app/app.component.ts', ['./customers/customers.component.ts']],
-      ])
+      ]),
     );
   });
 
@@ -211,8 +211,8 @@ describe('traverse file-system', () => {
           '@customers': '/project/src/app/customers/index.ts' as FsPath,
         },
         resolveFn,
-        'home.component.ts'
-      )
+        'home.component.ts',
+      ),
     ).toThrow('unable to resolve import @customers in home.component.ts');
   });
 });
