@@ -2,15 +2,15 @@ import { FsPath, toFsPath } from '../file-info/fs-path';
 import throwIfNull from '../util/throw-if-null';
 import { logger } from '../log';
 import { init } from '../main/init';
-import UnassignedFileInfo from '../file-info/unassigned-file-info';
 import {
   checkForDependencyRuleViolation,
   DependencyRuleViolation,
 } from '../checks/check-for-dependency-rule-violation';
+import { FileInfo } from "../modules/file.info";
 
 let cache: Record<string, string> = {};
 let cacheActive = false;
-let fileInfo: UnassignedFileInfo | undefined;
+let fileInfo: FileInfo | undefined;
 const log = logger('core.eslint.dependency-rules');
 
 export const violatesDependencyRule = (
