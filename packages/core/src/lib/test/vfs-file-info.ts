@@ -1,5 +1,5 @@
-import FileInfo from '../file-info/file-info';
+import UnassignedFileInfo from '../file-info/unassigned-file-info';
 import { inVfs } from './in-vfs';
 
-export const vfsFileInfo = (path: string, imports: FileInfo[] = []) =>
-  new FileInfo(inVfs(path), imports);
+export const vfsFileInfo = (path: string, imports: UnassignedFileInfo[] = []) =>
+  new UnassignedFileInfo(inVfs(path), imports);

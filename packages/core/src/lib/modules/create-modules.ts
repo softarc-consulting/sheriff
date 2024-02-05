@@ -1,11 +1,12 @@
 import { Module } from './module';
-import FileInfo from '../file-info/file-info';
-import traverseFileInfo from '../file-info/traverse-file-info';
+import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import traverseUnassignedFileInfo from '../file-info/traverse-unassigned-file-info';
 import throwIfNull from '../util/throw-if-null';
 import { FsPath } from '../file-info/fs-path';
 import { formatModules } from './format-modules';
 import get from '../util/get';
 import { logger } from '../log';
+import { FileInfo } from "./file.info";
 
 const log = logger('core.modules.create');
 
@@ -20,12 +21,14 @@ const findClosestModule = (path: string, moduleInfos: Module[]) => {
 };
 
 export const createModules = (
-  fileInfo: FileInfo,
+  fileInfo: UnassignedFileInfo,
   existingModules: Set<FsPath>,
-  rootDir: FsPath
+  rootDir: FsPath,
+  fileInfoMap: Map<FsPath, FileInfo>,
+  getFileInfo: (path: FsPath) => FileInfo
 ): Module[] => {
   const modules = [...Array.from(existingModules), rootDir];
-  const moduleInfos = modules.map((module) => new Module(module));
+  const moduleInfos = modules.map((module) => new Module(module, fileInfoMap, getFileInfo));
   const moduleInfoMapPerIndexTs = new Map<string, Module>(
     moduleInfos.map((moduleInfo) => [moduleInfo.path, moduleInfo])
   );
@@ -33,12 +36,12 @@ export const createModules = (
     moduleInfos.map((moduleInfo) => [moduleInfo.directory, moduleInfo])
   );
 
-  for (const element of traverseFileInfo(fileInfo)) {
+  for (const element of traverseUnassignedFileInfo(fileInfo)) {
     const fi = element.fileInfo;
     if (isFileInfoAModule(fi, existingModules)) {
-      get(moduleInfoMapPerIndexTs, fi.path).assignFileInfo(fi);
+      get(moduleInfoMapPerIndexTs, fi.path).addFileInfo(fi);
     } else {
-      findClosestModule(fi.path, moduleInfos).assignFileInfo(fi);
+      findClosestModule(fi.path, moduleInfos).addFileInfo(fi);
     }
   }
 
@@ -47,5 +50,5 @@ export const createModules = (
   return foundModules;
 };
 
-const isFileInfoAModule = ({ path }: FileInfo, existingModules: Set<string>) =>
+const isFileInfoAModule = ({ path }: UnassignedFileInfo, existingModules: Set<string>) =>
   existingModules.has(path);

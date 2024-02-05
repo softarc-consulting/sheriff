@@ -1,4 +1,4 @@
-import FileInfo from './file-info';
+import UnassignedFileInfo from './unassigned-file-info';
 import traverseFilesystem from './traverse-filesystem';
 import { FsPath } from './fs-path';
 import { formatFileInfo } from './format-file-info';
@@ -16,13 +16,13 @@ const log = logger('core.file-info.generate-and-root-dir');
  * @param tsData misc. data around TS config
  * @param fileContent optional file content (used by ESLint in IDE)
  */
-export const generateFileInfo = (
+export const generateUnassignedFileInfo = (
   fsPath: FsPath,
   runOnce = false,
   tsData: TsData,
   fileContent?: string
-): FileInfo => {
-  const fileInfoDict = new Map<FsPath, FileInfo>();
+): UnassignedFileInfo => {
+  const fileInfoDict = new Map<FsPath, UnassignedFileInfo>();
 
   const fileInfo = traverseFilesystem(
     fsPath,

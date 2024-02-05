@@ -1,5 +1,5 @@
 import { describe, expect, it, vitest } from 'vitest';
-import * as fileInfoGenerator from '../file-info/generate-file-info';
+import * as fileInfoGenerator from '../file-info/generate-unassigned-file-info';
 import { sheriffConfig } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { createProject } from '../test/project-creator';
@@ -9,7 +9,7 @@ import { violatesDependencyRule } from './violates-dependency-rule';
 
 describe('violates dependency rules', () => {
   it('should not generate fileInfo when no config file available', () => {
-    const spy = vitest.spyOn(fileInfoGenerator, 'generateFileInfo');
+    const spy = vitest.spyOn(fileInfoGenerator, 'generateUnassignedFileInfo');
 
     createProject({
       'tsconfig.json': tsconfigMinimal,

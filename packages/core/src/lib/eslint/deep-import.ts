@@ -1,7 +1,7 @@
 import { toFsPath } from '../file-info/fs-path';
 import { init } from '../main/init';
-import FileInfo from '../file-info/file-info';
 import { checkForDeepImports } from '../checks/check-for-deep-imports';
+import { FileInfo } from "../modules/file.info";
 
 /**
  * This is the adapter for the ESLint plugin

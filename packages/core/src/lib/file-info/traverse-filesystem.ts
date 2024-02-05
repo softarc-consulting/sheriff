@@ -1,4 +1,4 @@
-import FileInfo from './file-info';
+import UnassignedFileInfo from './unassigned-file-info';
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import TsData, { TsPaths } from './ts-data';
@@ -30,13 +30,13 @@ export type ResolveFn = (
  */
 const traverseFilesystem = (
   fsPath: FsPath,
-  fileInfoDict: Map<FsPath, FileInfo>,
+  fileInfoDict: Map<FsPath, UnassignedFileInfo>,
   tsData: TsData,
   runOnce = false,
   fileContent?: string
-): FileInfo => {
+): UnassignedFileInfo => {
   const { paths, configObject, cwd, sys, rootDir } = tsData;
-  const fileInfo: FileInfo = new FileInfo(fsPath, []);
+  const fileInfo: UnassignedFileInfo = new UnassignedFileInfo(fsPath, []);
   fileInfoDict.set(fsPath, fileInfo);
   const fs = getFs();
   fileContent = fileContent ?? fs.readFile(fsPath);
@@ -79,7 +79,7 @@ const traverseFilesystem = (
       if (existing) {
         fileInfo.addImport(existing, fileName);
       } else if (runOnce) {
-        fileInfo.addImport(new FileInfo(importPath), fileName);
+        fileInfo.addImport(new UnassignedFileInfo(importPath), fileName);
       } else {
         fileInfo.addImport(
           traverseFilesystem(importPath, fileInfoDict, {

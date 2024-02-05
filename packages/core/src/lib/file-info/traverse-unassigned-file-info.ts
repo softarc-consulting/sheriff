@@ -1,12 +1,12 @@
-import FileInfo from './file-info';
+import UnassignedFileInfo from './unassigned-file-info';
 
-export function* traverseFileInfo(fileInfo: FileInfo) {
+export function* traverseUnassignedFileInfo(fileInfo: UnassignedFileInfo) {
   const traversed = new Set<string>();
 
   function* traverse(
-    fileInfo: FileInfo,
+    fileInfo: UnassignedFileInfo,
     level = 1
-  ): Generator<{ fileInfo: FileInfo; level: number }, void> {
+  ): Generator<{ fileInfo: UnassignedFileInfo; level: number }, void> {
     if (traversed.has(fileInfo.path)) {
       return;
     }
@@ -22,4 +22,4 @@ export function* traverseFileInfo(fileInfo: FileInfo) {
   yield* traverse(fileInfo);
 }
 
-export default traverseFileInfo;
+export default traverseUnassignedFileInfo;

@@ -14,17 +14,16 @@ export type DependencyRuleViolation = {
 
 export function checkForDependencyRuleViolation(
   fsPath: FsPath,
-  { config, getAfi, rootDir, modulePaths }: ProjectInfo
+  { config, getFileInfo, rootDir, modulePaths }: ProjectInfo
 ): DependencyRuleViolation[] {
   const violations: DependencyRuleViolation[] = [];
 
   assertNotNull(config);
 
-  const assignedFileInfo = getAfi(fsPath);
+  const assignedFileInfo = getFileInfo(fsPath);
   const importedModulePathsWithRawImport = assignedFileInfo.imports
     // skip deep imports
     .filter((importedFi) => modulePaths.has(importedFi.path))
-    .map((importedFi) => getAfi(importedFi.path))
     .map((iafi) => [
       iafi.moduleInfo.directory,
       assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
