@@ -1,13 +1,13 @@
-import FileInfo from '../file-info/file-info';
+import UnassignedFileInfo from '../file-info/unassigned-file-info';
 import getFs from '../fs/getFs';
-import traverseFileInfo from '../file-info/traverse-file-info';
+import traverseUnassignedFileInfo from '../file-info/traverse-unassigned-file-info';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { logger } from '../log';
 
 const log = logger('core.modules.project-dirs');
 
 export const getProjectDirsFromFileInfo = (
-  fileInfo: FileInfo,
+  fileInfo: UnassignedFileInfo,
   rootDir: FsPath
 ): FsPath[] => {
   const fs = getFs();
@@ -15,7 +15,7 @@ export const getProjectDirsFromFileInfo = (
   const projectDirs = new Set<FsPath>();
   for (const {
     fileInfo: { path },
-  } of traverseFileInfo(fileInfo)) {
+  } of traverseUnassignedFileInfo(fileInfo)) {
     if (!path.startsWith(rootDir)) {
       throw new Error(`file ${path} is outside of root directory: ${rootDir}`);
     }

@@ -10,10 +10,10 @@ import getFs from '../fs/getFs';
  * It is up to the consumer, e.g. ESLinter, to decide if that
  * should cause an error or not.
  */
-export default class FileInfo {
+export default class UnassignedFileInfo {
   #rawImportMap = new Map<string, string>();
   #unresolvableImports: string[] = [];
-  constructor(public path: FsPath, public imports: FileInfo[] = []) {}
+  constructor(public path: FsPath, public imports: UnassignedFileInfo[] = []) {}
 
   addUnresolvableImport(importCommand: string) {
     this.#unresolvableImports.push(importCommand);
@@ -27,7 +27,7 @@ export default class FileInfo {
     return this.#unresolvableImports.length > 0;
   }
 
-  addImport(importedFileInfo: FileInfo, rawImport: string) {
+  addImport(importedFileInfo: UnassignedFileInfo, rawImport: string) {
     this.imports.push(importedFileInfo);
     this.#rawImportMap.set(importedFileInfo.path, rawImport);
   }
@@ -63,9 +63,9 @@ const createPath = (path: string, parentPath: string) => {
 export const buildFileInfo = (
   path: string,
   imports: NestedArray = []
-): FileInfo => {
+): UnassignedFileInfo => {
   const fs = getFs();
-  const children: FileInfo[] = imports.map((entry) => {
+  const children: UnassignedFileInfo[] = imports.map((entry) => {
     if (
       Array.isArray(entry) &&
       entry.length === 2 &&
@@ -82,7 +82,7 @@ export const buildFileInfo = (
   });
 
   fs.writeFile(path, '');
-  const fileInfo = new FileInfo(toFsPath(path));
+  const fileInfo = new UnassignedFileInfo(toFsPath(path));
   for (const child of children) {
     fileInfo.addImport(child, fs.relativeTo(fileInfo.path, child.path));
   }

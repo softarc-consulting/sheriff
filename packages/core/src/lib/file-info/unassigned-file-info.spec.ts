@@ -1,10 +1,10 @@
-import FileInfo, { buildFileInfo } from './file-info';
+import UnassignedFileInfo, { buildFileInfo } from './unassigned-file-info';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { toFsPath } from './fs-path';
 import getFs, { useVirtualFs } from '../fs/getFs';
 
-const fi = (path: string, imports: FileInfo[] = []) =>
-  new FileInfo(toFsPath(path), imports);
+const fi = (path: string, imports: UnassignedFileInfo[] = []) =>
+  new UnassignedFileInfo(toFsPath(path), imports);
 
 describe('Find File', () => {
   beforeAll(() => {

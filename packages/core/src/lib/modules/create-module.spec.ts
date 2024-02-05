@@ -1,15 +1,16 @@
-import FileInfo, { buildFileInfo } from '../file-info/file-info';
+import UnassignedFileInfo, { buildFileInfo } from '../file-info/unassigned-file-info';
 import { createModules } from './create-modules';
 import findFileInfo from '../test/find-file-info';
 import { Module } from './module';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../fs/getFs';
-import { toFsPath } from '../file-info/fs-path';
+import { FsPath, toFsPath } from "../file-info/fs-path";
+import { FileInfo } from "./file.info";
 
 interface TestParameter {
   name: string;
-  fileInfo: FileInfo;
+  fileInfo: UnassignedFileInfo;
   modulePaths: string[];
   expectedModules: { path: string; fileInfoPaths: string[] }[];
 }
@@ -194,13 +195,20 @@ describe('create module infos', () => {
     'should create a moduleInfos for configuration: %s',
     (_, createTestParams) => {
       const { fileInfo, modulePaths, expectedModules } = createTestParams();
+      const fileInfoMap = new Map<FsPath, FileInfo>();
+      const getFileInfo = (path: FsPath) =>
+        throwIfNull(
+          fileInfoMap.get(path),
+          `cannot find AssignedFileInfo for ${path}`
+        );
+
       modulePaths.forEach((modulePath) => {
         getFs().writeFile(modulePath, '');
       });
       const moduleInfos = createModules(
         fileInfo,
         new Set(modulePaths.map(toFsPath)),
-        toFsPath('/')
+        toFsPath('/'), fileInfoMap, getFileInfo
       );
 
       expect(moduleInfos).toEqual(
@@ -211,9 +219,9 @@ describe('create module infos', () => {
               `${fip} does not exist in passed FileInfo`
             )
           );
-          const moduleInfo = new Module(toFsPath(mi.path));
+          const moduleInfo = new Module(toFsPath(mi.path), fileInfoMap, getFileInfo);
           for (const fi of fileInfos) {
-            moduleInfo.assignFileInfo(fi);
+            moduleInfo.addFileInfo(fi);
           }
 
           return moduleInfo;

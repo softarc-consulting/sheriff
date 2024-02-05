@@ -12,23 +12,22 @@ import { ProjectInfo } from '../main/init';
  */
 export function checkForDeepImports(
   fsPath: FsPath,
-  { assignedFileInfoMap, rootDir, config, modulePaths }: ProjectInfo
+  {  rootDir, config, modulePaths, getFileInfo }: ProjectInfo
 ): string[] {
   const deepImports: string[] = [];
-  const assignedFileInfo = throwIfNull(assignedFileInfoMap.get(fsPath));
+  const assignedFileInfo = getFileInfo(fsPath)
 
   const isRootAndExcluded = createIsRootAndExcluded(rootDir, config);
   const isModuleIndex = (fsPath: FsPath) => modulePaths.has(fsPath);
 
   for (const importedFileInfo of assignedFileInfo.imports) {
-    const importedAfi = getAfi(importedFileInfo.path, assignedFileInfoMap);
     if (
-      !isModuleIndex(importedAfi.path) &&
-      !isRootAndExcluded(importedAfi.moduleInfo.path) &&
-      importedAfi.moduleInfo !== assignedFileInfo.moduleInfo
+      !isModuleIndex(importedFileInfo.path) &&
+      !isRootAndExcluded(importedFileInfo.moduleInfo.path) &&
+      importedFileInfo.moduleInfo !== assignedFileInfo.moduleInfo
     ) {
       deepImports.push(
-        assignedFileInfo.getRawImportForImportedFileInfo(importedAfi.path)
+        assignedFileInfo.getRawImportForImportedFileInfo(importedFileInfo.path)
       );
     }
   }

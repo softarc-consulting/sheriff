@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import getFs, { useVirtualFs } from '../fs/getFs';
-import FileInfo, { buildFileInfo } from '../file-info/file-info';
+import UnassignedFileInfo, { buildFileInfo } from '../file-info/unassigned-file-info';
 import { getProjectDirsFromFileInfo } from './get-project-dirs-from-file-info';
 import { toFsPath } from '../file-info/fs-path';
 
@@ -8,7 +8,7 @@ export interface TestParam {
   name: string;
   rootDir: string;
   projectDirs: string[];
-  fileInfo: FileInfo;
+  fileInfo: UnassignedFileInfo;
 }
 
 const cli = (): TestParam => ({

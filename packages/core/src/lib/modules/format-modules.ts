@@ -5,7 +5,7 @@ export const formatModules = (modules: Module[]): string => {
   const output: string[] = [];
   for (const module of modules) {
     output.push(
-      `${module.path}: ${module.assignedFileInfos
+      `${module.path}: ${module.fileInfos
         .map((afi) => afi.path)
         .join(', ')}`
     );

@@ -9,7 +9,7 @@ import traverseFilesystem, {
   resolvePotentialTsPath,
 } from './traverse-filesystem';
 import { FsPath, toFsPath } from './fs-path';
-import FileInfo, { buildFileInfo } from './file-info';
+import UnassignedFileInfo, { buildFileInfo } from './unassigned-file-info';
 import { generateTsData } from './generate-ts-data';
 import { ResolvedModuleFull } from 'typescript';
 import { TsConfig } from './ts-config';
@@ -25,7 +25,7 @@ function createProject(fileTree: FileTree) {
 
 describe('traverse file-system', () => {
   let fs: Fs;
-  let fileInfoDict: Map<FsPath, FileInfo>;
+  let fileInfoDict: Map<FsPath, UnassignedFileInfo>;
 
   beforeAll(() => {
     useVirtualFs();
@@ -34,7 +34,7 @@ describe('traverse file-system', () => {
   beforeEach(() => {
     fs = getFs();
     fs.reset();
-    fileInfoDict = new Map<FsPath, FileInfo>();
+    fileInfoDict = new Map<FsPath, UnassignedFileInfo>();
   });
 
   it('should find a single import', () => {

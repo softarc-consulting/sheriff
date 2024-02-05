@@ -1,11 +1,11 @@
-import FileInfo from '../file-info/file-info';
-import { AssignedFileInfo } from './assigned-file.info';
+import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import { FileInfo } from './file.info';
 import { FsPath } from '../file-info/fs-path';
 
 export class Module {
   readonly directory: string;
-  assignedFileInfos: AssignedFileInfo[] = [];
-  constructor(public path: FsPath) {
+  fileInfos: FileInfo[] = [];
+  constructor(public path: FsPath, private fileInfoMap: Map<FsPath, FileInfo>, private getFileInfo: (fsPath: FsPath) => FileInfo) {
     if (path.endsWith('index.ts')) {
       this.directory = this.path.substring(
         0,
@@ -16,7 +16,9 @@ export class Module {
     }
   }
 
-  assignFileInfo(fileInfo: FileInfo) {
-    this.assignedFileInfos.push(new AssignedFileInfo(fileInfo, this));
+  addFileInfo(unassignedFileInfo: UnassignedFileInfo) {
+    const fileInfo = new FileInfo(unassignedFileInfo, this, this.getFileInfo);
+    this.fileInfoMap.set(fileInfo.path, fileInfo);
+    this.fileInfos.push(fileInfo);
   }
 }

@@ -1,20 +1,19 @@
 import { FsPath } from '../file-info/fs-path';
-import { AssignedFileInfo } from '../modules/assigned-file.info';
-import { generateFileInfo } from '../file-info/generate-file-info';
+import { FileInfo } from '../modules/file.info';
+import { generateUnassignedFileInfo } from '../file-info/generate-unassigned-file-info';
 import { getProjectDirsFromFileInfo } from '../modules/get-project-dirs-from-file-info';
 import { findModulePaths } from '../modules/find-module-paths';
 import { createModules } from '../modules/create-modules';
-import { getAssignedFileInfoMap } from '../modules/get-assigned-file-info-map';
+import { fillFileInfoMap } from '../modules/fill-file-info-map';
 import throwIfNull from '../util/throw-if-null';
 import TsData from '../file-info/ts-data';
-import FileInfo from '../file-info/file-info';
+import UnassignedFileInfo from '../file-info/unassigned-file-info';
 
 export type ParsedResult = {
   fileInfo: FileInfo;
   modulePaths: Set<FsPath>;
-  assignedFileInfoMap: Map<FsPath, AssignedFileInfo>;
   rootDir: FsPath;
-  getAfi: (path: FsPath) => AssignedFileInfo;
+  getFileInfo: (path: FsPath) => FileInfo;
 };
 
 export const parseProject = (
@@ -23,27 +22,30 @@ export const parseProject = (
   tsData: TsData,
   fileContent?: string
 ): ParsedResult => {
-  const fileInfo = generateFileInfo(entryFile, !traverse, tsData, fileContent);
+  const unassignedFileInfo = generateUnassignedFileInfo(entryFile, !traverse, tsData, fileContent);
   const rootDir = tsData.rootDir;
 
-  const projectDirs = getProjectDirsFromFileInfo(fileInfo, rootDir);
+  const projectDirs = getProjectDirsFromFileInfo(unassignedFileInfo, rootDir);
 
-  const modulePaths = findModulePaths(projectDirs);
-  const modules = createModules(fileInfo, modulePaths, rootDir);
-
-  const assignedFileInfoMap = getAssignedFileInfoMap(modules);
-
-  const getAfi = (path: FsPath) =>
+  const fileInfoMap: Map<FsPath, FileInfo> = new Map();
+  const getFileInfo = (path: FsPath) =>
     throwIfNull(
-      assignedFileInfoMap.get(path),
+      fileInfoMap.get(path),
       `cannot find AssignedFileInfo for ${path}`
     );
+
+  const modulePaths = findModulePaths(projectDirs);
+  const modules = createModules(unassignedFileInfo, modulePaths, rootDir, fileInfoMap, getFileInfo);
+  fillFileInfoMap(fileInfoMap, modules);
+
+
+
+  const fileInfo = getFileInfo(unassignedFileInfo.path)
 
   return {
     fileInfo,
     rootDir,
-    getAfi,
-    assignedFileInfoMap,
+    getFileInfo,
     modulePaths,
   };
 };

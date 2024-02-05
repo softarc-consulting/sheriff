@@ -1,12 +1,12 @@
-import { AssignedFileInfo } from '../modules/assigned-file.info';
+import { FileInfo } from '../modules/file.info';
 import { Module } from '../modules/module';
 
 export const findAssignedFileInfo = (
   moduleInfos: Module[],
   path: string
-): AssignedFileInfo => {
+): FileInfo => {
   for (const moduleInfo of moduleInfos) {
-    for (const assignedFileInfo of moduleInfo.assignedFileInfos) {
+    for (const assignedFileInfo of moduleInfo.fileInfos) {
       if (assignedFileInfo.path === path) {
         return assignedFileInfo;
       }

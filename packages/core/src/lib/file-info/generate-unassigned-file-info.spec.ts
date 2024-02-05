@@ -3,7 +3,7 @@ import { Fs } from '../fs/fs';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { FileTree } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
-import { generateFileInfo } from './generate-file-info';
+import { generateUnassignedFileInfo } from './generate-unassigned-file-info';
 import { ProjectCreator } from '../test/project-creator';
 import { inVfs } from '../test/in-vfs';
 import { toFsPath } from './fs-path';
@@ -36,7 +36,7 @@ describe('Generate File Info', () => {
     };
     creator.create(projectConfig, 'integration');
 
-    const fileInfo = generateFileInfo(
+    const fileInfo = generateUnassignedFileInfo(
       inVfs('integration/src/app/app.component.ts'),
       true,
       getTsData()
@@ -73,7 +73,7 @@ describe('Generate File Info', () => {
 
     creator.create(projectConfig, 'integration');
 
-    const fileInfo = generateFileInfo(
+    const fileInfo = generateUnassignedFileInfo(
       inVfs('integration/src/main.ts'),
       false,
       getTsData()
@@ -133,7 +133,7 @@ describe('Generate File Info', () => {
     creator.create(projectConfig, 'integration');
     fs.writeFile('/project/outside.component.ts', '');
     expect(() =>
-      generateFileInfo(
+      generateUnassignedFileInfo(
         toFsPath('/project/integration/main.ts'),
         true,
         getTsData()
@@ -154,7 +154,7 @@ describe('Generate File Info', () => {
       };
 
       creator.create(projectConfig, 'integration');
-      const fileInfo = generateFileInfo(
+      const fileInfo = generateUnassignedFileInfo(
         toFsPath('/project/integration/main.ts'),
         true,
         getTsData()

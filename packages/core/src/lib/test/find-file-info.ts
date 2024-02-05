@@ -1,8 +1,8 @@
-import FileInfo from '../file-info/file-info';
-import traverseFileInfo from '../file-info/traverse-file-info';
+import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import traverseUnassignedFileInfo from '../file-info/traverse-unassigned-file-info';
 
-export default (fi: FileInfo, path: string): FileInfo | undefined => {
-  for (const { fileInfo } of traverseFileInfo(fi)) {
+export default (fi: UnassignedFileInfo, path: string): UnassignedFileInfo | undefined => {
+  for (const { fileInfo } of traverseUnassignedFileInfo(fi)) {
     if (fileInfo.path === path) {
       return fileInfo;
     }
