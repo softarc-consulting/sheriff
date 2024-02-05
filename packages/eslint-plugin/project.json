@@ -11,8 +11,7 @@
         "outputPath": "dist/packages/eslint-plugin",
         "main": "packages/eslint-plugin/src/index.ts",
         "tsConfig": "packages/eslint-plugin/tsconfig.lib.json",
-        "assets": ["packages/eslint-plugin/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "assets": ["packages/eslint-plugin/*.md"]
       }
     },
     "publish": {
@@ -23,11 +22,8 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/eslint-plugin/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": []
