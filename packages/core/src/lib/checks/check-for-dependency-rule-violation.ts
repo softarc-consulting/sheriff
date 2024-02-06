@@ -2,7 +2,6 @@ import { FsPath, toFsPath } from '../file-info/fs-path';
 import { ProjectInfo } from '../main/init';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
 import { isDependencyAllowed } from './is-dependency-allowed';
-import { assertNotNull } from '../util/assert-not-null';
 
 export type DependencyRuleViolation = {
   rawImport: string;
@@ -18,7 +17,9 @@ export function checkForDependencyRuleViolation(
 ): DependencyRuleViolation[] {
   const violations: DependencyRuleViolation[] = [];
 
-  assertNotNull(config);
+  if (!config) {
+    return [];
+  }
 
   const assignedFileInfo = getFileInfo(fsPath);
   const importedModulePathsWithRawImport = assignedFileInfo.imports

@@ -1,17 +1,25 @@
 #!/usr/bin/env node
 
 import * as process from 'process';
-import { list } from './internal/list';
-import { verify } from './internal/verify';
+import { verify } from '../lib/cli/verify';
+import { list } from '../lib/cli/list';
+import { Cli } from '../lib/cli/util';
 
 const [, , cmd, ...args] = process.argv;
+
+const cli: Cli = {
+  endProcessOk: () => process.exit(0),
+  endProcessError: () => process.exit(1),
+  log: (message: string) => console.log(message),
+  logError: (message: string) => console.error(message),
+};
 
 switch (cmd) {
   case 'init':
     console.log('init');
     break;
   case 'verify':
-    verify(args);
+    verify(process.cwd(), cli, args);
     break;
   case 'list':
     list(args);
