@@ -2,7 +2,7 @@
   "name": "@softarc/sheriff",
   "version": "0.0.1",
   "description": "Modularity for TypeScript applications",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "build:all": "npx nx run-many --target=build --skip-nx-cache",
     "commit": "commit",
