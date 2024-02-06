@@ -8,7 +8,7 @@ import {
   checkForDependencyRuleViolation,
   DependencyRuleViolation,
 } from './check-for-dependency-rule-violation';
-import { FsPath } from '../file-info/fs-path';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 import { traverseProject } from '../test/traverse-project';
 
 const projectTemplate = () => ({
@@ -176,6 +176,22 @@ describe('check for dependency rule violation', () => {
       expect(mapViolations(violationMap)).toEqual(expected);
     });
   }
+
+  it('should return an empty array if no violations are found', () => {
+    const projectInfo = testInit('src/main.ts', {
+      'tsconfig.json': tsconfigMinimal,
+      src: {
+        'main.ts': [''],
+      },
+    });
+
+    const violations = checkForDependencyRuleViolation(
+      toFsPath('/project/src/main.ts'),
+      projectInfo,
+    );
+
+    expect(violations).toEqual([]);
+  });
 });
 
 function mapViolations(

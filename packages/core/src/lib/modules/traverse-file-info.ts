@@ -1,11 +1,11 @@
-import { FileInfo } from "./file.info";
+import { FileInfo } from './file.info';
 
 export function* traverseFileInfo(fileInfo: FileInfo) {
   const traversed = new Set<string>();
 
   function* traverse(
     fileInfo: FileInfo,
-    level = 1
+    level = 1,
   ): Generator<{ fileInfo: FileInfo; level: number }, void> {
     if (traversed.has(fileInfo.path)) {
       return;

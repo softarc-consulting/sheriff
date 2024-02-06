@@ -1,8 +1,8 @@
-import * as path from "path";
-import * as process from "process";
-import { init } from "../../lib/main/init";
-import { toFsPath } from "../../lib/file-info/fs-path";
-import { assertNotNull } from "../../lib/util/assert-not-null";
+import * as path from 'path';
+import * as process from 'process';
+import { toFsPath } from '../file-info/fs-path';
+import { init } from '../main/init';
+import { assertNotNull } from '../util/assert-not-null';
 
 export function list(args: string[]) {
   const [main] = args;
@@ -14,7 +14,7 @@ export function list(args: string[]) {
   );
   console.log('');
 
-  console.log('.')
+  console.log('.');
   const cleanedPaths = Array.from(projectConfig.modulePaths).map((modulePath) =>
     path.relative(process.cwd(), modulePath),
   );
@@ -78,7 +78,7 @@ function printDirectory(
     }
     // Iterate through each key in the directory
     const entries = Object.entries(directory);
-    for(let ix = 0; ix < entries.length; ix++) {
+    for (let ix = 0; ix < entries.length; ix++) {
       const [key, value] = entries[ix];
       const symbol = ix === entries.length - 1 ? '└── ' : '├── ';
       console.log(' '.repeat(indent) + symbol + key);
