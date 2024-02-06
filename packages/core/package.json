@@ -8,6 +8,9 @@
     "email": "rainer.hahnekamp@angulararchitects.io",
     "url": "https://www.angulararchitects.io/"
   },
+  "bin": {
+    "sheriff": "./bin/main"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/softarc-consulting/sheriff"
