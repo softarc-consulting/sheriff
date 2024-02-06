@@ -1,19 +1,19 @@
 import UnassignedFileInfo from '../file-info/unassigned-file-info';
 import { FileInfo } from './file.info';
-import { FsPath } from '../file-info/fs-path';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 
 export class Module {
-  readonly directory: string;
+  readonly directory: FsPath;
   fileInfos: FileInfo[] = [];
   constructor(
-    public path: FsPath,
-    private fileInfoMap: Map<FsPath, FileInfo>,
-    private getFileInfo: (fsPath: FsPath) => FileInfo,
+    public readonly path: FsPath,
+    private readonly fileInfoMap: Map<FsPath, FileInfo>,
+    private readonly getFileInfo: (fsPath: FsPath) => FileInfo,
+    public readonly isRoot: boolean,
   ) {
     if (path.endsWith('index.ts')) {
-      this.directory = this.path.substring(
-        0,
-        this.path.length - '/index.ts'.length,
+      this.directory = toFsPath(
+        this.path.substring(0, this.path.length - '/index.ts'.length),
       );
     } else {
       this.directory = path;

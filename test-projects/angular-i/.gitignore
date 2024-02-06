@@ -45,3 +45,7 @@ Thumbs.db
 /dependency-rule-lint.json
 /dynamic-import-lint.json
 /user-error-lint.json
+
+/cli-export.txt
+/cli-list.txt
+/cli-verify.txt

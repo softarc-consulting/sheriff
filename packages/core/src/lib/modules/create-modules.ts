@@ -27,10 +27,10 @@ export const createModules = (
   fileInfoMap: Map<FsPath, FileInfo>,
   getFileInfo: (path: FsPath) => FileInfo,
 ): Module[] => {
-  const modules = [...Array.from(existingModules), rootDir];
-  const moduleInfos = modules.map(
-    (module) => new Module(module, fileInfoMap, getFileInfo),
+  const moduleInfos = Array.from(existingModules).map(
+    (module) => new Module(module, fileInfoMap, getFileInfo, false),
   );
+  moduleInfos.push(new Module(rootDir, fileInfoMap, getFileInfo, true));
   const moduleInfoMapPerIndexTs = new Map<string, Module>(
     moduleInfos.map((moduleInfo) => [moduleInfo.path, moduleInfo]),
   );

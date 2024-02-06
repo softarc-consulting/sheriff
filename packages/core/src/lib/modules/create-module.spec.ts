@@ -227,6 +227,7 @@ describe('create module infos', () => {
             toFsPath(mi.path),
             fileInfoMap,
             getFileInfo,
+            mi.path === '/',
           );
           for (const fi of fileInfos) {
             moduleInfo.addFileInfo(fi);
