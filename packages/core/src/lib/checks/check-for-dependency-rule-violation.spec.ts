@@ -210,6 +210,22 @@ describe('check for dependency rule violation', () => {
     }
   });
 
+  it('should return an empty array if no violations are found', () => {
+    const projectInfo = testInit('src/main.ts', {
+      'tsconfig.json': tsConfig(),
+      src: {
+        'main.ts': [''],
+      },
+    });
+
+    const violations = checkForDependencyRuleViolation(
+      toFsPath('/project/src/main.ts'),
+      projectInfo,
+    );
+
+    expect(violations).toEqual([]);
+  });
+
   describe('noTag', () => {
     it('should allow full access with noTag', () => {
       const project = {

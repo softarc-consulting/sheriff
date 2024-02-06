@@ -1,6 +1,21 @@
 set -e
 yarn
 
+# CLI List Check
+echo 'checking for CLI list'
+sheriff list src/main.ts > cli-list.txt
+diff cli-list.txt tests/expected-cli-list.txt
+
+# CLI Export Check
+echo 'checking for CLI export'
+sheriff export src/main.ts > cli-export.txt
+diff cli-export.txt tests/expected-cli-export.txt
+
+# CLI Verify Check
+echo 'checking for CLI verify'
+sheriff verify src/main.ts > cli-verify.txt
+diff cli-verify.txt tests/expected-cli-verify.txt
+
 # Dynamic Import Check
 echo 'checking for dynamic import error'
 cp ./tests/dynamic-import-sheriff.config.ts sheriff.config.ts

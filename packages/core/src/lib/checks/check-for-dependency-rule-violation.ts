@@ -2,7 +2,6 @@ import { FsPath, toFsPath } from '../file-info/fs-path';
 import { ProjectInfo } from '../main/init';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
 import { isDependencyAllowed } from './is-dependency-allowed';
-import { assertNotNull } from '../util/assert-not-null';
 
 export type DependencyRuleViolation = {
   rawImport: string;
@@ -14,19 +13,22 @@ export type DependencyRuleViolation = {
 
 export function checkForDependencyRuleViolation(
   fsPath: FsPath,
-  { config, getFileInfo, rootDir, modulePaths }: ProjectInfo,
+  { config, getFileInfo, rootDir, modules }: ProjectInfo,
 ): DependencyRuleViolation[] {
   const violations: DependencyRuleViolation[] = [];
+  const modulePaths = modules.map((module) => module.path);
 
-  assertNotNull(config);
+  if (config.isConfigFileMissing) {
+    return [];
+  }
 
   const assignedFileInfo = getFileInfo(fsPath);
   const importedModulePathsWithRawImport = assignedFileInfo.imports
     // skip deep imports
-    .filter((importedFi) => modulePaths.has(importedFi.path))
-    .map((iafi) => [
-      iafi.moduleInfo.directory,
-      assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
+    .filter((importedFi) => modulePaths.includes(importedFi.path))
+    .map((fileInfo) => [
+      fileInfo.moduleInfo.directory,
+      assignedFileInfo.getRawImportForImportedFileInfo(fileInfo.path),
     ]);
   const fromModule = toFsPath(assignedFileInfo.moduleInfo.directory);
   const fromTags = calcTagsForModule(

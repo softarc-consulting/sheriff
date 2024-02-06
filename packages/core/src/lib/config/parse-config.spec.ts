@@ -30,6 +30,8 @@ describe('parse Config', () => {
       'depRules',
       'excludeRoot',
       'log',
+      'entryFile',
+      'isConfigFileMissing',
     ]);
   });
 
@@ -66,6 +68,8 @@ export const config: SheriffConfig = {
         depRules: { noTag: 'noTag' },
         excludeRoot: false,
         log: false,
+        isConfigFileMissing: false,
+        entryFile: '',
       });
     });
 
