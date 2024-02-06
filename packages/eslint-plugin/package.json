@@ -2,6 +2,7 @@
   "name": "@softarc/eslint-plugin-sheriff",
   "version": "0.14.3",
   "homepage": "https://github.com/softarc-consulting/sheriff",
+  "license": "MIT",
   "author": {
     "name": "Rainer Hahnekamp",
     "email": "rainer.hahnekamp@angulararchitects.io",
