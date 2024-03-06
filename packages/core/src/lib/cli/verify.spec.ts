@@ -1,4 +1,4 @@
-import { beforeEach, describe, vitest, expect } from 'vitest';
+import { beforeEach, describe, expect, vitest } from 'vitest';
 import { verify } from './verify';
 import { createProject } from '../test/project-creator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
