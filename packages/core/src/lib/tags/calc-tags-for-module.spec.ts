@@ -1,6 +1,7 @@
 import { calcTagsForModule } from './calc-tags-for-module';
 import { describe, expect, it } from 'vitest';
 import { FsPath } from '../file-info/fs-path';
+import throwIfNull from '../util/throw-if-null';
 
 describe('calc tags for module', () => {
   const root = '/project' as FsPath;
@@ -91,7 +92,8 @@ describe('calc tags for module', () => {
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '/(\\w+)/': (_, { regexMatch }) => `domain:${regexMatch[0]}`,
+        '/(\\w+)/': (_, { regexMatch }) =>
+          `domain:${throwIfNull(regexMatch)[0]}`,
       }),
     ).toEqual(['domain:abc']);
   });
@@ -276,19 +278,6 @@ describe('calc tags for module', () => {
     ).toEqual(['domain:holidays', 'subDomain:core', 'type:feature']);
   });
 
-  it('should throw an error if tag already exists', () => {
-    const rootDir = '/project' as FsPath;
-    const moduleDir = '/project/holidays/feature' as FsPath;
-
-    expect(() =>
-      calcTagsForModule(moduleDir, rootDir, {
-        '<str>': {
-          '<str>': ['noop'],
-        },
-      }),
-    ).toThrowError('placeholder for value "str" does already exist');
-  });
-
   it('should throw an error on partial match', () => {
     const rootDir = '/project' as FsPath;
     const moduleDir = '/project/domain/holidays/feature' as FsPath;
@@ -349,5 +338,45 @@ describe('calc tags for module', () => {
         'libs/customers/src/lib/data': 'data',
       }),
     ).toEqual(['data']);
+  });
+
+  it('should not throw an error with nested modules and placeholders', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/libs/holidays/src/lib/data' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        libs: {
+          '<domain>/src': 'nx-lib',
+          '<domain>/src/lib/<type>': ['domain:<domain>', 'type:<type>'],
+        },
+      }),
+    ).toEqual(['domain:holidays', 'type:data']);
+  });
+
+  it('should same placeholders in different configs', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/domain/holidays/data' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        'domain/<feature>/<type>': ({ feature, type }) => [
+          `domain:${feature}`,
+          `type:${type}`,
+        ],
+      }),
+    ).toEqual(['domain:holidays', 'type:data']);
+  });
+
+  it('should have the same placeholders in different rules rules', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/holidays/data' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        '<domain>': ['domain:holidays', 'type:feature'],
+        '<domain>/data': ['domain:holidays', 'type:data'],
+      }),
+    ).toEqual(['domain:holidays', 'type:data']);
   });
 });
