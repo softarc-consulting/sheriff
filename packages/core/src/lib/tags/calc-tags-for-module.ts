@@ -46,6 +46,8 @@ function traverseTagConfig(
     if (isRoot) {
       placeholders = {};
     }
+    // might be reset below
+    const originalPlaceholders = { ...placeholders };
 
     const { matcherContext, matches, pathFragmentSpan } = matchSegment(
       pathMatcher,
@@ -74,6 +76,18 @@ function traverseTagConfig(
       }
     } else {
       if (isTagConfigValue(value)) {
+        /**
+         * Nested Module use case. Example:
+         *
+         * tags requested for moduleDir libs/src/holiday/data
+         *
+         * TagConfig:
+         * {
+         *   'libs/<domain>/src': 'nx-lib', // <-- we are here!
+         *   'libs/<domain>/src/data': ['domain:<domain>']
+         * }
+         */
+        placeholders = originalPlaceholders;
         continue;
       }
 
