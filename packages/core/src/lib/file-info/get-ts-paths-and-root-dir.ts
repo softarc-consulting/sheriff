@@ -7,7 +7,7 @@ import { TsConfig } from './ts-config';
  * Retrieves the paths variable from a tsconfig and also traverses through
  * potential parent configs.
  *
- * If there are wilcards, the wildcard will be removed from their path value.
+ * If there are wildcards, the wildcard will be removed from their path value.
  * This is necessary to keep up the FsPath type
  *
  * @param tsConfigPath path of the tsconfig.json
@@ -28,13 +28,18 @@ export const getTsPathsAndRootDir = (
     );
 
     const config = configContent.config as TsConfig;
+    const baseUrl = configContent.config.compilerOptions.baseUrl ?? './';
 
     const newPaths: Record<string, string[]> =
       config.compilerOptions.paths ?? {};
     currentTsConfigDir = fs.getParent(currentTsConfigPath);
     for (const [key, [value]] of Object.entries(newPaths)) {
       const valueForFsPath = value.endsWith('/*') ? value.slice(0, -2) : value;
-      const potentialFilename = fs.join(currentTsConfigDir, valueForFsPath);
+      const potentialFilename = fs.join(
+        currentTsConfigDir,
+        baseUrl,
+        valueForFsPath,
+      );
       if (fs.exists(potentialFilename)) {
         paths[key] = toFsPath(potentialFilename);
       } else if (

@@ -6,12 +6,10 @@ export type TsPaths = Record<string, FsPath>;
 /**
  * Contains data needed by `traverseFilesystem`.
  */
-interface TsData {
+export interface TsData {
   configObject: ReturnType<typeof ts.parseJsonConfigFileContent>;
   paths: TsPaths;
   cwd: string;
   sys: typeof ts.sys;
   rootDir: FsPath;
 }
-
-export default TsData;

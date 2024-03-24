@@ -6,7 +6,7 @@ import { findModulePaths } from '../modules/find-module-paths';
 import { createModules } from '../modules/create-modules';
 import { fillFileInfoMap } from '../modules/fill-file-info-map';
 import throwIfNull from '../util/throw-if-null';
-import TsData from '../file-info/ts-data';
+import { TsData } from '../file-info/ts-data';
 
 export type ParsedResult = {
   fileInfo: FileInfo;

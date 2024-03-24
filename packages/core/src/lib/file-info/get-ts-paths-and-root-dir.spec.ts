@@ -1,24 +1,10 @@
-import { beforeAll, beforeEach, describe, expect, test } from 'vitest';
-import getFs, { useVirtualFs } from '../fs/getFs';
-import { Fs } from '../fs/fs';
-import { tsConfigMinimal } from '../test/fixtures/tsconfig.minimal';
-import { ProjectCreator } from '../test/project-creator';
+import { describe, expect, test } from 'vitest';
+import { tsConfig } from '../test/fixtures/tsconfig.minimal';
+import { createProject } from '../test/project-creator';
 import { toFsPath } from './fs-path';
-import { TsConfig } from './ts-config';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
 
 describe('get ts paths and root dir', () => {
-  let fs: Fs;
-
-  beforeAll(() => {
-    useVirtualFs();
-  });
-
-  beforeEach(() => {
-    fs = getFs();
-    fs.reset();
-  });
-
   for (const { name, tsPaths, fsPaths } of [
     {
       name: 'default paths',
@@ -53,25 +39,20 @@ describe('get ts paths and root dir', () => {
     },
   ]) {
     test(name, () => {
-      const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
-      tsConfig.compilerOptions.paths = tsPaths;
-      new ProjectCreator().create(
-        {
-          'tsconfig.json': JSON.stringify(tsConfig),
-          src: {
-            app: {
-              'main.ts': [],
-              customers: {
-                'index.ts': [],
-              },
-              holidays: {
-                'index.ts': [],
-              },
+      createProject({
+        'tsconfig.json': tsConfig({ paths: tsPaths }),
+        src: {
+          app: {
+            'main.ts': [],
+            customers: {
+              'index.ts': [],
+            },
+            holidays: {
+              'index.ts': [],
             },
           },
         },
-        '/project',
-      );
+      });
 
       expect(
         getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')).paths,
@@ -103,25 +84,20 @@ describe('get ts paths and root dir', () => {
     },
   ]) {
     test(name, () => {
-      const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
-      tsConfig.compilerOptions.paths = tsPaths;
-      new ProjectCreator().create(
-        {
-          'tsconfig.json': JSON.stringify(tsConfig),
-          src: {
-            app: {
-              'main.ts': [],
-              customers: {
-                'index.ts': [],
-              },
-              holidays: {
-                'index.ts': [],
-              },
+      createProject({
+        'tsconfig.json': tsConfig({ paths: tsPaths }),
+        src: {
+          app: {
+            'main.ts': [],
+            customers: {
+              'index.ts': [],
+            },
+            holidays: {
+              'index.ts': [],
             },
           },
         },
-        '/project',
-      );
+      });
 
       expect(() =>
         getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')),
@@ -130,4 +106,30 @@ describe('get ts paths and root dir', () => {
       );
     });
   }
+
+  describe('baseUrl', () => {
+    test('different baseUrl', () => {
+      createProject({
+        'tsconfig.json': tsConfig({
+          paths: { '@app/*': ['app'] },
+          baseUrl: './src',
+        }),
+        src: {
+          app: {
+            'main.ts': [],
+            customers: {
+              'index.ts': [],
+            },
+            holidays: {
+              'index.ts': [],
+            },
+          },
+        },
+      });
+
+      expect(
+        getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')).paths,
+      ).toEqual({ '@app/*': '/project/src/app' });
+    });
+  });
 });
