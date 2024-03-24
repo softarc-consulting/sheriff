@@ -1,7 +1,7 @@
 import UnassignedFileInfo from './unassigned-file-info';
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
-import TsData, { TsPaths } from './ts-data';
+import { TsData, TsPaths } from './ts-data';
 import { FsPath, toFsPath } from './fs-path';
 
 export type ResolveFn = (
@@ -82,13 +82,7 @@ const traverseFilesystem = (
         fileInfo.addImport(new UnassignedFileInfo(importPath), fileName);
       } else {
         fileInfo.addImport(
-          traverseFilesystem(importPath, fileInfoDict, {
-            paths,
-            configObject,
-            cwd,
-            sys,
-            rootDir,
-          }),
+          traverseFilesystem(importPath, fileInfoDict, tsData),
           fileName,
         );
       }

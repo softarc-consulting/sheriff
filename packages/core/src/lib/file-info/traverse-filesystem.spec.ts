@@ -1,9 +1,7 @@
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import getFs, { useVirtualFs } from '../fs/getFs';
-import { Fs } from '../fs/fs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { FileTree } from '../test/project-configurator';
-import { tsConfigMinimal } from '../test/fixtures/tsconfig.minimal';
-import { ProjectCreator } from '../test/project-creator';
+import { tsConfig, tsConfigMinimal } from '../test/fixtures/tsconfig.minimal';
+import { createProject } from '../test/project-creator';
 import traverseFilesystem, {
   ResolveFn,
   resolvePotentialTsPath,
@@ -12,10 +10,9 @@ import { FsPath, toFsPath } from './fs-path';
 import UnassignedFileInfo, { buildFileInfo } from './unassigned-file-info';
 import { generateTsData } from './generate-ts-data';
 import { ResolvedModuleFull } from 'typescript';
-import { TsConfig } from './ts-config';
 
-function createProject(fileTree: FileTree) {
-  new ProjectCreator().create(fileTree, '/project');
+function setup(fileTree: FileTree) {
+  createProject(fileTree);
 
   const tsData = generateTsData(toFsPath('/project/tsconfig.json'));
   const mainPath = toFsPath('/project/src/main.ts');
@@ -24,21 +21,14 @@ function createProject(fileTree: FileTree) {
 }
 
 describe('traverse file-system', () => {
-  let fs: Fs;
   let fileInfoDict: Map<FsPath, UnassignedFileInfo>;
 
-  beforeAll(() => {
-    useVirtualFs();
-  });
-
   beforeEach(() => {
-    fs = getFs();
-    fs.reset();
     fileInfoDict = new Map<FsPath, UnassignedFileInfo>();
   });
 
   it('should find a single import', () => {
-    const { tsData, mainPath } = createProject({
+    const { tsData, mainPath } = setup({
       'tsconfig.json': JSON.stringify(tsConfigMinimal),
       src: {
         'main.ts': ['./app/app.component'],
@@ -60,12 +50,12 @@ describe('traverse file-system', () => {
   });
 
   it('should work with paths', () => {
-    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
-    tsConfig.compilerOptions.paths = {
-      '@customers': ['/src/app/customers/index.ts'],
-    };
-    const { tsData, mainPath } = createProject({
-      'tsconfig.json': JSON.stringify(tsConfig),
+    const { tsData, mainPath } = setup({
+      'tsconfig.json': tsConfig({
+        paths: {
+          '@customers': ['/src/app/customers/index.ts'],
+        },
+      }),
       src: {
         'main.ts': ['./app/app.component'],
         app: {
@@ -86,8 +76,8 @@ describe('traverse file-system', () => {
   });
 
   it('should pick up dynamic imports', () => {
-    const { mainPath, tsData } = createProject({
-      'tsconfig.json': JSON.stringify(tsConfigMinimal),
+    const { mainPath, tsData } = setup({
+      'tsconfig.json': tsConfig(),
       src: {
         'main.ts': `const routes = {[path: 'customers', loadChildren: () => import('./customers/index.ts')]};`,
         customers: {
@@ -103,10 +93,10 @@ describe('traverse file-system', () => {
   });
 
   it('should pick index.ts automatically if path is a directory', () => {
-    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
-    tsConfig.compilerOptions.paths = { '@customers': ['/src/app/customers'] };
-    const { tsData, mainPath } = createProject({
-      'tsconfig.json': JSON.stringify(tsConfig),
+    const { tsData, mainPath } = setup({
+      'tsconfig.json': tsConfig({
+        paths: { '@customers': ['/src/app/customers'] },
+      }),
       src: {
         'main.ts': ['./app/app.component'],
         app: {
@@ -127,12 +117,10 @@ describe('traverse file-system', () => {
   });
 
   it('should automatically pick the file extension if missing in path', () => {
-    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
-    tsConfig.compilerOptions.paths = {
-      '@customers': ['/src/app/customers/index'],
-    };
-    const { tsData, mainPath } = createProject({
-      'tsconfig.json': JSON.stringify(tsConfig),
+    const { tsData, mainPath } = setup({
+      'tsconfig.json': tsConfig({
+        paths: { '@customers': ['/src/app/customers/index'] },
+      }),
       src: {
         'main.ts': ['./app/app.component'],
         app: {
@@ -153,10 +141,10 @@ describe('traverse file-system', () => {
   });
 
   it('should ignore an import if a non-wildcard path is used like a wildcard', () => {
-    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
-    tsConfig.compilerOptions.paths = { '@customers': ['/src/app/customers'] };
-    const { tsData, mainPath } = createProject({
-      'tsconfig.json': JSON.stringify(tsConfig),
+    const { tsData, mainPath } = setup({
+      'tsconfig.json': tsConfig({
+        paths: { '@customers': ['/src/app/customers'] },
+      }),
       src: {
         'main.ts': ['./app/app.component'],
         app: {
@@ -176,10 +164,8 @@ describe('traverse file-system', () => {
   });
 
   it('should find a path with wildcards', () => {
-    const tsConfig = structuredClone(tsConfigMinimal) as TsConfig;
-    tsConfig.compilerOptions.paths = { '@app/*': ['/src/app/*'] };
-    const { tsData, mainPath } = createProject({
-      'tsconfig.json': JSON.stringify(tsConfig),
+    const { tsData, mainPath } = setup({
+      'tsconfig.json': tsConfig({ paths: { '@app/*': ['/src/app/*'] } }),
       src: {
         'main.ts': ['@app/app.component'],
         app: {
@@ -196,6 +182,26 @@ describe('traverse file-system', () => {
       buildFileInfo('/project/src/main.ts', [
         ['./app/app.component.ts', ['./customers/customers.component.ts']],
       ]),
+    );
+  });
+
+  it('should use a non-standard baseUrl', () => {
+    const { tsData, mainPath } = setup({
+      'tsconfig.json': tsConfig({
+        paths: { '@app/*': ['app/*'] },
+        baseUrl: 'src',
+      }),
+      src: {
+        'main.ts': ['@app/app.component.ts'],
+        app: {
+          'app.component.ts': [],
+        },
+      },
+    });
+    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
+
+    expect(fileInfo).toEqual(
+      buildFileInfo('/project/src/main.ts', [['./app/app.component.ts', []]]),
     );
   });
 

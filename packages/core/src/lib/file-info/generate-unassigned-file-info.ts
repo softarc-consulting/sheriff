@@ -3,7 +3,7 @@ import traverseFilesystem from './traverse-filesystem';
 import { FsPath } from './fs-path';
 import { formatFileInfo } from './format-file-info';
 import { logger } from '../log';
-import TsData from './ts-data';
+import { TsData } from './ts-data';
 
 const log = logger('core.file-info.generate-and-root-dir');
 

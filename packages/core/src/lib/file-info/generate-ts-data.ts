@@ -1,9 +1,27 @@
 import getFs, { isFsVirtualised } from '../fs/getFs';
 import * as ts from 'typescript';
-import TsData from './ts-data';
+import { TsData } from './ts-data';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
 import { FsPath, toFsPath } from './fs-path';
 
+/**
+ * Generates a parsed TypeScript configuration from a given
+ * path. The `paths` property will have its values merged
+ * with the `baseUrl`.
+ *
+ * Example:
+ *
+ * ```json
+ * {
+ *   baseUrl: './src',
+ *   paths: {
+ *     'app/*': './app'
+ *   }
+ * }
+ * ```
+ *
+ * This will return a paths property of `{'app/*': './src/app'}`
+ */
 export const generateTsData = (tsConfigPath: FsPath): TsData => {
   const { paths, rootDir } = getTsPathsAndRootDir(tsConfigPath);
 

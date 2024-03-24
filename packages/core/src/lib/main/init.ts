@@ -1,6 +1,6 @@
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { SheriffConfig } from '../config/sheriff-config';
-import TsData from '../file-info/ts-data';
+import { TsData } from '../file-info/ts-data';
 import getFs from '../fs/getFs';
 import { generateTsData } from '../file-info/generate-ts-data';
 import { findConfig } from '../config/find-config';
