@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { FileTree } from '../test/project-configurator';
 import { createProject } from '../test/project-creator';
-import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { toFsPath } from '../file-info/fs-path';
 import { init } from '../main/init';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 const angularStructure: FileTree = {
-  'tsconfig.json': tsconfigMinimal,
+  'tsconfig.json': tsConfig(),
   'sheriff.config.ts': '',
   'src/app': {
     'app.component.ts': '',

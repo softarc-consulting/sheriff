@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { FileTree } from '../test/project-configurator';
-import { tsConfig, tsConfigMinimal } from '../test/fixtures/tsconfig.minimal';
 import { createProject } from '../test/project-creator';
 import traverseFilesystem, {
   ResolveFn,
@@ -10,6 +9,7 @@ import { FsPath, toFsPath } from './fs-path';
 import UnassignedFileInfo, { buildFileInfo } from './unassigned-file-info';
 import { generateTsData } from './generate-ts-data';
 import { ResolvedModuleFull } from 'typescript';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 function setup(fileTree: FileTree) {
   createProject(fileTree);
@@ -29,7 +29,7 @@ describe('traverse file-system', () => {
 
   it('should find a single import', () => {
     const { tsData, mainPath } = setup({
-      'tsconfig.json': JSON.stringify(tsConfigMinimal),
+      'tsconfig.json': tsConfig(),
       src: {
         'main.ts': ['./app/app.component'],
         app: {

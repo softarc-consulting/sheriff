@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
-import { tsConfig } from '../test/fixtures/tsconfig.minimal';
 import { createProject } from '../test/project-creator';
 import { toFsPath } from './fs-path';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('get ts paths and root dir', () => {
   for (const { name, tsPaths, fsPaths } of [

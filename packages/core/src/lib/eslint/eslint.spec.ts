@@ -1,19 +1,19 @@
 import { describe, expect, it, vitest } from 'vitest';
 import getFs from '../fs/getFs';
 import { sheriffConfig } from '../test/project-configurator';
-import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { anyTag } from '../checks/any-tag';
 import { createProject } from '../test/project-creator';
 import { hasDeepImport } from './deep-import';
 import { toFsPath } from '../file-info/fs-path';
 import { violatesDependencyRule } from './violates-dependency-rule';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('ESLint features', () => {
   it('should never read from linted file', () => {
     const fs = getFs();
     createProject(
       {
-        'tsconfig.json': tsconfigMinimal,
+        'tsconfig.json': tsConfig(),
         'sheriff.config.ts': sheriffConfig({
           tagging: { 'src/shared': 'shared' },
           depRules: { '*': anyTag },

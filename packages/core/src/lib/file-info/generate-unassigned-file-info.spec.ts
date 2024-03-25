@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { generateUnassignedFileInfo } from './generate-unassigned-file-info';
 import { createProject } from '../test/project-creator';
 import { inVfs } from '../test/in-vfs';
 import { toFsPath } from './fs-path';
 import { generateTsData } from './generate-ts-data';
 import getFs from '../fs/getFs';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('Generate File Info', () => {
   const getTsData = () =>
@@ -14,7 +14,7 @@ describe('Generate File Info', () => {
   it('should test a simple case', () => {
     createProject(
       {
-        'tsconfig.json': tsconfigMinimal,
+        'tsconfig.json': tsConfig(),
         'src/app': {
           'home.component.ts': [],
           'app.component.ts': ['./home.component'],
@@ -40,7 +40,7 @@ describe('Generate File Info', () => {
   it('should generate for sub-modules', () => {
     createProject(
       {
-        'tsconfig.json': tsconfigMinimal,
+        'tsconfig.json': tsConfig(),
         src: {
           'main.ts': ['./app/app.component', './app/app.routes'],
           app: {
@@ -115,7 +115,7 @@ describe('Generate File Info', () => {
   it('should throw an error if an import is outside of the root dir', () => {
     createProject(
       {
-        'tsconfig.json': tsconfigMinimal,
+        'tsconfig.json': tsConfig(),
         'main.ts': ['../outside.component'],
       },
       'integration',
@@ -139,7 +139,7 @@ describe('Generate File Info', () => {
     it(`should add an unresolvable import for "${importCommand}"`, () => {
       createProject(
         {
-          'tsconfig.json': tsconfigMinimal,
+          'tsconfig.json': tsConfig(),
           'main.ts': [importCommand],
         },
         'integration',

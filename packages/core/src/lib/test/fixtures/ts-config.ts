@@ -1,4 +1,4 @@
-export const tsConfigMinimal = {
+const defaultTsConfig = {
   compilerOptions: {
     target: 'es2016',
     module: 'commonjs',
@@ -14,8 +14,6 @@ export interface TsConfig {
 
 export function tsConfig(config: Partial<TsConfig> = {}) {
   return JSON.stringify({
-    compilerOptions: { ...tsConfigMinimal.compilerOptions, ...config },
+    compilerOptions: { ...defaultTsConfig.compilerOptions, ...config },
   });
 }
-
-export default JSON.stringify(tsConfigMinimal);
