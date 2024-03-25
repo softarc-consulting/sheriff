@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { checkForDeepImports } from './check-for-deep-imports';
 import { toFsPath } from '../file-info/fs-path';
-import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { testInit } from '../test/test-init';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('check deep imports', () => {
   it('should check for deep imports', () => {
     const projectInfo = testInit('src/main.ts', {
-      'tsconfig.json': tsconfigMinimal,
+      'tsconfig.json': tsConfig(),
       src: {
         'main.ts': ['./app/app.component', './app/app.routes'],
         app: {
@@ -38,7 +38,7 @@ describe('check deep imports', () => {
 
   it('should ignore unresolable imports', () => {
     const projectInfo = testInit('src/main.ts', {
-      'tsconfig.json': tsconfigMinimal,
+      'tsconfig.json': tsConfig(),
       src: {
         'main.ts': ['./app/app.component', './app/app.routes'],
         app: {

@@ -10,12 +10,12 @@ import {
 import { logger } from './logger';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { init } from '../main/init';
-import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { createProject } from '../test/project-creator';
 import { toFsPath } from '../file-info/fs-path';
 import { sheriffConfig } from '../test/project-configurator';
 import { reset } from './log';
 import { Fs } from '../fs/fs';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('log', () => {
   let fs: Fs;
@@ -24,7 +24,7 @@ describe('log', () => {
   const setup = (enableLog: boolean) => {
     createProject(
       {
-        'tsconfig.json': tsconfigMinimal,
+        'tsconfig.json': tsConfig(),
         'sheriff.config.ts': sheriffConfig({
           tagging: {},
           depRules: {},

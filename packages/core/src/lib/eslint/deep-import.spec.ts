@@ -1,11 +1,11 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { FileTree, sheriffConfig } from '../test/project-configurator';
-import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { hasDeepImport } from './deep-import';
 import { anyTag } from '../checks/any-tag';
 import { toFsPath } from '../file-info/fs-path';
 import { testInit } from '../test/test-init';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('deep import', () => {
   const assertDeepImport = (
@@ -38,7 +38,7 @@ describe('deep import', () => {
 
   it('should find a deep import', () => {
     testInit('src/main.ts', {
-      'tsconfig.json': tsconfigMinimal,
+      'tsconfig.json': tsConfig(),
       src: {
         'main.ts': ['./app/app.component', './app/app.routes'],
         app: {
@@ -61,7 +61,7 @@ describe('deep import', () => {
 
   it('should mark an unresolvable import', () => {
     testInit('src/main.ts', {
-      'tsconfig.json': tsconfigMinimal,
+      'tsconfig.json': tsConfig(),
       src: {
         'main.ts': ['./app/app.component'],
       },
@@ -79,7 +79,7 @@ describe('deep import', () => {
 
   describe('rootExcluded', () => {
     const createFileTree = (excludeRoot?: boolean): FileTree => ({
-      'tsconfig.json': tsconfigMinimal,
+      'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
         tagging: { 'src/shared': 'shared' },
         depRules: { '*': anyTag },

@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { sheriffConfig } from '../test/project-configurator';
 import { sameTag } from './same-tag';
 import { noDependencies } from './no-dependencies';
@@ -10,9 +9,10 @@ import {
 } from './check-for-dependency-rule-violation';
 import { FsPath } from '../file-info/fs-path';
 import { traverseProject } from '../test/traverse-project';
+import { tsConfig } from '../test/fixtures/ts-config';
 
 const projectTemplate = () => ({
-  'tsconfig.json': tsconfigMinimal,
+  'tsconfig.json': tsConfig(),
   'sheriff.config.ts': sheriffConfig({
     tagging: {
       'src/<domain>/feat-<type>': ['domain:<domain>', 'type:feature'],
