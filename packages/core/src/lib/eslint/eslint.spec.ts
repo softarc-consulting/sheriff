@@ -1,25 +1,17 @@
-import { beforeAll, beforeEach, describe, expect, it, vitest } from 'vitest';
-import getFs, { useVirtualFs } from '../fs/getFs';
+import { describe, expect, it, vitest } from 'vitest';
+import getFs from '../fs/getFs';
 import { sheriffConfig } from '../test/project-configurator';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { anyTag } from '../checks/any-tag';
-import { ProjectCreator } from '../test/project-creator';
+import { createProject } from '../test/project-creator';
 import { hasDeepImport } from './deep-import';
 import { toFsPath } from '../file-info/fs-path';
 import { violatesDependencyRule } from './violates-dependency-rule';
 
 describe('ESLint features', () => {
-  beforeAll(() => {
-    useVirtualFs();
-  });
-
-  beforeEach(() => {
-    getFs().reset();
-  });
-
   it('should never read from linted file', () => {
     const fs = getFs();
-    new ProjectCreator().create(
+    createProject(
       {
         'tsconfig.json': tsconfigMinimal,
         'sheriff.config.ts': sheriffConfig({
@@ -44,7 +36,7 @@ describe('ESLint features', () => {
     );
 
     const fsPath = toFsPath('/project/src/shared/get.ts');
-    const fileContent = fs.readFile(fsPath);
+    const fileContent = getFs().readFile(fsPath);
     const fileReadSpy = vitest.spyOn(fs, 'readFile');
     hasDeepImport(fsPath, '../config', true, fileContent);
     violatesDependencyRule(fsPath, '../config', true, fileContent);

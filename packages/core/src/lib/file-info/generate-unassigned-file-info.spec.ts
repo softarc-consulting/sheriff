@@ -1,40 +1,27 @@
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { Fs } from '../fs/fs';
-import getFs, { useVirtualFs } from '../fs/getFs';
-import { FileTree } from '../test/project-configurator';
+import { describe, expect, it } from 'vitest';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
 import { generateUnassignedFileInfo } from './generate-unassigned-file-info';
-import { ProjectCreator } from '../test/project-creator';
+import { createProject } from '../test/project-creator';
 import { inVfs } from '../test/in-vfs';
 import { toFsPath } from './fs-path';
 import { generateTsData } from './generate-ts-data';
+import getFs from '../fs/getFs';
 
 describe('Generate File Info', () => {
-  let fs: Fs;
-  let creator: ProjectCreator;
-
-  beforeAll(() => {
-    useVirtualFs();
-  });
-
-  beforeEach(() => {
-    fs = getFs();
-    fs.reset();
-    creator = new ProjectCreator();
-  });
-
   const getTsData = () =>
     generateTsData(toFsPath('/project/integration/tsconfig.json'));
 
   it('should test a simple case', () => {
-    const projectConfig: FileTree = {
-      'tsconfig.json': tsconfigMinimal,
-      'src/app': {
-        'home.component.ts': [],
-        'app.component.ts': ['./home.component'],
+    createProject(
+      {
+        'tsconfig.json': tsconfigMinimal,
+        'src/app': {
+          'home.component.ts': [],
+          'app.component.ts': ['./home.component'],
+        },
       },
-    };
-    creator.create(projectConfig, 'integration');
+      '/project/integration',
+    );
 
     const fileInfo = generateUnassignedFileInfo(
       inVfs('integration/src/app/app.component.ts'),
@@ -51,27 +38,28 @@ describe('Generate File Info', () => {
   });
 
   it('should generate for sub-modules', () => {
-    const projectConfig: FileTree = {
-      'tsconfig.json': tsconfigMinimal,
-      src: {
-        'main.ts': ['./app/app.component', './app/app.routes'],
-        app: {
-          'home.component.ts': [],
-          'app.routes.ts': ['./home.component', './customers/index'],
-          'app.component.ts': [],
-          customers: {
-            'list.component.ts': ['./customers.service'],
-            'detail.component.ts': ['./customers.service'],
-            'search.component.ts': [],
-            'customers.service.ts': '',
-            'customer.routes.ts': ['./list.component', './detail.component'],
-            'index.ts': ['./customer.routes'],
+    createProject(
+      {
+        'tsconfig.json': tsconfigMinimal,
+        src: {
+          'main.ts': ['./app/app.component', './app/app.routes'],
+          app: {
+            'home.component.ts': [],
+            'app.routes.ts': ['./home.component', './customers/index'],
+            'app.component.ts': [],
+            customers: {
+              'list.component.ts': ['./customers.service'],
+              'detail.component.ts': ['./customers.service'],
+              'search.component.ts': [],
+              'customers.service.ts': '',
+              'customer.routes.ts': ['./list.component', './detail.component'],
+              'index.ts': ['./customer.routes'],
+            },
           },
         },
       },
-    };
-
-    creator.create(projectConfig, 'integration');
+      '/project/integration',
+    );
 
     const fileInfo = generateUnassignedFileInfo(
       inVfs('integration/src/main.ts'),
@@ -125,13 +113,14 @@ describe('Generate File Info', () => {
   });
 
   it('should throw an error if an import is outside of the root dir', () => {
-    const projectConfig: FileTree = {
-      'tsconfig.json': tsconfigMinimal,
-      'main.ts': ['../outside.component'],
-    };
-
-    creator.create(projectConfig, 'integration');
-    fs.writeFile('/project/outside.component.ts', '');
+    createProject(
+      {
+        'tsconfig.json': tsconfigMinimal,
+        'main.ts': ['../outside.component'],
+      },
+      'integration',
+    );
+    getFs().writeFile('/project/outside.component.ts', '');
     expect(() =>
       generateUnassignedFileInfo(
         toFsPath('/project/integration/main.ts'),
@@ -148,12 +137,13 @@ describe('Generate File Info', () => {
     './customers/customer.service',
   ]) {
     it(`should add an unresolvable import for "${importCommand}"`, () => {
-      const projectConfig: FileTree = {
-        'tsconfig.json': tsconfigMinimal,
-        'main.ts': [importCommand],
-      };
-
-      creator.create(projectConfig, 'integration');
+      createProject(
+        {
+          'tsconfig.json': tsconfigMinimal,
+          'main.ts': [importCommand],
+        },
+        'integration',
+      );
       const fileInfo = generateUnassignedFileInfo(
         toFsPath('/project/integration/main.ts'),
         true,

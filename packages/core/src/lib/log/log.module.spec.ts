@@ -11,7 +11,7 @@ import { logger } from './logger';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { init } from '../main/init';
 import tsconfigMinimal from '../test/fixtures/tsconfig.minimal';
-import { ProjectCreator } from '../test/project-creator';
+import { createProject } from '../test/project-creator';
 import { toFsPath } from '../file-info/fs-path';
 import { sheriffConfig } from '../test/project-configurator';
 import { reset } from './log';
@@ -21,9 +21,8 @@ describe('log', () => {
   let fs: Fs;
   let appendSpy: SpyInstance;
 
-  const createProject = (enableLog: boolean) => {
-    const creator = new ProjectCreator();
-    creator.create(
+  const setup = (enableLog: boolean) => {
+    createProject(
       {
         'tsconfig.json': tsconfigMinimal,
         'sheriff.config.ts': sheriffConfig({
@@ -59,7 +58,7 @@ describe('log', () => {
     const appendSpy = vitest.spyOn(fs, 'appendFile');
     const log = logger('test');
     log.info('message');
-    createProject(false);
+    setup(false);
     init(toFsPath('/project/log/app.component.ts'));
     expect(appendSpy).not.toHaveBeenCalled();
   });
@@ -67,7 +66,7 @@ describe('log', () => {
   it('should log if enabled and initialized', () => {
     const log = logger('test');
     log.info('Hallo');
-    createProject(true);
+    setup(true);
     init(toFsPath('/project/log/app.component.ts'));
 
     expect(appendSpy).toHaveBeenCalled();
