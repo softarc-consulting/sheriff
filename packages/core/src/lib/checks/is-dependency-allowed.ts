@@ -3,6 +3,7 @@ import {
   DependencyRulesConfig,
 } from '../config/dependency-rules-config';
 import { wildcardToRegex } from '../util/wildcard-to-regex';
+import { NoDependencyRuleForTagError } from '../error/user-error';
 
 export const isDependencyAllowed = (
   froms: string[],
@@ -35,7 +36,7 @@ export const isDependencyAllowed = (
     }
 
     if (isAllowed === undefined) {
-      throw new Error(`cannot find any dependency rule for tag ${from}`);
+      throw new NoDependencyRuleForTagError(from);
     }
   }
 

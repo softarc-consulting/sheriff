@@ -2,6 +2,7 @@ import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import { FsPath, toFsPath } from './fs-path';
 import { TsConfig } from './ts-config';
+import { InvalidPathError } from '../error/user-error';
 
 /**
  * Retrieves the paths variable from a tsconfig and also traverses through
@@ -48,9 +49,7 @@ export const getTsPathsAndRootDir = (
       ) {
         paths[key] = toFsPath(potentialFilename + '.ts');
       } else {
-        throw new Error(
-          `invalid path mapping detected: ${key}: ${value}. Please verify that the path exists.`,
-        );
+        throw new InvalidPathError(key, value);
       }
     }
 

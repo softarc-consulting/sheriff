@@ -1,6 +1,7 @@
 import { Rule } from 'eslint';
 import { ImportDeclaration, ImportExpression } from 'estree';
 import { Executor } from './executor';
+import { UserError } from '@softarc/sheriff-core';
 
 /**
  * Factory function generating a rule that traverses
@@ -32,9 +33,13 @@ export const createRule: (
         } catch (error) {
           hasInternalError = true;
           const message =
-            error instanceof Error ? error.message : String(error);
+            error instanceof UserError
+              ? `User Error: ${error.message}`
+              : `${ruleName} (internal error): ${
+                  error instanceof Error ? error.message : String(error)
+                }`;
           context.report({
-            message: `${ruleName} (internal error): ${message}`,
+            message,
             node,
           });
         }

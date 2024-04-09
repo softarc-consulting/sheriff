@@ -2,6 +2,8 @@ import { describe, expect, test } from 'vitest';
 import { createProject } from '../test/project-creator';
 import { toFsPath } from './fs-path';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
+import { InvalidPathError } from '../error/user-error';
+import '../test/matchers';
 import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('get ts paths and root dir', () => {
@@ -60,27 +62,27 @@ describe('get ts paths and root dir', () => {
     });
   }
 
-  for (const { name, tsPaths, errorMessage } of [
+  for (const { name, tsPaths, errorParams } of [
     {
       name: 'not existing path',
       tsPaths: {
         '@app': ['src/app/sdf'],
       },
-      errorMessage: '@app: src/app/sdf',
+      errorParams: ['@app', 'src/app/sdf'],
     },
     {
       name: 'not existing file',
       tsPaths: {
         '@main': ['src/app/index'],
       },
-      errorMessage: '@main: src/app/index',
+      errorParams: ['@main', 'src/app/index'],
     },
     {
       name: 'not existing path with wildcard',
       tsPaths: {
         '@app/*': ['src/app/somewhere'],
       },
-      errorMessage: '@app/*: src/app/somewhere',
+      errorParams: ['@app/*', 'src/app/somewhere'],
     },
   ]) {
     test(name, () => {
@@ -99,11 +101,11 @@ describe('get ts paths and root dir', () => {
         },
       });
 
+      const [pathAlias, path] = errorParams;
+
       expect(() =>
         getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')),
-      ).toThrowError(
-        `invalid path mapping detected: ${errorMessage}. Please verify that the path exists.`,
-      );
+      ).toThrowUserError(new InvalidPathError(pathAlias, path));
     });
   }
 

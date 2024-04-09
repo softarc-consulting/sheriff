@@ -5,6 +5,12 @@ import {
 } from '../config/tag-config';
 import getFs from '../fs/getFs';
 import { FsPath } from '../file-info/fs-path';
+import {
+  ExistingTagPlaceholderError,
+  InvalidPlaceholderError,
+  NoAssignedTagError,
+  TagWithoutValueError,
+} from '../error/user-error';
 
 export const calcTagsForModule = (
   moduleDir: FsPath,
@@ -28,7 +34,7 @@ export const calcTagsForModule = (
   );
 
   if (tags === false) {
-    throw new Error(`No assigned Tag for '${moduleDir}' in sheriff.config.ts`);
+    throw new NoAssignedTagError(moduleDir);
   }
 
   return tags;
@@ -116,11 +122,7 @@ function assertLeafHasTag(
   tagConfigPath: string[],
 ): asserts value is TagConfigValue {
   if (!isTagConfigValue(value)) {
-    throw new Error(
-      `Tag configuration '/${tagConfigPath.join(
-        '/',
-      )}' in sheriff.config.ts has no value`,
-    );
+    throw new TagWithoutValueError(tagConfigPath.join('/'));
   }
 }
 
@@ -150,9 +152,7 @@ function replacePlaceholdersInTag(
 
   const unavailablePlaceholder = replacedTag.match(/<([a-zA-Z]+)>/);
   if (unavailablePlaceholder) {
-    throw new Error(
-      `cannot find a placeholder for "${unavailablePlaceholder[1]}" in tag configuration. Module: ${fullDir}`,
-    );
+    throw new InvalidPlaceholderError(unavailablePlaceholder[1], fullDir);
   }
 
   return replacedTag;
@@ -176,9 +176,7 @@ function handlePlaceholderMatching(
 
   placeholderMatch.forEach((placeholder, ix) => {
     if (placeholder in placeholders) {
-      throw new Error(
-        `placeholder for value "${placeholder}" does already exist`,
-      );
+      throw new ExistingTagPlaceholderError(placeholder);
     }
     placeholders[placeholder] = pathMatch[ix + 1];
   });
