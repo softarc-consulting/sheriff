@@ -2,6 +2,13 @@ import { calcTagsForModule } from './calc-tags-for-module';
 import { describe, expect, it } from 'vitest';
 import { FsPath } from '../file-info/fs-path';
 import throwIfNull from '../util/throw-if-null';
+import {
+  ExistingTagPlaceholderError,
+  InvalidPlaceholderError,
+  NoAssignedTagError,
+  TagWithoutValueError,
+} from '../error/user-error';
+import '../test/matchers';
 
 describe('calc tags for module', () => {
   const root = '/project' as FsPath;
@@ -59,9 +66,7 @@ describe('calc tags for module', () => {
           },
         },
       }),
-    ).toThrowError(
-      `Tag configuration '/abc/def/ghj' in sheriff.config.ts has no value`,
-    );
+    ).toThrowUserError(new TagWithoutValueError('abc/def/ghj'));
   });
 
   it('should allow a function returning a string', () => {
@@ -139,8 +144,8 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         '<subdomain>': ['type:<type>', 'subdomain:<subdomain>'],
       }),
-    ).toThrowError(
-      'cannot find a placeholder for "type" in tag configuration. Module: /project/feat-bookings',
+    ).toThrowUserError(
+      new InvalidPlaceholderError('type', '/project/feat-bookings'),
     );
   });
 
@@ -183,7 +188,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         'src/app/holidays': { tags: ['domain:holidays'] },
       }),
-    ).toThrowError(`No assigned Tag for '/project/src' in sheriff.config.ts`);
+    ).toThrowUserError(new NoAssignedTagError('/project/src'));
   });
 
   it('should skip rules that do not apply', () => {
@@ -286,9 +291,7 @@ describe('calc tags for module', () => {
       calcTagsForModule(moduleDir, rootDir, {
         domain: '',
       }),
-    ).toThrowError(
-      "No assigned Tag for '/project/domain/holidays/feature' in sheriff.config.ts",
-    );
+    ).toThrowUserError(new NoAssignedTagError(moduleDir));
   });
 
   it('should throw an error if the placeholder already exists', () => {
@@ -301,7 +304,7 @@ describe('calc tags for module', () => {
           '<str>': ['noop'],
         },
       }),
-    ).toThrowError('placeholder for value "str" does already exist');
+    ).toThrowUserError(new ExistingTagPlaceholderError('str'));
   });
 
   it('should not treat a regex as catch-all matcher', () => {

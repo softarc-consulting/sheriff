@@ -7,6 +7,8 @@ import { isDependencyAllowed } from './is-dependency-allowed';
 import { FsPath } from '../file-info/fs-path';
 import { sameTag } from './same-tag';
 import { noDependencies } from './no-dependencies';
+import { NoDependencyRuleForTagError } from '../error/user-error';
+import '../test/matchers';
 
 type TestParams = [string, boolean][];
 
@@ -98,7 +100,7 @@ describe('check dependency rules', () => {
 
     expect(() =>
       isDependencyAllowed(['type:funktion'], 'noop', config, dummyContext),
-    ).toThrowError('cannot find any dependency rule for tag type:funktion');
+    ).toThrowUserError(new NoDependencyRuleForTagError('type:funktion'));
   });
 
   it('should pass from, to, fromModulePath, fromFilePath, toModulePath, toFilePath to function', () => {
