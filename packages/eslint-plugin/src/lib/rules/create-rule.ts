@@ -34,7 +34,7 @@ export const createRule: (
           hasInternalError = true;
           const message =
             error instanceof UserError
-              ? `User Error: ${error.message}`
+              ? `User Error: ${error.code} - ${error.message}`
               : `${ruleName} (internal error): ${
                   error instanceof Error ? error.message : String(error)
                 }`;

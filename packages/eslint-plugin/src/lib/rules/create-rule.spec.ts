@@ -44,8 +44,8 @@ describe('create rule', () => {
       message: 'Test Rule (internal error): some crazy error',
     },
     {
-      throwing: new UserError('You did something wrong'),
-      message: 'User Error: You did something wrong',
+      throwing: new UserError('SH-001', 'You did something wrong'),
+      message: 'User Error: SH-001 - You did something wrong',
     },
   ]) {
     it(`should assign an error only once and show ${message}`, () => {
