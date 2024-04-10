@@ -26,5 +26,5 @@ git checkout src/app/customers/ui/customer/customer.component.ts
 echo 'checking for user error processing'
 cp ./tests/empty-sheriff.config.ts ./sheriff.config.ts
 npx ng lint --force --format json --output-file user-error-lint.json
-node ../verify-linter.mjs ./angular-i/tests/expected-user-error-lint.json ./angular-i/expect-user-error-lint.json "$(pwd)"
+node ../verify-linter.mjs ./angular-i/tests/expected-user-error-lint.json ./angular-i/user-error-lint.json "$(pwd)"
 git checkout sheriff.config.ts
