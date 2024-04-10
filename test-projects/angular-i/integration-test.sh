@@ -22,9 +22,9 @@ npx ng lint --force --format json --output-file dependency-rule-lint.json
 node ../verify-linter.mjs ./angular-i/tests/expected-dependency-rule-lint.json ./angular-i/dependency-rule-lint.json
 git checkout src/app/customers/ui/customer/customer.component.ts
 
-## Internal Error Processing
-echo 'checking for internal error processing'
+## User Error Processing
+echo 'checking for user error processing'
 cp ./tests/empty-sheriff.config.ts ./sheriff.config.ts
-npx ng lint --force --format json --output-file internal-error-processing-lint.json
-node ../verify-linter.mjs ./angular-i/tests/expected-internal-error-processing-lint.json ./angular-i/internal-error-processing-lint.json "$(pwd)"
+npx ng lint --force --format json --output-file user-error-lint.json
+node ../verify-linter.mjs ./angular-i/tests/expected-user-error-lint.json ./angular-i/user-error-lint.json "$(pwd)"
 git checkout sheriff.config.ts
