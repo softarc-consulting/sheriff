@@ -102,7 +102,6 @@ export function resolvePotentialTsPath(
   for (const tsPath in tsPaths) {
     const { isWildcard, clearedTsPath } = clearTsPath(tsPath);
     if (isWildcard && moduleName.startsWith(clearedTsPath)) {
-      console.log(`unpathedImport: ${tsPath}`);
       const pathMapping = tsPaths[tsPath];
       unpathedImport = moduleName.replace(clearedTsPath, pathMapping);
     } else if (tsPath === moduleName) {
@@ -111,8 +110,6 @@ export function resolvePotentialTsPath(
 
     if (unpathedImport) {
       const resolvedImport = resolveFn(unpathedImport);
-      console.log(unpathedImport);
-      console.log(resolvedImport);
 
       if (
         !resolvedImport.resolvedModule ||
