@@ -1,4 +1,4 @@
-import { SheriffConfig } from '../config/sheriff-config';
+import { UserSheriffConfig } from '../config/user-sheriff-config';
 
 const sheriffConfigContentSymbol = Symbol();
 
@@ -7,7 +7,7 @@ const sheriffConfigContentSymbol = Symbol();
  * as content in @FileTree.
  */
 export interface SheriffConfigContent {
-  content: SheriffConfig;
+  content: UserSheriffConfig;
   _type: typeof sheriffConfigContentSymbol;
 }
 
@@ -48,7 +48,9 @@ export const isFileTree = (
   );
 };
 
-export const sheriffConfig = (config: SheriffConfig): SheriffConfigContent => ({
+export const sheriffConfig = (
+  config: UserSheriffConfig,
+): SheriffConfigContent => ({
   content: config,
   _type: sheriffConfigContentSymbol,
 });

@@ -10,15 +10,22 @@ It is easy to use and has **zero dependencies**. The only peer dependency is Typ
 
 Some examples are located in _./test-projects/_.
 
+<!-- TOC -->
+
 - [1. Installation \& Setup](#1-installation--setup)
 - [2. Video Introduction](#2-video-introduction)
 - [3. Module Boundaries](#3-module-boundaries)
 - [4. Dependency Rules](#4-dependency-rules)
-  - [4.1. Nested Paths](#41-nested-paths)
-  - [4.2. Placeholders](#42-placeholders)
-  - [4.3. DepRules Functions \& Wildcards](#43-deprules-functions--wildcards)
-- [5. Integrating Sheriff into large Projects](#5-integrating-sheriff-into-large-projects)
+  - [4.1. Automatic Tagging](#41-automatic-tagging)
+  - [4.2. The `root` Tag](#42-the-root-tag)
+  - [4.3. Manual Tagging](#43-manual-tagging)
+  - [4.4. Nested Paths](#44-nested-paths)
+  - [4.5. Placeholders](#45-placeholders)
+  - [4.6. `depRules` Functions \& Wildcards](#46-deprules-functions--wildcards)
+- [5. Integrating Sheriff into large Projects via `excludeRoot`](#5-integrating-sheriff-into-large-projects-via-excluderoot)
 - [6. Planned Features](#6-planned-features)
+
+<!-- TOC -->
 
 ## 1. Installation & Setup
 
@@ -37,7 +44,7 @@ In your _eslintrc.json_, insert the rules:
 
 <details>
 
-<summary>Show Example for Angular (CLI)</summary>
+<summary>Angular (CLI) Example</summary>
 
 ```jsonc
 {
@@ -47,9 +54,9 @@ In your _eslintrc.json_, insert the rules:
     // existing rules...
     {
       "files": ["*.ts"],
-      "extends": ["plugin:@softarc/sheriff/default"]
-    }
-  ]
+      "extends": ["plugin:@softarc/sheriff/default"],
+    },
+  ],
 }
 ```
 
@@ -57,7 +64,7 @@ In your _eslintrc.json_, insert the rules:
 
 <details>
 
-<summary>Show Example for Angular (NX)</summary>
+<summary>Angular (NX) Example</summary>
 
 ```jsonc
 {
@@ -68,9 +75,9 @@ In your _eslintrc.json_, insert the rules:
     // existing rules...
     {
       "files": ["*.ts"],
-      "extends": ["plugin:@softarc/sheriff/default"]
-    }
-  ]
+      "extends": ["plugin:@softarc/sheriff/default"],
+    },
+  ],
 }
 ```
 
@@ -82,10 +89,11 @@ In your _eslintrc.json_, insert the rules:
 
 ## 3. Module Boundaries
 
-Every directory with an _index.ts_ is a module. The _index.ts_ exports
-those files that should be accessible from the outside.
+Every directory with an _index.ts_ is a module. _index.ts_ exports
+those files that should be accessible from the outside, i.e. it exposes the public API of the module.
 
-In the screenshot below, you see an _index.ts_, which exposes the _holidays-facade.service.ts_, but encapsulates the _internal.service.ts_.
+In the screenshot below, you see an _index.ts_, which exposes the _holidays-facade.service.ts_, but encapsulates the
+_internal.service.ts_.
 
 <img width="1905" alt="Screenshot 2023-06-24 at 12 24 09" src="https://github.com/softarc-consulting/sheriff/assets/5721205/a581e3a2-9609-4fcf-b2ac-f5f761167200">
 
@@ -95,11 +103,105 @@ Every file outside of that directory (module) now gets a linting error when it i
 
 ## 4. Dependency Rules
 
-Sheriff allows the configuration of access rules between modules.
+Sheriff provides access rules.
 
-For that, there has to be a _sheriff.config.ts_ in the project's root folder. The config assigns tags to every directory that represents a module, i.e. it contains an _index.ts_.
+To define access rules, create a _sheriff.config.ts_ file in the project's root folder.
+The configuration assigns tags to every module.
 
-The dependency rules operate on these tags.
+### 4.1. Automatic Tagging
+
+By default, an untagged module has the tag "noTag". All files which are not part of a module are
+assigned to the "root" module and therefore have the tag "root".
+
+Dependency rules operate on those tags.
+
+Here's an example of a _sheriff.config.ts_ file with auto-tagged modules:
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  depRules: {
+    root: 'noTag',
+    noTag: ['noTag', 'root'],
+  },
+};
+```
+
+The configuration allows every module with tag "noTag" to access any other module with tag "noTag"
+and ["root"](#42-the-root-tag).
+
+This is the recommendation for existing projects and allows an incremental introduction of Sheriff.
+
+If you start from scratch, you should go with [manual tagging](#43-manual-tagging).
+
+To disable automatic tagging, set `autoTagging` to `false`:
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
+  autoTagging: false,
+  tagging: {
+    // see below...
+  }
+};
+```
+
+### 4.2. The `root` Tag
+
+Let's say we have the following directory structure:
+
+<pre>
+src/app
+├── main.ts
+├── app.config.ts
+├── app.component.ts
+├── holidays
+│   ├── data
+│   │   ├── index.ts
+│   │   ├── internal.service.ts
+│   │   └── holidays-data.service.ts
+│   ├── feature
+│   │   ├── index.ts
+│   │   └── holidays-facade.service.ts
+│── core
+│   ├── header.component.ts
+│   ├── footer.component.ts
+</pre>
+
+_src/app/holidays/data_ and _src/app/holidays/feature_ are modules. All other files are part of the root module which
+is tagged with "root". Sheriff assigns the tag "root" automatically. You cannot change it and "root" doesn't have an
+_index.ts_. [By default](#5-integrating-sheriff-into-large-projects-via-excluderoot), it is not possible to import from the root module.
+
+```mermaid
+flowchart LR
+  app.config.ts --> holidays/feature/index.ts
+  holidays/feature/holidays.component.ts --> holidays/data/index.ts 
+  
+  subgraph "noTag (holidays/data)"
+    holidays/data/index.ts
+    holidays/data/internal.service.ts
+    holidays/data/holidays-data.service.ts
+  end
+  subgraph "noTag (holidays/feature)"
+    holidays/feature/index.ts
+    holidays/feature/holidays.component.ts
+  end
+  subgraph root
+    main.ts
+    app.config.ts
+    app.component.ts
+    core/header.component.ts
+    core/footer.component.ts
+  end
+
+  style holidays/feature/index.ts stroke: #333, stroke-width: 4px
+  style holidays/data/index.ts stroke: #333, stroke-width: 4px
+  style root fill: #f9f9f9
+```
+
+### 4.3. Manual Tagging
 
 The following snippet shows a configuration where four directories are assigned to a domain and to a module type:
 
@@ -107,7 +209,6 @@ The following snippet shows a configuration where four directories are assigned 
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  version: 1,
   tagging: {
     'src/app/holidays/feature': ['domain:holidays', 'type:feature'],
     'src/app/holidays/data': ['domain:holidays', 'type:data'],
@@ -118,7 +219,11 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-If modules of the same domains can access each other and if a module of type feature can access type data but not the other way around, the `depRules` in the config would have these values.
+With "domain:_" and "type:_", we have two dimensions which allows us to define the following rules:
+
+1. A module can only depend on modules of the same domain
+2. A module of "type:feature" can depend on "type:data" but not the other way around
+3. "root" can depend on a module of "type:feature" and both domains.
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
@@ -132,26 +237,50 @@ export const sheriffConfig: SheriffConfig = {
     'src/app/customers/data': ['domain:customers', 'type:data'],
   },
   depRules: {
-    'domain:holidays': ['domain:holidays', 'shared'],
-    'domain:customers': ['domain:customers', 'shared'],
-    'type:feature': 'type:data',
+    'domain:holidays': ['domain:holidays'], // Rule 1
+    'domain:customers': ['domain:customers'], // Rule 1
+    'type:feature': 'type:data', // Rule 2
+    root: ['type:feature', 'domain:holidays', 'domain:customers'], // Rule 3
   },
 };
 ```
 
-If those roles are broken, a linting error is raised:
+If those roles are violated, a linting error is thrown:
 
 <img width="1512" alt="Screenshot 2023-06-13 at 17 50 41" src="https://github.com/softarc-consulting/sheriff/assets/5721205/37fe3f6c-1bf9-413c-999d-4da700f33257">
 
-### 4.1. Nested Paths
+For existing projects, you want to tag modules and define dependency rules incrementally.
 
-The configuration can be simplified by nesting the paths. Multiple levels are allowed.
+If you only want to tag modules from "holidays" and leave the rest auto-tagged, you can do so:
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  version: 1,
+  tagging: {
+    'src/app/holidays/feature': ['domain:holidays', 'type:feature'],
+    'src/app/holidays/data': ['domain:holidays', 'type:data'],
+  },
+  depRules: {
+    'domain:holidays': ['domain:holidays', 'noTag'],
+    'type:feature': ['type:data', 'noTag'],
+    root: ['type:feature', 'domain:holidays', 'noTag'],
+    noTag: ['noTag', 'root'],
+  },
+};
+```
+
+All modules in the directory "customers" have the tag "noTag". Be aware, that every module from "domain:holidays" can
+now depend on any module from directory "customers" but not vice versa.
+
+### 4.4. Nested Paths
+
+Nested paths simplify the configuration. Multiple levels are allowed.
+
+```typescript
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const sheriffConfig: SheriffConfig = {
   tagging: {
     'src/app': {
       holidays: {
@@ -165,22 +294,22 @@ export const sheriffConfig: SheriffConfig = {
     },
   },
   depRules: {
-    'domain:holidays': ['domain:holidays', 'shared'],
-    'domain:customers': ['domain:customers', 'shared'],
+    'domain:holidays': ['domain:holidays'],
+    'domain:customers': ['domain:customers'],
     'type:feature': 'type:data',
+    root: ['type:feature', 'domain:holidays', 'domain:customers'],
   },
 };
 ```
 
-### 4.2. Placeholders
+### 4.5. Placeholders
 
-For repeating patterns, one can also use placeholders with the syntax `<name>`:
+Placeholders help with repeating patterns. They have the snippet `<name>`.
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  version: 1,
   tagging: {
     'src/app': {
       holidays: {
@@ -192,14 +321,15 @@ export const sheriffConfig: SheriffConfig = {
     },
   },
   depRules: {
-    'domain:holidays': ['domain:holidays', 'shared'],
-    'domain:customers': ['domain:customers', 'shared'],
+    'domain:holidays': ['domain:holidays'],
+    'domain:customers': ['domain:customers'],
     'type:feature': 'type:data',
+    root: ['type:feature', 'domain:holidays', 'domain:customers'],
   },
 };
 ```
 
-Since placeholders are allowed on all levels, we could have the following improved version:
+We can use placeholders on all levels. Our configuration is now more concise.
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
@@ -210,18 +340,17 @@ export const sheriffConfig: SheriffConfig = {
     'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {
-    'domain:holidays': ['domain:holidays', 'shared'],
-    'domain:customers': ['domain:customers', 'shared'],
+    'domain:holidays': ['domain:holidays'],
+    'domain:customers': ['domain:customers'],
     'type:feature': 'type:data',
+    root: ['type:feature', 'domain:holidays', 'domain:customers'],
   },
 };
 ```
 
-### 4.3. DepRules Functions & Wildcards
+### 4.6. `depRules` Functions & Wildcards
 
-The values of the dependency rules can also be implemented as functions. The names of the tags can include wildcards.
-
-So an optimised version would look like this:
+We could use functions for `depRules` instead of static values. The names of the tags can include wildcards:
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
@@ -232,8 +361,9 @@ export const sheriffConfig: SheriffConfig = {
     'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {
-    'domain:*': [({ from, to }) => from === to, 'shared'],
+    'domain:*': ({ from, to }) => from === to,
     'type:feature': 'type:data',
+    root: ['type:feature', ({ to }) => to.startsWith('domain:')],
   },
 };
 ```
@@ -251,39 +381,91 @@ export const sheriffConfig: SheriffConfig = {
   depRules: {
     'domain:*': [sameTag, 'shared'],
     'type:feature': 'type:data',
+    root: ['type:feature', ({ to }) => to.startsWith('domain:')],
   },
 };
 ```
 
-## 5. Integrating Sheriff into large Projects
+## 5. Integrating Sheriff into large Projects via `excludeRoot`
 
-It is usually not possible to modularise an existing codebase at once. Instead, we have to integrate Sheriff incrementally.
+It is usually not possible to modularize an existing codebase at once. Instead, we have to integrate Sheriff
+incrementally.
 
-The recommended approach is to pick one directory and set it as a module. Let's call that module **shared**. All files from the outside have to import now from the module's _index.ts_.
+Next to [automatic tagging](#41-automatic-tagging), we introduce manual tagged modules step by step.
 
-Once a single module does exist, Sheriff automatically assigned the **root** module to
-the rest. If files from _shared_ need to import from **root**, an _index.ts_ in **root** is required as well.
+The recommended approach is start with only one module. For example _holidays/feature_. All files from the outside have
+to import from the module's _index.ts_, and it has the tags "type:feature".
 
-We can disable the deep import checks for the **root** module by setting `excludeRoot` in _sheriff.config.ts_ to true.
+It is very likely that _holidays/feature_ depends on files in the "root" module. Since "root" doesn't have 
+an **index.ts**, no other module can depend on it:
 
-Example:
+```mermaid
+flowchart LR
+  holidays/feature/holidays.component.ts -- fails -->holidays/data/holidays-data.service.ts
+  app.config.ts -- succeeds -->holidays/feature/holidays.component.ts
+  subgraph root
+    holidays/data/holidays-data.service.ts
+    app.config.ts
+    main.ts
+    app.component.ts
+    core/header.component.ts
+    core/footer.component.ts
+    holidays/data/internal.service.ts
+  end
+  subgraph "type:feature (holidays/feature)"
+    holidays/feature/index.ts
+    holidays/feature/holidays.component.ts
+  end
+
+
+  style holidays/feature/index.ts stroke: #333, stroke-width: 4px
+  style root fill: #f9f9f9
+  style holidays/data/holidays-data.service.ts fill:coral
+  style app.config.ts fill:lightgreen
+```
+
+We can disable the deep import checks for the **root** module by setting `excludeRoot` in _sheriff.config.ts_ to `true`:
 
 ```typescript
 export const config: SheriffConfig = {
-  excludeRoot: true,
+  excludeRoot: true, // <-- set this
   tagging: {
     'src/shared': 'shared',
   },
   depRules: {
-    '*': anyTag,
+    root: 'noTag',
+    noTag: ['noTag', 'root'],
+    shared: anyTag,
   },
 };
 ```
 
-Note, that dependency rules are also disabled.
+```mermaid
+flowchart LR
+  holidays/feature/holidays.component.ts  --> holidays/data/holidays-data.service.ts
+  app.config.ts --> holidays/feature/holidays.component.ts
+  subgraph root
+    holidays/data/holidays-data.service.ts
+    app.config.ts
+    main.ts
+    app.component.ts
+    core/header.component.ts
+    core/footer.component.ts
+    holidays/data/internal.service.ts
+  end
+  subgraph "type:feature (holidays/feature)"
+    holidays/feature/index.ts
+    holidays/feature/holidays.component.ts
+  end
 
-2. Once **shared** is complete, create a new module and do the same.
-3. You can wait to configure the dependency rules at the end or together with the modules incrementally.
+
+  style holidays/feature/index.ts stroke: #333, stroke-width: 4px
+  style root fill: #f9f9f9
+  style holidays/data/holidays-data.service.ts fill:lightgreen
+  style app.config.ts fill:lightgreen
+```
+
+Once all files from "root" import form **shared's** _index.ts_, create another module and do the same.
 
 ## 6. Planned Features
 
@@ -293,7 +475,8 @@ For feature requests, please add an issue at https://github.com/softarc-consulti
 - Print modules with their tags
 - Testing Dependency Rules
 - Angular Schematic
-- Feature Shell: It shouldn't be necessary to create a feature subdirectory for a domain, since feature has access to everything
+- Feature Shell: It shouldn't be necessary to create a feature subdirectory for a domain, since feature has access to
+  everything
 - Dependency rules for node_modules
 - CLI as alternative to eslint
 - Find cyclic dependencies

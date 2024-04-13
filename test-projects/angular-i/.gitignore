@@ -40,6 +40,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-/dynamic-import-lint.json
+/auto-tagging-lint.json
 /deep-import-lint.json
-/internal-error-processing-lint.json
+/dependency-rule-lint.json
+/dynamic-import-lint.json
+/user-error-lint.json

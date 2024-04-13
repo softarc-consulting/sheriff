@@ -37,6 +37,4 @@ if (generatedLinterErrors !== expectedLinterErrors) {
   throw new Error(
     `Expected Linting failed:${os.EOL}expected:${os.EOL}${formattedExpected}${os.EOL}generated:${os.EOL}${formattedGenerated}`
   );
-} else {
-  console.log("Linting output matched");
 }

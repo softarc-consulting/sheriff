@@ -33,10 +33,7 @@ export const parseProject = (
 
   const fileInfoMap: Map<FsPath, FileInfo> = new Map();
   const getFileInfo = (path: FsPath) =>
-    throwIfNull(
-      fileInfoMap.get(path),
-      `cannot find AssignedFileInfo for ${path}`,
-    );
+    throwIfNull(fileInfoMap.get(path), `cannot find FileInfo for ${path}`);
 
   const modulePaths = findModulePaths(projectDirs);
   const modules = createModules(

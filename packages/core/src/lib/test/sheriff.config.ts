@@ -1,4 +1,4 @@
-import { SheriffConfig } from '../config/sheriff-config';
+import { UserSheriffConfig as SheriffConfig } from '../config/user-sheriff-config';
 
 export const config: SheriffConfig = {
   version: 1,

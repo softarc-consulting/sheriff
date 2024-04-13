@@ -180,14 +180,30 @@ describe('calc tags for module', () => {
     ).toEqual(['domain:holidays']);
   });
 
+  it('should return "noTag" on no match and enabled autoTagging', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/src' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        'src/app/holidays': { tags: ['domain:holidays'] },
+      }),
+    ).toEqual(['noTag']);
+  });
+
   it('should throw an error if there is no match', () => {
     const rootDir = '/project' as FsPath;
     const moduleDir = '/project/src' as FsPath;
 
     expect(() =>
-      calcTagsForModule(moduleDir, rootDir, {
-        'src/app/holidays': { tags: ['domain:holidays'] },
-      }),
+      calcTagsForModule(
+        moduleDir,
+        rootDir,
+        {
+          'src/app/holidays': { tags: ['domain:holidays'] },
+        },
+        false,
+      ),
     ).toThrowUserError(new NoAssignedTagError('/project/src'));
   });
 
@@ -283,14 +299,30 @@ describe('calc tags for module', () => {
     ).toEqual(['domain:holidays', 'subDomain:core', 'type:feature']);
   });
 
-  it('should throw an error on partial match', () => {
+  it('should return noTag on partial match', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/domain/holidays/feature' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        domain: '',
+      }),
+    ).toEqual(['noTag']);
+  });
+
+  it('should throw an error on partial match and disabled auto-tagging', () => {
     const rootDir = '/project' as FsPath;
     const moduleDir = '/project/domain/holidays/feature' as FsPath;
 
     expect(() =>
-      calcTagsForModule(moduleDir, rootDir, {
-        domain: '',
-      }),
+      calcTagsForModule(
+        moduleDir,
+        rootDir,
+        {
+          domain: '',
+        },
+        false,
+      ),
     ).toThrowUserError(new NoAssignedTagError(moduleDir));
   });
 
