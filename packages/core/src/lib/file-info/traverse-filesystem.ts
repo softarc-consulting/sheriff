@@ -36,7 +36,6 @@ const traverseFilesystem = (
   fileContent?: string,
 ): UnassignedFileInfo => {
   const { paths, configObject, cwd, sys, rootDir } = tsData;
-  console.log(paths);
   const fileInfo: UnassignedFileInfo = new UnassignedFileInfo(fsPath, []);
   fileInfoDict.set(fsPath, fileInfo);
   const fs = getFs();
