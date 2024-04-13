@@ -1,7 +1,10 @@
 import { FsPath } from '../file-info/fs-path';
 import * as ts from 'typescript';
-import { SheriffConfig } from './sheriff-config';
+import { UserSheriffConfig } from './user-sheriff-config';
 import getFs from '../fs/getFs';
+import { SheriffConfig } from './sheriff-config';
+import { MissingTaggingWithoutAutoTagging } from '../error/user-error';
+import { defaultConfig } from './default-config';
 
 export const parseConfig = (configFile: FsPath): SheriffConfig => {
   const tsCode = getFs().readFile(configFile);
@@ -9,5 +12,11 @@ export const parseConfig = (configFile: FsPath): SheriffConfig => {
   const { outputText } = ts.transpileModule(tsCode, {
     compilerOptions: { module: ts.ModuleKind.NodeNext },
   });
-  return eval(outputText) as SheriffConfig;
+
+  const userSheriffConfig = eval(outputText) as UserSheriffConfig;
+  if (userSheriffConfig.autoTagging === false && !userSheriffConfig.tagging) {
+    throw new MissingTaggingWithoutAutoTagging();
+  }
+
+  return { ...defaultConfig, ...userSheriffConfig };
 };

@@ -29,7 +29,12 @@ export function checkForDependencyRuleViolation(
       assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
     ]);
   const fromModule = toFsPath(assignedFileInfo.moduleInfo.directory);
-  const fromTags = calcTagsForModule(fromModule, rootDir, config.tagging);
+  const fromTags = calcTagsForModule(
+    fromModule,
+    rootDir,
+    config.tagging,
+    config.autoTagging,
+  );
 
   for (const [
     importedModulePath,
@@ -39,6 +44,7 @@ export function checkForDependencyRuleViolation(
       toFsPath(importedModulePath),
       rootDir,
       config.tagging,
+      config.autoTagging,
     );
     for (const toTag of toTags) {
       if (

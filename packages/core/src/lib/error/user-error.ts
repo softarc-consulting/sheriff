@@ -4,7 +4,8 @@ export type UserErrorCode =
   | 'SH-003'
   | 'SH-004'
   | 'SH-005'
-  | 'SH-006';
+  | 'SH-006'
+  | 'SH-007';
 
 export class UserError extends Error {
   constructor(
@@ -62,6 +63,15 @@ export class InvalidPlaceholderError extends UserError {
     super(
       'SH-006',
       `cannot find a placeholder for "${placeholder}" in tag configuration. Module: ${path}`,
+    );
+  }
+}
+
+export class MissingTaggingWithoutAutoTagging extends UserError {
+  constructor() {
+    super(
+      'SH-007',
+      'sheriff.config.ts must have either tagging or autoTagging set to true',
     );
   }
 }

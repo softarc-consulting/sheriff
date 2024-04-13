@@ -4,6 +4,7 @@ import * as crypto from 'crypto';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
 import { SheriffConfig } from '../config/sheriff-config';
+import { defaultConfig } from '../config/default-config';
 
 export function createProject(fileTree: FileTree, testDirName = '/project') {
   useVirtualFs();
@@ -42,7 +43,7 @@ class ProjectCreator {
         this.fs.writeFile(`${currentDir}/${child}`, value);
       } else if (isSheriffConfigContent(value)) {
         const serializedConfig = JSON.stringify(
-          serializeDepRules(value.content),
+          serializeDepRules({ ...defaultConfig, ...value.content }),
         ).replace(/"α([^ω]+)ω"/g, '$1');
         this.fs.writeFile(
           `${currentDir}/${child}`,

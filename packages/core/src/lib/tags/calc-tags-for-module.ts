@@ -16,6 +16,7 @@ export const calcTagsForModule = (
   moduleDir: FsPath,
   rootDir: FsPath,
   tagConfig: TagConfig,
+  autoTagging = true,
 ): string[] => {
   if (moduleDir === rootDir) {
     return ['root'];
@@ -34,7 +35,11 @@ export const calcTagsForModule = (
   );
 
   if (tags === false) {
-    throw new NoAssignedTagError(moduleDir);
+    if (!autoTagging) {
+      throw new NoAssignedTagError(moduleDir);
+    }
+
+    return ['noTag'];
   }
 
   return tags;
