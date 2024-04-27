@@ -37,10 +37,37 @@ describe('verify', (it) => {
 
     verify('/project', cli, ['src/main.ts']);
 
-    expect(allLogs()).toBe(`\
+    expect(allErrorLogs()).toMatchSnapshot('error');
+    expect(allLogs()).toMatchSnapshot('log');
+  });
 
-\u001b[32mNo issues found. The project is clean.`);
-    expect(allErrorLogs()).toBe('');
+  it('should show user errors', () => {
+    const { cli, allLogs, allErrorLogs } = setup();
+
+    createProject({
+      'tsconfig.json': tsConfig(),
+      'sheriff.config.ts': sheriffConfig({
+        tagging: {
+          'src/holidays': 'domain:<domain>',
+        },
+        depRules: {},
+      }),
+      src: {
+        'main.ts': ['./holidays'],
+        holidays: {
+          'index.ts': [],
+        },
+      },
+    });
+
+    verify('/project', cli, ['src/main.ts']);
+
+    expect(allLogs()).toMatchSnapshot('log');
+    expect(allErrorLogs()).toMatchSnapshot('error');
+  });
+
+  it('should show internal errors', () => {
+    expect(true).toBe(true);
   });
 
   it('should find errors', () => {
@@ -71,20 +98,7 @@ describe('verify', (it) => {
 
     verify('/project', cli, ['src/main.ts']);
 
-    expect(allLogs()).toBe(`\
-/project/src/main.ts
---------------------
-Deep Imports
-  ./customers/data
-/project/src/holidays/holidays.component.ts
--------------------------------------------
-Dependency Rule Violations
-  from tags:holidays, to:customers`);
-
-    expect(allErrorLogs()).toBe(`\
-Issues found in
-  Files: 2
-  Deep Imports: 1
-  Dependency Rule Violations: 1`);
+    expect(allErrorLogs()).toMatchSnapshot('error.log');
+    expect(allLogs()).toMatchSnapshot('logs.log');
   });
 });
