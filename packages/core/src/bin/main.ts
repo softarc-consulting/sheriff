@@ -1,9 +1,16 @@
 #!/usr/bin/env node
 
+/** TODO
+ * - Show tags in list
+ * - Add entryFile property in sheriff.config.ts
+ * - Add documentation
+ */
+
 import * as process from 'process';
 import { verify } from '../lib/cli/verify';
 import { list } from '../lib/cli/list';
 import { Cli } from '../lib/cli/util';
+import { init } from '../lib/cli/init';
 
 const [, , cmd, ...args] = process.argv;
 
@@ -16,7 +23,7 @@ const cli: Cli = {
 
 switch (cmd) {
   case 'init':
-    console.log('init');
+    init(cli, args);
     break;
   case 'verify':
     verify(process.cwd(), cli, args);
@@ -31,7 +38,7 @@ switch (cmd) {
     console.log('');
     console.log('Commands:');
     console.log(
-      '  sheriff init [main.ts]: initialises Sheriff by adding a sheriff.config.ts and registering the eslint-plugin, if available',
+      '  sheriff init [main.ts]: initializes Sheriff by adding a sheriff.config.ts. If eslint is installed, it also adds the plugin',
     );
     console.log(
       '  sheriff list [main.ts]: lists the current modules of the project.',
