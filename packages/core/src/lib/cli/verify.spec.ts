@@ -3,22 +3,7 @@ import { verify } from './verify';
 import { createProject } from '../test/project-creator';
 import { sheriffConfig } from '../test/project-configurator';
 import { tsConfig } from '../test/fixtures/ts-config';
-
-const setup = () => {
-  const cli = {
-    endProcessOk: vitest.fn(),
-    endProcessError: vitest.fn(),
-    log: vitest.fn<void[string]>(),
-    logError: vitest.fn<void, [string]>(),
-  };
-
-  const allLogs = () =>
-    cli.log.mock.calls.map(([message]) => message).join('\n');
-  const allErrorLogs = () =>
-    cli.logError.mock.calls.map(([message]) => message).join('\n');
-
-  return { cli, allLogs, allErrorLogs };
-};
+import { mockCli } from '../test/mock-cli';
 
 describe('verify', (it) => {
   beforeEach(() => {
@@ -26,7 +11,7 @@ describe('verify', (it) => {
   });
 
   it('should find no errors', () => {
-    const { cli, allLogs, allErrorLogs } = setup();
+    const { cli, allLogs, allErrorLogs } = mockCli();
 
     createProject({
       'tsconfig.json': tsConfig(),
@@ -42,7 +27,7 @@ describe('verify', (it) => {
   });
 
   it('should show user errors', () => {
-    const { cli, allLogs, allErrorLogs } = setup();
+    const { cli, allLogs, allErrorLogs } = mockCli();
 
     createProject({
       'tsconfig.json': tsConfig(),
@@ -71,7 +56,7 @@ describe('verify', (it) => {
   });
 
   it('should find errors', () => {
-    const { cli, allLogs, allErrorLogs } = setup();
+    const { cli, allLogs, allErrorLogs } = mockCli();
 
     createProject({
       'tsconfig.json': tsConfig(),
