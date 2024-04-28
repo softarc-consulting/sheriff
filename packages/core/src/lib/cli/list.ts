@@ -3,23 +3,22 @@ import * as process from 'process';
 import { toFsPath } from '../file-info/fs-path';
 import { init } from '../main/init';
 import { assertNotNull } from '../util/assert-not-null';
+import { Cli } from './util';
 
-export function list(args: string[]) {
+export function list(args: string[], cli: Cli) {
   const [main] = args;
   const mainPath = path.join(path.resolve(process.cwd(), main));
   const projectConfig = init(toFsPath(mainPath));
 
-  console.log(
-    `This project contains ${projectConfig.modulePaths.size} modules:`,
-  );
-  console.log('');
+  cli.log(`This project contains ${projectConfig.modulePaths.size} modules:`);
+  cli.log('');
 
-  console.log('.');
+  cli.log('.');
   const cleanedPaths = Array.from(projectConfig.modulePaths).map((modulePath) =>
     path.relative(process.cwd(), modulePath),
   );
   const directory = createDirectory(cleanedPaths);
-  printDirectory(directory);
+  printDirectory(directory, cli);
 }
 
 interface Directory {
@@ -62,6 +61,7 @@ function createDirectory(filenames: string[]): Directory {
 
 function printDirectory(
   directory: Directory,
+  cli: Cli,
   indent = 0,
   prefix: string[] = [],
 ): void {
@@ -69,11 +69,11 @@ function printDirectory(
     const [path, value] = Object.entries(directory)[0];
     prefix.push(path);
     if (typeof value === 'object') {
-      printDirectory(value, indent, prefix);
+      printDirectory(value, cli, indent, prefix);
     }
   } else {
     if (prefix.length) {
-      console.log(' '.repeat(indent) + '├── ' + prefix.join('/'));
+      cli.log(' '.repeat(indent) + '├── ' + prefix.join('/'));
       indent += 2;
     }
     // Iterate through each key in the directory
@@ -81,10 +81,10 @@ function printDirectory(
     for (let ix = 0; ix < entries.length; ix++) {
       const [key, value] = entries[ix];
       const symbol = ix === entries.length - 1 ? '└── ' : '├── ';
-      console.log(' '.repeat(indent) + symbol + key);
+      cli.log(' '.repeat(indent) + symbol + key);
 
       if (typeof value === 'object') {
-        printDirectory(value, indent + 2);
+        printDirectory(value, cli, indent + 2);
       }
     }
   }

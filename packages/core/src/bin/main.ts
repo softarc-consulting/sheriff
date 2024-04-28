@@ -3,7 +3,9 @@
 /** TODO
  * - Show tags in list
  * - Add entryFile property in sheriff.config.ts
+ * - Global Error Handling in for User Errors and System Errors
  * - Add documentation
+ * - Add integration tests
  */
 
 import * as process from 'process';

@@ -115,4 +115,9 @@ export interface UserSheriffConfig {
    * enable internal logging and save it to `sheriff.log`
    */
   log?: boolean;
+
+  /**
+   * The file that the CLI should use by default.
+   */
+  entryFile?: string;
 }
