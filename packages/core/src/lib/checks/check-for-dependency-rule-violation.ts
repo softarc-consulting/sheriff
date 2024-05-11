@@ -17,7 +17,7 @@ export function checkForDependencyRuleViolation(
 ): DependencyRuleViolation[] {
   const violations: DependencyRuleViolation[] = [];
 
-  if (!config) {
+  if (config.isConfigFileMissing) {
     return [];
   }
 
@@ -25,9 +25,9 @@ export function checkForDependencyRuleViolation(
   const importedModulePathsWithRawImport = assignedFileInfo.imports
     // skip deep imports
     .filter((importedFi) => modulePaths.has(importedFi.path))
-    .map((iafi) => [
-      iafi.moduleInfo.directory,
-      assignedFileInfo.getRawImportForImportedFileInfo(iafi.path),
+    .map((fileInfo) => [
+      fileInfo.moduleInfo.directory,
+      assignedFileInfo.getRawImportForImportedFileInfo(fileInfo.path),
     ]);
   const fromModule = toFsPath(assignedFileInfo.moduleInfo.directory);
   const fromTags = calcTagsForModule(

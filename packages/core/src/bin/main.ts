@@ -31,7 +31,7 @@ switch (cmd) {
     verify(process.cwd(), cli, args);
     break;
   case 'list':
-    list(args);
+    list(args, cli);
     break;
   default:
     console.log(

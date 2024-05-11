@@ -1,9 +1,10 @@
 import * as path from 'path';
 import * as process from 'process';
-import { toFsPath } from '../file-info/fs-path';
-import { init } from '../main/init';
+import { FsPath, toFsPath } from '../file-info/fs-path';
+import { init, ProjectInfo } from '../main/init';
 import { assertNotNull } from '../util/assert-not-null';
 import { Cli } from './util';
+import { calcTagsForModule } from '../tags/calc-tags-for-module';
 
 export function list(args: string[], cli: Cli) {
   const [main] = args;
@@ -25,34 +26,23 @@ interface Directory {
   [key: string]: Directory | string;
 }
 
-// ChatGPT
 function createDirectory(filenames: string[]): Directory {
-  // Create an object to store filenames based on folders
   const directory: Directory = {};
-
-  // Iterate through each filename
   filenames.forEach((filename) => {
-    // Split the filename into an array based on the folder structure
     const folders = filename.split('/');
-
-    // Get the last element (file name) and remove it from the array
     const file = folders.pop();
     assertNotNull(file);
 
-    // Create nested objects based on the folder structure
     let currentObject: Directory = directory;
     folders.forEach((folder) => {
-      // Create a new object if it doesn't exist
       currentObject[folder] = currentObject[folder] || {};
 
-      // Move to the next level in the hierarchy
       const next = currentObject[folder];
       if (typeof next === 'object') {
         currentObject = next;
       }
     });
 
-    // Add the file to the final nested object
     currentObject[file] = '';
   });
 
@@ -88,4 +78,13 @@ function printDirectory(
       }
     }
   }
+}
+
+function getTags(module: FsPath, projectInfo: ProjectInfo): string[] {
+  return calcTagsForModule(
+    module,
+    projectInfo.rootDir,
+    projectInfo.config.tagging,
+    projectInfo.config.autoTagging,
+  );
 }

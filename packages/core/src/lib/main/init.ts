@@ -8,12 +8,13 @@ import { parseConfig } from '../config/parse-config';
 import { ParsedResult, parseProject } from './parse-project';
 import { initialized } from './internal/initialized';
 import { callbacks } from './internal/callback';
+import { defaultConfig } from '../config/default-config';
 
 let config: SheriffConfig | undefined;
 
 export type ProjectInfo = {
   tsData: TsData;
-  config: SheriffConfig | undefined;
+  config: SheriffConfig;
 } & ParsedResult;
 
 /**
@@ -34,9 +35,13 @@ export type InitOptions = {
  * It requires an entryFile `main.ts`. From there, it
  * locates the main `tsconfig.json` and defines its path as `rootPath`.
  *
- * The next step is to load `sheriff.config.ts`. The dependency rule checks
- * require a config. So there is an option, where the caller can
- * stop if the config is not available.
+ * The next step is to load `sheriff.config.ts`. It will be parsed and
+ * merged with default values. If the `sheriff.config.ts` does not exist
+ * the default values will be returned together with property
+ * `isConfigFileMissing` set to true.
+ *
+ * The dependency rule checks require a config. They require the
+ * information of `isConfigFileMissing`.
  *
  * Last step is to start with the analysis of the project by generating
  * the FileInfo. That it is a Tree structure, following the import commands
@@ -46,7 +51,7 @@ export type InitOptions = {
  * further.
  *
  * @param {FsPath} entryFile - The entry file path.
- * @param {InitOptions} options - option to traverse or return on no config
+ * @param {InitOptions} options - option to traverse
  *
  * @return {ProjectInfo} An object containing the generated TypeScript data and the configuration.
  **/
@@ -70,13 +75,14 @@ export function init(entryFile: FsPath, options: InitOptions = {}) {
   );
   const tsData = generateTsData(tsConfigPath);
   config = getConfig(tsData.rootDir);
-  if (config === undefined && fullOptions.returnOnMissingConfig) {
-    return;
-  }
 
   initialized.status = true;
   for (const callback of callbacks) {
     callback(config);
+  }
+
+  if (config.isConfigFileMissing && options.returnOnMissingConfig) {
+    return;
   }
 
   return {
@@ -91,11 +97,11 @@ export function init(entryFile: FsPath, options: InitOptions = {}) {
   };
 }
 
-function getConfig(rootPath: FsPath) {
+function getConfig(rootPath: FsPath): SheriffConfig {
   const configFile = findConfig(rootPath);
   if (configFile) {
     return parseConfig(configFile);
   }
 
-  return undefined;
+  return { ...defaultConfig, isConfigFileMissing: true };
 }
