@@ -22,16 +22,16 @@ const angularStructure: FileTree = {
 };
 
 describe('should find two modules', () => {
-  it('should find two submodules src', () => {
+  it('should find two modules and root', () => {
     createProject(angularStructure, 'integration');
     const entryFile = toFsPath('/project/integration/src/app/app.component.ts');
-    const { modulePaths } = init(entryFile, { traverse: true });
+    const { modules } = init(entryFile, { traverse: true });
+    const modulePaths = modules.map((module) => module.path);
 
-    expect(modulePaths).toEqual(
-      new Set([
-        '/project/integration/src/app/customers/index.ts',
-        '/project/integration/src/app/holidays/index.ts',
-      ]),
-    );
+    expect(modulePaths).toEqual([
+      '/project/integration/src/app/customers/index.ts',
+      '/project/integration/src/app/holidays/index.ts',
+      '/project/integration',
+    ]);
   });
 });

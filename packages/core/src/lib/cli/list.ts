@@ -1,83 +1,80 @@
-import * as path from 'path';
-import * as process from 'process';
 import { FsPath, toFsPath } from '../file-info/fs-path';
-import { init, ProjectInfo } from '../main/init';
-import { assertNotNull } from '../util/assert-not-null';
-import { Cli } from './util';
+import { ProjectInfo } from '../main/init';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
+import { getEntryFromCliOrConfig } from './internal/get-entry-from-cli-or-config';
+import getFs from '../fs/getFs';
+import { cli } from './cli';
 
-export function list(args: string[], cli: Cli) {
-  const [main] = args;
-  const mainPath = path.join(path.resolve(process.cwd(), main));
-  const projectConfig = init(toFsPath(mainPath));
+export function list(args: string[]) {
+  const projectInfo = getEntryFromCliOrConfig(args[0]);
+  // root doesn't count
+  const modulesCount = projectInfo.modules.length - 1;
 
-  cli.log(`This project contains ${projectConfig.modulePaths.size} modules:`);
+  cli.log(`This project contains ${modulesCount} modules:`);
   cli.log('');
 
-  cli.log('.');
-  const cleanedPaths = Array.from(projectConfig.modulePaths).map((modulePath) =>
-    path.relative(process.cwd(), modulePath),
+  cli.log('. (root)');
+  const directory = mapModulesToDirectory(
+    Array.from(
+      projectInfo.modules
+        .filter((module) => !module.isRoot)
+        .map((module) => toFsPath(module.directory)),
+    ),
+    projectInfo,
   );
-  const directory = createDirectory(cleanedPaths);
-  printDirectory(directory, cli);
+  printDirectory(directory);
 }
 
-interface Directory {
-  [key: string]: Directory | string;
-}
+type Directory = Record<
+  string,
+  { children: Directory; tags: string; isModule: boolean }
+>;
 
-function createDirectory(filenames: string[]): Directory {
+function mapModulesToDirectory(
+  modulePaths: FsPath[],
+  projectInfo: ProjectInfo,
+): Directory {
+  const fs = getFs();
   const directory: Directory = {};
-  filenames.forEach((filename) => {
-    const folders = filename.split('/');
-    const file = folders.pop();
-    assertNotNull(file);
+  for (const modulePath of modulePaths) {
+    const cleanedModulePath = fs.relativeTo(projectInfo.rootDir, modulePath);
+    const folders = cleanedModulePath.split('/');
 
-    let currentObject: Directory = directory;
-    folders.forEach((folder) => {
-      currentObject[folder] = currentObject[folder] || {};
+    let currentEntry: Directory = directory;
+    for (let i = 0; i < folders.length; i++) {
+      const folder = folders[i];
+      currentEntry[folder] = currentEntry[folder] || {
+        children: {},
+        tags: '',
+        isModule: false,
+      };
 
-      const next = currentObject[folder];
-      if (typeof next === 'object') {
-        currentObject = next;
+      if (i === folders.length - 1) {
+        currentEntry[folder].tags =
+          ` (${getTags(modulePath, projectInfo).join(', ')})`;
+        currentEntry[folder].isModule = true;
+      } else {
+        currentEntry = currentEntry[folder].children;
       }
-    });
-
-    currentObject[file] = '';
-  });
+    }
+  }
 
   return directory;
 }
 
-function printDirectory(
-  directory: Directory,
-  cli: Cli,
-  indent = 0,
-  prefix: string[] = [],
-): void {
-  if (Object.entries(directory).length === 1) {
-    const [path, value] = Object.entries(directory)[0];
-    prefix.push(path);
-    if (typeof value === 'object') {
-      printDirectory(value, cli, indent, prefix);
-    }
-  } else {
-    if (prefix.length) {
-      cli.log(' '.repeat(indent) + '├── ' + prefix.join('/'));
-      indent += 2;
-    }
-    // Iterate through each key in the directory
-    const entries = Object.entries(directory);
-    for (let ix = 0; ix < entries.length; ix++) {
-      const [key, value] = entries[ix];
-      const symbol = ix === entries.length - 1 ? '└── ' : '├── ';
-      cli.log(' '.repeat(indent) + symbol + key);
+function printDirectory(directory: Directory, indent = 0): void {
+  const entries = Object.entries(directory);
+  // Iterate through each key in the directory
+  entries.forEach(([key, { children, tags, isModule }], ix) => {
+    const symbol = ix === entries.length - 1 ? '└── ' : '├── ';
+    cli.log(
+      ' '.repeat(indent) + symbol + (isModule ? cli.bold(key) + tags : key),
+    );
 
-      if (typeof value === 'object') {
-        printDirectory(value, cli, indent + 2);
-      }
+    if (Object.entries(children).length) {
+      printDirectory(children, indent + 2);
     }
-  }
+  });
 }
 
 function getTags(module: FsPath, projectInfo: ProjectInfo): string[] {

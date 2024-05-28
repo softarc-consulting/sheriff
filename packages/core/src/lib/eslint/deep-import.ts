@@ -34,7 +34,6 @@ export const hasDeepImport = (
     const projectInfo = init(fsPath, {
       traverse: false,
       entryFileContent: fileContent,
-      returnOnMissingConfig: false,
     });
 
     cachedFileInfo = projectInfo.fileInfo;

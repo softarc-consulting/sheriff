@@ -4,7 +4,7 @@ exports[`verify > should find errors > error.log 1`] = `""`;
 
 exports[`verify > should find errors > logs.log 1`] = `
 "
-[1mVerification Report[0m
+<b>Verification Report</b>
 
 Issues found:
   Total Invalid Files: 2
@@ -20,15 +20,28 @@ Issues found:
 |   |   |-- from tags holidays to customers"
 `;
 
+exports[`verify > should find errors without sheriff.config.ts > error.log 1`] = `""`;
+
+exports[`verify > should find errors without sheriff.config.ts > logs.log 1`] = `
+"
+<b>Verification Report</b>
+
+Issues found:
+  Total Invalid Files: 1
+  Total Deep Imports: 1
+  Total Dependency Rule Violations: 0
+----------------------------------
+
+|-- src/main.ts
+|   |-- Deep Imports
+|   |   |-- ./customers/data"
+`;
+
 exports[`verify > should find no errors > error 1`] = `""`;
 
 exports[`verify > should find no errors > log 1`] = `
 "
-[1mVerification Report[0m
+<b>Verification Report</b>
 
 [32mNo issues found. Well done!"
 `;
-
-exports[`verify > should show user errors > error 1`] = `"cannot find a placeholder for \\"domain\\" in tag configuration. Module: /project/src/holidays"`;
-
-exports[`verify > should show user errors > log 1`] = `""`;

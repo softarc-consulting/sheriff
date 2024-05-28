@@ -10,13 +10,14 @@ import { ProjectInfo } from '../main/init';
  */
 export function checkForDeepImports(
   fsPath: FsPath,
-  { rootDir, config, modulePaths, getFileInfo }: ProjectInfo,
+  { rootDir, config, modules, getFileInfo }: ProjectInfo,
 ): string[] {
   const deepImports: string[] = [];
   const assignedFileInfo = getFileInfo(fsPath);
 
   const isRootAndExcluded = createIsRootAndExcluded(rootDir, config);
-  const isModuleIndex = (fsPath: FsPath) => modulePaths.has(fsPath);
+  const isModuleIndex = (fsPath: FsPath) =>
+    modules.map((module) => module.path).includes(fsPath);
 
   for (const importedFileInfo of assignedFileInfo.imports) {
     if (

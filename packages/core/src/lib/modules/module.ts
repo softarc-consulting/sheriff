@@ -6,9 +6,10 @@ export class Module {
   readonly directory: string;
   fileInfos: FileInfo[] = [];
   constructor(
-    public path: FsPath,
-    private fileInfoMap: Map<FsPath, FileInfo>,
-    private getFileInfo: (fsPath: FsPath) => FileInfo,
+    public readonly path: FsPath,
+    private readonly fileInfoMap: Map<FsPath, FileInfo>,
+    private readonly getFileInfo: (fsPath: FsPath) => FileInfo,
+    public readonly isRoot: boolean,
   ) {
     if (path.endsWith('index.ts')) {
       this.directory = this.path.substring(

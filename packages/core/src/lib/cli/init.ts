@@ -1,9 +1,7 @@
-// create a function that creates a file sheriff.config.ts in the current directory
-
 import getFs from '../fs/getFs';
-import { Cli } from './util';
+import { cli } from './cli';
 
-export function init(cli: Cli, args: string[]) {
+export function init() {
   const fs = getFs();
   if (fs.exists('sheriff.config.ts')) {
     cli.log('');

@@ -7,10 +7,11 @@ import { createModules } from '../modules/create-modules';
 import { fillFileInfoMap } from '../modules/fill-file-info-map';
 import throwIfNull from '../util/throw-if-null';
 import { TsData } from '../file-info/ts-data';
+import { Module } from '../modules/module';
 
 export type ParsedResult = {
   fileInfo: FileInfo;
-  modulePaths: Set<FsPath>;
+  modules: Module[];
   rootDir: FsPath;
   getFileInfo: (path: FsPath) => FileInfo;
 };
@@ -51,6 +52,6 @@ export const parseProject = (
     fileInfo,
     rootDir,
     getFileInfo,
-    modulePaths,
+    modules,
   };
 };

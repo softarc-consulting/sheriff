@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`list > should include modules not reachable by entryFile > log 1`] = `
+"This project contains 4 modules:
+
+. (root)
+└── src
+  ├── holidays
+    ├── <b>feature</b> (domain:holidays, type:feature)
+    └── <b>data</b> (domain:holidays, type:data)
+  └── customers
+    ├── <b>ui</b> (domain:customers, type:ui)
+    └── <b>model</b> (domain:customers, type:model)"
+`;
+
+exports[`list > should list modules without sheriff config > log 1`] = `
+"This project contains 2 modules:
+
+. (root)
+└── src
+  ├── <b>holidays</b> (noTag)
+  └── <b>customers</b> (noTag)"
+`;
+
+exports[`list > should show tags in modules > log 1`] = `
+"This project contains 4 modules:
+
+. (root)
+└── src
+  ├── holidays
+    ├── <b>feature</b> (domain:holidays, type:feature)
+    └── <b>data</b> (domain:holidays, type:data)
+  └── customers
+    ├── <b>ui</b> (domain:customers, type:ui)
+    └── <b>model</b> (domain:customers, type:model)"
+`;
+
+exports[`list > should work with nested modules (Nx use case) > log 1`] = `
+"This project contains 6 modules:
+
+. (root)
+└── libs
+  ├── domains
+    └── <b>holidays</b> (noTag)
+      ├── <b>feature</b> (domain:holidays, type:feature)
+      └── <b>data</b> (domain:holidays, type:data)
+  └── <b>shared</b> (noTag)
+    ├── <b>http</b> (shared:http)
+    └── <b>form</b> (shared:form)"
+`;

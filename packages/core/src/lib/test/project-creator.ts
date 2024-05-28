@@ -5,12 +5,18 @@ import getFs, { useVirtualFs } from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
 import { SheriffConfig } from '../config/sheriff-config';
 import { defaultConfig } from '../config/default-config';
+import { Fs } from '../fs/fs';
 
-export function createProject(fileTree: FileTree, testDirName = '/project') {
+export function createProject(
+  fileTree: FileTree,
+  testDirName = '/project',
+): Fs {
+  const fs = getFs();
   useVirtualFs();
-  getFs().reset();
+  fs.reset();
 
   new ProjectCreator().create(fileTree, testDirName);
+  return fs;
 }
 
 class ProjectCreator {

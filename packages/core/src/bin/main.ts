@@ -1,53 +1,19 @@
 #!/usr/bin/env node
 
+/**
+ * All processing, except accessing the arguments from CLI
+ * is done by `main()`.
+ *
+ * This is due to better testability.
+ */
+
 /** TODO
- * - Show tags in list
- * - Add entryFile property in sheriff.config.ts
  * - Global Error Handling in for User Errors and System Errors
  * - Add documentation
  * - Add integration tests
+ * - Add json export of AssignedFileInfoMap
  */
 
-import * as process from 'process';
-import { verify } from '../lib/cli/verify';
-import { list } from '../lib/cli/list';
-import { Cli } from '../lib/cli/util';
-import { init } from '../lib/cli/init';
+import { main } from '../lib/cli/main';
 
-const [, , cmd, ...args] = process.argv;
-
-const cli: Cli = {
-  endProcessOk: () => process.exit(0),
-  endProcessError: () => process.exit(1),
-  log: (message: string) => console.log(message),
-  logError: (message: string) => console.error(message),
-};
-
-switch (cmd) {
-  case 'init':
-    init(cli, args);
-    break;
-  case 'verify':
-    verify(process.cwd(), cli, args);
-    break;
-  case 'list':
-    list(args, cli);
-    break;
-  default:
-    console.log(
-      '\u001b[1m' + 'Sheriff - Modularity for TypeScript Projects\x1b[0m',
-    );
-    console.log('');
-    console.log('Commands:');
-    console.log(
-      '  sheriff init [main.ts]: initializes Sheriff by adding a sheriff.config.ts. If eslint is installed, it also adds the plugin',
-    );
-    console.log(
-      '  sheriff list [main.ts]: lists the current modules of the project.',
-    );
-    console.log(
-      '  sheriff verify [main.ts]: runs the verification process for the project',
-    );
-
-    break;
-}
+main.apply(this, process.argv.slice(2));
