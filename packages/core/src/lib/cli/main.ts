@@ -36,7 +36,7 @@ export function main(...argv: string[]) {
       cli.log('');
       cli.log('Commands:');
       cli.log(
-        "  sheriff export [main.ts]: Exports the project's, along its dependencies and modules in json",
+        "  sheriff export [main.ts]: Exports the project's, along its dependencies and modules in json.",
       );
       cli.log(
         '  sheriff init [main.ts]: initializes Sheriff by adding a sheriff.config.ts.',
@@ -46,6 +46,13 @@ export function main(...argv: string[]) {
       );
       cli.log(
         '  sheriff verify [main.ts]: runs the verification process for the project',
+      );
+      cli.log('');
+      cli.log(
+        '[main.ts] is optional if a sheriff.config.ts with an entryFile property is in the current path.',
+      );
+      cli.log(
+        'For more information, visit: https://github.com/softarc-consulting/sheriff',
       );
 
       break;

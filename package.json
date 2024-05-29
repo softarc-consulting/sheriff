@@ -1,7 +1,7 @@
 {
   "name": "@softarc/sheriff",
   "version": "0.0.1",
-  "description": "Modularity for TypeScript applications",
+  "description": "Modularity for TypeScript Projects",
   "license": "MIT",
   "scripts": {
     "build:all": "npx nx run-many --target=build",
