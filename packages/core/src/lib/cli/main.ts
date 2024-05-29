@@ -8,9 +8,7 @@ import { cli } from './cli';
 import { exportData } from './export-data';
 
 /** TODO
- * - Global Error Handling in for User Errors and System Errors
  * - Add documentation
- * - Add integration tests
  */
 
 export function main(...argv: string[]) {
