@@ -11,7 +11,6 @@ import { exportData } from './export-data';
  * - Global Error Handling in for User Errors and System Errors
  * - Add documentation
  * - Add integration tests
- * - Add json export of AssignedFileInfoMap
  */
 
 export function main(...argv: string[]) {

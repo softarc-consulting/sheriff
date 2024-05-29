@@ -4,8 +4,11 @@ import { createProject } from '../../test/project-creator';
 import { tsConfig } from '../../test/fixtures/ts-config';
 import { sheriffConfig } from '../../test/project-configurator';
 import { exportData } from '../export-data';
+import { verifyCliWrappers } from './verify-cli-wrapper';
 
 describe('export data', () => {
+  verifyCliWrappers('export', 'src/main.ts');
+
   it('should test a simple application', () => {
     const { allLogs } = mockCli();
 
