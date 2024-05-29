@@ -3,9 +3,9 @@
 import { handleError } from './internal/handle-error';
 import { init } from './init';
 import { verify } from './verify';
-import { export } from './export';
 import { list } from './list';
 import { cli } from './cli';
+import { exportData } from './export-data';
 
 /** TODO
  * - Global Error Handling in for User Errors and System Errors
@@ -27,7 +27,7 @@ export function main(...argv: string[]) {
       handleError(() => list(args));
       break;
     case 'export':
-      handleError(() => export());
+      handleError(() => exportData(...args));
       break;
     default:
       cli.log(
