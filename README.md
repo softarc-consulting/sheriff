@@ -13,6 +13,8 @@ Some examples are located in _./test-projects/_.
 <!-- TOC -->
 
 - [1. Installation \& Setup](#1-installation--setup)
+  - [1.1. Sheriff and ESLint (recommended)](#11-sheriff-and-eslint-recommended)
+  - [1.2. Sheriff without ESLint](#12-sheriff-without-eslint)
 - [2. Video Introduction](#2-video-introduction)
 - [3. Module Boundaries](#3-module-boundaries)
 - [4. Dependency Rules](#4-dependency-rules)
@@ -22,12 +24,23 @@ Some examples are located in _./test-projects/_.
   - [4.4. Nested Paths](#44-nested-paths)
   - [4.5. Placeholders](#45-placeholders)
   - [4.6. `depRules` Functions \& Wildcards](#46-deprules-functions--wildcards)
-- [5. Integrating Sheriff into large Projects via `excludeRoot`](#5-integrating-sheriff-into-large-projects-via-excluderoot)
-- [6. Planned Features](#6-planned-features)
+- [5. CLI](#5-cli)
+  - [5.1. init](#51-init)
+  - [5.2. verify \[main.ts\]](#52-verify-maints)
+  - [5.3. list \[main.ts\]](#53-list-maints)
+  - [5.4. export \[main.ts\]](#54-export-maints)
+- [6. Integrating Sheriff into large Projects via `excludeRoot`](#6-integrating-sheriff-into-large-projects-via-excluderoot)
+- [7. Planned Features](#7-planned-features)
 
 <!-- TOC -->
 
 ## 1. Installation & Setup
+
+Examples are available at https://github.com/softarc-consulting/sheriff/tree/main/test-projects
+
+### 1.1. Sheriff and ESLint (recommended)
+
+In order to get the best developer experience, we recommend to use Sheriff with the ESLint plugin.
 
 ```shell
 npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
@@ -83,6 +96,18 @@ In your _eslintrc.json_, insert the rules:
 
 </details>
 
+### 1.2. Sheriff without ESLint
+
+You can also use Sheriff without ESLint. In this case, you have to run the Sheriff CLI manually.
+
+```shell
+npm install -D @softarc/sheriff-core
+```
+
+The CLI provides you with commands to list modules, check the rules and export the dependency graph in JSON format.
+
+For more details, see the [CLI](#cli).
+
 ## 2. Video Introduction
 
 <a href="https://youtu.be/yxVI6sAo8fU?si=kH8fwJwLaiYaFniO" target="_blank"><img src="https://github.com/softarc-consulting/sheriff/blob/main/video-preview.jpg?raw=true" width="600" height="auto" /></a>
@@ -105,8 +130,9 @@ Every file outside of that directory (module) now gets a linting error when it i
 
 Sheriff provides access rules.
 
-To define access rules, create a _sheriff.config.ts_ file in the project's root folder.
-The configuration assigns tags to every module.
+To define access rules, run `npx sheriff init` in your project's root folder. This creates a _sheriff.config.ts_ file, where you can define the tags and dependency rules.
+
+The initial `sheriff.config.ts` doesn't have any restrictions in terms of dependency rules.
 
 ### 4.1. Automatic Tagging
 
@@ -144,7 +170,7 @@ export const sheriffConfig: SheriffConfig = {
   autoTagging: false,
   tagging: {
     // see below...
-  }
+  },
 };
 ```
 
@@ -177,8 +203,8 @@ _index.ts_. [By default](#5-integrating-sheriff-into-large-projects-via-excluder
 ```mermaid
 flowchart LR
   app.config.ts --> holidays/feature/index.ts
-  holidays/feature/holidays.component.ts --> holidays/data/index.ts 
-  
+  holidays/feature/holidays.component.ts --> holidays/data/index.ts
+
   subgraph "noTag (holidays/data)"
     holidays/data/index.ts
     holidays/data/internal.service.ts
@@ -386,7 +412,33 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-## 5. Integrating Sheriff into large Projects via `excludeRoot`
+## 5. CLI
+
+The core package (@softarc/sheriff-core) comes with a CLI to initialize the configuration file, list modules, check the rules and export the dependency graph in JSON format.
+
+### 5.1. init
+
+Run `npx sheriff init` to create a `sheriff.config.ts`. Its configuration runs with [automatic tagging](#41-automatic-tagging), meaning no dependency rules are in place, and it only checks for the module boundaries.
+
+### 5.2. verify [main.ts]
+
+Run `npx sheriff verify main.ts` to check if your project violates any of your rules. `main.ts` is the entry file where Sheriff should traverse the imports.
+
+Depending on your project, you will likely have a different entry file. For example, with an Angular CLI-based project, it would be `npx sheriff verify src/main.ts`.
+
+You can omit the entry file if you set a value to the property `entryFile` in the `sheriff.config.ts`.
+
+In that case, you only run `npx sheriff verify`.
+
+### 5.3. list [main.ts]
+
+Run `npx sheriff list main.ts` to print out all your modules along their tags. As explained above, you can alternatively use the `entryFile` property in `sheriff.config.ts`.
+
+### 5.4. export [main.ts]
+
+Run `npx sheriff export main.ts > export.json` and the dependency graph will be stored in `export.json` in JSON format. The dependency graph starts from the entry file and includes all reachable files. For every file, it will include the assigned module as well as the tags.
+
+## 6. Integrating Sheriff into large Projects via `excludeRoot`
 
 It is usually not possible to modularize an existing codebase at once. Instead, we have to integrate Sheriff
 incrementally.
@@ -396,7 +448,7 @@ Next to [automatic tagging](#41-automatic-tagging), we introduce manual tagged m
 The recommended approach is start with only one module. For example _holidays/feature_. All files from the outside have
 to import from the module's _index.ts_, and it has the tags "type:feature".
 
-It is very likely that _holidays/feature_ depends on files in the "root" module. Since "root" doesn't have 
+It is very likely that _holidays/feature_ depends on files in the "root" module. Since "root" doesn't have
 an **index.ts**, no other module can depend on it:
 
 ```mermaid
@@ -467,18 +519,15 @@ flowchart LR
 
 Once all files from "root" import form **shared's** _index.ts_, create another module and do the same.
 
-## 6. Planned Features
+## 7. Planned Features
 
 For feature requests, please add an issue at https://github.com/softarc-consulting/sheriff.
 
 - Editor
-- Print modules with their tags
-- Testing Dependency Rules
 - Angular Schematic
 - Feature Shell: It shouldn't be necessary to create a feature subdirectory for a domain, since feature has access to
   everything
 - Dependency rules for node_modules
-- CLI as alternative to eslint
 - Find cyclic dependencies
 - Find unused files
 - TestCoverage 100%
