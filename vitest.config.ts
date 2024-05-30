@@ -6,7 +6,7 @@ export default defineConfig({
       provider: 'c8',
       reporter: ['text', 'html'],
     },
-    exclude: ['test-projects', 'node_modules'],
+    exclude: ['test-projects', 'docs', 'node_modules'],
   },
   resolve: {
     alias: {

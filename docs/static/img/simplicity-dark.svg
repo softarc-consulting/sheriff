@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1512.22 288.28">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #FFF;
+        stroke-miterlimit: 10;
+        stroke-width: 12px;
+      }
+
+      .cls-2 {
+        stroke-width: 0px;
+        fill: white;
+      }
+
+      .cls-3 {
+        font-family: Asap-Bold, Asap;
+        font-size: 150px;
+        font-weight: 700;
+        fill: white;
+      }
+    </style>
+  </defs>
+  <text class="cls-3" transform="translate(963.83 248.68)"><tspan x="0" y="0">Solution</tspan></text>
+  <circle class="cls-2" cx="1243.18" cy="55" r="55"/>
+  <g>
+    <line class="cls-1" x1="443.77" y1="54.77" x2="997.71" y2="55.17"/>
+    <polygon class="cls-2" points="1082.44 55.23 963.01 103.93 991.38 55.16 963.08 6.37 1082.44 55.23"/>
+  </g>
+  <text class="cls-3" transform="translate(0 248.68)"><tspan x="0" y="0">Problem</tspan></text>
+  <circle class="cls-2" cx="282.48" cy="55" r="55"/>
+</svg>
