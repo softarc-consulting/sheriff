@@ -9,7 +9,7 @@
     "url": "https://www.angulararchitects.io/"
   },
   "bin": {
-    "sheriff": "./bin/main"
+    "sheriff": "./src/bin/main.js"
   },
   "repository": {
     "type": "git",
