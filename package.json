@@ -4,7 +4,7 @@
   "description": "Modularity for TypeScript Projects",
   "license": "MIT",
   "scripts": {
-    "build:all": "npx nx run-many --target=build && chmod +x dist/package/core/src/bin/main.js",
+    "build:all": "npx nx run-many --target=build && chmod +x dist/packages/core/src/bin/main.js",
     "commit": "commit",
     "lint:all": "npx nx run-many --target lint",
     "link:sheriff": "npm run build:all && npm link dist/packages/core && npm link dist/packages/eslint-plugin",
