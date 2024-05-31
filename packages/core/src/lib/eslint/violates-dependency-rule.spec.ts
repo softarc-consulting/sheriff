@@ -47,4 +47,29 @@ describe('violates dependency rules', () => {
       ),
     ).toBe('import ./app.component cannot be resolved');
   });
+
+  it('should ignore json imports  ', () => {
+    const fs = createProject({
+      'tsconfig.json': tsConfig(),
+      'sheriff.config.ts': sheriffConfig({ tagging: {}, depRules: {} }),
+      src: {
+        'main.ts': ['./data.json'],
+        'data.json': [],
+      },
+    });
+
+    fs.writeFile(
+      '/project/src/data.json',
+      JSON.stringify({ person: { id: 1, firstname: 'Ludwig' } }),
+    );
+
+    expect(
+      violatesDependencyRule(
+        '/project/src/main.ts',
+        './data.json',
+        true,
+        getFs().readFile(toFsPath('/project/src/main.ts')),
+      ),
+    ).toBe('');
+  });
 });
