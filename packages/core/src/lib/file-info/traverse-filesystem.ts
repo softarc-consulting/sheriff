@@ -35,7 +35,7 @@ const traverseFilesystem = (
   runOnce = false,
   fileContent?: string,
 ): UnassignedFileInfo => {
-  const { paths, configObject, cwd, sys, rootDir } = tsData;
+  const { paths, configObject, sys, rootDir } = tsData;
   const fileInfo: UnassignedFileInfo = new UnassignedFileInfo(fsPath, []);
   fileInfoDict.set(fsPath, fileInfo);
   const fs = getFs();
@@ -57,6 +57,8 @@ const traverseFilesystem = (
           throw new Error(`${importPath} is outside of root ${rootDir}`);
         }
       }
+    } else if (fileName.endsWith('.json')) {
+      // just skip it
     } else if (fileName.startsWith('.')) {
       // might be an undetected dependency in node_modules
       // or an incomplete import (= developer is still typing),
