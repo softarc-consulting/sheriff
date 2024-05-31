@@ -341,7 +341,7 @@
     "warningCount": 0,
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
-    "source": "import { provideState } from '@ngrx/store';\nimport { customersFeature } from './customers.reducer';\nimport { provideEffects } from '@ngrx/effects';\nimport { CustomersEffects } from './customers.effects';\n\nexport const provideCustomers = [\n  provideState(customersFeature),\n  provideEffects([CustomersEffects]),\n];\n",
+    "source": "import { provideState } from '@ngrx/store';\nimport { customersFeature } from './customers.reducer';\nimport { provideEffects } from '@ngrx/effects';\nimport { CustomersEffects } from './customers.effects';\nimport \"./customers.json\"\n\nexport const provideCustomers = [\n  provideState(customersFeature),\n  provideEffects([CustomersEffects]),\n];\n",
     "usedDeprecatedRules": []
   },
   {
