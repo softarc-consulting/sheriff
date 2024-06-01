@@ -7,5 +7,5 @@ import { cli } from '../cli/cli';
  * version.
  */
 export function version() {
-  cli.log('0.15.0');
+  cli.log('0.15.1');
 }
