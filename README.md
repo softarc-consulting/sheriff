@@ -1,4 +1,9 @@
+# Sheriff
+
+Modularity for TypeScript Projects
+
 ![build status](https://github.com/softarc-consulting/sheriff/actions/workflows/build.yml/badge.svg)
+[![npm version](https://img.shields.io/npm/v/%40softarc%2Fsheriff-core.svg)](https://www.npmjs.com/package/%40softarc%2Fsheriff-core)
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/softarc-consulting/sheriff/main/logo.png" width="320" style="text-align: center">
