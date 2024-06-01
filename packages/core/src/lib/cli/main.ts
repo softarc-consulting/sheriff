@@ -6,10 +6,7 @@ import { verify } from './verify';
 import { list } from './list';
 import { cli } from './cli';
 import { exportData } from './export-data';
-
-/** TODO
- * - Add documentation
- */
+import { version } from './version';
 
 export function main(...argv: string[]) {
   const [cmd, ...args] = argv;
@@ -26,9 +23,12 @@ export function main(...argv: string[]) {
     case 'export':
       handleError(() => exportData(...args));
       break;
+    case 'version':
+      version();
+      break;
     default:
       cli.log(
-        '\u001b[1m' + 'Sheriff - Modularity for TypeScript Projects\x1b[0m',
+        cli.bold('Sheriff (0.15.0) - Modularity for TypeScript Projects'),
       );
       cli.log('');
       cli.log('Commands:');
@@ -42,8 +42,9 @@ export function main(...argv: string[]) {
         '  sheriff list [main.ts]: lists the current modules of the project.',
       );
       cli.log(
-        '  sheriff verify [main.ts]: runs the verification process for the project',
+        '  sheriff verify [main.ts]: runs the verification process for the project.',
       );
+      cli.log('  sheriff version: prints out the current version.');
       cli.log('');
       cli.log(
         '[main.ts] is optional if a sheriff.config.ts with an entryFile property is in the current path.',
