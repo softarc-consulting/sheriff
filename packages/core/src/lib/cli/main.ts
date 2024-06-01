@@ -28,7 +28,7 @@ export function main(...argv: string[]) {
       break;
     default:
       cli.log(
-        cli.bold('Sheriff (0.15.0) - Modularity for TypeScript Projects'),
+        cli.bold('Sheriff (0.15.1) - Modularity for TypeScript Projects'),
       );
       cli.log('');
       cli.log('Commands:');
