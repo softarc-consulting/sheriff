@@ -1,7 +1,7 @@
+import { UserError } from '@softarc/sheriff-core';
 import { Rule } from 'eslint';
 import { ImportDeclaration, ImportExpression } from 'estree';
 import { Executor } from './executor';
-import { UserError } from '@softarc/sheriff-core';
 
 /**
  * Factory function generating a rule that traverses
@@ -24,9 +24,8 @@ export const createRule: (
     const executeRuleWithContext = (
       node: ImportExpression | ImportDeclaration,
     ) => {
-      const filename = context.filename ?? context.getFilename();
-      const sourceCode =
-        context.sourceCode?.text ?? context.getSourceCode().text;
+      const filename = context.filename ?? context.filename;
+      const sourceCode = context.sourceCode?.text ?? context.sourceCode.text;
       if (!hasInternalError) {
         try {
           executor(context, node, isFirstRun, filename, sourceCode);
