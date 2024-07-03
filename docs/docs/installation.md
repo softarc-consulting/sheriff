@@ -73,4 +73,4 @@ npm install -D @softarc/sheriff-core
 
 The CLI provides you with commands to list modules, check the rules and export the dependency graph in JSON format.
 
-For more details, see the [CLI](#cli).
+For more details, see the [CLI](./cli).
