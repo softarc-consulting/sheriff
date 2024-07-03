@@ -65,7 +65,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/logo.png',
+    image: 'img/social-card.png',
     navbar: {
       title: 'Sheriff',
       logo: {
