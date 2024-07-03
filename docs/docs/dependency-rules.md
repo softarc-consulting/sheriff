@@ -30,7 +30,7 @@ export const sheriffConfig: SheriffConfig = {
 ```
 
 The configuration allows every module with tag "noTag" to access any other module with tag "noTag"
-and ["root"](#42-the-root-tag).
+and ["root"](#the-root-tag).
 
 This is the recommendation for existing projects and allows an incremental introduction of Sheriff.
 
