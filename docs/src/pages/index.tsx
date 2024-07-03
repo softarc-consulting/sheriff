@@ -17,7 +17,7 @@ function HomepageHeader() {
         </Heading>
         <img
           className={clsx(styles.logo)}
-          src="/img/logo.png"
+          src="./img/logo.png"
           alt="Sheriff"
           title="Sheriff"
         />
