@@ -1,0 +1,27 @@
+div.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+
+  mat-toolbar {
+    mat-toolbar-row {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  mat-drawer-container {
+    flex: 1 1 auto;
+    min-height: 25em;
+
+    mat-drawer {
+      background: #fafafa;
+    }
+
+    mat-drawer-content {
+      padding: 1em;
+    }
+  }
+}

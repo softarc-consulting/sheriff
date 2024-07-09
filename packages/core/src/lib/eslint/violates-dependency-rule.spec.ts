@@ -29,6 +29,31 @@ describe('violates dependency rules', () => {
     expect(spy).not.toBeCalled();
   });
 
+  it('should not throw without config and multiple imports', () => {
+    createProject({
+      'tsconfig.json': tsConfig(),
+      src: {
+        'main.ts': ['./app.component.ts', '@angular/material/tooltip'],
+        'app.component.ts': [],
+      },
+    });
+
+    const mainTs = getFs().readFile(toFsPath('/project/src/main.ts'));
+
+    violatesDependencyRule(
+      '/project/src/main.ts',
+      './app/app.component',
+      true,
+      mainTs,
+    );
+    violatesDependencyRule(
+      '/project/src/main.ts',
+      './app/app.component',
+      false,
+      mainTs,
+    );
+  });
+
   it('should show a unresolvable import', () => {
     createProject({
       'tsconfig.json': tsConfig(),

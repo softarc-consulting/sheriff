@@ -6,8 +6,8 @@
   "scripts": {
     "build:all": "npx nx run-many --target=build && chmod +x dist/packages/core/src/bin/main.js",
     "commit": "commit",
-    "lint:all": "npx nx run-many --target lint",
-    "link:sheriff": "npm run build:all && npm link dist/packages/core && npm link dist/packages/eslint-plugin",
+    "lint:all": "eslint ./packages",
+    "link:sheriff": "npm run build:all && yarn link --cwd dist/packages/core && yarn link --cwd dist/packages/eslint-plugin && yarn link @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
     "run:cli": "nx build core && chmod +x dist/packages/core/src/bin/main.js",
     "test": "vitest",
     "test:ci": "vitest -c vitest.config.ci.ts"
@@ -20,29 +20,25 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
-    "@commitlint/prompt-cli": "^17.4.4",
-    "@nx/eslint": "18.3.3",
-    "@nx/eslint-plugin": "18.3.3",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/prompt-cli": "^19.3.1",
     "@nx/js": "18.3.3",
     "@nx/workspace": "18.3.3",
     "@types/eslint": "^8.4.6",
     "@types/estree": "^1.0.0",
     "@types/node": "18.19.14",
-    "@typescript-eslint/eslint-plugin": "7.7.0",
-    "@typescript-eslint/parser": "7.7.0",
-    "@vitest/coverage-c8": "^0.29.2",
-    "eslint": "8.57.0",
+    "@vitest/coverage-v8": "^2.0.3",
+    "eslint": "^9.6.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-unused-imports": "^3.1.0",
-    "husky": "^8.0.3",
+    "eslint-plugin-unused-imports": "^4.0.0",
+    "husky": "^9.0.11",
     "nx": "18.3.3",
     "prettier": "^3.2.5",
     "ts-node": "10.9.1",
-    "typescript": "5.4.5",
-    "vitest": "^0.29.1"
+    "typescript": "5.5.3",
+    "typescript-eslint": "8.0.0-alpha.41",
+    "vitest": "^2.0.3"
   }
 }
-

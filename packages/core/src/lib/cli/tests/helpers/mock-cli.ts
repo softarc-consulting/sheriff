@@ -4,10 +4,10 @@ import * as cliFile from '../../cli';
 export function mockCli() {
   const cli = vitest.spyOn(cliFile, 'cli', 'get');
   const mockedCli = {
-    endProcessOk: vitest.fn<[], never>(),
-    endProcessError: vitest.fn<[], never>(),
-    log: vitest.fn<[string], void>(),
-    logError: vitest.fn<[string], void>(),
+    endProcessOk: vitest.fn<() => never>(),
+    endProcessError: vitest.fn<() => never>(),
+    log: vitest.fn<(message: string) => void>(),
+    logError: vitest.fn<(message: string) =>  void>(),
     bold: (message: string) => `<b>${message}</b>`,
   };
 

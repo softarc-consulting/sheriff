@@ -11,6 +11,7 @@ import { FileInfo } from '../modules/file.info';
 let cache: Record<string, string> = {};
 let cacheActive = false;
 let fileInfo: FileInfo | undefined;
+let configFileIsMissing = false;
 const log = logger('core.eslint.dependency-rules');
 
 export const violatesDependencyRule = (
@@ -23,7 +24,12 @@ export const violatesDependencyRule = (
     cache = {};
     fileInfo = undefined;
     cacheActive = false;
+    configFileIsMissing = false;
   }
+  if (configFileIsMissing) {
+    return '';
+  }
+
   if (!cacheActive) {
     cacheActive = true;
     const projectInfo = init(toFsPath(filename), {
@@ -34,6 +40,7 @@ export const violatesDependencyRule = (
 
     if (!projectInfo) {
       log.info('no sheriff.config.ts present');
+      configFileIsMissing = true;
       return '';
     }
 

@@ -1,0 +1,45 @@
+<mat-card
+  *ngIf="holiday"
+  data-testid="holiday-card"
+  [ngClass]="{ 'sold-out': holiday.soldOut }"
+  class="my-4 mx-4"
+>
+  <mat-card-header>
+    <mat-card-title> {{ holiday.title }}</mat-card-title>
+    <mat-card-subtitle class="h-12">{{ holiday.teaser }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="h-64 overflow-clip overflow-hidden">
+    <figure>
+      <img [alt]="holiday.title" [src]="holiday.imageUrl" class="max-w-none" />
+      <div class="badge-overlay">
+        <span *ngIf="holiday.onSale" class="top-left badge">On Sale</span>
+        <span *ngIf="holiday.soldOut" class="middle-full badge">Sold out</span>
+      </div>
+    </figure>
+    <p class="text-sm">{{ holiday.description }}</p>
+  </mat-card-content>
+  <mat-card-actions class="flex justify-around items-center">
+    <mat-icon
+      eternalBlinker
+      *ngIf="holiday.isFavourite"
+      (click)="removeFavourite.emit(holiday.id)"
+      class="cursor-pointer"
+      >favorite</mat-icon
+    >
+    <mat-icon
+      eternalBlinker
+      *ngIf="!holiday.isFavourite"
+      (click)="addFavourite.emit(holiday.id)"
+      class="cursor-pointer"
+      >favorite_outlined</mat-icon
+    >
+    <a
+      [routerLink]="['./request-info', holiday.id]"
+      data-testid="btn-brochure"
+      mat-raised-button
+    >
+      Get a Brochure
+    </a>
+  </mat-card-actions>
+</mat-card>
