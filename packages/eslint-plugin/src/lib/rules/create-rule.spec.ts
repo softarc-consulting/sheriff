@@ -2,10 +2,10 @@ import { RuleTester } from 'eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from './create-rule';
 import { UserError } from '@softarc/sheriff-core';
+import { parser } from 'typescript-eslint';
 
 const tester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: { ecmaVersion: 2015 },
+  languageOptions: { parser, sourceType: 'module' }
 });
 
 const ruleExecutor = { foo: () => void true };
@@ -50,7 +50,6 @@ describe('create rule', () => {
   ]) {
     it(`should assign an error only once and show ${message}`, () => {
       spy.mockImplementation(() => {
-        // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw throwing;
       });
       tester.run('error', testRule, {

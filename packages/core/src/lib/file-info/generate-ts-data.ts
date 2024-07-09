@@ -49,7 +49,7 @@ function getTsSys(): ts.System {
       readFile(path: string): string | undefined {
         return fs.readFile(toFsPath(path));
       },
-    } as typeof ts.sys;
+    } as unknown as typeof ts.sys;
   } else {
     return ts.sys;
   }

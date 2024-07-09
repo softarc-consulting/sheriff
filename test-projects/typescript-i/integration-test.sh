@@ -7,19 +7,34 @@
 echo 'checking against different TypeScript versions'
 
 declare -a versions=('4.8' '4.9' '5.0' '5.1' '5.2' '5.3' '5.4' '5.5')
+declare -a configs=('.eslintrc.json' 'eslint.config.js')
 
 for version in ${versions[*]}; do
-  echo "Testing with TypeScript $version"
-  npm install typescript@$version
-  cp -r ../../node_modules/@softarc node_modules/
-  installed_version=$(npx tsc -v)
+  for config in ${configs[*]}; do
 
-  if [[ ! $installed_version == "Version $version"* ]]
-  then
-    echo "TypeScript should be $version but was $installed_version"
-    exit 1;
-  fi
+    eslint=""
+    if [[ $config == ".eslintrc.json" ]]
+    then
+      eslint="legacy"
+      cp configs/.eslintrc.json .
+    else
+      eslint="flat"
+      cp configs/eslint.config.js .
+      rm .eslintrc.json
+    fi
 
-  npx eslint src --format json --output-file lint.json
-  node ../verify-linter.mjs ./typescript-i/tests/expected-lint.json ./typescript-i/lint.json
+    echo "Testing with TypeScript $version, ESLint $eslint"
+    npm install typescript@$version
+    cp -r ../../node_modules/@softarc node_modules/
+    installed_version=$(npx tsc -v)
+
+    if [[ ! $installed_version == "Version $version"* ]]
+    then
+      echo "TypeScript should be $version but was $installed_version"
+      exit 1;
+    fi
+
+    npx eslint src --format json --output-file lint.json
+    node ../remove-paths.mjs lint.json
+  done
 done

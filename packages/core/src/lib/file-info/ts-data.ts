@@ -1,4 +1,4 @@
-import * as ts from 'typescript';
+import type * as ts from 'typescript';
 import { FsPath } from './fs-path';
 
 export type TsPaths = Record<string, FsPath>;

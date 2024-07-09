@@ -23,7 +23,6 @@ export type FileTreeContentType =
   | string[]
   | SheriffConfigContent;
 
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface FileTree {
   [key: string]: FileTreeContentType;
 }

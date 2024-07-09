@@ -1,0 +1,45 @@
+[
+  {
+    "filePath": "./src/app/app.routes.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "module  cannot access /src/app/customers/feature. Tags [root] have no clearance for domain:customers",
+        "line": 17,
+        "column": 11,
+        "nodeType": "ImportExpression",
+        "endLine": 17,
+        "endColumn": 47
+      },
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "module  cannot access /src/app/bookings. Tags [root] have no clearance for domain:bookings",
+        "line": 22,
+        "column": 11,
+        "nodeType": "ImportExpression",
+        "endLine": 22,
+        "endColumn": 38
+      },
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "module  cannot access /src/app/holidays/feature. Tags [root] have no clearance for domain:holidays",
+        "line": 27,
+        "column": 11,
+        "nodeType": "ImportExpression",
+        "endLine": 27,
+        "endColumn": 46
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 3,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Routes } from '@angular/router';\nimport { UserLoaderGuard } from './shell/services/user-loader.guard';\nimport { HomeComponent } from './shell/home.component';\n\nexport const appRoutes: Routes = [\n  {\n    path: '',\n    canActivate: [UserLoaderGuard],\n    children: [\n      {\n        path: '',\n        component: HomeComponent,\n      },\n      {\n        path: 'customers',\n        loadChildren: () =>\n          import('@eternal/customers/feature').then((m) => m.customersRoutes),\n      },\n      {\n        path: 'bookings',\n        loadChildren: () =>\n          import('@eternal/bookings').then((m) => m.bookingsRoutes),\n      },\n      {\n        path: 'holidays',\n        loadChildren: () =>\n          import('@eternal/holidays/feature').then((m) => m.holidaysRoutes),\n      },\n    ],\n  },\n];\n",
+    "usedDeprecatedRules": []
+  }
+]

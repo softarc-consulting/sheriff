@@ -1,19 +1,18 @@
-import { defineConfig, UserConfigExport } from "vitest/config";
+import { resolve } from 'path';
+import { defineConfig } from 'vitest/config';
 
-export const defaultConfig = {
+export default defineConfig({
   test: {
     coverage: {
-      provider: 'c8',
+      provider: 'v8',
       reporter: ['text', 'html'],
     },
-    include: ['packages/**/*.spec.ts']
-  },
-  resolve: {
+    include: ['packages/**/*.spec.ts'],
     alias: {
-      '@softarc/eslint-plugin-sheriff': 'packages/eslint-plugin/src/index.ts',
-      '@softarc/sheriff-core': 'packages/core/src/index.ts',
+      '@softarc/eslint-plugin-sheriff': resolve(
+        './packages/eslint-plugin/src/index.ts',
+      ),
+      '@softarc/sheriff-core': resolve('./packages/core/src/index.ts'),
     },
   },
-} satisfies UserConfigExport;
-
-export default defineConfig(defaultConfig);
+});
