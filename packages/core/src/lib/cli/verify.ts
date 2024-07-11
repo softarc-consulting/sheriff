@@ -57,7 +57,7 @@ export function verify(args: string[]) {
     cli.log('');
   } else {
     cli.log('');
-    cli.log('\u001b[32mNo issues found. Well done!');
+    cli.log('\u001b[32mNo issues found. Well done!\u001b[0m');
     cli.endProcessOk();
   }
 
