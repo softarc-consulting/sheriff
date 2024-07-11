@@ -1,4 +1,4 @@
 
 [1mVerification Report[0m
 
-[32mNo issues found. Well done!
+[32mNo issues found. Well done![0m
