@@ -19,7 +19,7 @@ jobs:
       - run: yarn
       - run: yarn lint:all
       - run: yarn link:sheriff
-      - run: yarn test:coverage
+      - run: yarn test:ci
       - run: cd test-projects/angular-i && yarn && npx ng lint
       - run: cd test-projects/angular-ii && yarn && npx ng lint
       - run: cd test-projects/angular-iii && yarn && npx ng lint

@@ -1,12 +1,12 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, UserConfigExport } from "vitest/config";
 
-export default defineConfig({
+export const defaultConfig = {
   test: {
     coverage: {
       provider: 'c8',
       reporter: ['text', 'html'],
     },
-    exclude: ['test-projects', 'docs', 'node_modules'],
+    include: ['packages/**/*.spec.ts']
   },
   resolve: {
     alias: {
@@ -14,4 +14,6 @@ export default defineConfig({
       '@softarc/sheriff-core': 'packages/core/src/index.ts',
     },
   },
-});
+} satisfies UserConfigExport;
+
+export default defineConfig(defaultConfig);
