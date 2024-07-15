@@ -10,7 +10,7 @@
     "link:sheriff": "npm run build:all && npm link dist/packages/core && npm link dist/packages/eslint-plugin",
     "run:cli": "nx build core && chmod +x dist/packages/core/src/bin/main.js",
     "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:ci": "vitest -c vitest.config.ci.ts"
   },
   "author": {
     "name": "Rainer Hahnekamp",
