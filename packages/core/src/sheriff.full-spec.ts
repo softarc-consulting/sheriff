@@ -13,7 +13,7 @@ describe('integration test', () => {
     it(`should test ${project}`, () => {
       const angularMain1 = path.join(
         __dirname,
-        '../../../..',
+        '../../..',
         'test-projects/',
         project,
         'src/main.ts',
