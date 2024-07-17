@@ -6,9 +6,10 @@
 
 echo 'checking against different TypeScript versions'
 
-declare -a versions=('4.8' '4.9' '5.0' '5.1' '5.2' '5.3' '5.4')
+declare -a versions=('4.8' '4.9' '5.0' '5.1' '5.2' '5.3' '5.4' '5.5')
 
 for version in ${versions[*]}; do
+  echo "Testing with TypeScript $version"
   npm install typescript@$version
   cp -r ../../node_modules/@softarc node_modules/
   installed_version=$(npx tsc -v)
