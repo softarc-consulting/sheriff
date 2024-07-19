@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 title: CLI
+displayed_sidebar: tutorialSidebar
 ---
 
 The core package (@softarc/sheriff-core) comes with a CLI to initialize the configuration file, list modules, check the rules and export the dependency graph in JSON format.

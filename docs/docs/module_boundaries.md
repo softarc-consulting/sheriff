@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Module Boundaries
+displayed_sidebar: tutorialSidebar
 ---
 
 Every directory with an _index.ts_ is a module. _index.ts_ exports

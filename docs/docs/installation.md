@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: Installation & Setup
+displayed_sidebar: tutorialSidebar
 ---
 
 Examples are available at https://github.com/softarc-consulting/sheriff/tree/main/test-projects
@@ -13,34 +14,147 @@ In order to get the best developer experience, we recommend to use Sheriff with 
 npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
 ```
 
-In your _eslintrc.json_, insert the rules:
+### Flat Config (_eslint.config.js_)
+
+```javascript
+// ...
+const sheriff = require('@softarc/eslint-plugin-sheriff');
+
+module.exports = tseslint.config(
+  // ...
+  {
+    files: ['**/*.ts'],
+    extends: [sheriff.configs.all],
+  },
+);
+````
+
+### Legacy Config (_.eslintrc.json_)
 
 ```json
 {
   "files": ["*.ts"],
-  "extends": ["plugin:@softarc/sheriff/default"]
+  "extends": ["plugin:@softarc/sheriff/legacy"]
 }
 ```
+
+
+:::note
+
+Please note, that the legacy mode's name was changed from `default` to `legacy` in [version 0.16](./release-notes/0.16).
+
+:::
 
 <details>
 
-<summary>Angular (CLI) Example</summary>
+<summary>Angular (CLI, Flat & @angular-eslint) Example</summary>
 
-```jsonc
-{
-  "root": true,
-  "ignorePatterns": ["**/*"],
-  "overrides": [
-    // existing rules...
-    {
-      "files": ["*.ts"],
-      "extends": ["plugin:@softarc/sheriff/default"],
+```javascript
+// @ts-check
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
+const sheriff = require('@softarc/eslint-plugin-sheriff');
+
+module.exports = tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'eternal',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'eternal',
+          style: 'kebab-case',
+        },
+      ],
     },
-  ],
-}
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    rules: {},
+  },
+  {
+    files: ['**/*.ts'],
+    extends: [sheriff.configs.all],
+  },
+);
+
 ```
 
 </details>
+
+<details>
+
+<summary>Angular (CLI, Legacy & @angular-eslint) Example</summary>
+
+```json5
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "eternal",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "eternal",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    },
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:@softarc/sheriff/legacy"]
+    }
+  ]
+}
+
+```
+
+</details>
+
 
 <details>
 
@@ -55,7 +169,7 @@ In your _eslintrc.json_, insert the rules:
     // existing rules...
     {
       "files": ["*.ts"],
-      "extends": ["plugin:@softarc/sheriff/default"],
+      "extends": ["plugin:@softarc/sheriff/legacy"],
     },
   ],
 }

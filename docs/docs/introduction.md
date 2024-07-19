@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: Introduction
+displayed_sidebar: tutorialSidebar
 ---
 
 Sheriff enforces module boundaries and dependency rules in TypeScript.

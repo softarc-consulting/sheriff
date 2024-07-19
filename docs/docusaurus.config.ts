@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
@@ -49,13 +49,7 @@ const config: Config = {
           editUrl:
             'https://github.com/softarc-consulting/sheriff/tree/main/docs/',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/softarc-consulting/sheriff/tree/main/docs/',
-        },
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -73,12 +67,16 @@ const config: Config = {
         src: 'img/logo.png',
       },
       items: [
-        // {to: '/tutorial', label: 'Tutorial', position: 'left'},
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Docs',
+        },
+        {
+          to: '/docs/release-notes/0.16',
+          label: 'Release Notes',
+          position: 'left',
         },
         // {to: '/api', label: 'API', position: 'left'},
         // {to: '/releases', label: 'Releases', position: 'left'},

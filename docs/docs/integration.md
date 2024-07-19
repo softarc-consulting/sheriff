@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 title: Integration into large projects
+displayed_sidebar: tutorialSidebar
 ---
 It is usually not possible to modularize an existing codebase at once. Instead, we have to integrate Sheriff
 incrementally.

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 4
 title: Dependency Rules
+displayed_sidebar: tutorialSidebar
 ---
 
 Sheriff provides access rules.
