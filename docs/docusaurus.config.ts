@@ -78,6 +78,11 @@ const config: Config = {
           label: 'Release Notes',
           position: 'left',
         },
+        {
+          to: '/docs/roadmap',
+          label: 'Roadmap',
+          position: 'left',
+        },
         // {to: '/api', label: 'API', position: 'left'},
         // {to: '/releases', label: 'Releases', position: 'left'},
         // {to: '/blog', label: 'Blog', position: 'left'},
