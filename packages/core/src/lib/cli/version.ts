@@ -1,4 +1,5 @@
 import { cli } from '../cli/cli';
+import { version as packageVersion } from '../../../package.json';
 
 /**
  * Although the version is already shown in the CLI,
@@ -7,5 +8,5 @@ import { cli } from '../cli/cli';
  * version.
  */
 export function version() {
-  cli.log('0.16.0');
+  cli.log(packageVersion);
 }
