@@ -7,6 +7,7 @@ import { list } from './list';
 import { cli } from './cli';
 import { exportData } from './export-data';
 import { version } from './version';
+import {version as packageVersion} from '../../../package.json';
 
 export function main(...argv: string[]) {
   const [cmd, ...args] = argv;
@@ -28,7 +29,7 @@ export function main(...argv: string[]) {
       break;
     default:
       cli.log(
-        cli.bold('Sheriff (0.16.0) - Modularity for TypeScript Projects'),
+        cli.bold(`Sheriff (${packageVersion}) - Modularity for TypeScript Projects`),
       );
       cli.log('');
       cli.log('Commands:');
