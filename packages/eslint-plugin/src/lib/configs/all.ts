@@ -1,8 +1,12 @@
 import rules from '../rules';
 import { parser } from 'typescript-eslint';
+import type { TSESLint } from '@typescript-eslint/utils';
 
-export const all = {
-  languageOptions: { parser, sourceType: 'module' },
+export const all: TSESLint.FlatConfig.Config = {
+  languageOptions: {
+    parser,
+    sourceType: 'module',
+  },
   plugins: {
     '@softarc/sheriff': {
       rules,
