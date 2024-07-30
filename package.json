@@ -7,7 +7,7 @@
     "build:all": "npx nx run-many --target=build && chmod +x dist/packages/core/src/bin/main.js",
     "commit": "commit",
     "lint:all": "eslint ./packages",
-    "link:sheriff": "npm run build:all && yarn link --cwd dist/packages/core && yarn link --cwd dist/packages/eslint-plugin && yarn link @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
+    "link:sheriff": "npm run build:all && yalc link --cwd dist/packages/core && yalc link --cwd dist/packages/eslint-plugin && yalc link @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
     "run:cli": "nx build core && chmod +x dist/packages/core/src/bin/main.js",
     "test": "vitest",
     "test:ci": "vitest -c vitest.config.ci.ts"
@@ -39,6 +39,7 @@
     "ts-node": "10.9.1",
     "typescript": "5.5.3",
     "typescript-eslint": "8.0.0-alpha.41",
-    "vitest": "^2.0.3"
+    "vitest": "^2.0.3",
+    "yalc": "^1.0.0-pre.53"
   }
 }
