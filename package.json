@@ -7,7 +7,7 @@
     "build:all": "npx nx run-many --target=build && chmod +x dist/packages/core/src/bin/main.js",
     "commit": "commit",
     "lint:all": "eslint ./packages",
-    "link:sheriff": "npm run build:all && yalc publish dist/packages/core && yalc publish dist/packages/eslint-plugin && yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
+    "link:sheriff": "npm run build:all && yalc publish dist/packages/core && yalc publish dist/packages/eslint-plugin && yalc link @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
     "run:cli": "nx build core && chmod +x dist/packages/core/src/bin/main.js",
     "test": "vitest",
     "test:ci": "vitest -c vitest.config.ci.ts"
