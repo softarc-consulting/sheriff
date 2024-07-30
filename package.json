@@ -17,8 +17,6 @@
     "email": "rainer.hahnekamp@gmail.com"
   },
   "dependencies": {
-    "@softarc/eslint-plugin-sheriff": "file:.yalc/@softarc/eslint-plugin-sheriff",
-    "@softarc/sheriff-core": "file:.yalc/@softarc/sheriff-core",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
