@@ -1,5 +1,6 @@
 set -e
 yarn
+yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
 
 # CLI List Check
 echo 'checking for CLI list'
