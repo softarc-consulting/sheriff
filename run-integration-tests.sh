@@ -6,6 +6,7 @@ set -e
 # config.
 
 mv nx.json nx.json.bak
+mv node_modules node_modules.bak
 
 echo "Testing against Angular 15 (ESLint Legacy)"
 cd test-projects/angular-i
@@ -20,3 +21,4 @@ bash ./integration-test.sh
 
 cd ../..
 mv nx.json.bak nx.json
+mv node_modules.bak node_modules

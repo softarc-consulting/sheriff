@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'yarn'
-      - run: npm install -g yarn
+      - run: npm install -g yarn yalc
       - run: yarn
       - run: yarn lint:all
       - run: yarn link:sheriff
