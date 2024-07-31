@@ -4,17 +4,17 @@ yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
 
 # CLI List Check
 echo 'checking for CLI list'
-sheriff list src/main.ts > tests/actual/cli-list.txt
+npx sheriff list src/main.ts > tests/actual/cli-list.txt
 diff tests/actual/cli-list.txt tests/expected/cli-list.txt
 
 # CLI Export Check
 echo 'checking for CLI export'
-sheriff export src/main.ts > tests/actual/cli-export.txt
+npx sheriff export src/main.ts > tests/actual/cli-export.txt
 diff tests/actual/cli-export.txt tests/expected/cli-export.txt
 
 # CLI Verify Check
 echo 'checking for CLI verify'
-sheriff verify src/main.ts > tests/actual/cli-verify.txt
+npx sheriff verify src/main.ts > tests/actual/cli-verify.txt
 diff tests/actual/cli-verify.txt tests/expected/cli-verify.txt
 
 # Dynamic Import Check
