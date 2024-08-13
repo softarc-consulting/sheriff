@@ -1,6 +1,9 @@
 set -e
 yarn
 yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
+cd node_modules/.bin # yalc doesn't create symlink in node_modules/.bin
+ln -s ./@softarc/sheriff-core/src/binmain.js ./sheriff
+cd ../../
 
 # CLI List Check
 echo 'checking for CLI list'
