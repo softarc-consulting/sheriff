@@ -2,7 +2,7 @@ import UnassignedFileInfo from './unassigned-file-info';
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import { TsData, TsPaths } from './ts-data';
-import { FsPath, toFsPath } from './fs-path';
+import { FsPath, isFsPath, toFsPath } from './fs-path';
 
 export type ResolveFn = (
   moduleName: string,
@@ -20,6 +20,9 @@ export type ResolveFn = (
  * To improve the testability, we use abstraction whenever access to the
  * filesystem happens. In case the abstraction does not emulate the original's
  * behaviour, "strange bugs" might occur. Look out for them.
+ *
+ * fixPathSeparators is necessary to replace the static '/' path separator
+ * with the one from the OS.
  *
  * @param fsPath Filename to traverse from
  * @param fileInfoDict Dictionary of traversed files to catch circularity
@@ -57,14 +60,21 @@ const traverseFilesystem = (
           throw new Error(`${importPath} is outside of root ${rootDir}`);
         }
       }
-    } else if (fileName.endsWith('.json')) {
-      // just skip it
-    } else if (fileName.startsWith('.')) {
-      // might be an undetected dependency in node_modules
-      // or an incomplete import (= developer is still typing),
-      // if we read from an unsaved file via ESLint.
+    }
+
+    // just skip it
+    else if (fileName.endsWith('.json')) {
+    }
+
+    // might be an undetected dependency in node_modules
+    // or an incomplete import (= developer is still typing),
+    // if we read from an unsaved file via ESLint.
+    else if (fileName.startsWith('.')) {
       fileInfo.addUnresolvableImport(fileName);
-    } else {
+    }
+
+    // check for path/alias mapping
+    else {
       const resolvedTsPath = resolvePotentialTsPath(
         fileName,
         paths,
@@ -103,27 +113,36 @@ export function resolvePotentialTsPath(
   let unpathedImport: string | undefined;
   for (const tsPath in tsPaths) {
     const { isWildcard, clearedTsPath } = clearTsPath(tsPath);
+    // import from '@app/app.component' & paths: {'@app/*': ['src/app/*']}
     if (isWildcard && moduleName.startsWith(clearedTsPath)) {
       const pathMapping = tsPaths[tsPath];
       unpathedImport = moduleName.replace(clearedTsPath, pathMapping);
-    } else if (tsPath === moduleName) {
+    }
+    // import from '@app' & paths: { '@app': [''] }
+    else if (tsPath === moduleName) {
       unpathedImport = tsPaths[tsPath];
     }
 
     if (unpathedImport) {
-      const resolvedImport = resolveFn(unpathedImport);
-
-      if (
-        !resolvedImport.resolvedModule ||
-        resolvedImport.resolvedModule.isExternalLibraryImport === true
-      ) {
-        throw new Error(
-          `unable to resolve import ${moduleName} in ${filename}`,
+      // path is file -> return as is
+      if (isPathFile(unpathedImport)) {
+        return fixPathSeparators(toFsPath(unpathedImport));
+      }
+      // path is directory or something else -> rely on TypeScript resolvers
+      else {
+        const resolvedImport = resolveFn(unpathedImport);
+        if (
+          !resolvedImport.resolvedModule ||
+          resolvedImport.resolvedModule.isExternalLibraryImport === true
+        ) {
+          throw new Error(
+            `unable to resolve import ${moduleName} in ${filename}`,
+          );
+        }
+        return toFsPath(
+          fixPathSeparators(resolvedImport.resolvedModule.resolvedFileName),
         );
       }
-      return toFsPath(
-        fixPathSeparators(resolvedImport.resolvedModule.resolvedFileName),
-      );
     }
   }
 
@@ -137,6 +156,12 @@ function clearTsPath(tsPath: string) {
   return { isWildcard, clearedTsPath: clearedPath };
 }
 
+
+/**
+ * Ensures that `FsPath` uses the separator from the OS and not always '/'
+ *
+ * @param path
+ */
 function fixPathSeparators(path: string): FsPath {
   const fs = getFs();
 
@@ -145,6 +170,26 @@ function fixPathSeparators(path: string): FsPath {
   }
 
   return toFsPath(path);
+}
+
+/**
+ * Checks if the path is a file.
+ *
+ * For example in tsconfig.json:
+ * ```json
+ *   "paths": {
+ *     "@app": ["src/app/index"]
+ *   }
+ * ```
+ *
+ * 'src/app/index' comes already as absolute path with ts extension from
+ * pre-processing of @generateTsData.
+ *
+ * @param path '/.../src/app/index.ts' according to the example above
+ */
+function isPathFile(path: string): boolean {
+  const fs = getFs();
+  return fs.exists(path) && isFsPath(path) && fs.isFile(path);
 }
 
 export default traverseFilesystem;

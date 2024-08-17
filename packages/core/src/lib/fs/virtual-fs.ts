@@ -286,6 +286,11 @@ export class VirtualFs extends Fs {
   override split(path: string): string[] {
     return path.split('/');
   }
+
+  override isFile(path: FsPath): boolean {
+    const node  = this.#getNodeOrThrow(path);
+    return node.node.type === 'file'
+  }
 }
 
 const virtualFs = new VirtualFs();
