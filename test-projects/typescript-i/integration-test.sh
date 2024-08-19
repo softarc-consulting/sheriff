@@ -9,6 +9,12 @@ echo 'checking against different TypeScript versions'
 declare -a versions=('4.8' '4.9' '5.0' '5.1' '5.2' '5.3' '5.4' '5.5')
 declare -a configs=('.eslintrc.json' 'eslint.config.js')
 
+npm i
+yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
+cd node_modules/.bin # yalc doesn't create symlink in node_modules/.bin
+ln -s ../@softarc/sheriff-core/src/bin/main.js ./sheriff
+cd ../../
+
 for version in ${versions[*]}; do
   for config in ${configs[*]}; do
 
@@ -25,7 +31,6 @@ for version in ${versions[*]}; do
 
     echo "Testing with TypeScript $version, ESLint $eslint"
     npm install typescript@$version
-    cp -r ../../node_modules/@softarc node_modules/
     installed_version=$(npx tsc -v)
 
     if [[ ! $installed_version == "Version $version"* ]]
