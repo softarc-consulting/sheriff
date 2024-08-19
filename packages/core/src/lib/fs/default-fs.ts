@@ -89,6 +89,10 @@ export class DefaultFs extends Fs {
   override split = (p: string) => p.split(path.sep);
 
   print = () => void true;
+
+  override isFile(path: FsPath): boolean {
+    return fs.lstatSync(path).isFile();
+  }
 }
 
 const defaultFs = new DefaultFs();

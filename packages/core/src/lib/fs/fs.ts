@@ -45,4 +45,6 @@ export abstract class Fs {
   abstract split(path: string): string[];
 
   abstract isAbsolute(path: string): boolean;
+
+  abstract isFile(path: FsPath): boolean
 }
