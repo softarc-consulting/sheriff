@@ -26,5 +26,11 @@
     "appsDir": "packages",
     "libsDir": "packages"
   },
-  "neverConnectToCloud": true
+  "neverConnectToCloud": true,
+  "release": {
+    "projects": ["*"],
+    "version": {
+      "conventionalCommits": true
+    }
+  }
 }
