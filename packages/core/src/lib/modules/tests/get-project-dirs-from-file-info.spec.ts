@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import getFs, { useVirtualFs } from '../../fs/getFs';
-import {UnassignedFileInfo} from '../../file-info/unassigned-file-info';
+import { UnassignedFileInfo } from '../../file-info/unassigned-file-info';
 import { getProjectDirsFromFileInfo } from '../get-project-dirs-from-file-info';
 import { toFsPath } from '../../file-info/fs-path';
 import { buildFileInfo } from '../../test/build-file-info';

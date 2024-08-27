@@ -2,57 +2,51 @@ import { Module } from './module';
 import { UnassignedFileInfo } from '../file-info/unassigned-file-info';
 import traverseUnassignedFileInfo from '../file-info/traverse-unassigned-file-info';
 import throwIfNull from '../util/throw-if-null';
-import { FsPath } from '../file-info/fs-path';
-import { formatModules } from './format-modules';
-import get from '../util/get';
-import { logger } from '../log';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 import { FileInfo } from './file.info';
+import { ModulePathMap } from './find-module-paths';
+import { entries, fromEntries, keys, values } from "../util/typed-object-functions";
 
-const log = logger('core.modules.create');
-
-const findClosestModule = (path: string, moduleInfos: Module[]) => {
-  return throwIfNull(
-    moduleInfos
-      .filter((moduleInfo) => path.startsWith(moduleInfo.directory))
-      .sort((p1, p2) => (p1.directory.length > p2.directory.length ? -1 : 1))
-      .at(0),
-    `findClosestModule for ${path}`,
-  );
-};
-
-export const createModules = (
-  fileInfo: UnassignedFileInfo,
-  existingModules: Set<FsPath>,
+export function createModules(
+  entryFileInfo: UnassignedFileInfo,
+  modulePathMap: ModulePathMap,
   rootDir: FsPath,
   fileInfoMap: Map<FsPath, FileInfo>,
   getFileInfo: (path: FsPath) => FileInfo,
-): Module[] => {
-  const moduleInfos = Array.from(existingModules).map(
-    (module) => new Module(module, fileInfoMap, getFileInfo, false),
+  barrelFile: string
+): Module[] {
+  const moduleMap = fromEntries(
+    entries(modulePathMap).map(([path, hasBarrel]) => [
+      path,
+      new Module(toFsPath(path), fileInfoMap, getFileInfo, false, hasBarrel, barrelFile),
+    ]),
   );
-  moduleInfos.push(new Module(rootDir, fileInfoMap, getFileInfo, true));
-  const moduleInfoMapPerIndexTs = new Map<string, Module>(
-    moduleInfos.map((moduleInfo) => [moduleInfo.path, moduleInfo]),
-  );
-  const moduleInfoMap = new Map<string, Module>(
-    moduleInfos.map((moduleInfo) => [moduleInfo.directory, moduleInfo]),
+  // add root module
+  moduleMap[rootDir] = new Module(
+    rootDir,
+    fileInfoMap,
+    getFileInfo,
+    true,
+    false,
+    barrelFile
   );
 
-  for (const element of traverseUnassignedFileInfo(fileInfo)) {
-    const fi = element.fileInfo;
-    if (isFileInfoAModule(fi, existingModules)) {
-      get(moduleInfoMapPerIndexTs, fi.path).addFileInfo(fi);
-    } else {
-      findClosestModule(fi.path, moduleInfos).addFileInfo(fi);
-    }
+  const modulePaths = keys(moduleMap);
+
+  for (const { fileInfo } of traverseUnassignedFileInfo(entryFileInfo)) {
+    const modulePath = findClosestModulePath(fileInfo.path, modulePaths);
+    moduleMap[modulePath].addFileInfo(fileInfo);
   }
 
-  const foundModules = Array.from(moduleInfoMap.values());
-  log.info(formatModules(foundModules));
-  return foundModules;
-};
+  return values(moduleMap);
+}
 
-const isFileInfoAModule = (
-  { path }: UnassignedFileInfo,
-  existingModules: Set<string>,
-) => existingModules.has(path);
+function findClosestModulePath(path: string, modulePaths: FsPath[]) {
+  return throwIfNull(
+    modulePaths
+      .filter((modulePath) => path.startsWith(modulePath))
+      .sort((p1, p2) => (p1.length > p2.length ? -1 : 1))
+      .at(0),
+    `findClosestModule for ${path}`,
+  );
+}

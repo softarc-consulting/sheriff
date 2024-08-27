@@ -9,4 +9,5 @@ export const defaultConfig: SheriffConfig = {
   log: false,
   entryFile: '',
   isConfigFileMissing: false,
+  barrelFileName: 'index.ts'
 };

@@ -12,7 +12,7 @@ import {
   TagWithoutValueError,
 } from '../error/user-error';
 
-const PLACE_HOLDER_REGEX = /<[a-zA-Z-_]+>/g;
+export const PLACE_HOLDER_REGEX = /<[a-zA-Z-_]+>/g;
 
 export const calcTagsForModule = (
   moduleDir: FsPath,

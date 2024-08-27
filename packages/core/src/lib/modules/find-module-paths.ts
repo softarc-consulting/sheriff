@@ -1,17 +1,28 @@
-import getFs from '../fs/getFs';
 import { FsPath } from '../file-info/fs-path';
-import { logger } from '../log';
+import { findModulePathsWithoutBarrel } from "./internal/find-module-paths-without-barrel";
+import { TagConfig } from "../config/tag-config";
+import { findModulePathsWithBarrel } from "./internal/find-module-paths-with-barrel";
 
-const log = logger('core.modules.find-path');
+export type ModulePathMap = Record<FsPath, boolean>
 
-export const findModulePaths = (projectDirs: FsPath[]): Set<FsPath> => {
-  const fs = getFs();
-  let modules: FsPath[] = [];
+/**
+ * Find module paths which can be defined via having a barrel file or the
+ * configuration's property `modules`.
+ *
+ * If a module has a barrel file and an internal, it is of type barrel file.
+ */
+export function findModulePaths(projectDirs: FsPath[], moduleConfig: TagConfig, barrelFileName: string): ModulePathMap {
+  const modulesWithoutBarrel = findModulePathsWithoutBarrel(projectDirs, moduleConfig);
+  const modulesWithBarrel = findModulePathsWithBarrel(projectDirs, barrelFileName);
+  const modulePaths: ModulePathMap = {};
 
-  for (const projectDir of projectDirs) {
-    modules = modules.concat(fs.findFiles(projectDir, 'index.ts'));
+  for (const path of modulesWithoutBarrel) {
+    modulePaths[path] = false;
   }
 
-  log.info(modules.join(', '));
-  return new Set(modules);
-};
+  for (const path of modulesWithBarrel) {
+    modulePaths[path] = true;
+  }
+
+  return modulePaths;
+}

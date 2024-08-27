@@ -13,10 +13,9 @@ export type DependencyRuleViolation = {
 
 export function checkForDependencyRuleViolation(
   fsPath: FsPath,
-  { config, getFileInfo, rootDir, modules }: ProjectInfo,
+  { config, getFileInfo, rootDir }: ProjectInfo,
 ): DependencyRuleViolation[] {
   const violations: DependencyRuleViolation[] = [];
-  const modulePaths = modules.map((module) => module.path);
 
   if (config.isConfigFileMissing) {
     return [];
@@ -24,15 +23,16 @@ export function checkForDependencyRuleViolation(
 
   const assignedFileInfo = getFileInfo(fsPath);
   const importedModulePathsWithRawImport = assignedFileInfo.imports
-    // skip deep imports
-    .filter((importedFi) => modulePaths.includes(importedFi.path))
-    // skip imports from barrel of same module
-    .filter(importedFi => importedFi.moduleInfo.directory !== assignedFileInfo.moduleInfo.directory)
+    // skip imports of same module
+    .filter(
+      (importedFi) =>
+        importedFi.moduleInfo.path !== assignedFileInfo.moduleInfo.path,
+    )
     .map((fileInfo) => [
-      fileInfo.moduleInfo.directory,
+      fileInfo.moduleInfo.path,
       assignedFileInfo.getRawImportForImportedFileInfo(fileInfo.path),
     ]);
-  const fromModule = toFsPath(assignedFileInfo.moduleInfo.directory);
+  const fromModule = toFsPath(assignedFileInfo.moduleInfo.path);
   const fromTags = calcTagsForModule(
     fromModule,
     rootDir,

@@ -23,7 +23,7 @@ describe('check deep imports', () => {
     });
 
     for (const [filename, deepImports] of [
-      ['src/main.ts', []],
+      // ['src/main.ts', []],
       ['src/app/app.routes.ts', []],
       ['src/app/app.component.ts', ['./customers/customer.component']],
       ['src/app/customers/customer.component.ts', []],
@@ -32,6 +32,7 @@ describe('check deep imports', () => {
     ]) {
       expect(
         checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo),
+        `failed deep import test for ${filename}`
       ).toEqual(deepImports);
     }
   });

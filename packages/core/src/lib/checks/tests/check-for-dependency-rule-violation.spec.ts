@@ -499,7 +499,7 @@ describe('check for dependency rule violation', () => {
           'customer.component.ts': [],
           'customer.ts': [],
           'customer.component.spec.ts': ['@app/src/customers', '.index'],
-        }
+        },
       },
     });
 
@@ -509,5 +509,44 @@ describe('check for dependency rule violation', () => {
     );
 
     expect(violations).toEqual([]);
-  })
+  });
+
+  it('should check for nested modules that they are not wrongly assigned to the same', () => {
+    const projectInfo = testInit('src/customers/index.ts', {
+      'tsconfig.json': tsConfig(),
+      'sheriff.config.ts': sheriffConfig({
+        tagging: {
+          'src/customers': ['domain:customers', 'type:domain'],
+          'src/customers/feature': ['domain:customers', 'type:feature'],
+        },
+        depRules: {
+          'domain:customers': sameTag,
+          'type:domain': ['type:feature'],
+          'type:feature': [],
+        },
+      }),
+      src: {
+        customers: {
+          'index.ts': ['./feature', './customer.service.ts'],
+          'customer.service.ts': [],
+          feature: {
+            'index.ts': ['./customer.component.ts'],
+            'customer.component.ts': ['../customer.service.ts'],
+          },
+        },
+      },
+    });
+
+    const violationsForSuperFolder = checkForDependencyRuleViolation(
+      toFsPath('/project/src/customers/index.ts'),
+      projectInfo,
+    );
+    expect(violationsForSuperFolder).toEqual([]);
+
+    const violationsForSubFolder = checkForDependencyRuleViolation(
+      toFsPath('/project/src/customers/feature/customer.component.ts'),
+      projectInfo,
+    );
+    expect(violationsForSubFolder).toHaveLength(1)
+  });
 });

@@ -92,6 +92,7 @@ export function init(entryFile: FsPath, options: InitOptions = {}) {
       entryFile,
       fullOptions.traverse,
       tsData,
+      config,
       options.entryFileContent,
     ),
   };

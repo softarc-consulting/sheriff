@@ -140,9 +140,9 @@ export function getProjectData(
 
   for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
     const entry: ProjectDataEntry = {
-      module: fileInfo.moduleInfo.directory || '.',
+      module: fileInfo.moduleInfo.path || '.',
       tags: calcOrGetTags(
-        fileInfo.moduleInfo.directory,
+        fileInfo.moduleInfo.path,
         projectInfo,
         tagsCache,
       ),
