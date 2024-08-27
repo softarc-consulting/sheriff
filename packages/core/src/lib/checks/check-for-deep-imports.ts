@@ -1,6 +1,7 @@
 import { FsPath } from '../file-info/fs-path';
 import { SheriffConfig } from '../config/sheriff-config';
 import { ProjectInfo } from '../main/init';
+import { FileInfo } from "../modules/file.info";
 
 /**
  * verifies if an existing file has deep imports which are forbidden.
@@ -10,18 +11,19 @@ import { ProjectInfo } from '../main/init';
  */
 export function checkForDeepImports(
   fsPath: FsPath,
-  { rootDir, config, modules, getFileInfo }: ProjectInfo,
+  { rootDir, config, getFileInfo }: ProjectInfo,
 ): string[] {
   const deepImports: string[] = [];
   const assignedFileInfo = getFileInfo(fsPath);
 
   const isRootAndExcluded = createIsRootAndExcluded(rootDir, config);
-  const isModuleIndex = (fsPath: FsPath) =>
-    modules.map((module) => module.path).includes(fsPath);
+  const isModuleBarrel = (fileInfo: FileInfo) =>
+    fileInfo.moduleInfo.hasBarrel &&
+    fileInfo.moduleInfo.barrelPath === fileInfo.path;
 
   for (const importedFileInfo of assignedFileInfo.imports) {
     if (
-      !isModuleIndex(importedFileInfo.path) &&
+      !isModuleBarrel(importedFileInfo) &&
       !isRootAndExcluded(importedFileInfo.moduleInfo.path) &&
       importedFileInfo.moduleInfo !== assignedFileInfo.moduleInfo
     ) {

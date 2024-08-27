@@ -18,7 +18,7 @@ export function list(args: string[]) {
     Array.from(
       projectInfo.modules
         .filter((module) => !module.isRoot)
-        .map((module) => toFsPath(module.directory)),
+        .map((module) => toFsPath(module.path)),
     ),
     projectInfo,
   );

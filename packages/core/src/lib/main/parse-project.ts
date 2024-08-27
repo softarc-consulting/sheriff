@@ -2,12 +2,13 @@ import { FsPath } from '../file-info/fs-path';
 import { FileInfo } from '../modules/file.info';
 import { generateUnassignedFileInfo } from '../file-info/generate-unassigned-file-info';
 import { getProjectDirsFromFileInfo } from '../modules/get-project-dirs-from-file-info';
-import { findModulePaths } from '../modules/find-module-paths';
 import { createModules } from '../modules/create-modules';
 import { fillFileInfoMap } from '../modules/fill-file-info-map';
 import throwIfNull from '../util/throw-if-null';
 import { TsData } from '../file-info/ts-data';
 import { Module } from '../modules/module';
+import { SheriffConfig } from '../config/sheriff-config';
+import { findModulePaths } from "../modules/find-module-paths";
 
 export type ParsedResult = {
   fileInfo: FileInfo;
@@ -20,7 +21,8 @@ export const parseProject = (
   entryFile: FsPath,
   traverse: boolean,
   tsData: TsData,
-  fileContent?: string,
+  config: SheriffConfig,
+  fileContent?: string
 ): ParsedResult => {
   const unassignedFileInfo = generateUnassignedFileInfo(
     entryFile,
@@ -36,13 +38,14 @@ export const parseProject = (
   const getFileInfo = (path: FsPath) =>
     throwIfNull(fileInfoMap.get(path), `cannot find FileInfo for ${path}`);
 
-  const modulePaths = findModulePaths(projectDirs);
+  const modulePaths = findModulePaths(projectDirs, config.tagging, config.barrelFileName);
   const modules = createModules(
     unassignedFileInfo,
     modulePaths,
     rootDir,
     fileInfoMap,
     getFileInfo,
+    config.barrelFileName
   );
   fillFileInfoMap(fileInfoMap, modules);
 
