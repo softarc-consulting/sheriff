@@ -31,9 +31,8 @@ function calcOrGetTags(modulePath: FsPath, projectInfo: ProjectInfo): string[] {
   return tags;
 }
 
-export function exportData(...args: string[]): void {
+export function createDump(projectInfo: ProjectInfo) {
   const fs = getFs();
-  const projectInfo = getEntryFromCliOrConfig(args[0]);
   const relative = (path: FsPath) => fs.relativeTo(projectInfo.rootDir, path);
 
   const data: Record<string, ExportEntry> = {};
@@ -45,6 +44,13 @@ export function exportData(...args: string[]): void {
       imports: fileInfo.imports.map((fileInfo) => relative(fileInfo.path)),
     };
   }
+  return data;
+}
+
+export function exportData(...args: string[]): void {
+  const projectInfo = getEntryFromCliOrConfig(args[0]);
+
+  const data: Record<string, ExportEntry> = createDump(projectInfo);
 
   cli.log(JSON.stringify(data, null, '  '));
 }
