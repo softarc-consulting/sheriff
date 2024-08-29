@@ -38,6 +38,7 @@
   "src/app/shared/security/index.ts": {
     "module": "src/app/shared/security",
     "tags": [
+      "shared",
       "shared:security"
     ],
     "imports": [
@@ -48,6 +49,7 @@
   "src/app/shared/security/security.provider.ts": {
     "module": "src/app/shared/security",
     "tags": [
+      "shared",
       "shared:security"
     ],
     "imports": [
@@ -58,6 +60,7 @@
   "src/app/shared/security/security.effects.ts": {
     "module": "src/app/shared/security",
     "tags": [
+      "shared",
       "shared:security"
     ],
     "imports": [
@@ -68,6 +71,7 @@
   "src/app/shared/security/security.actions.ts": {
     "module": "src/app/shared/security",
     "tags": [
+      "shared",
       "shared:security"
     ],
     "imports": [
@@ -77,6 +81,7 @@
   "src/app/shared/security/security.reducer.ts": {
     "module": "src/app/shared/security",
     "tags": [
+      "shared",
       "shared:security"
     ],
     "imports": [
@@ -86,6 +91,7 @@
   "src/app/shared/security/security.service.ts": {
     "module": "src/app/shared/security",
     "tags": [
+      "shared",
       "shared:security"
     ],
     "imports": [
@@ -97,6 +103,7 @@
   "src/app/shared/security/security.selectors.ts": {
     "module": "src/app/shared/security",
     "tags": [
+      "shared",
       "shared:security"
     ],
     "imports": [
@@ -115,6 +122,7 @@
   "src/app/shared/ui-messaging/index.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": [
@@ -129,6 +137,7 @@
   "src/app/shared/ui-messaging/shared-ui-messaging.provider.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": [
@@ -138,6 +147,7 @@
   "src/app/shared/ui-messaging/loader/loading.interceptor.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": [
@@ -148,6 +158,7 @@
   "src/app/shared/ui-messaging/loader/loading.service.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": []
@@ -155,6 +166,7 @@
   "src/app/shared/ui-messaging/loader/silent-load.context.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": []
@@ -162,6 +174,7 @@
   "src/app/shared/ui-messaging/loader/loader.component.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": [
@@ -171,6 +184,7 @@
   "src/app/shared/ui-messaging/message/message.service.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": [
@@ -181,6 +195,7 @@
   "src/app/shared/ui-messaging/message/message.store.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": [
@@ -190,6 +205,7 @@
   "src/app/shared/ui-messaging/message/message.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": []
@@ -197,6 +213,7 @@
   "src/app/shared/ui-messaging/message/confirmation.component.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": []
@@ -204,6 +221,7 @@
   "src/app/shared/ui-messaging/message/message.component.ts": {
     "module": "src/app/shared/ui-messaging",
     "tags": [
+      "shared",
       "shared:ui-messaging"
     ],
     "imports": [
@@ -214,6 +232,7 @@
   "src/app/shared/config/index.ts": {
     "module": "src/app/shared/config",
     "tags": [
+      "shared",
       "shared:config"
     ],
     "imports": [
@@ -223,6 +242,7 @@
   "src/app/shared/config/configuration.ts": {
     "module": "src/app/shared/config",
     "tags": [
+      "shared",
       "shared:config"
     ],
     "imports": []
@@ -230,6 +250,7 @@
   "src/app/shared/http/index.ts": {
     "module": "src/app/shared/http",
     "tags": [
+      "shared",
       "shared:http"
     ],
     "imports": [
@@ -241,6 +262,7 @@
   "src/app/shared/http/error.interceptor.ts": {
     "module": "src/app/shared/http",
     "tags": [
+      "shared",
       "shared:http"
     ],
     "imports": [
@@ -251,6 +273,7 @@
   "src/app/shared/http/error-message.context.ts": {
     "module": "src/app/shared/http",
     "tags": [
+      "shared",
       "shared:http"
     ],
     "imports": []
@@ -258,6 +281,7 @@
   "src/app/shared/http/base-url.interceptor.ts": {
     "module": "src/app/shared/http",
     "tags": [
+      "shared",
       "shared:http"
     ],
     "imports": [
@@ -267,6 +291,7 @@
   "src/app/shared/http/with-error-message-context.ts": {
     "module": "src/app/shared/http",
     "tags": [
+      "shared",
       "shared:http"
     ],
     "imports": [
@@ -276,6 +301,7 @@
   "src/app/shared/master-data/index.ts": {
     "module": "src/app/shared/master-data",
     "tags": [
+      "shared",
       "shared:master-data"
     ],
     "imports": [
@@ -286,6 +312,7 @@
   "src/app/shared/master-data/shared-master-data.provider.ts": {
     "module": "src/app/shared/master-data",
     "tags": [
+      "shared",
       "shared:master-data"
     ],
     "imports": [
@@ -295,6 +322,7 @@
   "src/app/shared/master-data/+state/master.reducer.ts": {
     "module": "src/app/shared/master-data",
     "tags": [
+      "shared",
       "shared:master-data"
     ],
     "imports": []
@@ -410,6 +438,7 @@
   "src/app/shared/form/index.ts": {
     "module": "src/app/shared/form",
     "tags": [
+      "shared",
       "shared:form"
     ],
     "imports": [
@@ -420,6 +449,7 @@
   "src/app/shared/form/options.ts": {
     "module": "src/app/shared/form",
     "tags": [
+      "shared",
       "shared:form"
     ],
     "imports": []
@@ -427,6 +457,7 @@
   "src/app/shared/form/form-errors.component.ts": {
     "module": "src/app/shared/form",
     "tags": [
+      "shared",
       "shared:form"
     ],
     "imports": []
@@ -652,6 +683,7 @@
   "src/app/shared/ngrx-utils/index.ts": {
     "module": "src/app/shared/ngrx-utils",
     "tags": [
+      "shared",
       "shared:ngrx-utils"
     ],
     "imports": [
@@ -665,6 +697,7 @@
   "src/app/shared/ngrx-utils/noop.action.ts": {
     "module": "src/app/shared/ngrx-utils",
     "tags": [
+      "shared",
       "shared:ngrx-utils"
     ],
     "imports": []
@@ -672,6 +705,7 @@
   "src/app/shared/ngrx-utils/safe-concat-map.ts": {
     "module": "src/app/shared/ngrx-utils",
     "tags": [
+      "shared",
       "shared:ngrx-utils"
     ],
     "imports": [
@@ -681,6 +715,7 @@
   "src/app/shared/ngrx-utils/filter-defined.ts": {
     "module": "src/app/shared/ngrx-utils",
     "tags": [
+      "shared",
       "shared:ngrx-utils"
     ],
     "imports": [
@@ -690,6 +725,7 @@
   "src/app/shared/util/index.ts": {
     "module": "src/app/shared/util",
     "tags": [
+      "shared",
       "shared:util"
     ],
     "imports": [
@@ -701,6 +737,7 @@
   "src/app/shared/util/assert-defined.ts": {
     "module": "src/app/shared/util",
     "tags": [
+      "shared",
       "shared:util"
     ],
     "imports": []
@@ -708,6 +745,7 @@
   "src/app/shared/util/is-defined.ts": {
     "module": "src/app/shared/util",
     "tags": [
+      "shared",
       "shared:util"
     ],
     "imports": []
@@ -715,6 +753,7 @@
   "src/app/shared/util/safe-assign.ts": {
     "module": "src/app/shared/util",
     "tags": [
+      "shared",
       "shared:util"
     ],
     "imports": []
@@ -722,6 +761,7 @@
   "src/app/shared/ngrx-utils/deep-clone.ts": {
     "module": "src/app/shared/ngrx-utils",
     "tags": [
+      "shared",
       "shared:ngrx-utils"
     ],
     "imports": []
@@ -729,6 +769,7 @@
   "src/app/shared/ngrx-utils/load-status.ts": {
     "module": "src/app/shared/ngrx-utils",
     "tags": [
+      "shared",
       "shared:ngrx-utils"
     ],
     "imports": []
@@ -867,6 +908,7 @@
   "src/app/shared/ui/index.ts": {
     "module": "src/app/shared/ui",
     "tags": [
+      "shared",
       "shared:ui"
     ],
     "imports": [
@@ -876,6 +918,7 @@
   "src/app/shared/ui/blinker.directive.ts": {
     "module": "src/app/shared/ui",
     "tags": [
+      "shared",
       "shared:ui"
     ],
     "imports": []

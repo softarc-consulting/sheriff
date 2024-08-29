@@ -6,16 +6,16 @@ import { wildcardToRegex } from '../util/wildcard-to-regex';
 import { NoDependencyRuleForTagError } from '../error/user-error';
 
 export const isDependencyAllowed = (
-  froms: string[],
-  to: string,
+  from: string,
+  tos: string[],
   config: DependencyRulesConfig,
   context: DependencyCheckContext,
 ): boolean => {
   let isAllowed: boolean | undefined;
-  for (const from of froms) {
-    isAllowed = undefined;
-    for (const tag in config) {
-      if (from.match(wildcardToRegex(tag))) {
+  isAllowed = undefined;
+  for (const tag in config) {
+    if (from.match(wildcardToRegex(tag))) {
+      for (const to of tos) {
         const value = config[tag];
         const matchers = Array.isArray(value) ? value : [value];
         for (const matcher of matchers) {
@@ -31,13 +31,13 @@ export const isDependencyAllowed = (
             return true;
           }
         }
-        isAllowed = false;
       }
+      isAllowed = false;
     }
+  }
 
-    if (isAllowed === undefined) {
-      throw new NoDependencyRuleForTagError(from);
-    }
+  if (isAllowed === undefined) {
+    throw new NoDependencyRuleForTagError(from);
   }
 
   return false;

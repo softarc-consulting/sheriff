@@ -4,15 +4,15 @@ export const config: SheriffConfig = {
   version: 1,
   tagging: {
     'src/app': {
-      'shared/<type>': 'shared:<type>',
+      'shared/<type>': ['shared', 'shared:<type>'],
       bookings: ['domain:bookings', 'type:feature'],
       'customers/api': ['type:api', 'domain:customers:api'],
       '<domain>/<type>': ['domain:<domain>', 'type:<type>'],
     },
   },
   depRules: {
-    root: ['type:feature', 'shared:*', 'domain:*'],
-    'domain:*': sameTag,
+    root: ['type:feature', 'shared:*'],
+    'domain:*': [sameTag, 'shared'],
     'domain:bookings': 'domain:customers:api',
     'domain:customers:api': 'domain:customers',
     'type:api': 'type:*',
@@ -32,6 +32,7 @@ export const config: SheriffConfig = {
     ],
     'type:ui': ['type:model', 'shared:form', 'shared:ui'],
     'type:model': noDependencies,
+    'shared': 'shared:*',
     'shared:http': ['shared:config', 'shared:ui-messaging'],
     'shared:ngrx-utils': ['shared:util'],
   },

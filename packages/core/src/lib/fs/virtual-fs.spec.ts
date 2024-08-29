@@ -3,7 +3,7 @@ import { VirtualFs } from './virtual-fs';
 import { inVfs } from '../test/in-vfs';
 import { toFsPath } from '../file-info/fs-path';
 import getFs, { useVirtualFs } from './getFs';
-import '../test/matchers';
+import '../test/expect.extensions';
 import { EOL } from 'os';
 
 describe('Virtual Fs', () => {

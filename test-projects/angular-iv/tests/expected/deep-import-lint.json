@@ -10,7 +10,7 @@
         "column": 1,
         "nodeType": "ImportDeclaration",
         "endLine": 4,
-        "endColumn": 82
+        "endColumn": 79
       }
     ],
     "suppressedMessages": [],
@@ -19,7 +19,7 @@
     "warningCount": 0,
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
-    "source": "import { AsyncPipe, NgIf } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';\nimport { CustomersRepository } from '../../data/customers-repository.service.ts';\nimport { Observable } from 'rxjs';\nimport { map } from 'rxjs/operators';\n\n@Component({\n  template: ` <eternal-customers\n    *ngIf=\"viewModel$ | async as viewModel\"\n    [viewModel]=\"viewModel\"\n    (setSelected)=\"setSelected($event)\"\n    (setUnselected)=\"setUnselected()\"\n    (switchPage)=\"switchPage($event)\"\n  ></eternal-customers>`,\n  standalone: true,\n  imports: [CustomersComponent, NgIf, AsyncPipe],\n})\nexport class CustomersContainerComponent {\n  #customersRepository = inject(CustomersRepository);\n  viewModel$: Observable<CustomersViewModel> =\n    this.#customersRepository.pagedCustomers$.pipe(\n      map((pagedCustomers) => ({\n        customers: pagedCustomers.customers,\n        pageIndex: pagedCustomers.page - 1,\n        length: pagedCustomers.total,\n      }))\n    );\n\n  setSelected(id: number) {\n    this.#customersRepository.select(id);\n  }\n\n  setUnselected() {\n    this.#customersRepository.unselect();\n  }\n\n  switchPage(page: number) {\n    console.log('switch to page ' + page + ' is not implemented');\n  }\n}\n",
+    "source": "import { AsyncPipe, NgIf } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';\nimport { CustomersRepository } from '../../data/customers-repository.service';\nimport { Observable } from 'rxjs';\nimport { map } from 'rxjs/operators';\n\n@Component({\n  template: ` <eternal-customers\n    *ngIf=\"viewModel$ | async as viewModel\"\n    [viewModel]=\"viewModel\"\n    (setSelected)=\"setSelected($event)\"\n    (setUnselected)=\"setUnselected()\"\n    (switchPage)=\"switchPage($event)\"\n  ></eternal-customers>`,\n  standalone: true,\n  imports: [CustomersComponent, NgIf, AsyncPipe],\n})\nexport class CustomersContainerComponent {\n  #customersRepository = inject(CustomersRepository);\n  viewModel$: Observable<CustomersViewModel> =\n    this.#customersRepository.pagedCustomers$.pipe(\n      map((pagedCustomers) => ({\n        customers: pagedCustomers.customers,\n        pageIndex: pagedCustomers.page - 1,\n        length: pagedCustomers.total,\n      }))\n    );\n\n  setSelected(id: number) {\n    this.#customersRepository.select(id);\n  }\n\n  setUnselected() {\n    this.#customersRepository.unselect();\n  }\n\n  switchPage(page: number) {\n    console.log('switch to page ' + page + ' is not implemented');\n  }\n}\n",
     "usedDeprecatedRules": []
   }
 ]

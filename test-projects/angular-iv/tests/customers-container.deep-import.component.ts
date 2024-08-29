@@ -1,7 +1,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';
-import { CustomersRepository } from '../../data/customers-repository.service.ts';
+import { CustomersRepository } from '../../data/customers-repository.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

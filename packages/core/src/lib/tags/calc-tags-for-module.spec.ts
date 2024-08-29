@@ -8,7 +8,7 @@ import {
   NoAssignedTagError,
   TagWithoutValueError,
 } from '../error/user-error';
-import '../test/matchers';
+import '../test/expect.extensions';
 
 describe('calc tags for module', () => {
   const root = '/project' as FsPath;

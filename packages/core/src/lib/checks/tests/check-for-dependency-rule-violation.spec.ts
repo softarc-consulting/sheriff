@@ -1,17 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { sheriffConfig } from '../test/project-configurator';
-import { sameTag } from './same-tag';
-import { noDependencies } from './no-dependencies';
-import { testInit } from '../test/test-init';
+import { sheriffConfig } from '../../test/project-configurator';
+import { sameTag } from '../same-tag';
+import { noDependencies } from '../no-dependencies';
+import { testInit } from '../../test/test-init';
 import {
   checkForDependencyRuleViolation,
   DependencyRuleViolation,
-} from './check-for-dependency-rule-violation';
-import { FsPath, toFsPath } from '../file-info/fs-path';
-import { traverseProject } from '../test/traverse-project';
-import { tsConfig } from '../test/fixtures/ts-config';
-import { NoDependencyRuleForTagError } from '../error/user-error';
-import '../test/matchers';
+} from '../check-for-dependency-rule-violation';
+import { FsPath, toFsPath } from '../../file-info/fs-path';
+import { traverseProject } from '../../test/traverse-project';
+import { tsConfig } from '../../test/fixtures/ts-config';
+import { NoDependencyRuleForTagError } from '../../error/user-error';
 
 describe('check for dependency rule violation', () => {
   describe('standard checks', () => {
@@ -63,7 +62,7 @@ describe('check for dependency rule violation', () => {
           'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
         },
         depRules: {
-          root: ['type:feature', 'domain:*'],
+          root: ['type:feature'],
           'domain:*': sameTag,
           'type:feature': ['type:ui', 'type:data', 'type:model'],
           'type:data': 'type:model',
@@ -77,33 +76,45 @@ describe('check for dependency rule violation', () => {
     type Project = ReturnType<typeof projectTemplate>;
 
     type TestParam = [
-      string,
-      Record<string, { from: string[]; to: string }[]>,
-      (project: Project) => void,
+      string, //name
+      Record<string, { from: string; to: string[] }[]>, // expected violation
+      (project: Project) => void, // changes to imports
     ];
 
     const params: TestParam[] = [
       ['no violations', {}, () => true],
       [
         'root -> ui',
-        { 'app.component.ts': [{ from: ['root'], to: 'type:ui' }] },
+        {
+          'app.component.ts': [
+            { from: 'root', to: ['domain:customers', 'type:ui'] },
+          ],
+        },
         (project) => project.src['app.component.ts'].push('./customers/ui'),
       ],
       [
         'root -> model',
-        { 'app.component.ts': [{ from: ['root'], to: 'type:model' }] },
+        {
+          'app.component.ts': [
+            { from: 'root', to: ['domain:customers', 'type:model'] },
+          ],
+        },
         (project) => project.src['app.component.ts'].push('./customers/model'),
       ],
       [
         'root -> data',
-        { 'app.component.ts': [{ from: ['root'], to: 'type:data' }] },
+        {
+          'app.component.ts': [
+            { from: 'root', to: ['domain:customers', 'type:data'] },
+          ],
+        },
         (project) => project.src['app.component.ts'].push('./customers/data'),
       ],
       [
         'feature -> feature',
         {
           'holidays/feat-admin/index.ts': [
-            { from: ['domain:holidays', 'type:feature'], to: 'type:feature' },
+            { from: 'type:feature', to: ['domain:holidays', 'type:feature'] },
           ],
         },
         (project) =>
@@ -116,8 +127,8 @@ describe('check for dependency rule violation', () => {
         {
           'customers/feature/index.ts': [
             {
-              from: ['domain:customers', 'type:feature'],
-              to: 'domain:holidays',
+              from: 'domain:customers',
+              to: ['domain:holidays', 'type:ui'],
             },
           ],
         },
@@ -128,7 +139,7 @@ describe('check for dependency rule violation', () => {
         'data -> ui',
         {
           'customers/data/index.ts': [
-            { from: ['domain:customers', 'type:data'], to: 'type:ui' },
+            { from: 'type:data', to: ['domain:customers', 'type:ui'] },
           ],
         },
         (project) =>
@@ -138,7 +149,7 @@ describe('check for dependency rule violation', () => {
         'ui -> data',
         {
           'customers/ui/index.ts': [
-            { from: ['domain:customers', 'type:ui'], to: 'type:data' },
+            { from: 'type:ui', to: ['domain:customers', 'type:data'] },
           ],
         },
         (project) =>
@@ -149,13 +160,13 @@ describe('check for dependency rule violation', () => {
         {
           'customers/model/index.ts': [
             {
-              from: ['domain:customers', 'type:model'],
-              to: 'type:data',
+              from: 'type:model',
+              to: ['domain:customers', 'type:data'],
             },
-            { from: ['domain:customers', 'type:model'], to: 'type:ui' },
+            { from: 'type:model', to: ['domain:customers', 'type:ui'] },
             {
-              from: ['domain:customers', 'type:model'],
-              to: 'type:feature',
+              from: 'type:model',
+              to: ['domain:customers', 'type:feature'],
             },
           ],
         },
@@ -173,17 +184,17 @@ describe('check for dependency rule violation', () => {
     ): Record<
       string,
       {
-        from: string[];
-        to: string;
+        from: string;
+        to: string[];
       }[]
     > {
-      const result: Record<string, { from: string[]; to: string }[]> = {};
+      const result: Record<string, { from: string; to: string[] }[]> = {};
 
       for (const [path, violation] of Object.entries(violations)) {
         const shortenedPath = path.replace('/project/src/', '');
         result[shortenedPath] = violation.map((v) => ({
-          from: v.fromTags,
-          to: v.toTag,
+          from: v.fromTag,
+          to: v.toTags,
         }));
       }
 
@@ -198,6 +209,13 @@ describe('check for dependency rule violation', () => {
         const violationMap: Record<FsPath, DependencyRuleViolation[]> = {};
 
         for (const path of traverseProject(project.src, '/project/src')) {
+          if (
+            name.startsWith('model -> ui, data') &&
+            path === '/project/src/customers/model/index.ts'
+          ) {
+            debugger;
+          }
+
           const violations = checkForDependencyRuleViolation(path, projectInfo);
 
           if (violations.length) {
@@ -224,6 +242,49 @@ describe('check for dependency rule violation', () => {
     );
 
     expect(violations).toEqual([]);
+  });
+
+  it('should require that each existing tag has clearance', () => {
+    const project = {
+      'tsconfig.json': tsConfig(),
+      'sheriff.config.ts': sheriffConfig({
+        tagging: {
+          'src/shared/<type>': ['shared'],
+          'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
+        },
+        depRules: {
+          root: ['type:feature'],
+          'domain:*': sameTag,
+          'type:feature': ['type:ui', 'shared'],
+          'type:ui': noDependencies,
+        },
+      }),
+      src: {
+        'app.component.ts': ['./customers/feature'],
+        customers: {
+          feature: {
+            'index.ts': ['../../shared/ui'],
+          },
+        },
+        shared: {
+          ui: {
+            'index.ts': [],
+          },
+        },
+      },
+    };
+
+    const projectInfo = testInit('src/app.component.ts', project);
+    const violations = checkForDependencyRuleViolation(
+      toFsPath('/project/src/customers/feature/index.ts'),
+      projectInfo,
+    );
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0]).toMatchObject({
+      fromTag: 'domain:customers',
+      toTags: ['shared'],
+    });
   });
 
   describe('noTag', () => {
@@ -410,7 +471,7 @@ describe('check for dependency rule violation', () => {
         'app.component.ts': 0,
         'customers/feature/index.ts': 0,
         'customers/ui/index.ts': 1,
-        'customers/data/index.ts': 0,
+        'customers/data/index.ts': 1,
         'holidays/feature/index.ts': 0,
       });
     });

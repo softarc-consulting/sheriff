@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { checkForDeepImports } from './check-for-deep-imports';
-import { toFsPath } from '../file-info/fs-path';
-import { testInit } from '../test/test-init';
-import { tsConfig } from '../test/fixtures/ts-config';
+import { checkForDeepImports } from '../check-for-deep-imports';
+import { toFsPath } from '../../file-info/fs-path';
+import { testInit } from '../../test/test-init';
+import { tsConfig } from '../../test/fixtures/ts-config';
 
 describe('check deep imports', () => {
   it('should check for deep imports', () => {
@@ -36,7 +36,7 @@ describe('check deep imports', () => {
     }
   });
 
-  it('should ignore unresolable imports', () => {
+  it('should ignore unresolvable imports', () => {
     const projectInfo = testInit('src/main.ts', {
       'tsconfig.json': tsConfig(),
       src: {

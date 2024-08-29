@@ -3,7 +3,7 @@ import { createProject } from '../test/project-creator';
 import { toFsPath } from './fs-path';
 import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
 import { InvalidPathError } from '../error/user-error';
-import '../test/matchers';
+import '../test/expect.extensions';
 import { tsConfig } from '../test/fixtures/ts-config';
 
 describe('get ts paths and root dir', () => {

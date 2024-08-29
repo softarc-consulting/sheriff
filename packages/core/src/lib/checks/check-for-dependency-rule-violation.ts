@@ -7,8 +7,8 @@ export type DependencyRuleViolation = {
   rawImport: string;
   fromModulePath: FsPath;
   toModulePath: FsPath;
-  fromTags: string[];
-  toTag: string;
+  fromTag: string;
+  toTags: string[];
 };
 
 export function checkForDependencyRuleViolation(
@@ -42,27 +42,32 @@ export function checkForDependencyRuleViolation(
     importedModulePath,
     rawImport,
   ] of importedModulePathsWithRawImport) {
-    const toTags: string[] = calcTagsForModule(
-      toFsPath(importedModulePath),
-      rootDir,
-      config.tagging,
-      config.autoTagging,
-    );
-    for (const toTag of toTags) {
-      if (
-        !isDependencyAllowed(fromTags, toTag, config.depRules, {
+    for (const fromTag of fromTags) {
+      const toTags: string[] = calcTagsForModule(
+        toFsPath(importedModulePath),
+        rootDir,
+        config.tagging,
+        config.autoTagging,
+      );
+      const isViolation = !isDependencyAllowed(
+        fromTag,
+        toTags,
+        config.depRules,
+        {
           fromModulePath: fromModule,
           toModulePath: toFsPath(importedModulePath),
           fromFilePath: fsPath,
           toFilePath: toFsPath(importedModulePath),
-        })
-      ) {
+        },
+      );
+
+      if (isViolation) {
         violations.push({
           rawImport,
           fromModulePath: fromModule,
           toModulePath: toFsPath(importedModulePath),
-          fromTags,
-          toTag,
+          fromTag,
+          toTags,
         });
 
         break;
