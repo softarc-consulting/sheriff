@@ -7,7 +7,7 @@ import { main } from '../main';
 import { mockCli } from './helpers/mock-cli';
 
 // Helper Functions to avoid redundancy in the CLI commands
-export function verifyCliWrappers(...args: string[]) {
+export function verifyCliWrappers(...args: unknown[]) {
   it(`should call getEntryFromCliOrConfig`, () => {
     mockCli();
 
@@ -23,9 +23,9 @@ export function verifyCliWrappers(...args: string[]) {
       'getEntryFromCliOrConfig',
     );
 
-    main(...args);
+    main(...args.map(String));
 
-    expect(spy).toHaveBeenCalledWith('src/main.ts');
+    expect(spy).toHaveBeenCalledWith(...args.slice(1));
   });
 
   it('should use the error handler', () => {
@@ -39,7 +39,7 @@ export function verifyCliWrappers(...args: string[]) {
     });
 
     const spy = vitest.spyOn(handleErrorFile, 'handleError');
-    main(...args);
+    main(...args.map(String));
 
     expect(spy).toHaveBeenCalledOnce();
   });
