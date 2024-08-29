@@ -31,8 +31,9 @@ function calcOrGetTags(modulePath: FsPath, projectInfo: ProjectInfo): string[] {
   return tags;
 }
 
-export function createDump(projectInfo: ProjectInfo) {
+export function createDump(entry?: string) {
   const fs = getFs();
+  const projectInfo = getEntryFromCliOrConfig(entry);
   const relative = (path: FsPath) => fs.relativeTo(projectInfo.rootDir, path);
 
   const data: Record<string, ExportEntry> = {};
@@ -48,9 +49,6 @@ export function createDump(projectInfo: ProjectInfo) {
 }
 
 export function exportData(...args: string[]): void {
-  const projectInfo = getEntryFromCliOrConfig(args[0]);
-
-  const data: Record<string, ExportEntry> = createDump(projectInfo);
-
+  const data: Record<string, ExportEntry> = createDump(args[0]);
   cli.log(JSON.stringify(data, null, '  '));
 }
