@@ -17,6 +17,6 @@
   "peerDependencies": {
     "@softarc/sheriff-core": "0.16.2",
     "eslint": "^8.0.0 || ^9.0.0",
-    "@typescript-eslint/utils": "^7.11.0 || ^8.0.0-alpha.20"
+    "@typescript-eslint/utils": "^5.48.2 || ^6.0.0 || ^7.0.0 || ^8.0.0-alpha.20"
   }
 }
