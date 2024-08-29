@@ -46,19 +46,3 @@ expect.extend({
     };
   },
 });
-
-interface CustomMatchers<R = unknown> {
-  toBeVfsFile(expected: string): R;
-
-  toBeVfsFiles(expected: string[]): R;
-
-  toThrowUserError(userError: UserError): R;
-}
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Vi {
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-    interface Assertion extends CustomMatchers {}
-  }
-}

@@ -5,7 +5,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "module  cannot access /src/app/customers/feature. Tags [root] have no clearance for domain:customers",
+        "message": "module  cannot access /src/app/customers/feature. Tag root has no clearance for tags domain:customers, type:feature",
         "line": 17,
         "column": 11,
         "nodeType": "ImportExpression",
@@ -15,7 +15,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "module  cannot access /src/app/bookings. Tags [root] have no clearance for domain:bookings",
+        "message": "module  cannot access /src/app/bookings. Tag root has no clearance for tags domain:bookings, type:feature",
         "line": 22,
         "column": 11,
         "nodeType": "ImportExpression",
@@ -25,7 +25,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "module  cannot access /src/app/holidays/feature. Tags [root] have no clearance for domain:holidays",
+        "message": "module  cannot access /src/app/holidays/feature. Tag root has no clearance for tags domain:holidays, type:feature",
         "line": 27,
         "column": 11,
         "nodeType": "ImportExpression",

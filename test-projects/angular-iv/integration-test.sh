@@ -2,7 +2,7 @@ set -e
 yarn
 yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
 cd node_modules/.bin # yalc doesn't create symlink in node_modules/.bin
-ln -s ../@softarc/sheriff-core/src/bin/main.js ./sheriff
+ln -sf ../@softarc/sheriff-core/src/bin/main.js ./sheriff
 cd ../../
 cp sheriff.config.ts sheriff.config.ts.original
 
@@ -16,10 +16,17 @@ echo 'checking for CLI export'
 npx sheriff export src/main.ts > tests/actual/cli-export.txt
 diff tests/actual/cli-export.txt tests/expected/cli-export.txt
 
-# CLI Verify Check
-echo 'checking for CLI verify'
-npx sheriff verify src/main.ts > tests/actual/cli-verify.txt
-diff tests/actual/cli-verify.txt tests/expected/cli-verify.txt
+# CLI Verify Check (failure)
+echo 'checking for CLI verify (failure scenario)'
+cp tests/sheriff.config-failure.ts sheriff.config.ts
+npx sheriff verify src/main.ts > tests/actual/cli-verify-failure.txt || true
+diff tests/actual/cli-verify-failure.txt tests/expected/cli-verify-failure.txt
+cp sheriff.config.ts.original sheriff.config.ts
+
+# CLI Verify Check (success)
+echo 'checking for CLI verify (success scenario)'
+npx sheriff verify src/main.ts > tests/actual/cli-verify-success.txt
+diff tests/actual/cli-verify-success.txt tests/expected/cli-verify-success.txt
 
 # Dynamic Import Check
 echo 'checking for dynamic import error'

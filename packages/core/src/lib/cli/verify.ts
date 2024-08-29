@@ -35,7 +35,7 @@ export function verify(args: string[]) {
 
       const dependencyRules = dependencyRuleViolations.map(
         (violation) =>
-          `from tags ${violation.fromTags.join(',')} to ${violation.toTag}`,
+          `from tag ${violation.fromTag} to tags ${violation.toTags.join(', ')}`,
       );
 
       validationsMap[fs.relativeTo(fs.cwd(), fileInfo.path)] = {

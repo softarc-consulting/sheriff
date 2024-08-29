@@ -5,7 +5,7 @@
       {
         "ruleId": "@softarc/sheriff/dependency-rule",
         "severity": 2,
-        "message": "module /src/app/customers/ui cannot access /src/app/customers/data. Tags [domain:customers,type:ui] have no clearance for type:data",
+        "message": "module /src/app/customers/ui cannot access /src/app/customers/data. Tag type:ui has no clearance for tags domain:customers, type:data",
         "line": 16,
         "column": 1,
         "nodeType": "ImportDeclaration",

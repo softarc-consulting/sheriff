@@ -66,10 +66,10 @@ function formatViolation(
   violation: DependencyRuleViolation,
   rootDir: FsPath,
 ): string {
-  const { fromModulePath, toModulePath, fromTags, toTag } = violation;
+  const { fromModulePath, toModulePath, fromTag, toTags } = violation;
   return `module ${fromModulePath.substring(
     rootDir.length,
   )} cannot access ${toModulePath.substring(
     rootDir.length,
-  )}. Tags [${fromTags.join(',')}] have no clearance for ${toTag}`;
+  )}. Tag ${fromTag} has no clearance for tags ${toTags.join(', ')}`;
 }

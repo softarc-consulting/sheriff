@@ -15,9 +15,10 @@ export const sheriffConfig: SheriffConfig = {
     },
   },
   depRules: {
-    root: ['app:state', 'app:shell', 'type:feature', 'shared', 'domain:*'],
+    root: ['app:shell', 'app:state', 'type:feature', 'shared'],
     'domain:*': [sameTag, 'shared'],
     shared: 'shared',
+    'type:*':'shared',
     'type:feature': ['type:feature', 'type:data', 'type:ui'],
     'type:ui': ['type:data'],
     'type:data': noDependencies,

@@ -17,7 +17,7 @@ Issues found:
 |   |   |-- ./customers/data
 |-- src/holidays/holidays.component.ts
 |   |-- Dependency Rule Violations
-|   |   |-- from tags holidays to customers"
+|   |   |-- from tag holidays to tags customers"
 `;
 
 exports[`verify > should find errors without sheriff.config.ts > error.log 1`] = `""`;

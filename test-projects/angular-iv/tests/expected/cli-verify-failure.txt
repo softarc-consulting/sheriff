@@ -1,0 +1,35 @@
+
+[1mVerification Report[0m
+
+Issues found:
+  Total Invalid Files: 8
+  Total Deep Imports: 0
+  Total Dependency Rule Violations: 10
+----------------------------------
+
+|-- src/app/customers/feature/components/add-customer.component.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:customers to tags shared:master-data
+|-- src/app/customers/ui/customer/customer.component.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:customers to tags shared:form
+|   |   |-- from tag domain:customers to tags shared:form
+|-- src/app/customers/data/customers.effects.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:customers to tags shared:ui-messaging
+|-- src/app/customers/feature/components/edit-customer.component.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:customers to tags shared:form
+|   |   |-- from tag domain:customers to tags shared:master-data
+|-- src/app/bookings/overview/overview.component.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:bookings to tags shared:ngrx-utils
+|-- src/app/holidays/feature/+state/holidays.effects.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:holidays to tags shared:config
+|-- src/app/holidays/ui/holiday-card/holiday-card.component.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:holidays to tags shared:ui
+|-- src/app/holidays/feature/request-info/request-info.component.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag domain:holidays to tags shared:util

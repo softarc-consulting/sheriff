@@ -6,8 +6,54 @@ import getFs from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
 import { violatesDependencyRule } from './violates-dependency-rule';
 import { tsConfig } from '../test/fixtures/ts-config';
+import { noDependencies, sameTag } from '@softarc/sheriff-core';
 
 describe('violates dependency rules', () => {
+  it('should require that each existing tag has clearance', () => {
+    createProject({
+      'tsconfig.json': tsConfig(),
+      'sheriff.config.ts': sheriffConfig({
+        tagging: {
+          'src/shared/<type>': ['shared'],
+          'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
+        },
+        depRules: {
+          root: ['type:feature'],
+          'domain:*': sameTag,
+          'type:feature': ['type:ui', 'shared'],
+          'type:ui': noDependencies,
+        },
+      }),
+      src: {
+        'app.component.ts': ['./customers/feature'],
+        customers: {
+          feature: {
+            'index.ts': ['../ui', '../../shared/ui'],
+          },
+          ui: {
+            'index.ts': ['../feature'],
+          },
+        },
+        shared: {
+          ui: {
+            'index.ts': ['./ui.component.ts'],
+            'ui.component.ts': [],
+          },
+        },
+      },
+    });
+
+    const violations = violatesDependencyRule(
+      '/project/src/customers/feature/index.ts',
+      '../../shared/ui',
+      true,
+      getFs().readFile(toFsPath('/project/src/customers/feature/index.ts')),
+    );
+    expect(violations).toBe(
+      'module /src/customers/feature cannot access /src/shared/ui. Tag domain:customers has no clearance for tags shared',
+    );
+  });
+
   it('should not generate fileInfo when no config file available', () => {
     const spy = vitest.spyOn(fileInfoGenerator, 'generateUnassignedFileInfo');
 

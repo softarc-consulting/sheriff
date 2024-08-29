@@ -5,7 +5,7 @@ import { toFsPath } from '../file-info/fs-path';
 import { TsConfig } from '../file-info/ts-config';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { MissingTaggingWithoutAutoTagging } from '../error/user-error';
-import '../test/matchers';
+import '../test/expect.extensions';
 
 describe('parse Config', () => {
   it('should read value', () => {
