@@ -7,7 +7,7 @@ import { exportData } from '../export-data';
 import { verifyCliWrappers } from './verify-cli-wrapper';
 
 describe('export data', () => {
-  verifyCliWrappers('export', 'src/main.ts');
+  verifyCliWrappers('export', 'src/main.ts', false);
 
   it('should test a simple application', () => {
     const { allLogs } = mockCli();
