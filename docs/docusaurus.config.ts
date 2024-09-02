@@ -74,7 +74,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          to: '/docs/release-notes/0.16',
+          to: '/docs/release-notes/0.17',
           label: 'Release Notes',
           position: 'left',
         },
