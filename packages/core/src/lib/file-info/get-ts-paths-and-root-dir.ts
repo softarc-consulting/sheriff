@@ -29,10 +29,10 @@ export const getTsPathsAndRootDir = (
     );
 
     const config = configContent.config as TsConfig;
-    const baseUrl = configContent.config.compilerOptions.baseUrl ?? './';
+    const baseUrl = configContent.config.compilerOptions?.baseUrl ?? './';
 
     const newPaths: Record<string, string[]> =
-      config.compilerOptions.paths ?? {};
+      config.compilerOptions?.paths ?? {};
     currentTsConfigDir = fs.getParent(currentTsConfigPath);
     for (const [key, [value]] of Object.entries(newPaths)) {
       const valueForFsPath = value.endsWith('/*') ? value.slice(0, -2) : value;
