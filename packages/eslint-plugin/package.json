@@ -1,6 +1,6 @@
 {
   "name": "@softarc/eslint-plugin-sheriff",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "homepage": "https://github.com/softarc-consulting/sheriff",
   "license": "MIT",
   "author": {
@@ -15,7 +15,7 @@
   "type": "commonjs",
   "dependencies": {},
   "peerDependencies": {
-    "@softarc/sheriff-core": "0.17.0",
+    "@softarc/sheriff-core": "0.17.1",
     "eslint": "^8.0.0 || ^9.0.0",
     "@typescript-eslint/utils": "^5.48.2 || ^6.0.0 || ^7.0.0 || ^8.0.0-alpha.20"
   }
