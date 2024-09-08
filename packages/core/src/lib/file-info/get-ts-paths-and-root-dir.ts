@@ -29,7 +29,7 @@ export const getTsPathsAndRootDir = (
     );
 
     const config = configContent.config as TsConfig;
-    const baseUrl = configContent.config.compilerOptions?.baseUrl ?? './';
+    const baseUrl = config.compilerOptions?.baseUrl ?? './';
 
     const newPaths: Record<string, string[]> =
       config.compilerOptions?.paths ?? {};

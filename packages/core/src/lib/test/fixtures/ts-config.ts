@@ -8,8 +8,8 @@ const defaultTsConfig = {
 };
 
 export interface TsConfig {
-  baseUrl: string;
-  paths: Record<string, string[]>;
+  baseUrl?: string;
+  paths?: Record<string, string[]>;
 }
 
 export function tsConfig(config: Partial<TsConfig> = {}) {
