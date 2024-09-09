@@ -134,4 +134,19 @@ describe('get ts paths and root dir', () => {
       ).toEqual({ '@app/*': '/project/src/app' });
     });
   });
+
+  test('no compilerOptions', () => {
+    createProject({
+      'tsconfig.json': JSON.stringify({}),
+      src: {
+        app: {
+          'main.ts': [],
+        },
+      },
+    });
+
+    expect(
+      getTsPathsAndRootDir(toFsPath('/project/tsconfig.json')).rootDir,
+    ).toEqual('/project');
+  });
 });
