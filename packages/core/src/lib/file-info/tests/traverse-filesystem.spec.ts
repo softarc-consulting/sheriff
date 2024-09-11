@@ -6,26 +6,20 @@ import UnassignedFileInfo, { buildFileInfo } from "../unassigned-file-info";
 import { tsConfig } from "../../test/fixtures/ts-config";
 import { ResolveFn, resolvePotentialTsPath, traverseFilesystem } from "../traverse-filesystem";
 import { ResolvedModuleFull } from "typescript";
-import { describe, beforeEach, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
-function setup(fileTree: FileTree) {
+function setup(fileTree: FileTree): UnassignedFileInfo {
   createProject(fileTree);
 
   const tsData = generateTsData(toFsPath('/project/tsconfig.json'));
   const mainPath = toFsPath('/project/src/main.ts');
 
-  return { tsData, mainPath };
+  return traverseFilesystem(mainPath, new Map<FsPath, UnassignedFileInfo>(), tsData);
 }
 
-describe('traverse file-system', () => {
-  let fileInfoDict: Map<FsPath, UnassignedFileInfo>;
-
-  beforeEach(() => {
-    fileInfoDict = new Map<FsPath, UnassignedFileInfo>();
-  });
-
+describe('traverse filesystem', () => {
   it('should find a single import', () => {
-    const { tsData, mainPath } = setup({
+    const fileInfo = setup({
       'tsconfig.json': tsConfig(),
       src: {
         'main.ts': ['./app/app.component'],
@@ -37,7 +31,6 @@ describe('traverse file-system', () => {
         },
       },
     });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
@@ -47,7 +40,7 @@ describe('traverse file-system', () => {
   });
 
   it('should work with paths', () => {
-    const { tsData, mainPath } = setup({
+    const fileInfo = setup({
       'tsconfig.json': tsConfig({
         paths: {
           '@customers': ['/src/app/customers/index.ts'],
@@ -63,7 +56,6 @@ describe('traverse file-system', () => {
         },
       },
     });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
@@ -73,7 +65,7 @@ describe('traverse file-system', () => {
   });
 
   it('should pick up dynamic imports', () => {
-    const { mainPath, tsData } = setup({
+    const fileInfo = setup({
       'tsconfig.json': tsConfig(),
       src: {
         'main.ts': `const routes = {[path: 'customers', loadChildren: () => import('./customers/index.ts')]};`,
@@ -82,7 +74,6 @@ describe('traverse file-system', () => {
         },
       },
     });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [['./customers/index.ts', []]]),
@@ -90,7 +81,7 @@ describe('traverse file-system', () => {
   });
 
   it('should pick index.ts automatically if path is a directory', () => {
-    const { tsData, mainPath } = setup({
+    const fileInfo = setup({
       'tsconfig.json': tsConfig({
         paths: { '@customers': ['/src/app/customers'] },
       }),
@@ -104,7 +95,6 @@ describe('traverse file-system', () => {
         },
       },
     });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
@@ -114,7 +104,7 @@ describe('traverse file-system', () => {
   });
 
   it('should automatically pick the file extension if missing in path', () => {
-    const { tsData, mainPath } = setup({
+    const fileInfo = setup({
       'tsconfig.json': tsConfig({
         paths: { '@customers': ['/src/app/customers/index'] },
       }),
@@ -128,7 +118,6 @@ describe('traverse file-system', () => {
         },
       },
     });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
@@ -138,7 +127,7 @@ describe('traverse file-system', () => {
   });
 
   it('should ignore an import if a non-wildcard path is used like a wildcard', () => {
-    const { tsData, mainPath } = setup({
+    const fileInfo = setup({
       'tsconfig.json': tsConfig({
         paths: { '@customers': ['/src/app/customers'] },
       }),
@@ -153,7 +142,6 @@ describe('traverse file-system', () => {
         },
       },
     });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [['./app/app.component.ts', []]]),
@@ -161,7 +149,7 @@ describe('traverse file-system', () => {
   });
 
   it('should find a path with wildcards', () => {
-    const { tsData, mainPath } = setup({
+    const fileInfo = setup({
       'tsconfig.json': tsConfig({ paths: { '@app/*': ['/src/app/*'] } }),
       src: {
         'main.ts': ['@app/app.component'],
@@ -173,7 +161,6 @@ describe('traverse file-system', () => {
         },
       },
     });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
     expect(fileInfo).toEqual(
       buildFileInfo('/project/src/main.ts', [
@@ -184,7 +171,7 @@ describe('traverse file-system', () => {
 
   describe('base url', () => {
     it('should resolve static imports', () => {
-      const { tsData, mainPath } = setup({
+      const fileInfo = setup({
         'tsconfig.json': tsConfig({ baseUrl: 'src' }),
         src: {
           'main.ts': ['app/app.component.ts'],
@@ -194,15 +181,13 @@ describe('traverse file-system', () => {
         },
       });
 
-      const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
-
       expect(fileInfo).toEqual(
         buildFileInfo('/project/src/main.ts', [['./app/app.component.ts', []]]),
       );
     });
 
     it('cannot resolve static imports if baseUrl is not set', () => {
-      const { tsData, mainPath } = setup({
+      const fileInfo = setup({
         'tsconfig.json': tsConfig({baseUrl: undefined}),
         src: {
           'main.ts': ['src/app/app.component.ts'],
@@ -211,8 +196,6 @@ describe('traverse file-system', () => {
           },
         },
       });
-
-      const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
 
       expect(fileInfo).toEqual(buildFileInfo('/project/src/main.ts', []));
     });
