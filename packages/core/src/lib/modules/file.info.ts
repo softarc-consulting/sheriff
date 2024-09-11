@@ -1,4 +1,4 @@
-import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import { UnassignedFileInfo } from '../file-info/unassigned-file-info';
 import { Module } from './module';
 import { FsPath } from '../file-info/fs-path';
 
@@ -11,6 +11,7 @@ import { FsPath } from '../file-info/fs-path';
  */
 export class FileInfo {
   #imports: FileInfo[] | undefined;
+
   constructor(
     private unassignedFileInfo: UnassignedFileInfo,
     public moduleInfo: Module,
@@ -40,5 +41,9 @@ export class FileInfo {
 
   isUnresolvableImport(importCommand: string) {
     return this.unassignedFileInfo.isUnresolvableImport(importCommand);
+  }
+
+  getExternalLibraries() {
+    return this.unassignedFileInfo.getExternalLibraries();
   }
 }

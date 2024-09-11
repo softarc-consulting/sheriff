@@ -20,16 +20,25 @@ describe('export data', () => {
         },
         depRules: {},
       }),
+      node_modules: {
+        lodash: { 'index.js': [] },
+        '@ngrx/signals': { 'index.js': [] },
+      },
       src: {
         'main.ts': ['./holidays/feature'],
         holidays: {
           feature: {
             'index.ts': ['./holidays-container.component.ts'],
-            'holidays-container.component.ts': ['../data', '../ui', '../model'],
+            'holidays-container.component.ts': [
+              '../data',
+              '../ui',
+              '../model',
+              'lodash',
+            ],
           },
           data: {
             'index.ts': ['./holidays-store.ts'],
-            'holidays-store.ts': ['../model'],
+            'holidays-store.ts': ['../model', '@ngrx/signals'],
           },
           ui: {
             'index.ts': ['./holidays.component'],
@@ -42,63 +51,7 @@ describe('export data', () => {
 
     exportData('src/main.ts');
 
-    expect(allLogs()).toEqual(
-      JSON.stringify(
-        {
-          'src/main.ts': {
-            module: '.',
-            tags: ['root'],
-            imports: ['src/holidays/feature/index.ts'],
-          },
-          'src/holidays/feature/index.ts': {
-            module: 'src/holidays/feature',
-            tags: ['domain:holidays', 'type:feature'],
-            imports: ['src/holidays/feature/holidays-container.component.ts'],
-          },
-          'src/holidays/feature/holidays-container.component.ts': {
-            module: 'src/holidays/feature',
-            tags: ['domain:holidays', 'type:feature'],
-            imports: [
-              'src/holidays/data/index.ts',
-              'src/holidays/ui/index.ts',
-              'src/holidays/model/index.ts',
-            ],
-          },
-          'src/holidays/data/index.ts': {
-            module: 'src/holidays/data',
-            tags: ['domain:holidays', 'type:data'],
-            imports: ['src/holidays/data/holidays-store.ts'],
-          },
-          'src/holidays/data/holidays-store.ts': {
-            module: 'src/holidays/data',
-            tags: ['domain:holidays', 'type:data'],
-            imports: ['src/holidays/model/index.ts'],
-          },
-          'src/holidays/model/index.ts': {
-            module: 'src/holidays/model',
-            tags: ['domain:holidays', 'type:model'],
-            imports: ['src/holidays/model/holiday.ts'],
-          },
-          'src/holidays/model/holiday.ts': {
-            module: 'src/holidays/model',
-            tags: ['domain:holidays', 'type:model'],
-            imports: [],
-          },
-          'src/holidays/ui/index.ts': {
-            module: 'src/holidays/ui',
-            tags: ['domain:holidays', 'type:ui'],
-            imports: ['src/holidays/ui/holidays.component.ts'],
-          },
-          'src/holidays/ui/holidays.component.ts': {
-            module: 'src/holidays/ui',
-            tags: ['domain:holidays', 'type:ui'],
-            imports: ['src/holidays/model/index.ts'],
-          },
-        },
-        null,
-        '  ',
-      ),
-    );
+    expect(allLogs()).toMatchSnapshot('simple-application');
   });
 
   it('should avoid circular dependencies', () => {
@@ -115,29 +68,7 @@ describe('export data', () => {
 
     exportData('src/main.ts');
 
-    expect(allLogs()).toEqual(
-      JSON.stringify(
-        {
-          'src/main.ts': {
-            module: '.',
-            tags: ['root'],
-            imports: ['src/app1.service.ts', 'src/app2.service.ts'],
-          },
-          'src/app1.service.ts': {
-            module: '.',
-            tags: ['root'],
-            imports: ['src/app2.service.ts'],
-          },
-          'src/app2.service.ts': {
-            module: '.',
-            tags: ['root'],
-            imports: ['src/app1.service.ts'],
-          },
-        },
-        null,
-        '  ',
-      ),
-    );
+    expect(allLogs()).toMatchSnapshot('circular-dependencies');
   });
 
   it('should skip not reachable files', () => {
@@ -154,24 +85,7 @@ describe('export data', () => {
 
     exportData('src/main.ts');
 
-    expect(allLogs()).toEqual(
-      JSON.stringify(
-        {
-          'src/main.ts': {
-            module: '.',
-            tags: ['root'],
-            imports: ['src/app1.service.ts'],
-          },
-          'src/app1.service.ts': {
-            module: '.',
-            tags: ['root'],
-            imports: [],
-          },
-        },
-        null,
-        '  ',
-      ),
-    );
+    expect(allLogs()).toMatchSnapshot('not-reachable-files');
   });
 
   it('should also work with a sheriff.config.ts', () => {
@@ -196,28 +110,6 @@ describe('export data', () => {
 
     exportData('src/main.ts');
 
-    expect(allLogs()).toEqual(
-      JSON.stringify(
-        {
-          'src/main.ts': {
-            module: '.',
-            tags: ['root'],
-            imports: ['src/holidays/index.ts', 'src/customers/index.ts'],
-          },
-          'src/holidays/index.ts': {
-            module: 'src/holidays',
-            tags: ['scope:holidays'],
-            imports: [],
-          },
-          'src/customers/index.ts': {
-            module: 'src/customers',
-            tags: ['scope:customers'],
-            imports: [],
-          },
-        },
-        null,
-        '  ',
-      ),
-    );
+    expect(allLogs()).toMatchSnapshot('sheriff-config');
   });
 });

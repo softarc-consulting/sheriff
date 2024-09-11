@@ -1,13 +1,17 @@
 import { FileTree } from '../../test/project-configurator';
-import { createProject } from "../../test/project-creator";
-import { generateTsData } from "../generate-ts-data";
-import { FsPath, toFsPath } from "../fs-path";
-import UnassignedFileInfo from "../unassigned-file-info";
-import { tsConfig } from "../../test/fixtures/ts-config";
-import { ResolveFn, resolvePotentialTsPath, traverseFilesystem } from "../traverse-filesystem";
-import { ResolvedModuleFull } from "typescript";
+import { createProject } from '../../test/project-creator';
+import { generateTsData } from '../generate-ts-data';
+import { FsPath, toFsPath } from '../fs-path';
+import { UnassignedFileInfo } from '../unassigned-file-info';
+import { tsConfig } from '../../test/fixtures/ts-config';
+import {
+  ResolveFn,
+  resolvePotentialTsPath,
+  traverseFilesystem,
+} from '../traverse-filesystem';
+import { ResolvedModuleFull } from 'typescript';
 import { describe, it, expect } from 'vitest';
-import {buildFileInfo} from "../../test/build-file-info";
+import { buildFileInfo } from '../../test/build-file-info';
 
 function setup(fileTree: FileTree): UnassignedFileInfo {
   createProject(fileTree);
@@ -15,7 +19,11 @@ function setup(fileTree: FileTree): UnassignedFileInfo {
   const tsData = generateTsData(toFsPath('/project/tsconfig.json'));
   const mainPath = toFsPath('/project/src/main.ts');
 
-  return traverseFilesystem(mainPath, new Map<FsPath, UnassignedFileInfo>(), tsData);
+  return traverseFilesystem(
+    mainPath,
+    new Map<FsPath, UnassignedFileInfo>(),
+    tsData,
+  );
 }
 
 describe('traverse filesystem', () => {
@@ -189,7 +197,7 @@ describe('traverse filesystem', () => {
 
     it('cannot resolve static imports if baseUrl is not set', () => {
       const fileInfo = setup({
-        'tsconfig.json': tsConfig({baseUrl: undefined}),
+        'tsconfig.json': tsConfig({ baseUrl: undefined }),
         src: {
           'main.ts': ['src/app/app.component.ts'],
           app: {
@@ -217,5 +225,58 @@ describe('traverse filesystem', () => {
         'home.component.ts',
       ),
     ).toThrow('unable to resolve import @customers in home.component.ts');
+  });
+
+  describe('external libraries', () => {
+    it('should add external libraries', () => {
+      const fileInfo = setup({
+        'tsconfig.json': tsConfig(),
+        node_modules: {
+          superlib: {
+            'index.ts': [],
+          },
+        },
+        src: {
+          'main.ts': ['superlib', './util.ts'],
+          'util.ts': [],
+        },
+      });
+
+      expect(fileInfo.getExternalLibraries()).toEqual(['superlib']);
+    });
+
+    it('should import secondary entrypoints', () => {
+      const fileInfo = setup({
+        'tsconfig.json': tsConfig(),
+        node_modules: {
+          superlib: {
+            better: {
+              'index.ts': [],
+            },
+          },
+        },
+        src: {
+          'main.ts': ['superlib/better'],
+        },
+      });
+
+      expect(fileInfo.getExternalLibraries()).toEqual(['superlib/better']);
+    });
+
+    it('should import an external library only once', () => {
+      const fileInfo = setup({
+        'tsconfig.json': tsConfig(),
+        node_modules: {
+          superlib: {
+            'index.ts': [],
+          },
+        },
+        src: {
+          'main.ts': ['superlib', 'superlib'],
+        },
+      });
+
+      expect(fileInfo.getExternalLibraries()).toEqual(['superlib']);
+    });
   });
 });

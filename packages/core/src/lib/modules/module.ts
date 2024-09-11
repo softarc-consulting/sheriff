@@ -1,4 +1,4 @@
-import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import {UnassignedFileInfo} from '../file-info/unassigned-file-info';
 import { FileInfo } from './file.info';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 

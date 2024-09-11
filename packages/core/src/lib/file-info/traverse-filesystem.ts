@@ -62,6 +62,8 @@ export function traverseFilesystem(
         if (!importPath.startsWith(rootDir)) {
           throw new Error(`${importPath} is outside of root ${rootDir}`);
         }
+      } else {
+        fileInfo.addExternalLibrary(fileName);
       }
     }
 

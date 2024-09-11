@@ -12,6 +12,8 @@ import throwIfNull from '../util/throw-if-null';
 export class UnassignedFileInfo {
   #rawImportMap = new Map<string, string>();
   #unresolvableImports: string[] = [];
+  #externalLibraries: string[] = [];
+
   constructor(
     public path: FsPath,
     public imports: UnassignedFileInfo[] = [],
@@ -39,5 +41,17 @@ export class UnassignedFileInfo {
       this.#rawImportMap.get(path),
       `raw import for ${path} is not available in ${this.path}`,
     );
+  }
+
+  addExternalLibrary(libraryImport: string) {
+    if (this.#externalLibraries.includes(libraryImport)) {
+      return;
+    }
+
+    this.#externalLibraries.push(libraryImport);
+  }
+
+  getExternalLibraries(): Readonly<string[]> {
+    return [...this.#externalLibraries] as const;
   }
 }
