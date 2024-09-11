@@ -1,12 +1,3 @@
-import {
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  it,
-  SpyInstance,
-  vitest,
-} from 'vitest';
 import { logger } from './logger';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { init } from '../main/init';
@@ -16,10 +7,11 @@ import { sheriffConfig } from '../test/project-configurator';
 import { reset } from './log';
 import { Fs } from '../fs/fs';
 import { tsConfig } from '../test/fixtures/ts-config';
+import { MockInstance, describe, it, expect, beforeAll, afterEach, vitest } from "vitest";
 
 describe('log', () => {
   let fs: Fs;
-  let appendSpy: SpyInstance;
+  let appendSpy: MockInstance<Fs['appendFile']>;
 
   const setup = (enableLog: boolean) => {
     createProject(

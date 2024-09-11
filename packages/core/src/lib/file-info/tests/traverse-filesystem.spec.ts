@@ -6,6 +6,7 @@ import UnassignedFileInfo, { buildFileInfo } from "../unassigned-file-info";
 import { tsConfig } from "../../test/fixtures/ts-config";
 import { ResolveFn, resolvePotentialTsPath, traverseFilesystem } from "../traverse-filesystem";
 import { ResolvedModuleFull } from "typescript";
+import { describe, beforeEach, it, expect } from 'vitest';
 
 function setup(fileTree: FileTree) {
   createProject(fileTree);

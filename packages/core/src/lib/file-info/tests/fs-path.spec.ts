@@ -1,6 +1,7 @@
 import getFs, { useDefaultFs, useVirtualFs } from '../../fs/getFs';
 import { Fs } from '../../fs/fs';
 import { isFsPath, toFsPath } from '../fs-path';
+import { describe, beforeEach, beforeAll, it, expect } from 'vitest';
 
 describe('FsPath', () => {
   describe('VirtualFs', () => {
@@ -36,6 +37,6 @@ describe('FsPath', () => {
   it('should also allow a directory', () => {
     useDefaultFs();
     const fs = getFs();
-    expect(isFsPath(fs.join(__dirname, '../test'))).toBe(true);
+    expect(isFsPath(fs.join(__dirname, '../tests'))).toBe(true);
   });
 });

@@ -5,6 +5,7 @@ import { toFsPath } from '../fs-path';
 import { generateTsData } from '../generate-ts-data';
 import getFs from '../../fs/getFs';
 import { tsConfig } from '../../test/fixtures/ts-config';
+import { describe, it, expect } from 'vitest';
 
 describe('Generate File Info', () => {
   const getTsData = () =>

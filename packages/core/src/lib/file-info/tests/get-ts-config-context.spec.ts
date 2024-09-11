@@ -3,6 +3,7 @@ import { toFsPath } from "../fs-path";
 import { getTsConfigContext } from "../get-ts-config-context";
 import { InvalidPathError } from "../../error/user-error";
 import { fullTsConfig, tsConfig } from "../../test/fixtures/ts-config";
+import { describe, it, expect, test } from 'vitest';
 
 describe("getTsConfigContext", () => {
   for (const { name, tsPaths, fsPaths } of [
