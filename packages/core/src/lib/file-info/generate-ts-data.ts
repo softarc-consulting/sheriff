@@ -1,7 +1,7 @@
 import getFs, { isFsVirtualised } from '../fs/getFs';
 import * as ts from 'typescript';
 import { TsData } from './ts-data';
-import { getTsPathsAndRootDir } from './get-ts-paths-and-root-dir';
+import { getTsConfigContext } from './get-ts-config-context';
 import { FsPath, toFsPath } from './fs-path';
 
 /**
@@ -23,7 +23,7 @@ import { FsPath, toFsPath } from './fs-path';
  * This will return a paths property of `{'app/*': './src/app'}`
  */
 export const generateTsData = (tsConfigPath: FsPath): TsData => {
-  const { paths, rootDir } = getTsPathsAndRootDir(tsConfigPath);
+  const configContext = getTsConfigContext(tsConfigPath);
 
   const fs = getFs();
   const cwd = fs.getParent(tsConfigPath);
@@ -38,7 +38,7 @@ export const generateTsData = (tsConfigPath: FsPath): TsData => {
 
   const sys = getTsSys();
 
-  return { paths, configObject, cwd, sys, rootDir };
+  return {  ...configContext, configObject, cwd, sys};
 };
 
 function getTsSys(): ts.System {

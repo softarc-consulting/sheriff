@@ -1,10 +1,10 @@
-import { createProject } from '../test/project-creator';
-import { generateTsData } from './generate-ts-data';
-import { describe, it, test, expect } from 'vitest';
-import { FileTree } from '../test/project-configurator';
-import { toFsPath } from './fs-path';
-import { TsPaths } from './ts-data';
-import { tsConfig } from '../test/fixtures/ts-config';
+import { createProject } from '../../test/project-creator';
+import { generateTsData } from '../generate-ts-data';
+import { FileTree } from '../../test/project-configurator';
+import { toFsPath } from '../fs-path';
+import { TsPaths } from '../ts-data';
+import { tsConfig } from '../../test/fixtures/ts-config';
+import { describe, it, expect, test } from 'vitest';
 
 describe('generateTsData', () => {
   function setup(

@@ -5,7 +5,8 @@ export default defineConfig({
   test: {
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'html'],
+      reporter: ['text', 'html', 'lcov'],
+      include: ['packages/*/src/lib/**/*.ts'],
     },
     include: ['packages/**/*.spec.ts'],
     setupFiles: ['packages/core/src/lib/test/expect.extensions.ts'],
