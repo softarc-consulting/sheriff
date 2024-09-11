@@ -1,4 +1,4 @@
-import UnassignedFileInfo from '../unassigned-file-info';
+import {UnassignedFileInfo} from '../unassigned-file-info';
 import { toFsPath } from '../fs-path';
 import getFs, { useVirtualFs } from '../../fs/getFs';
 import { describe, beforeEach, beforeAll, it, expect } from 'vitest';

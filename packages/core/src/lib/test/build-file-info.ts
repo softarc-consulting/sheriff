@@ -1,6 +1,6 @@
 import getFs from "../fs/getFs";
 import {toFsPath} from "../file-info/fs-path";
-import UnassignedFileInfo from "../file-info/unassigned-file-info";
+import {UnassignedFileInfo} from "../file-info/unassigned-file-info";
 
 type NestedArray = (string | NestedArray)[];
 

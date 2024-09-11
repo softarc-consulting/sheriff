@@ -1,4 +1,4 @@
-import UnassignedFileInfo from './unassigned-file-info';
+import { UnassignedFileInfo } from './unassigned-file-info';
 import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import { TsData, TsPaths } from './ts-data';
@@ -45,7 +45,7 @@ export function traverseFilesystem(
   fileContent = fileContent ?? fs.readFile(fsPath);
   const preProcessedFile = ts.preProcessFile(fileContent);
 
-  const config = {...configObject.options, baseUrl};
+  const config = { ...configObject.options, baseUrl };
 
   const resolveFn: ResolveFn = (moduleName: string) =>
     ts.resolveModuleName(moduleName, fsPath, config, sys);
@@ -158,7 +158,6 @@ function clearTsPath(tsPath: string) {
     : [false, tsPath];
   return { isWildcard, clearedTsPath: clearedPath };
 }
-
 
 /**
  * Ensures that `FsPath` uses the separator from the OS and not always '/'

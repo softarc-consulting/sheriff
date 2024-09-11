@@ -9,7 +9,7 @@ import throwIfNull from '../util/throw-if-null';
  * It is up to the consumer, e.g. ESLinter, to decide if that
  * should cause an error or not.
  */
-export default class UnassignedFileInfo {
+export class UnassignedFileInfo {
   #rawImportMap = new Map<string, string>();
   #unresolvableImports: string[] = [];
   constructor(
