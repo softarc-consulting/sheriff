@@ -1,11 +1,10 @@
-import { describe, expect, it } from 'vitest';
-import { generateUnassignedFileInfo } from './generate-unassigned-file-info';
-import { createProject } from '../test/project-creator';
-import { inVfs } from '../test/in-vfs';
-import { toFsPath } from './fs-path';
-import { generateTsData } from './generate-ts-data';
-import getFs from '../fs/getFs';
-import { tsConfig } from '../test/fixtures/ts-config';
+import { generateUnassignedFileInfo } from '../generate-unassigned-file-info';
+import { createProject } from '../../test/project-creator';
+import { inVfs } from '../../test/in-vfs';
+import { toFsPath } from '../fs-path';
+import { generateTsData } from '../generate-ts-data';
+import getFs from '../../fs/getFs';
+import { tsConfig } from '../../test/fixtures/ts-config';
 
 describe('Generate File Info', () => {
   const getTsData = () =>

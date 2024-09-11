@@ -1,15 +1,11 @@
-import { beforeEach, describe, expect, it } from 'vitest';
-import { FileTree } from '../test/project-configurator';
-import { createProject } from '../test/project-creator';
-import traverseFilesystem, {
-  ResolveFn,
-  resolvePotentialTsPath,
-} from './traverse-filesystem';
-import { FsPath, toFsPath } from './fs-path';
-import UnassignedFileInfo, { buildFileInfo } from './unassigned-file-info';
-import { generateTsData } from './generate-ts-data';
-import { ResolvedModuleFull } from 'typescript';
-import { tsConfig } from '../test/fixtures/ts-config';
+import { FileTree } from '../../test/project-configurator';
+import { createProject } from "../../test/project-creator";
+import { generateTsData } from "../generate-ts-data";
+import { FsPath, toFsPath } from "../fs-path";
+import UnassignedFileInfo, { buildFileInfo } from "../unassigned-file-info";
+import { tsConfig } from "../../test/fixtures/ts-config";
+import { ResolveFn, resolvePotentialTsPath, traverseFilesystem } from "../traverse-filesystem";
+import { ResolvedModuleFull } from "typescript";
 
 function setup(fileTree: FileTree) {
   createProject(fileTree);
@@ -185,24 +181,40 @@ describe('traverse file-system', () => {
     );
   });
 
-  it('should use a non-standard baseUrl', () => {
-    const { tsData, mainPath } = setup({
-      'tsconfig.json': tsConfig({
-        paths: { '@app/*': ['app/*'] },
-        baseUrl: 'src',
-      }),
-      src: {
-        'main.ts': ['@app/app.component.ts'],
-        app: {
-          'app.component.ts': [],
+  describe('base url', () => {
+    it('should resolve static imports', () => {
+      const { tsData, mainPath } = setup({
+        'tsconfig.json': tsConfig({ baseUrl: 'src' }),
+        src: {
+          'main.ts': ['app/app.component.ts'],
+          app: {
+            'app.component.ts': [],
+          },
         },
-      },
-    });
-    const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
+      });
 
-    expect(fileInfo).toEqual(
-      buildFileInfo('/project/src/main.ts', [['./app/app.component.ts', []]]),
-    );
+      const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
+
+      expect(fileInfo).toEqual(
+        buildFileInfo('/project/src/main.ts', [['./app/app.component.ts', []]]),
+      );
+    });
+
+    it('cannot resolve static imports if baseUrl is not set', () => {
+      const { tsData, mainPath } = setup({
+        'tsconfig.json': tsConfig({baseUrl: undefined}),
+        src: {
+          'main.ts': ['src/app/app.component.ts'],
+          app: {
+            'app.component.ts': [],
+          },
+        },
+      });
+
+      const fileInfo = traverseFilesystem(mainPath, fileInfoDict, tsData);
+
+      expect(fileInfo).toEqual(buildFileInfo('/project/src/main.ts', []));
+    });
   });
 
   it('should throw an error in resolvePotentialTsPath when path is a nodeJs dependency', () => {

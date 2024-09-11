@@ -1,7 +1,6 @@
-import UnassignedFileInfo, { buildFileInfo } from './unassigned-file-info';
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { toFsPath } from './fs-path';
-import getFs, { useVirtualFs } from '../fs/getFs';
+import UnassignedFileInfo, { buildFileInfo } from '../unassigned-file-info';
+import { toFsPath } from '../fs-path';
+import getFs, { useVirtualFs } from '../../fs/getFs';
 
 const fi = (path: string, imports: UnassignedFileInfo[] = []) =>
   new UnassignedFileInfo(toFsPath(path), imports);

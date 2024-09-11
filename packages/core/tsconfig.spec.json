@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist/out-tsc",
     "module": "commonjs",
-    "types": ["vitest", "node"],
+    "types": ["vitest/globals", "node"],
     "resolveJsonModule": true,
     "esModuleInterop": true
   },

@@ -1,7 +1,6 @@
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import getFs, { useDefaultFs, useVirtualFs } from '../fs/getFs';
-import { Fs } from '../fs/fs';
-import { isFsPath, toFsPath } from './fs-path';
+import getFs, { useDefaultFs, useVirtualFs } from '../../fs/getFs';
+import { Fs } from '../../fs/fs';
+import { isFsPath, toFsPath } from '../fs-path';
 
 describe('FsPath', () => {
   describe('VirtualFs', () => {

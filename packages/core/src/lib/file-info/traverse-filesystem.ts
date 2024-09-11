@@ -31,21 +31,24 @@ export type ResolveFn = (
  * @param fileContent if passed, is used instead the content of @fsPath.
  * necessary for unsaved files inESLint
  */
-const traverseFilesystem = (
+export function traverseFilesystem(
   fsPath: FsPath,
   fileInfoDict: Map<FsPath, UnassignedFileInfo>,
   tsData: TsData,
   runOnce = false,
   fileContent?: string,
-): UnassignedFileInfo => {
-  const { paths, configObject, sys, rootDir } = tsData;
+): UnassignedFileInfo {
+  const { paths, sys, rootDir, baseUrl, configObject } = tsData;
   const fileInfo: UnassignedFileInfo = new UnassignedFileInfo(fsPath, []);
   fileInfoDict.set(fsPath, fileInfo);
   const fs = getFs();
   fileContent = fileContent ?? fs.readFile(fsPath);
   const preProcessedFile = ts.preProcessFile(fileContent);
+
+  const config = {...configObject.options, baseUrl};
+
   const resolveFn: ResolveFn = (moduleName: string) =>
-    ts.resolveModuleName(moduleName, fsPath, configObject.options, sys);
+    ts.resolveModuleName(moduleName, fsPath, config, sys);
 
   for (const importedFile of preProcessedFile.importedFiles) {
     const { fileName } = importedFile;
@@ -102,7 +105,7 @@ const traverseFilesystem = (
   }
 
   return fileInfo;
-};
+}
 
 export function resolvePotentialTsPath(
   moduleName: string,
@@ -191,5 +194,3 @@ function isPathFile(path: string): boolean {
   const fs = getFs();
   return fs.exists(path) && isFsPath(path) && fs.isFile(path);
 }
-
-export default traverseFilesystem;
