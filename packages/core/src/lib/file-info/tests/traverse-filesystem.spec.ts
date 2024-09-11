@@ -2,11 +2,12 @@ import { FileTree } from '../../test/project-configurator';
 import { createProject } from "../../test/project-creator";
 import { generateTsData } from "../generate-ts-data";
 import { FsPath, toFsPath } from "../fs-path";
-import UnassignedFileInfo, { buildFileInfo } from "../unassigned-file-info";
+import UnassignedFileInfo from "../unassigned-file-info";
 import { tsConfig } from "../../test/fixtures/ts-config";
 import { ResolveFn, resolvePotentialTsPath, traverseFilesystem } from "../traverse-filesystem";
 import { ResolvedModuleFull } from "typescript";
 import { describe, it, expect } from 'vitest';
+import {buildFileInfo} from "../../test/build-file-info";
 
 function setup(fileTree: FileTree): UnassignedFileInfo {
   createProject(fileTree);

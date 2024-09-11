@@ -1,6 +1,4 @@
-import UnassignedFileInfo, {
-  buildFileInfo,
-} from '../file-info/unassigned-file-info';
+import UnassignedFileInfo from '../file-info/unassigned-file-info';
 import { createModules } from './create-modules';
 import findFileInfo from '../test/find-file-info';
 import { Module } from './module';
@@ -9,6 +7,7 @@ import throwIfNull from '../util/throw-if-null';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { FileInfo } from './file.info';
+import {buildFileInfo} from "../test/build-file-info";
 
 interface TestParameter {
   name: string;
