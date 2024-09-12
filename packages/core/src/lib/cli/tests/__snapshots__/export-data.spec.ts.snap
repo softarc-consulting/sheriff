@@ -1,96 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`export data > should also work with a sheriff.config.ts > sheriff-config 1`] = `
-"{
-  "src/main.ts": {
-    "module": ".",
-    "tags": [
-      "root"
-    ],
-    "imports": [
-      "src/holidays/index.ts",
-      "src/customers/index.ts"
-    ],
-    "externalLibraries": []
-  },
-  "src/holidays/index.ts": {
-    "module": "src/holidays",
-    "tags": [
-      "scope:holidays"
-    ],
-    "imports": [],
-    "externalLibraries": []
-  },
-  "src/customers/index.ts": {
-    "module": "src/customers",
-    "tags": [
-      "scope:customers"
-    ],
-    "imports": [],
-    "externalLibraries": []
-  }
-}"
-`;
-
-exports[`export data > should avoid circular dependencies > circular-dependencies 1`] = `
-"{
-  "src/main.ts": {
-    "module": ".",
-    "tags": [
-      "root"
-    ],
-    "imports": [
-      "src/app1.service.ts",
-      "src/app2.service.ts"
-    ],
-    "externalLibraries": []
-  },
-  "src/app1.service.ts": {
-    "module": ".",
-    "tags": [
-      "root"
-    ],
-    "imports": [
-      "src/app2.service.ts"
-    ],
-    "externalLibraries": []
-  },
-  "src/app2.service.ts": {
-    "module": ".",
-    "tags": [
-      "root"
-    ],
-    "imports": [
-      "src/app1.service.ts"
-    ],
-    "externalLibraries": []
-  }
-}"
-`;
-
-exports[`export data > should skip not reachable files > not-reachable-files 1`] = `
-"{
-  "src/main.ts": {
-    "module": ".",
-    "tags": [
-      "root"
-    ],
-    "imports": [
-      "src/app1.service.ts"
-    ],
-    "externalLibraries": []
-  },
-  "src/app1.service.ts": {
-    "module": ".",
-    "tags": [
-      "root"
-    ],
-    "imports": [],
-    "externalLibraries": []
-  }
-}"
-`;
-
 exports[`export data > should test a simple application > simple-application 1`] = `
 "{
   "src/main.ts": {
@@ -126,6 +35,8 @@ exports[`export data > should test a simple application > simple-application 1`]
       "src/holidays/model/index.ts"
     ],
     "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
       "lodash"
     ]
   },
