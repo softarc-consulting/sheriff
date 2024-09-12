@@ -150,7 +150,9 @@ export function getProjectData(
     };
 
     if (options.includeExternalLibraries) {
-      entry.externalLibraries = [...fileInfo.getExternalLibraries()].sort();
+      entry.externalLibraries = [...fileInfo.getExternalLibraries()].sort(
+        (a, b) => a.localeCompare(b),
+      );
     }
 
     data[fileInfo.path] = entry;
