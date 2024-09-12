@@ -1,4 +1,4 @@
-import UnassignedFileInfo from './unassigned-file-info';
+import { UnassignedFileInfo } from './unassigned-file-info';
 
 export function* traverseUnassignedFileInfo(fileInfo: UnassignedFileInfo) {
   const traversed = new Set<string>();
