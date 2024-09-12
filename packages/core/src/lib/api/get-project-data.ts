@@ -150,7 +150,7 @@ export function getProjectData(
     };
 
     if (options.includeExternalLibraries) {
-      entry.externalLibraries = [...fileInfo.getExternalLibraries()];
+      entry.externalLibraries = [...fileInfo.getExternalLibraries()].sort();
     }
 
     data[fileInfo.path] = entry;

@@ -23,6 +23,8 @@ describe('export data', () => {
       node_modules: {
         lodash: { 'index.js': [] },
         '@ngrx/signals': { 'index.js': [] },
+        '@angular/core': { 'index.js': [] },
+        '@angular/common': { 'index.js': [] },
       },
       src: {
         'main.ts': ['./holidays/feature'],
@@ -33,7 +35,9 @@ describe('export data', () => {
               '../data',
               '../ui',
               '../model',
+              '@angular/core',
               'lodash',
+              '@angular/common',
             ],
           },
           data: {
