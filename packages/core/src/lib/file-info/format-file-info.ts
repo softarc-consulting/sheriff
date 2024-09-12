@@ -1,4 +1,4 @@
-import UnassignedFileInfo from './unassigned-file-info';
+import { UnassignedFileInfo } from './unassigned-file-info';
 import traverseUnassignedFileInfo from './traverse-unassigned-file-info';
 import { EOL } from 'os';
 

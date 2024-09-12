@@ -1,4 +1,4 @@
-import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import {UnassignedFileInfo} from '../file-info/unassigned-file-info';
 import getFs from '../fs/getFs';
 import traverseUnassignedFileInfo from '../file-info/traverse-unassigned-file-info';
 import { FsPath, toFsPath } from '../file-info/fs-path';

@@ -1,0 +1,201 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`export data > should also work with a sheriff.config.ts > sheriff-config 1`] = `
+"{
+  "src/main.ts": {
+    "module": ".",
+    "tags": [
+      "root"
+    ],
+    "imports": [
+      "src/holidays/index.ts",
+      "src/customers/index.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/holidays/index.ts": {
+    "module": "src/holidays",
+    "tags": [
+      "scope:holidays"
+    ],
+    "imports": [],
+    "externalLibraries": []
+  },
+  "src/customers/index.ts": {
+    "module": "src/customers",
+    "tags": [
+      "scope:customers"
+    ],
+    "imports": [],
+    "externalLibraries": []
+  }
+}"
+`;
+
+exports[`export data > should avoid circular dependencies > circular-dependencies 1`] = `
+"{
+  "src/main.ts": {
+    "module": ".",
+    "tags": [
+      "root"
+    ],
+    "imports": [
+      "src/app1.service.ts",
+      "src/app2.service.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/app1.service.ts": {
+    "module": ".",
+    "tags": [
+      "root"
+    ],
+    "imports": [
+      "src/app2.service.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/app2.service.ts": {
+    "module": ".",
+    "tags": [
+      "root"
+    ],
+    "imports": [
+      "src/app1.service.ts"
+    ],
+    "externalLibraries": []
+  }
+}"
+`;
+
+exports[`export data > should skip not reachable files > not-reachable-files 1`] = `
+"{
+  "src/main.ts": {
+    "module": ".",
+    "tags": [
+      "root"
+    ],
+    "imports": [
+      "src/app1.service.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/app1.service.ts": {
+    "module": ".",
+    "tags": [
+      "root"
+    ],
+    "imports": [],
+    "externalLibraries": []
+  }
+}"
+`;
+
+exports[`export data > should test a simple application > simple-application 1`] = `
+"{
+  "src/main.ts": {
+    "module": ".",
+    "tags": [
+      "root"
+    ],
+    "imports": [
+      "src/holidays/feature/index.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/holidays/feature/index.ts": {
+    "module": "src/holidays/feature",
+    "tags": [
+      "domain:holidays",
+      "type:feature"
+    ],
+    "imports": [
+      "src/holidays/feature/holidays-container.component.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/holidays/feature/holidays-container.component.ts": {
+    "module": "src/holidays/feature",
+    "tags": [
+      "domain:holidays",
+      "type:feature"
+    ],
+    "imports": [
+      "src/holidays/data/index.ts",
+      "src/holidays/ui/index.ts",
+      "src/holidays/model/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "lodash"
+    ]
+  },
+  "src/holidays/data/index.ts": {
+    "module": "src/holidays/data",
+    "tags": [
+      "domain:holidays",
+      "type:data"
+    ],
+    "imports": [
+      "src/holidays/data/holidays-store.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/holidays/data/holidays-store.ts": {
+    "module": "src/holidays/data",
+    "tags": [
+      "domain:holidays",
+      "type:data"
+    ],
+    "imports": [
+      "src/holidays/model/index.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/signals"
+    ]
+  },
+  "src/holidays/model/index.ts": {
+    "module": "src/holidays/model",
+    "tags": [
+      "domain:holidays",
+      "type:model"
+    ],
+    "imports": [
+      "src/holidays/model/holiday.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/holidays/model/holiday.ts": {
+    "module": "src/holidays/model",
+    "tags": [
+      "domain:holidays",
+      "type:model"
+    ],
+    "imports": [],
+    "externalLibraries": []
+  },
+  "src/holidays/ui/index.ts": {
+    "module": "src/holidays/ui",
+    "tags": [
+      "domain:holidays",
+      "type:ui"
+    ],
+    "imports": [
+      "src/holidays/ui/holidays.component.ts"
+    ],
+    "externalLibraries": []
+  },
+  "src/holidays/ui/holidays.component.ts": {
+    "module": "src/holidays/ui",
+    "tags": [
+      "domain:holidays",
+      "type:ui"
+    ],
+    "imports": [
+      "src/holidays/model/index.ts"
+    ],
+    "externalLibraries": []
+  }
+}"
+`;

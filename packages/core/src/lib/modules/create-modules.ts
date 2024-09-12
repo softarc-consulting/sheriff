@@ -1,5 +1,5 @@
 import { Module } from './module';
-import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import { UnassignedFileInfo } from '../file-info/unassigned-file-info';
 import traverseUnassignedFileInfo from '../file-info/traverse-unassigned-file-info';
 import throwIfNull from '../util/throw-if-null';
 import { FsPath } from '../file-info/fs-path';

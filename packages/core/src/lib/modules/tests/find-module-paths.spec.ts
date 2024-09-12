@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { FileTree } from '../test/project-configurator';
-import { createProject } from '../test/project-creator';
-import { toFsPath } from '../file-info/fs-path';
-import { init } from '../main/init';
-import { tsConfig } from '../test/fixtures/ts-config';
+import { FileTree } from '../../test/project-configurator';
+import { createProject } from '../../test/project-creator';
+import { toFsPath } from '../../file-info/fs-path';
+import { init } from '../../main/init';
+import { tsConfig } from '../../test/fixtures/ts-config';
 
 const angularStructure: FileTree = {
   'tsconfig.json': tsConfig(),

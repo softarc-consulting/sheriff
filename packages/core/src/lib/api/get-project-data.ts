@@ -8,8 +8,19 @@ export type ProjectDataEntry = {
   module: string;
   tags: string[];
   imports: string[];
+  externalLibraries?: string[];
 };
 
+/**
+ *
+ */
+export type Options = {
+  /**
+   * Adds a property `externalLibraries` to each entry
+   * that contains the external libraries, i.e. node_modules.
+   */
+  includeExternalLibraries?: boolean;
+};
 export type ProjectData = Record<string, ProjectDataEntry>;
 
 function calcOrGetTags(
@@ -57,9 +68,15 @@ function calcOrGetTags(
  *  }
  * ```
  *
+ * You can add additional properties via the options parameter.
+ *
  * @param entryFileAbsolute absolute path to the entry file, e.g. /project/src/main.ts
+ * @param options additional options for the output
  */
-export function getProjectData(entryFileAbsolute: string): ProjectData;
+export function getProjectData(
+  entryFileAbsolute: string,
+  options?: Options,
+): ProjectData;
 /**
  * Traverses through the imports of the entryFileRelative
  * and returns the complete dependency graph.
@@ -84,18 +101,37 @@ export function getProjectData(entryFileAbsolute: string): ProjectData;
  *  }
  *  ```
  *
+ *  You can add additional properties via the options parameter.
+ *
  * @param entryFileRelative relative path to the entry file, e.g. main.ts
  * @param cwd absolute path to the entry file, e.g. /project/src
+ * @param options additional options for the output
  */
 export function getProjectData(
   entryFileRelative: string,
   cwd: string,
+  options?: Options,
 ): ProjectData;
 
-export function getProjectData(entryFile: string, cwd?: string): ProjectData {
+export function getProjectData(
+  entryFile: string,
+  cwdOrOptions?: string | Options,
+  optionalOptions?: Options,
+): ProjectData {
   const fs = getFs();
   const absoluteEntryFile =
-    cwd === undefined ? entryFile : fs.join(cwd, entryFile);
+    cwdOrOptions === undefined
+      ? entryFile
+      : typeof cwdOrOptions === 'string'
+        ? fs.join(cwdOrOptions, entryFile)
+        : entryFile;
+
+  const cwd = typeof cwdOrOptions === 'string' ? cwdOrOptions : undefined;
+  const options = optionalOptions
+    ? optionalOptions
+    : typeof cwdOrOptions === 'object'
+      ? cwdOrOptions
+      : {};
 
   const projectInfo = init(toFsPath(absoluteEntryFile));
 
@@ -103,7 +139,7 @@ export function getProjectData(entryFile: string, cwd?: string): ProjectData {
   const tagsCache: Record<string, string[]> = {};
 
   for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
-    data[fileInfo.path] = {
+    const entry: ProjectDataEntry = {
       module: fileInfo.moduleInfo.directory || '.',
       tags: calcOrGetTags(
         fileInfo.moduleInfo.directory,
@@ -112,12 +148,24 @@ export function getProjectData(entryFile: string, cwd?: string): ProjectData {
       ),
       imports: fileInfo.imports.map((fileInfo) => fileInfo.path),
     };
+
+    if (options.includeExternalLibraries) {
+      entry.externalLibraries = [...fileInfo.getExternalLibraries()].sort(
+        (a, b) => a.localeCompare(b),
+      );
+    }
+
+    data[fileInfo.path] = entry;
   }
 
-  return relativizeIfRequired(data, cwd);
+  return relativizeIfRequired(data, { ...options, cwd });
 }
 
-function relativizeIfRequired(data: ProjectData, cwd?: string): ProjectData {
+function relativizeIfRequired(
+  data: ProjectData,
+  options: Options & { cwd?: string },
+): ProjectData {
+  const { cwd } = options;
   if (cwd === undefined) {
     return data;
   }
@@ -127,13 +175,18 @@ function relativizeIfRequired(data: ProjectData, cwd?: string): ProjectData {
 
   const relativizedData: ProjectData = {};
   for (const [modulePath, moduleData] of Object.entries(data)) {
-    relativizedData[relative(toFsPath(modulePath))] = {
+    const entry: ProjectDataEntry = {
       module: relative(toFsPath(moduleData.module)),
       tags: moduleData.tags,
       imports: moduleData.imports.map((importPath) =>
         relative(toFsPath(importPath)),
       ),
     };
+
+    if (options.includeExternalLibraries) {
+      entry.externalLibraries = moduleData.externalLibraries;
+    }
+    relativizedData[relative(toFsPath(modulePath))] = entry;
   }
 
   return relativizedData;

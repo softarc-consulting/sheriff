@@ -13,6 +13,24 @@
       "src/app/shared/master-data/index.ts",
       "src/app/app.routes.ts",
       "src/environments/environment.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/common/http",
+      "@angular/common/locales/de-AT",
+      "@angular/core",
+      "@angular/material-date-fns-adapter",
+      "@angular/material/core",
+      "@angular/material/form-field",
+      "@angular/platform-browser",
+      "@angular/platform-browser/animations",
+      "@angular/router",
+      "@ngrx/effects",
+      "@ngrx/store",
+      "@ngrx/store-devtools",
+      "@ngx-formly/core",
+      "@ngx-formly/material",
+      "date-fns/locale"
     ]
   },
   "src/app/app.component.ts": {
@@ -24,6 +42,12 @@
       "src/app/shell/sidemenu/sidemenu.component.ts",
       "src/app/shell/header/header.component.ts",
       "src/app/shared/ui-messaging/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "@angular/material/sidenav",
+      "@angular/material/toolbar",
+      "@angular/router"
     ]
   },
   "src/app/shell/sidemenu/sidemenu.component.ts": {
@@ -33,6 +57,12 @@
     ],
     "imports": [
       "src/app/shared/security/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/material/button",
+      "@angular/router"
     ]
   },
   "src/app/shared/security/index.ts": {
@@ -44,7 +74,8 @@
     "imports": [
       "src/app/shared/security/security.provider.ts",
       "src/app/shared/security/security.service.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/security/security.provider.ts": {
     "module": "src/app/shared/security",
@@ -55,6 +86,10 @@
     "imports": [
       "src/app/shared/security/security.effects.ts",
       "src/app/shared/security/security.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/effects",
+      "@ngrx/store"
     ]
   },
   "src/app/shared/security/security.effects.ts": {
@@ -66,6 +101,12 @@
     "imports": [
       "src/app/shared/security/security.actions.ts",
       "src/app/shared/security/security.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "@ngrx/effects",
+      "rxjs/operators"
     ]
   },
   "src/app/shared/security/security.actions.ts": {
@@ -76,6 +117,9 @@
     ],
     "imports": [
       "src/app/shared/security/security.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/shared/security/security.reducer.ts": {
@@ -86,6 +130,9 @@
     ],
     "imports": [
       "src/app/shared/security/security.actions.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/shared/security/security.service.ts": {
@@ -98,6 +145,12 @@
       "src/app/shared/security/security.actions.ts",
       "src/app/shared/security/security.reducer.ts",
       "src/app/shared/security/security.selectors.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "@ngrx/store",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/shared/security/security.selectors.ts": {
@@ -108,6 +161,9 @@
     ],
     "imports": [
       "src/app/shared/security/security.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/shell/header/header.component.ts": {
@@ -117,6 +173,12 @@
     ],
     "imports": [
       "src/app/shared/security/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/material/button",
+      "@angular/router"
     ]
   },
   "src/app/shared/ui-messaging/index.ts": {
@@ -132,7 +194,8 @@
       "src/app/shared/ui-messaging/loader/loading.interceptor.ts",
       "src/app/shared/ui-messaging/message/message.service.ts",
       "src/app/shared/ui-messaging/message/message.component.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/ui-messaging/shared-ui-messaging.provider.ts": {
     "module": "src/app/shared/ui-messaging",
@@ -142,6 +205,11 @@
     ],
     "imports": [
       "src/app/shared/ui-messaging/loader/loading.interceptor.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "@angular/material/dialog"
     ]
   },
   "src/app/shared/ui-messaging/loader/loading.interceptor.ts": {
@@ -153,6 +221,12 @@
     "imports": [
       "src/app/shared/ui-messaging/loader/loading.service.ts",
       "src/app/shared/ui-messaging/loader/silent-load.context.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/shared/ui-messaging/loader/loading.service.ts": {
@@ -161,7 +235,11 @@
       "shared",
       "shared:ui-messaging"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/core",
+      "rxjs"
+    ]
   },
   "src/app/shared/ui-messaging/loader/silent-load.context.ts": {
     "module": "src/app/shared/ui-messaging",
@@ -169,7 +247,10 @@
       "shared",
       "shared:ui-messaging"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/common/http"
+    ]
   },
   "src/app/shared/ui-messaging/loader/loader.component.ts": {
     "module": "src/app/shared/ui-messaging",
@@ -179,6 +260,11 @@
     ],
     "imports": [
       "src/app/shared/ui-messaging/loader/loading.service.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/material/progress-bar"
     ]
   },
   "src/app/shared/ui-messaging/message/message.service.ts": {
@@ -190,6 +276,11 @@
     "imports": [
       "src/app/shared/ui-messaging/message/message.store.ts",
       "src/app/shared/ui-messaging/message/confirmation.component.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "@angular/material/dialog",
+      "rxjs"
     ]
   },
   "src/app/shared/ui-messaging/message/message.store.ts": {
@@ -200,6 +291,10 @@
     ],
     "imports": [
       "src/app/shared/ui-messaging/message/message.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "rxjs"
     ]
   },
   "src/app/shared/ui-messaging/message/message.ts": {
@@ -208,7 +303,8 @@
       "shared",
       "shared:ui-messaging"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/shared/ui-messaging/message/confirmation.component.ts": {
     "module": "src/app/shared/ui-messaging",
@@ -216,7 +312,12 @@
       "shared",
       "shared:ui-messaging"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/core",
+      "@angular/material/button",
+      "@angular/material/dialog"
+    ]
   },
   "src/app/shared/ui-messaging/message/message.component.ts": {
     "module": "src/app/shared/ui-messaging",
@@ -227,6 +328,12 @@
     "imports": [
       "src/app/shared/ui-messaging/message/message.ts",
       "src/app/shared/ui-messaging/message/message.store.ts"
+    ],
+    "externalLibraries": [
+      "@angular/animations",
+      "@angular/common",
+      "@angular/core",
+      "@angular/material/icon"
     ]
   },
   "src/app/shared/config/index.ts": {
@@ -237,7 +344,8 @@
     ],
     "imports": [
       "src/app/shared/config/configuration.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/config/configuration.ts": {
     "module": "src/app/shared/config",
@@ -245,7 +353,8 @@
       "shared",
       "shared:config"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/shared/http/index.ts": {
     "module": "src/app/shared/http",
@@ -257,7 +366,8 @@
       "src/app/shared/http/error.interceptor.ts",
       "src/app/shared/http/base-url.interceptor.ts",
       "src/app/shared/http/with-error-message-context.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/http/error.interceptor.ts": {
     "module": "src/app/shared/http",
@@ -268,6 +378,11 @@
     "imports": [
       "src/app/shared/ui-messaging/index.ts",
       "src/app/shared/http/error-message.context.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "rxjs"
     ]
   },
   "src/app/shared/http/error-message.context.ts": {
@@ -276,7 +391,10 @@
       "shared",
       "shared:http"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/common/http"
+    ]
   },
   "src/app/shared/http/base-url.interceptor.ts": {
     "module": "src/app/shared/http",
@@ -286,6 +404,11 @@
     ],
     "imports": [
       "src/app/shared/config/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "rxjs"
     ]
   },
   "src/app/shared/http/with-error-message-context.ts": {
@@ -296,6 +419,9 @@
     ],
     "imports": [
       "src/app/shared/http/error-message.context.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http"
     ]
   },
   "src/app/shared/master-data/index.ts": {
@@ -307,7 +433,8 @@
     "imports": [
       "src/app/shared/master-data/shared-master-data.provider.ts",
       "src/app/shared/master-data/+state/master.reducer.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/master-data/shared-master-data.provider.ts": {
     "module": "src/app/shared/master-data",
@@ -317,6 +444,9 @@
     ],
     "imports": [
       "src/app/shared/master-data/+state/master.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/shared/master-data/+state/master.reducer.ts": {
@@ -325,7 +455,10 @@
       "shared",
       "shared:master-data"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@ngrx/store"
+    ]
   },
   "src/app/app.routes.ts": {
     "module": ".",
@@ -338,6 +471,9 @@
       "src/app/customers/feature/index.ts",
       "src/app/bookings/index.ts",
       "src/app/holidays/feature/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/router"
     ]
   },
   "src/app/shell/services/user-loader.guard.ts": {
@@ -347,6 +483,12 @@
     ],
     "imports": [
       "src/app/shared/security/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "@angular/router",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/shell/home.component.ts": {
@@ -354,7 +496,10 @@
     "tags": [
       "root"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/core"
+    ]
   },
   "src/app/customers/feature/index.ts": {
     "module": "src/app/customers/feature",
@@ -364,7 +509,8 @@
     ],
     "imports": [
       "src/app/customers/feature/customers.routes.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/customers/feature/customers.routes.ts": {
     "module": "src/app/customers/feature",
@@ -379,6 +525,9 @@
       "src/app/customers/feature/services/data.guard.ts",
       "src/app/customers/feature/components/customers-root/customers-root.component.ts",
       "src/app/customers/data/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/router"
     ]
   },
   "src/app/customers/feature/components/add-customer.component.ts": {
@@ -392,6 +541,11 @@
       "src/app/shared/master-data/index.ts",
       "src/app/customers/ui/index.ts",
       "src/app/customers/data/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@ngrx/store"
     ]
   },
   "src/app/customers/model/index.ts": {
@@ -402,7 +556,8 @@
     ],
     "imports": [
       "src/app/customers/model/customer.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/customers/model/customer.ts": {
     "module": "src/app/customers/model",
@@ -410,7 +565,8 @@
       "domain:customers",
       "type:model"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/customers/ui/index.ts": {
     "module": "src/app/customers/ui",
@@ -421,7 +577,8 @@
     "imports": [
       "src/app/customers/ui/customer/customer.component.ts",
       "src/app/customers/ui/customers/customers.component.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/customers/ui/customer/customer.component.ts": {
     "module": "src/app/customers/ui",
@@ -433,6 +590,17 @@
       "src/app/shared/form/index.ts",
       "src/app/customers/model/index.ts",
       "src/app/shared/form/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/forms",
+      "@angular/material/button",
+      "@angular/material/datepicker",
+      "@angular/material/form-field",
+      "@angular/material/input",
+      "@angular/material/select",
+      "@angular/router"
     ]
   },
   "src/app/shared/form/index.ts": {
@@ -444,7 +612,8 @@
     "imports": [
       "src/app/shared/form/options.ts",
       "src/app/shared/form/form-errors.component.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/form/options.ts": {
     "module": "src/app/shared/form",
@@ -452,7 +621,8 @@
       "shared",
       "shared:form"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/shared/form/form-errors.component.ts": {
     "module": "src/app/shared/form",
@@ -460,7 +630,13 @@
       "shared",
       "shared:form"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/forms",
+      "@angular/material/input"
+    ]
   },
   "src/app/customers/ui/customers/customers.component.ts": {
     "module": "src/app/customers/ui",
@@ -471,6 +647,16 @@
     "imports": [
       "src/app/customers/model/index.ts",
       "src/app/customers/ui/customer.pipe.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/material/button",
+      "@angular/material/icon",
+      "@angular/material/paginator",
+      "@angular/material/slide-toggle",
+      "@angular/material/table",
+      "@angular/router"
     ]
   },
   "src/app/customers/ui/customer.pipe.ts": {
@@ -481,6 +667,9 @@
     ],
     "imports": [
       "src/app/customers/model/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core"
     ]
   },
   "src/app/customers/data/index.ts": {
@@ -492,7 +681,8 @@
     "imports": [
       "src/app/customers/data/customers-repository.service.ts",
       "src/app/customers/data/provide-customers.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/customers/data/customers-repository.service.ts": {
     "module": "src/app/customers/data",
@@ -504,6 +694,10 @@
       "src/app/customers/data/customers.actions.ts",
       "src/app/customers/model/index.ts",
       "src/app/customers/data/customers.selectors.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "@ngrx/store"
     ]
   },
   "src/app/customers/data/customers.actions.ts": {
@@ -514,6 +708,9 @@
     ],
     "imports": [
       "src/app/customers/model/index.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/customers/data/customers.selectors.ts": {
@@ -525,6 +722,9 @@
     "imports": [
       "src/app/customers/model/index.ts",
       "src/app/customers/data/customers.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/customers/data/customers.reducer.ts": {
@@ -536,6 +736,9 @@
     "imports": [
       "src/app/customers/model/index.ts",
       "src/app/customers/data/customers.actions.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/customers/data/provide-customers.ts": {
@@ -547,6 +750,10 @@
     "imports": [
       "src/app/customers/data/customers.reducer.ts",
       "src/app/customers/data/customers.effects.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/effects",
+      "@ngrx/store"
     ]
   },
   "src/app/customers/data/customers.effects.ts": {
@@ -559,6 +766,13 @@
       "src/app/customers/model/index.ts",
       "src/app/shared/ui-messaging/index.ts",
       "src/app/customers/data/customers.actions.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "@angular/router",
+      "@ngrx/effects",
+      "rxjs/operators"
     ]
   },
   "src/app/customers/feature/components/customers-container.component.ts": {
@@ -570,6 +784,12 @@
     "imports": [
       "src/app/customers/ui/index.ts",
       "src/app/customers/data/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/customers/feature/components/edit-customer.component.ts": {
@@ -584,6 +804,14 @@
       "src/app/shared/form/index.ts",
       "src/app/shared/master-data/index.ts",
       "src/app/customers/data/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/router",
+      "@ngrx/store",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/customers/feature/services/data.guard.ts": {
@@ -594,6 +822,10 @@
     ],
     "imports": [
       "src/app/customers/data/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "@angular/router"
     ]
   },
   "src/app/customers/feature/components/customers-root/customers-root.component.ts": {
@@ -602,7 +834,11 @@
       "domain:customers",
       "type:feature"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/core",
+      "@angular/router"
+    ]
   },
   "src/app/bookings/index.ts": {
     "module": "src/app/bookings",
@@ -612,7 +848,8 @@
     ],
     "imports": [
       "src/app/bookings/bookings.routes.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/bookings/bookings.routes.ts": {
     "module": "src/app/bookings",
@@ -624,6 +861,11 @@
       "src/app/bookings/+state/bookings.reducer.ts",
       "src/app/bookings/overview/overview.component.ts",
       "src/app/bookings/+state/bookings.effects.ts"
+    ],
+    "externalLibraries": [
+      "@angular/router",
+      "@ngrx/effects",
+      "@ngrx/store"
     ]
   },
   "src/app/bookings/+state/bookings.reducer.ts": {
@@ -634,6 +876,9 @@
     ],
     "imports": [
       "src/app/bookings/+state/bookings.actions.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/bookings/+state/bookings.actions.ts": {
@@ -644,6 +889,9 @@
     ],
     "imports": [
       "src/app/bookings/+state/bookings.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/bookings/overview/overview.component.ts": {
@@ -658,6 +906,14 @@
       "src/app/bookings/+state/bookings.actions.ts",
       "src/app/customers/api/index.ts",
       "src/app/shared/ngrx-utils/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/material/table",
+      "@ngrx/store",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/bookings/+state/bookings.selectors.ts": {
@@ -668,7 +924,8 @@
     ],
     "imports": [
       "src/app/bookings/+state/bookings.reducer.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/customers/api/index.ts": {
     "module": "src/app/customers/api",
@@ -678,6 +935,9 @@
     ],
     "imports": [
       "src/app/customers/data/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core"
     ]
   },
   "src/app/shared/ngrx-utils/index.ts": {
@@ -692,7 +952,8 @@
       "src/app/shared/ngrx-utils/filter-defined.ts",
       "src/app/shared/ngrx-utils/deep-clone.ts",
       "src/app/shared/ngrx-utils/load-status.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/ngrx-utils/noop.action.ts": {
     "module": "src/app/shared/ngrx-utils",
@@ -700,7 +961,10 @@
       "shared",
       "shared:ngrx-utils"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@ngrx/store"
+    ]
   },
   "src/app/shared/ngrx-utils/safe-concat-map.ts": {
     "module": "src/app/shared/ngrx-utils",
@@ -710,6 +974,10 @@
     ],
     "imports": [
       "src/app/shared/ngrx-utils/noop.action.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store/src/models",
+      "rxjs"
     ]
   },
   "src/app/shared/ngrx-utils/filter-defined.ts": {
@@ -720,6 +988,9 @@
     ],
     "imports": [
       "src/app/shared/util/index.ts"
+    ],
+    "externalLibraries": [
+      "rxjs"
     ]
   },
   "src/app/shared/util/index.ts": {
@@ -732,7 +1003,8 @@
       "src/app/shared/util/assert-defined.ts",
       "src/app/shared/util/is-defined.ts",
       "src/app/shared/util/safe-assign.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/util/assert-defined.ts": {
     "module": "src/app/shared/util",
@@ -740,7 +1012,8 @@
       "shared",
       "shared:util"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/shared/util/is-defined.ts": {
     "module": "src/app/shared/util",
@@ -748,7 +1021,8 @@
       "shared",
       "shared:util"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/shared/util/safe-assign.ts": {
     "module": "src/app/shared/util",
@@ -756,7 +1030,8 @@
       "shared",
       "shared:util"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/shared/ngrx-utils/deep-clone.ts": {
     "module": "src/app/shared/ngrx-utils",
@@ -764,7 +1039,10 @@
       "shared",
       "shared:ngrx-utils"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "rxjs"
+    ]
   },
   "src/app/shared/ngrx-utils/load-status.ts": {
     "module": "src/app/shared/ngrx-utils",
@@ -772,7 +1050,8 @@
       "shared",
       "shared:ngrx-utils"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/bookings/+state/bookings.effects.ts": {
     "module": "src/app/bookings",
@@ -784,6 +1063,12 @@
       "src/app/bookings/+state/bookings.actions.ts",
       "src/app/bookings/+state/bookings.reducer.ts",
       "src/app/customers/api/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/core",
+      "@ngrx/effects",
+      "@ngrx/store",
+      "rxjs"
     ]
   },
   "src/app/holidays/feature/index.ts": {
@@ -795,7 +1080,8 @@
     "imports": [
       "src/app/holidays/feature/holidays.routes.ts",
       "src/app/holidays/feature/address-lookuper.service.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/holidays/feature/holidays.routes.ts": {
     "module": "src/app/holidays/feature",
@@ -808,6 +1094,11 @@
       "src/app/holidays/feature/+state/holidays.reducer.ts",
       "src/app/holidays/feature/holidays/holidays.component.ts",
       "src/app/holidays/feature/request-info/request-info.component.ts"
+    ],
+    "externalLibraries": [
+      "@angular/router",
+      "@ngrx/effects",
+      "@ngrx/store"
     ]
   },
   "src/app/holidays/feature/+state/holidays.effects.ts": {
@@ -820,6 +1111,12 @@
       "src/app/holidays/model/index.ts",
       "src/app/shared/config/index.ts",
       "src/app/holidays/feature/+state/holidays.actions.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "@ngrx/effects",
+      "rxjs/operators"
     ]
   },
   "src/app/holidays/model/index.ts": {
@@ -830,7 +1127,8 @@
     ],
     "imports": [
       "src/app/holidays/model/holiday.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/holidays/model/holiday.ts": {
     "module": "src/app/holidays/model",
@@ -838,7 +1136,8 @@
       "domain:holidays",
       "type:model"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/app/holidays/feature/+state/holidays.actions.ts": {
     "module": "src/app/holidays/feature",
@@ -848,6 +1147,9 @@
     ],
     "imports": [
       "src/app/holidays/model/index.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/holidays/feature/+state/holidays.reducer.ts": {
@@ -859,6 +1161,9 @@
     "imports": [
       "src/app/holidays/model/index.ts",
       "src/app/holidays/feature/+state/holidays.actions.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/holidays/feature/holidays/holidays.component.ts": {
@@ -872,6 +1177,11 @@
       "src/app/holidays/feature/+state/holidays.selectors.ts",
       "src/app/holidays/model/index.ts",
       "src/app/holidays/ui/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@ngrx/store"
     ]
   },
   "src/app/holidays/feature/+state/holidays.selectors.ts": {
@@ -882,6 +1192,9 @@
     ],
     "imports": [
       "src/app/holidays/feature/+state/holidays.reducer.ts"
+    ],
+    "externalLibraries": [
+      "@ngrx/store"
     ]
   },
   "src/app/holidays/ui/index.ts": {
@@ -892,7 +1205,8 @@
     ],
     "imports": [
       "src/app/holidays/ui/holiday-card/holiday-card.component.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/holidays/ui/holiday-card/holiday-card.component.ts": {
     "module": "src/app/holidays/ui",
@@ -903,6 +1217,14 @@
     "imports": [
       "src/app/holidays/model/index.ts",
       "src/app/shared/ui/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/material/button",
+      "@angular/material/card",
+      "@angular/material/icon",
+      "@angular/router"
     ]
   },
   "src/app/shared/ui/index.ts": {
@@ -913,7 +1235,8 @@
     ],
     "imports": [
       "src/app/shared/ui/blinker.directive.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/shared/ui/blinker.directive.ts": {
     "module": "src/app/shared/ui",
@@ -921,7 +1244,10 @@
       "shared",
       "shared:ui"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": [
+      "@angular/core"
+    ]
   },
   "src/app/holidays/feature/request-info/request-info.component.ts": {
     "module": "src/app/holidays/feature",
@@ -932,6 +1258,17 @@
     "imports": [
       "src/app/holidays/feature/address-lookuper.service.ts",
       "src/app/shared/util/index.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common",
+      "@angular/core",
+      "@angular/forms",
+      "@angular/material/button",
+      "@angular/material/form-field",
+      "@angular/material/icon",
+      "@angular/material/input",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/holidays/feature/address-lookuper.service.ts": {
@@ -942,6 +1279,12 @@
     ],
     "imports": [
       "src/app/holidays/feature/parse-address.ts"
+    ],
+    "externalLibraries": [
+      "@angular/common/http",
+      "@angular/core",
+      "rxjs",
+      "rxjs/operators"
     ]
   },
   "src/app/holidays/feature/parse-address.ts": {
@@ -952,7 +1295,8 @@
     ],
     "imports": [
       "src/app/holidays/feature/address.ts"
-    ]
+    ],
+    "externalLibraries": []
   },
   "src/app/holidays/feature/address.ts": {
     "module": "src/app/holidays/feature",
@@ -960,13 +1304,15 @@
       "domain:holidays",
       "type:feature"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   },
   "src/environments/environment.ts": {
     "module": ".",
     "tags": [
       "root"
     ],
-    "imports": []
+    "imports": [],
+    "externalLibraries": []
   }
 }

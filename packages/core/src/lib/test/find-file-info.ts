@@ -1,4 +1,4 @@
-import UnassignedFileInfo from '../file-info/unassigned-file-info';
+import { UnassignedFileInfo} from '../file-info/unassigned-file-info';
 import traverseUnassignedFileInfo from '../file-info/traverse-unassigned-file-info';
 
 export default (

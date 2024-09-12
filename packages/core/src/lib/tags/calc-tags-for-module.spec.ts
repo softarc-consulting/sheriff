@@ -287,9 +287,9 @@ describe('calc tags for module', () => {
             '<domain>': {
               '<subDomain>': {
                 '<type>': (placeholders) => [
-                  `domain:${placeholders.domain}`,
-                  `subDomain:${placeholders.subDomain}`,
-                  `type:${placeholders.type}`,
+                  `domain:${placeholders['domain']}`,
+                  `subDomain:${placeholders['subDomain']}`,
+                  `type:${placeholders['type']}`,
                 ],
               },
             },
