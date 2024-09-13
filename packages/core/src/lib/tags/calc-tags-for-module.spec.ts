@@ -114,6 +114,17 @@ describe('calc tags for module', () => {
     ).toEqual(['domain:holidays']);
   });
 
+  it('should support a placeholder with a dash', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/holidays' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        '<sub-domain>': ({ domain }) => `domain:${domain}`,
+      }),
+    ).toEqual(['domain:holidays']);
+  });
+
   it('should support placeholders in both matcher and tag value', () => {
     const rootDir = '/project' as FsPath;
     const moduleDir = '/project/holidays' as FsPath;
