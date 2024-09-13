@@ -11,11 +11,10 @@ export type ResolveFn = (
 // https://stackoverflow.com/questions/71815527/typescript-compiler-apihow-to-get-absolute-path-to-source-file-of-import-module
 /**
  * This function generates the FileInfo tree.
- * It starts with the entry TypeScript file (in Angular main.ts) and follows
- * all the imports.
+ * It starts with the entry TypeScript file and traverse all its imports.
  *
  * It does not follow an import when it is an external library, i.e. comes from
- * node_modules or is already part of the tree.
+ * node_modules. The same is true, if a file is already traversed.
  *
  * To improve the testability, we use abstraction whenever access to the
  * filesystem happens. In case the abstraction does not emulate the original's
@@ -55,7 +54,22 @@ export function traverseFilesystem(
     const resolvedImport = resolveFn(fileName);
     let importPath: FsPath | undefined;
 
-    if (resolvedImport.resolvedModule) {
+    // skip json imports
+    if (fileName.endsWith('.json')) {
+      continue;
+    }
+
+    // alias/path resolving has priority
+    const resolvedTsPath = resolvePotentialTsPath(
+      fileName,
+      paths,
+      resolveFn,
+      fsPath,
+    );
+
+    if (resolvedTsPath) {
+      importPath = resolvedTsPath;
+    } else if (resolvedImport.resolvedModule) {
       const { resolvedFileName } = resolvedImport.resolvedModule;
       if (!resolvedImport.resolvedModule.isExternalLibraryImport) {
         importPath = fixPathSeparators(resolvedFileName);
@@ -67,28 +81,11 @@ export function traverseFilesystem(
       }
     }
 
-    // just skip it
-    else if (fileName.endsWith('.json')) {
-    }
-
     // might be an undetected dependency in node_modules
     // or an incomplete import (= developer is still typing),
     // if we read from an unsaved file via ESLint.
     else if (fileName.startsWith('.')) {
       fileInfo.addUnresolvableImport(fileName);
-    }
-
-    // check for path/alias mapping
-    else {
-      const resolvedTsPath = resolvePotentialTsPath(
-        fileName,
-        paths,
-        resolveFn,
-        fsPath,
-      );
-      if (resolvedTsPath) {
-        importPath = resolvedTsPath;
-      }
     }
 
     if (importPath) {
@@ -109,6 +106,7 @@ export function traverseFilesystem(
   return fileInfo;
 }
 
+
 export function resolvePotentialTsPath(
   moduleName: string,
   tsPaths: TsPaths,
@@ -128,6 +126,7 @@ export function resolvePotentialTsPath(
       unpathedImport = tsPaths[tsPath];
     }
 
+    // current path applies -> resolve it
     if (unpathedImport) {
       // path is file -> return as is
       if (isPathFile(unpathedImport)) {
@@ -136,17 +135,14 @@ export function resolvePotentialTsPath(
       // path is directory or something else -> rely on TypeScript resolvers
       else {
         const resolvedImport = resolveFn(unpathedImport);
-        if (
-          !resolvedImport.resolvedModule ||
-          resolvedImport.resolvedModule.isExternalLibraryImport === true
-        ) {
-          throw new Error(
-            `unable to resolve import ${moduleName} in ${filename}`,
+        // if path applies but import is for external library with same time,
+        // we need to rely on the native TypeScript resolver, which is done
+        // outside the path resolving.
+        if (resolvedImport.resolvedModule) {
+          return toFsPath(
+            fixPathSeparators(resolvedImport.resolvedModule.resolvedFileName),
           );
         }
-        return toFsPath(
-          fixPathSeparators(resolvedImport.resolvedModule.resolvedFileName),
-        );
       }
     }
   }
