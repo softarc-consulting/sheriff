@@ -116,13 +116,26 @@ describe('calc tags for module', () => {
 
   it('should support a placeholder with a dash', () => {
     const rootDir = '/project' as FsPath;
-    const moduleDir = '/project/holidays' as FsPath;
+    const moduleDir = '/project/app1/holidays' as FsPath;
 
     expect(
       calcTagsForModule(moduleDir, rootDir, {
-        '<sub-domain>': ({ domain }) => `domain:${domain}`,
+        '<domain>/<sub-domain>': (tags) => [
+          `domain:${tags['domain']}:${tags['sub-domain']}`,
+        ],
       }),
-    ).toEqual(['domain:holidays']);
+    ).toEqual(['domain:app1:holidays']);
+  });
+
+  it('should support a placeholder with a dash underscore', () => {
+    const rootDir = '/project' as FsPath;
+    const moduleDir = '/project/app1/holidays' as FsPath;
+
+    expect(
+      calcTagsForModule(moduleDir, rootDir, {
+        '<app-lib>/<_domain>': 'domain:<app-lib>:<_domain>',
+      }),
+    ).toEqual(['domain:app1:holidays']);
   });
 
   it('should support placeholders in both matcher and tag value', () => {
@@ -156,7 +169,7 @@ describe('calc tags for module', () => {
         '<subdomain>': ['type:<type>', 'subdomain:<subdomain>'],
       }),
     ).toThrowUserError(
-      new InvalidPlaceholderError('type', '/project/feat-bookings'),
+      new InvalidPlaceholderError('<type>', '/project/feat-bookings'),
     );
   });
 
