@@ -9,7 +9,6 @@ import {
   resolvePotentialTsPath,
   traverseFilesystem,
 } from '../traverse-filesystem';
-import { ResolvedModuleFull } from 'typescript';
 import { describe, it, expect } from 'vitest';
 import { buildFileInfo } from '../../test/build-file-info';
 
@@ -210,12 +209,12 @@ describe('traverse filesystem', () => {
     });
   });
 
-  it('should throw an error in resolvePotentialTsPath when path is a nodeJs dependency', () => {
+  it('should return undefined if TS resolving does not work', () => {
     const resolveFn: ResolveFn = () => ({
-      resolvedModule: { isExternalLibraryImport: true } as ResolvedModuleFull,
+      resolvedModule: undefined
     });
 
-    expect(() =>
+    expect(
       resolvePotentialTsPath(
         '@customers',
         {
@@ -224,7 +223,7 @@ describe('traverse filesystem', () => {
         resolveFn,
         'home.component.ts',
       ),
-    ).toThrow('unable to resolve import @customers in home.component.ts');
+    ).toBeUndefined();
   });
 
   describe('external libraries', () => {
@@ -277,6 +276,88 @@ describe('traverse filesystem', () => {
       });
 
       expect(fileInfo.getExternalLibraries()).toEqual(['superlib']);
+    });
+  });
+
+  describe('prioritize alias over normal resolution', () => {
+    it('should have an external library and and path with the same name', () => {
+      const fileInfo = setup({
+        'tsconfig.json': tsConfig({
+          paths: { superlib: ['lib/index.ts'] },
+        }),
+        node_modules: {
+          superlib: {
+            'index.ts': [],
+          },
+        },
+        src: {
+          'main.ts': ['superlib'],
+        },
+        lib: {
+          'index.ts': [],
+        },
+      });
+
+      expect(fileInfo.getExternalLibraries()).toEqual([]);
+      expect(fileInfo).toEqual(
+        buildFileInfo('/project/src/main.ts', [['/project/lib/index.ts', []]]),
+      );
+    });
+
+    it('should prioritize a path with a wildcard over an external library', () => {
+      const fileInfo = setup({
+        'tsconfig.json': tsConfig({
+          paths: { 'superlib/*': ['lib/*'] },
+        }),
+        node_modules: {
+          superlib: {
+            data: {
+              'calc.js': [],
+            },
+          },
+        },
+        src: {
+          'main.ts': ['superlib/data/calc'],
+        },
+        lib: {
+          data: {
+            'calc.ts': [],
+          },
+        },
+      });
+
+      expect(fileInfo.getExternalLibraries()).toEqual([]);
+      expect(fileInfo).toEqual(
+        buildFileInfo('/project/src/main.ts', [
+          ['/project/lib/data/calc.ts', []],
+        ]),
+      );
+    });
+
+    it('should fallback to default resolution if alias applies but does not match', () => {
+      const fileInfo = setup({
+        'tsconfig.json': tsConfig({
+          paths: { 'superlib/*': ['lib/*'] },
+        }),
+        node_modules: {
+          superlib: {
+            data: {
+              'index.js': [],
+            },
+          },
+        },
+        src: {
+          'main.ts': ['superlib/data'],
+        },
+        lib: {
+          calc: {
+            'index.ts': [],
+          },
+        },
+      });
+
+      expect(fileInfo.getExternalLibraries()).toEqual(['superlib/data']);
+      expect(fileInfo).toEqual(buildFileInfo('/project/src/main.ts', []));
     });
   });
 });
