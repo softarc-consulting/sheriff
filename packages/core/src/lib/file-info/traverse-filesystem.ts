@@ -60,12 +60,7 @@ export function traverseFilesystem(
     }
 
     // alias/path resolving has priority
-    const resolvedTsPath = resolvePotentialTsPath(
-      fileName,
-      paths,
-      resolveFn,
-      fsPath,
-    );
+    const resolvedTsPath = resolvePotentialTsPath(fileName, paths, resolveFn);
 
     if (resolvedTsPath) {
       importPath = resolvedTsPath;
@@ -106,12 +101,10 @@ export function traverseFilesystem(
   return fileInfo;
 }
 
-
 export function resolvePotentialTsPath(
   moduleName: string,
   tsPaths: TsPaths,
   resolveFn: ResolveFn,
-  filename: string,
 ): FsPath | undefined {
   let unpathedImport: string | undefined;
   for (const tsPath in tsPaths) {
