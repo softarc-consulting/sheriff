@@ -12,6 +12,8 @@ import {
   TagWithoutValueError,
 } from '../error/user-error';
 
+const PLACE_HOLDER_REGEX = /<[a-zA-Z-_]+>/g;
+
 export const calcTagsForModule = (
   moduleDir: FsPath,
   rootDir: FsPath,
@@ -155,9 +157,9 @@ function replacePlaceholdersInTag(
     );
   }
 
-  const unavailablePlaceholder = replacedTag.match(/<([a-zA-Z]+)>/);
+  const unavailablePlaceholder = replacedTag.match(PLACE_HOLDER_REGEX);
   if (unavailablePlaceholder) {
-    throw new InvalidPlaceholderError(unavailablePlaceholder[1], fullDir);
+    throw new InvalidPlaceholderError(unavailablePlaceholder[0], fullDir);
   }
 
   return replacedTag;
@@ -173,7 +175,7 @@ function handlePlaceholderMatching(
   placeholderMatch: string[],
   placeholders: Record<string, string>,
 ) {
-  const placeholderRegex = pathMatcher.replace(/<[a-zA-Z]+>/g, '(.+)');
+  const placeholderRegex = pathMatcher.replace(PLACE_HOLDER_REGEX, '(.+)');
   const pathMatch = currentPath.match(new RegExp(placeholderRegex));
   if (!pathMatch) {
     return false;
@@ -222,7 +224,7 @@ function matchSegment(
       matches = false;
     }
     pathFragment = paths.slice(0, pathFragmentSpan).join('/');
-    const placeholderMatch = (segmentMatcher.match(/<[a-zA-Z]+>/g) ?? []).map(
+    const placeholderMatch = (segmentMatcher.match(PLACE_HOLDER_REGEX) ?? []).map(
       (str) => str.slice(1, str.length - 1),
     );
     if (placeholderMatch.length) {
