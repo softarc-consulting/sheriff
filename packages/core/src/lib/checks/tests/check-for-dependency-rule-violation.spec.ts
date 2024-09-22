@@ -476,4 +476,38 @@ describe('check for dependency rule violation', () => {
       });
     });
   });
+
+  it('should not fail on imports from same module', () => {
+    const projectInfo = testInit('src/customers/customer.component.spec.ts', {
+      'tsconfig.json': tsConfig({
+        paths: {
+          '@app/src/customers': ['src/customers'],
+        },
+      }),
+      'sheriff.config.ts': sheriffConfig({
+        tagging: {
+          'src/customers': ['domain:customers', 'type:feature'],
+        },
+        depRules: {
+          'domain:customers': sameTag,
+          'type:feature': [],
+        },
+      }),
+      src: {
+        customers: {
+          'index.ts': ['./customer.component'],
+          'customer.component.ts': [],
+          'customer.ts': [],
+          'customer.component.spec.ts': ['@app/src/customers', '.index'],
+        }
+      },
+    });
+
+    const violations = checkForDependencyRuleViolation(
+      toFsPath('/project/src/customers/customer.component.spec.ts'),
+      projectInfo,
+    );
+
+    expect(violations).toEqual([]);
+  })
 });

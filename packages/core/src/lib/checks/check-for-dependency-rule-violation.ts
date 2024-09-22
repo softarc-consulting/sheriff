@@ -26,6 +26,8 @@ export function checkForDependencyRuleViolation(
   const importedModulePathsWithRawImport = assignedFileInfo.imports
     // skip deep imports
     .filter((importedFi) => modulePaths.includes(importedFi.path))
+    // skip imports from barrel of same module
+    .filter(importedFi => importedFi.moduleInfo.directory !== assignedFileInfo.moduleInfo.directory)
     .map((fileInfo) => [
       fileInfo.moduleInfo.directory,
       assignedFileInfo.getRawImportForImportedFileInfo(fileInfo.path),
