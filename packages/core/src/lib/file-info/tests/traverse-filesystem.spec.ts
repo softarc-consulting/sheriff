@@ -11,6 +11,7 @@ import {
 } from '../traverse-filesystem';
 import { describe, it, expect } from 'vitest';
 import { buildFileInfo } from '../../test/build-file-info';
+import getFs from '../../fs/getFs';
 
 function setup(fileTree: FileTree): UnassignedFileInfo {
   createProject(fileTree);
@@ -211,7 +212,7 @@ describe('traverse filesystem', () => {
 
   it('should return undefined if TS resolving does not work', () => {
     const resolveFn: ResolveFn = () => ({
-      resolvedModule: undefined
+      resolvedModule: undefined,
     });
 
     expect(
@@ -359,5 +360,31 @@ describe('traverse filesystem', () => {
       expect(fileInfo.getExternalLibraries()).toEqual(['superlib/data']);
       expect(fileInfo).toEqual(buildFileInfo('/project/src/main.ts', []));
     });
+  });
+
+  it('should recognize exports as imports', () => {
+    createProject({
+      'tsconfig.json': tsConfig(),
+      src: {
+        app: {
+          'app.component.ts': [],
+          customers: {
+            'customer.component.ts': [],
+          },
+        },
+      },
+    });
+
+    getFs().writeFile(
+      '/project/src/app/app.component.ts',
+      `export * from './customers/customer.component'`,
+    );
+
+    const tsData = generateTsData(toFsPath('/project/tsconfig.json'));
+    const mainPath = toFsPath('/project/src/app/app.component.ts');
+
+    const unassignedFileInfo = traverseFilesystem(mainPath, new Map<FsPath, UnassignedFileInfo>(), tsData);
+
+    expect(unassignedFileInfo.imports).toHaveLength(1)
   });
 });

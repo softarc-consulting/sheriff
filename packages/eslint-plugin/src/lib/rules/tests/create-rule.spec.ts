@@ -71,4 +71,22 @@ describe('create rule', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
   }
+
+  it('should also match export declarations', () => {
+    tester.run('test-rule', testRule, {
+      valid: [
+        {
+          code: `
+            export * from '../index';
+            export { Component } from './component';
+            export const value = {n: 1};
+            export default {a: 1};
+          `,
+        },
+      ],
+      invalid: []
+    });
+
+    expect(spy).toHaveBeenCalledTimes(2);
+  });
 });

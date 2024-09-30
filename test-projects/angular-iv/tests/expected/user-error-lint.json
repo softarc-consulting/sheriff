@@ -161,6 +161,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/bookings/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/bookings' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { bookingsRoutes } from './bookings.routes';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/bookings/overview/overview.component.ts",
     "messages": [
       {
@@ -322,6 +345,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/customers/data/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/customers/data' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 70
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { CustomersRepository } from './customers-repository.service';\nexport { provideCustomers } from './provide-customers';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/customers/data/provide-customers.ts",
     "messages": [
       {
@@ -460,6 +506,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/customers/feature/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/customers/feature' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 54
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { customersRoutes } from './customers.routes';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/customers/feature/services/data.guard.ts",
     "messages": [
       {
@@ -503,6 +572,29 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { Customer } from '@eternal/customers/model';\n\nexport const customers: Customer[] = [\n  {\n    id: 1,\n    firstname: 'Hugo',\n    name: 'Brandt',\n    country: 'AT',\n    birthdate: '1974-05-12',\n  },\n  {\n    id: 2,\n    firstname: 'Natalia',\n    name: 'Rusnov',\n    country: 'RU',\n    birthdate: '1965-08-09',\n  },\n  {\n    id: 3,\n    firstname: 'Fernandez',\n    name: 'Rodriguez',\n    country: 'ES',\n    birthdate: '2001-01-05',\n  },\n  {\n    id: 4,\n    firstname: 'Li',\n    name: 'Qian',\n    country: 'CN',\n    birthdate: '1991-12-05',\n  },\n  {\n    id: 5,\n    firstname: 'Kakani',\n    name: 'Bhattacharjee',\n    country: 'IN',\n    birthdate: '1989-10-11',\n  },\n  {\n    id: 6,\n    firstname: 'Paul',\n    name: 'Sullivan',\n    country: 'UK',\n    birthdate: '1995-05-31',\n  },\n  {\n    id: 6,\n    firstname: 'Samantha',\n    name: 'Jones',\n    country: 'US',\n    birthdate: '2005-07-15',\n  },\n  {\n    id: 7,\n    firstname: 'Renate',\n    name: 'Hoffmann',\n    country: 'DE',\n    birthdate: '1987-11-15',\n  },\n  {\n    id: 8,\n    firstname: 'Angelika',\n    name: 'Hoffmann',\n    country: 'DE',\n    birthdate: '1987-11-15',\n  },\n  {\n    id: 9,\n    firstname: 'Jean-Paul',\n    name: 'Néro',\n    country: 'FR',\n    birthdate: '1955-09-21',\n  },\n  {\n    id: 10,\n    firstname: 'Stefanie',\n    name: 'Niederrein',\n    country: 'AT',\n    birthdate: '1997-03-12',\n  },\n  {\n    id: 11,\n    firstname: 'Denise',\n    name: 'Keller',\n    country: 'CH',\n    birthdate: '1998-07-01',\n  },\n  {\n    id: 12,\n    firstname: 'Johan',\n    name: 'Driekamp',\n    country: 'NL',\n    birthdate: '1958-09-12',\n  },\n  {\n    id: 13,\n    firstname: 'Estefanía',\n    name: 'Sánchez',\n    country: 'ES',\n    birthdate: '1985-10-10',\n  },\n  {\n    id: 14,\n    firstname: 'John',\n    name: 'Harrison',\n    country: 'UK',\n    birthdate: '1977-05-20',\n  },\n  {\n    id: 15,\n    firstname: 'Helene',\n    name: 'Ford',\n    country: 'CA',\n    birthdate: '1969-03-04',\n  },\n  {\n    id: 16,\n    firstname: 'Jan',\n    name: 'Janáček',\n    country: 'CZ',\n    birthdate: '2002-01-02',\n  },\n  {\n    id: 17,\n    firstname: 'Knut',\n    name: 'Eggen',\n    country: 'NO',\n    birthdate: '1999-07-17',\n  },\n  {\n    id: 18,\n    firstname: 'Oskar',\n    name: 'Sjögren',\n    country: 'SE',\n    birthdate: '1961-03-22',\n  },\n  {\n    id: 19,\n    firstname: 'Timéa',\n    name: 'Szabó',\n    country: 'HU',\n    birthdate: '1969-01-26',\n  },\n  {\n    id: 20,\n    firstname: 'Latitia',\n    name: 'Bellitissa',\n    country: 'IT',\n    birthdate: '2002-05-30',\n  },\n  {\n    id: 21,\n    firstname: 'Bjørn',\n    name: 'Larsson',\n    country: 'DK',\n    birthdate: '1964-11-11',\n  },\n];\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/customers/model/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/customers/model' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 72
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { Customer, createCustomer, createCustomers } from './customer';\n",
     "usedDeprecatedRules": []
   },
   {
@@ -572,6 +664,29 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import {\n  Component,\n  EventEmitter,\n  Input,\n  OnChanges,\n  Output,\n} from '@angular/core';\nimport {\n  MatSlideToggleChange,\n  MatSlideToggleModule,\n} from '@angular/material/slide-toggle';\nimport { MatTableDataSource, MatTableModule } from '@angular/material/table';\nimport { Customer } from '@eternal/customers/model';\nimport { MatIconModule } from '@angular/material/icon';\nimport { MatButtonModule } from '@angular/material/button';\nimport { MatPaginatorModule } from '@angular/material/paginator';\nimport { CustomerPipe } from '../customer.pipe';\nimport { RouterLinkWithHref } from '@angular/router';\nimport { DatePipe, NgIf } from '@angular/common';\n\nexport interface CustomerWithSelected extends Customer {\n  selected: boolean;\n}\nexport interface CustomersViewModel {\n  customers: CustomerWithSelected[];\n  pageIndex: number;\n  length: number;\n}\n\n@Component({\n  selector: 'eternal-customers',\n  templateUrl: './customers.component.html',\n  standalone: true,\n  imports: [\n    MatIconModule,\n    MatButtonModule,\n    CustomerPipe,\n    MatPaginatorModule,\n    MatTableModule,\n    MatSlideToggleModule,\n    RouterLinkWithHref,\n    NgIf,\n    DatePipe,\n  ],\n})\nexport class CustomersComponent implements OnChanges {\n  @Input() viewModel: CustomersViewModel | undefined;\n  @Output() setSelected = new EventEmitter<number>();\n  @Output() setUnselected = new EventEmitter<number>();\n  @Output() switchPage = new EventEmitter<number>();\n\n  displayedColumns = ['name', 'country', 'birthdate', 'action'];\n  dataSource = new MatTableDataSource<CustomerWithSelected>([]);\n\n  ngOnChanges(): void {\n    if (this.viewModel) {\n      this.dataSource.data = this.viewModel.customers;\n    }\n  }\n\n  toggleSelection(toggleChange: MatSlideToggleChange, id: number) {\n    if (toggleChange.checked) {\n      this.setSelected.emit(id);\n    } else {\n      this.setUnselected.emit(id);\n    }\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/customers/ui/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/customers/ui' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 67
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { CustomerComponent } from './customer/customer.component';\nexport {\n  CustomersComponent,\n  CustomersViewModel,\n} from './customers/customers.component';\n",
     "usedDeprecatedRules": []
   },
   {
@@ -759,6 +874,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/holidays/feature/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/holidays/feature' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 52
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { holidaysRoutes } from './holidays.routes';\nexport { AddressLookuper } from './address-lookuper.service';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/holidays/feature/parse-address.spec.ts",
     "messages": [
       {
@@ -851,6 +989,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/holidays/model/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/holidays/model' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 68
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { Holiday, createHoliday, createHolidays } from './holiday';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/holidays/ui/holiday-card/holiday-card.component.ts",
     "messages": [
       {
@@ -874,6 +1035,52 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/holidays/ui/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/holidays/ui' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 78
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { HolidayCardComponent } from './holiday-card/holiday-card.component';\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/shared/config/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/config' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 49
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { Configuration } from './configuration';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/shared/form/form-errors.component.ts",
     "messages": [
       {
@@ -894,6 +1101,29 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { Component, Input } from '@angular/core';\nimport { FormControl } from '@angular/forms';\nimport { JsonPipe, NgIf } from '@angular/common';\nimport { MatInputModule } from '@angular/material/input';\n\n@Component({\n  selector: 'eternal-form-errors',\n  template: ` <ng-container *ngIf=\"control\">\n    <span *ngIf=\"control.hasError('required')\">This field is mandatory</span>\n  </ng-container>`,\n  standalone: true,\n  imports: [NgIf, JsonPipe, MatInputModule],\n})\nexport class FormErrorsComponent {\n  @Input() control: FormControl | undefined;\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/shared/form/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/form' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 37
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { Options } from './options';\nexport { FormErrorsComponent } from './form-errors.component';\n",
     "usedDeprecatedRules": []
   },
   {
@@ -966,6 +1196,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/shared/http/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/http' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 56
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { ErrorInterceptor } from './error.interceptor';\nexport { BaseUrlInterceptor } from './base-url.interceptor';\nexport { withErrorMessageContext } from './with-error-message-context';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/shared/http/with-error-message-context.ts",
     "messages": [
       {
@@ -1009,6 +1262,29 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { createFeature, createReducer, createSelector } from '@ngrx/store';\n\nexport const countries = [\n  ['AT', 'Austria'],\n  ['CA', 'Canada'],\n  ['CH', 'Switzerland'],\n  ['CN', 'China'],\n  ['CZ', 'Czechia'],\n  ['DE', 'Germany'],\n  ['DK', 'Denmark'],\n  ['ES', 'Spain'],\n  ['FR', 'France'],\n  ['HU', 'Hungary'],\n  ['IN', 'India'],\n  ['IT', 'Italy'],\n  ['NL', 'Netherlands'],\n  ['NO', 'Norway'],\n  ['RU', 'Russia'],\n  ['SE', 'Sweden'],\n  ['UK', 'United Kingdom'],\n  ['US', 'USA'],\n].map(([code, name]) => ({ code, name }));\n\nexport interface Country {\n  code: string;\n  name: string;\n}\n\ninterface MasterState {\n  countries: Country[];\n}\n\nconst initialState: MasterState = {\n  countries,\n};\n\nexport const masterFeature = createFeature({\n  name: 'master',\n  reducer: createReducer<MasterState>(initialState),\n});\n\nexport const selectCountries = createSelector(\n  masterFeature.selectCountries,\n  (countries) =>\n    countries.map(({ code, name }) => ({ value: code, label: name }))\n);\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/shared/master-data/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/master-data' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 74
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { sharedMasterDataProvider } from './shared-master-data.provider';\nexport { selectCountries, masterFeature } from './+state/master.reducer';\n",
     "usedDeprecatedRules": []
   },
   {
@@ -1081,6 +1357,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/shared/ngrx-utils/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/ngrx-utils' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { noopAction } from './noop.action';\nexport { safeConcatMap } from './safe-concat-map';\nexport { filterDefined } from './filter-defined';\nexport { deepClone } from './deep-clone';\nexport { LoadStatus } from './load-status';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/shared/ngrx-utils/noop.action.ts",
     "messages": [
       {
@@ -1124,6 +1423,29 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { Action } from '@ngrx/store';\nimport { catchError, concatMap, Observable, of, OperatorFunction } from 'rxjs';\nimport { noopAction } from './noop.action';\n\nexport function safeConcatMap<S, T extends string>(\n  project: (value: S) => Observable<Action<T>>\n): OperatorFunction<S, Action<T | '[Util] NOOP'>> {\n  return (source$: Observable<S>): Observable<Action<T | '[Util] NOOP'>> =>\n    source$.pipe(\n      concatMap((value) =>\n        project(value).pipe(catchError(() => of(noopAction())))\n      )\n    );\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/shared/security/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/security' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 56
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { securityProvider } from './security.provider';\nexport { SecurityService } from './security.service';\n",
     "usedDeprecatedRules": []
   },
   {
@@ -1265,6 +1587,29 @@
     "usedDeprecatedRules": []
   },
   {
+    "filePath": "./src/app/shared/testing/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/testing' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { assertType } from './assert-type';\nexport * from './mock-inject';\n",
+    "usedDeprecatedRules": []
+  },
+  {
     "filePath": "./src/app/shared/testing/mock-inject.ts",
     "messages": [
       {
@@ -1285,6 +1630,29 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import * as angularCore from '@angular/core';\nimport { ProviderToken } from '@angular/core';\n\nexport class MockInject {\n  mocks = new Map<ProviderToken<unknown>, unknown>();\n  spy: jest.SpyInstance;\n  constructor() {\n    this.spy = jest.spyOn(angularCore, 'inject');\n    this.spy.mockImplementation((token: ProviderToken<unknown>) => {\n      if (this.mocks.has(token)) {\n        return this.mocks.get(token);\n      } else {\n        throw new Error('injector was called with unknown token: ' + token);\n      }\n    });\n  }\n\n  with(token: ProviderToken<unknown>, mock: unknown) {\n    this.mocks.set(token, mock);\n    return this;\n  }\n\n  restore(): void {\n    this.spy.mockRestore();\n  }\n\n  getRestoreFn() {\n    return () => this.restore();\n  }\n}\n\nexport class SafeMockInject extends MockInject {\n  override with<T>(token: ProviderToken<T>, mock: T) {\n    super.with(token, mock);\n    return this;\n  }\n}\n\nexport const mockInject = {\n  with: (token: ProviderToken<unknown>, mock: unknown) => {\n    const instance = new MockInject();\n    return instance.with(token, mock);\n  },\n};\n\nexport const safeMockInject = {\n  with: (token: ProviderToken<unknown>, mock: unknown) => {\n    const instance = new SafeMockInject();\n    return instance.with(token, mock);\n  },\n};\n\nexport type RestoreFunction = () => void;\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/shared/ui-messaging/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 76
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { sharedUiMessagingProvider } from './shared-ui-messaging.provider';\nexport { LoaderComponent } from './loader/loader.component';\nexport { LoadingService } from './loader/loading.service';\nexport { LoadingInterceptor } from './loader/loading.interceptor';\nexport { MessageService } from './message/message.service';\nexport { MessageComponent } from './message/message.component';\n",
     "usedDeprecatedRules": []
   },
   {
@@ -1538,6 +1906,52 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { Directive, ElementRef, HostListener } from '@angular/core';\n\n@Directive({\n  selector: '[eternalBlinker]',\n  standalone: true,\n})\nexport class BlinkerDirective {\n  currentColor = '';\n  intervalId: number | undefined;\n  constructor(private el: ElementRef) {}\n\n  @HostListener('mouseenter') onMouseEnter() {\n    this.toggle();\n    this.intervalId = window.setInterval(() => this.toggle(), 500);\n  }\n\n  @HostListener('mouseleave') onMouseLeave() {\n    this.el.nativeElement.style.color = '';\n    if (this.intervalId) {\n      window.clearInterval(this.intervalId);\n      this.intervalId = undefined;\n    }\n  }\n\n  private toggle() {\n    const color = this.currentColor === '' ? 'coral' : '';\n    this.currentColor = color;\n    this.el.nativeElement.style.color = color;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/shared/ui/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/ui' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 56
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { BlinkerDirective } from './blinker.directive';\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "./src/app/shared/util/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "./src/app/shared/util' in sheriff.config.ts",
+        "line": 1,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 1,
+        "endColumn": 50
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export { assertDefined } from './assert-defined';\nexport { isDefined } from './is-defined';\nexport { safeAssign } from './safe-assign';\n",
     "usedDeprecatedRules": []
   },
   {
