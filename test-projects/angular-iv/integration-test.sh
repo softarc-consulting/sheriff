@@ -69,3 +69,12 @@ npx ng lint --force --format json --output-file tests/actual/auto-tagging-lint.j
 ../remove-paths.mjs tests/actual/auto-tagging-lint.json
 diff tests/actual/auto-tagging-lint.json tests/expected/auto-tagging-lint.json
 cp sheriff.config.ts.original sheriff.config.ts
+
+## Re-Exports Check
+echo 'checking for re-exports'
+cp src/app/customers/api/index.ts src/app/customers/api/index.ts.original
+cp tests/customer-api-re-exports.index.ts src/app/customers/api/index.ts
+npx ng lint --force --format json --output-file tests/actual/re-exports-lint.json
+../remove-paths.mjs tests/actual/re-exports-lint.json
+diff tests/actual/re-exports-lint.json tests/expected/re-exports-lint.json
+mv src/app/customers/api/index.ts.original src/app/customers/api/index.ts

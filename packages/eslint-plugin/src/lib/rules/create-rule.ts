@@ -1,6 +1,5 @@
 import { Rule } from 'eslint';
-import { ImportDeclaration, ImportExpression } from 'estree';
-import { Executor } from './executor';
+import {Executor, ExecutorNode} from './executor';
 import { UserError } from '@softarc/sheriff-core';
 
 /**
@@ -22,13 +21,19 @@ export const createRule: (
     let isFirstRun = true;
     let hasInternalError = false;
     const executeRuleWithContext = (
-      node: ImportExpression | ImportDeclaration,
+      node: ExecutorNode,
     ) => {
       const filename = context.filename ?? context.getFilename();
       const sourceCode =
         context.sourceCode?.text ?? context.getSourceCode().text;
+
       if (!hasInternalError) {
         try {
+          // don't process special export `export const value = {n: 1};`
+          if (!node.source) {
+            return;
+          }
+
           executor(context, node, isFirstRun, filename, sourceCode);
         } catch (error) {
           hasInternalError = true;
@@ -50,6 +55,8 @@ export const createRule: (
     return {
       ImportExpression: executeRuleWithContext,
       ImportDeclaration: executeRuleWithContext,
+      ExportAllDeclaration: executeRuleWithContext,
+      ExportNamedDeclaration: executeRuleWithContext,
     };
   },
 });

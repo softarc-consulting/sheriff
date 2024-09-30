@@ -1,0 +1,25 @@
+[
+  {
+    "filePath": "./src/app/customers/api/index.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/dependency-rule",
+        "severity": 2,
+        "message": "module /src/app/customers/api cannot access /src/app/bookings. Tag domain:customers:api has no clearance for tags domain:bookings, type:feature",
+        "line": 3,
+        "column": 1,
+        "nodeType": "ExportNamedDeclaration",
+        "endLine": 3,
+        "endColumn": 49
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { inject, Injectable } from '@angular/core';\nimport { CustomersRepository } from '../data';\nexport { bookingsRoutes } from '../../bookings';\n\n@Injectable({ providedIn: 'root' })\nexport class CustomersApi {\n  repo = inject(CustomersRepository);\n  get selectedCustomer$() {\n    return this.repo.selectedCustomer$;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  }
+]

@@ -1,17 +1,9 @@
-import { Rule } from 'eslint';
 import { violatesDependencyRule } from '@softarc/sheriff-core';
-import { ImportDeclaration, ImportExpression } from 'estree';
 import { createRule } from './create-rule';
 
 export const dependencyRule = createRule(
   'Dependency Rule',
-  (
-    context: Rule.RuleContext,
-    node: ImportExpression | ImportDeclaration,
-    isFirstRun: boolean,
-    filename: string,
-    sourceCode: string,
-  ) => {
+  (context, node, isFirstRun, filename, sourceCode) => {
     const importValue = (node.source as { value: string }).value;
     const message = violatesDependencyRule(
       filename,

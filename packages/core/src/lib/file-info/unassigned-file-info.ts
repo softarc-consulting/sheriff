@@ -2,7 +2,11 @@ import { FsPath } from './fs-path';
 import throwIfNull from '../util/throw-if-null';
 
 /**
- * Represents a TypeScript file with its dependencies.
+ * Represents a TypeScript file with its dependencies but does
+ * not yet have an assignment to a module.
+ *
+ * After module assignment is done, it becomes a type `FileInfo`.
+ *
  * If an import cannot be resolved, it doesn't throw an error
  * but is added to unresolvableImports.
  *
