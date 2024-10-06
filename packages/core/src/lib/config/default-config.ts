@@ -6,6 +6,7 @@ export const defaultConfig: SheriffConfig = {
   tagging: {},
   depRules: {},
   excludeRoot: false,
+  enableBarrelLess: false,
   log: false,
   entryFile: '',
   isConfigFileMissing: false,

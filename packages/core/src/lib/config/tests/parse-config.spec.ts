@@ -1,11 +1,10 @@
 import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import * as ts from 'typescript';
-import { parseConfig } from './parse-config';
-import { toFsPath } from '../file-info/fs-path';
-import { TsConfig } from '../file-info/ts-config';
-import getFs, { useVirtualFs } from '../fs/getFs';
-import { MissingTaggingWithoutAutoTagging } from '../error/user-error';
-import '../test/expect.extensions';
+import { parseConfig } from '../parse-config';
+import { toFsPath } from '../../file-info/fs-path';
+import getFs, { useVirtualFs } from '../../fs/getFs';
+import { MissingTaggingWithoutAutoTagging } from '../../error/user-error';
+import '../../test/expect.extensions';
 
 describe('parse Config', () => {
   it('should read value', () => {
@@ -15,13 +14,12 @@ describe('parse Config', () => {
       compilerOptions: { module: ts.ModuleKind.NodeNext },
     });
 
-    const result = eval(outputText) as TsConfig;
-    expect(result).toBe(1);
+    expect(outputText).toMatchSnapshot();
   });
 
   it('should the sheriff config', () => {
     const tsCode = parseConfig(
-      toFsPath(__dirname + '/../test/sheriff.config.ts'),
+      toFsPath(__dirname + '/../../test/sheriff.config.ts'),
     );
     expect(Object.keys(tsCode)).toEqual([
       'version',
@@ -29,6 +27,7 @@ describe('parse Config', () => {
       'tagging',
       'depRules',
       'excludeRoot',
+      'enableBarrelLess',
       'log',
       'entryFile',
       'isConfigFileMissing',
@@ -67,6 +66,7 @@ export const config: SheriffConfig = {
         autoTagging: true,
         tagging: {},
         depRules: { noTag: 'noTag' },
+        enableBarrelLess: false,
         excludeRoot: false,
         log: false,
         isConfigFileMissing: false,
