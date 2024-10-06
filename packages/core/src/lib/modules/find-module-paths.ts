@@ -11,8 +11,8 @@ export type ModulePathMap = Record<FsPath, boolean>
  *
  * If a module has a barrel file and an internal, it is of type barrel file.
  */
-export function findModulePaths(projectDirs: FsPath[], moduleConfig: TagConfig, barrelFileName: string): ModulePathMap {
-  const modulesWithoutBarrel = findModulePathsWithoutBarrel(projectDirs, moduleConfig);
+export function findModulePaths(projectDirs: FsPath[], moduleConfig: TagConfig, barrelFileName: string, enableBarrelLess: boolean): ModulePathMap {
+  const modulesWithoutBarrel = enableBarrelLess ? findModulePathsWithoutBarrel(projectDirs, moduleConfig) : [];
   const modulesWithBarrel = findModulePathsWithBarrel(projectDirs, barrelFileName);
   const modulePaths: ModulePathMap = {};
 

@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parse Config > should read value 1`] = `
+""use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.a = void 0;
+exports.a = 1;
+"
+`;

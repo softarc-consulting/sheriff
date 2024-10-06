@@ -112,6 +112,11 @@ export interface UserSheriffConfig {
   excludeRoot?: boolean;
 
   /**
+   * Enable the barrel-less mode. Set to false by default.
+   */
+  enableBarrelLess?: boolean;
+
+  /**
    * enable internal logging and save it to `sheriff.log`
    */
   log?: boolean;
