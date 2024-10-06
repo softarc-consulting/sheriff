@@ -8,7 +8,7 @@ import throwIfNull from '../util/throw-if-null';
 import { TsData } from '../file-info/ts-data';
 import { Module } from '../modules/module';
 import { SheriffConfig } from '../config/sheriff-config';
-import { findModulePaths } from "../modules/find-module-paths";
+import { findModulePaths } from '../modules/find-module-paths';
 
 export type ParsedResult = {
   fileInfo: FileInfo;
@@ -22,7 +22,7 @@ export const parseProject = (
   traverse: boolean,
   tsData: TsData,
   config: SheriffConfig,
-  fileContent?: string
+  fileContent?: string,
 ): ParsedResult => {
   const unassignedFileInfo = generateUnassignedFileInfo(
     entryFile,
@@ -38,14 +38,19 @@ export const parseProject = (
   const getFileInfo = (path: FsPath) =>
     throwIfNull(fileInfoMap.get(path), `cannot find FileInfo for ${path}`);
 
-  const modulePaths = findModulePaths(projectDirs, config.tagging, config.barrelFileName);
+  const modulePaths = findModulePaths(
+    projectDirs,
+    config.tagging,
+    config.barrelFileName,
+    config.enableBarrelLess,
+  );
   const modules = createModules(
     unassignedFileInfo,
     modulePaths,
     rootDir,
     fileInfoMap,
     getFileInfo,
-    config.barrelFileName
+    config.barrelFileName,
   );
   fillFileInfoMap(fileInfoMap, modules);
 
