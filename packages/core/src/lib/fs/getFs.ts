@@ -4,8 +4,15 @@ import { Fs } from './fs';
 
 let fsImplementation: 'default' | 'virtual' = 'default';
 
-export const useDefaultFs = () => (fsImplementation = 'default');
-export const useVirtualFs = () => (fsImplementation = 'virtual');
+export function useDefaultFs() {
+  fsImplementation = 'default';
+  return defaultFs
+}
+
+export function useVirtualFs() {
+  fsImplementation = 'virtual'
+  return virtualFs;
+}
 
 const getFs = (): Fs =>
   fsImplementation === 'default' ? defaultFs : virtualFs;

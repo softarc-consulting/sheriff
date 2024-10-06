@@ -1,5 +1,4 @@
 import { FsPath } from '../file-info/fs-path';
-import { findModulePathsWithoutBarrel } from "./internal/find-module-paths-without-barrel";
 import { TagConfig } from "../config/tag-config";
 import { findModulePathsWithBarrel } from "./internal/find-module-paths-with-barrel";
 

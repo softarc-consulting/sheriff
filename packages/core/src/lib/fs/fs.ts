@@ -2,22 +2,23 @@ import * as path from 'path';
 import type { FsPath } from '../file-info/fs-path';
 
 export abstract class Fs {
-  abstract writeFile: (filename: string, contents: string) => void;
+  abstract writeFile(filename: string, contents: string): void;
   abstract appendFile(filename: string, contents: string): void;
-  abstract readFile: (path: FsPath) => string;
-  abstract removeDir: (path: FsPath) => void;
-  abstract createDir: (path: string) => void;
+  abstract readFile(path: FsPath): string;
+  abstract readDirectory(path: FsPath, filter?: 'none' | 'directory'): FsPath[];
+  abstract removeDir(path: FsPath): void;
+  abstract createDir(path: string): void;
   abstract exists(path: string): path is FsPath;
 
-  abstract tmpdir: () => string;
+  abstract tmpdir(): string;
 
   join = (...paths: string[]) => path.join(...paths);
 
-  abstract cwd: () => string;
+  abstract cwd(): string;
 
-  abstract findFiles: (path: FsPath, filename: string) => FsPath[];
+  abstract findFiles(path: FsPath, filename: string): FsPath[];
 
-  abstract print: () => void;
+  abstract print(): void;
 
   /**
    * Used for finding the nearest `tsconfig.json`. It traverses through the
@@ -25,15 +26,18 @@ export abstract class Fs {
    * @param referenceFile
    * @param filename
    */
-  abstract findNearestParentFile: (
+  abstract findNearestParentFile(
     referenceFile: FsPath,
     filename: string,
-  ) => FsPath;
+  ): FsPath;
 
-  relativeTo = (from: string, to: string) => path.relative(from, to);
+  relativeTo(from: string, to: string) {
+    return path.relative(from, to);
+  }
 
-  getParent = (fileOrDirectory: FsPath): FsPath =>
-    path.dirname(fileOrDirectory) as FsPath;
+  getParent(fileOrDirectory: FsPath): FsPath {
+    return path.dirname(fileOrDirectory) as FsPath;
+  }
 
   pathSeparator = path.sep;
 

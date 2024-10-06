@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { VirtualFs } from './virtual-fs';
 import { inVfs } from '../test/in-vfs';
-import { toFsPath } from '../file-info/fs-path';
+import { FsPath, toFsPath } from '../file-info/fs-path';
 import getFs, { useVirtualFs } from './getFs';
 import '../test/expect.extensions';
 import { EOL } from 'os';
@@ -262,4 +262,36 @@ describe('Virtual Fs', () => {
       expect(fs.relativeTo('/project', path)).toBe(solution);
     });
   }
+
+  describe('readDirectory', () => {
+    beforeEach(() => fs.reset());
+
+    it('should list files in directory', () => {
+      fs.writeFile('/project/index.ts', '');
+      fs.writeFile('/project/main.ts', '');
+      fs.writeFile('/project/sub/foobar.ts', '');
+      fs.writeFile('/project/foobar.ts', '');
+      const files = fs.readDirectory(toFsPath('/project'));
+
+      expect(files).toEqual(
+        ['index.ts', 'main.ts', 'sub', 'foobar.ts'].map((f) => `/project/${f}`),
+      );
+    });
+
+    it('should throw if directory does not exist', () => {
+      expect(() => fs.readDirectory('/projects' as FsPath)).toThrowError(
+        'directory /projects does not exist',
+      );
+    });
+
+    it('should only return directories', () => {
+      fs.writeFile('/project/index.ts', '');
+      fs.writeFile('/project/main.ts', '');
+      fs.writeFile('/project/sub/foobar.ts', '');
+      fs.writeFile('/project/foobar.ts', '');
+      const files = fs.readDirectory(toFsPath('/project'), 'directory');
+
+      expect(files).toEqual(['/project/sub']);
+    });
+  });
 });

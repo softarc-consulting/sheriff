@@ -12,6 +12,7 @@ import {
   TagWithoutValueError,
 } from '../error/user-error';
 
+export const FOLDER_CHARACTERS_REGEX_STRING = '[a-zA-Z-_]';
 export const PLACE_HOLDER_REGEX = /<[a-zA-Z-_]+>/g;
 
 export const calcTagsForModule = (
