@@ -11,8 +11,7 @@ export function createProject(
   fileTree: FileTree,
   testDirName = '/project',
 ): Fs {
-  useVirtualFs();
-  const fs = getFs();
+  const fs = useVirtualFs();
   fs.reset();
 
   new ProjectCreator().create(fileTree, testDirName);

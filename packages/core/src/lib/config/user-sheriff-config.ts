@@ -112,9 +112,25 @@ export interface UserSheriffConfig {
   excludeRoot?: boolean;
 
   /**
-   * Enable the barrel-less mode. Set to false by default.
+   * The barrel file is usually the `index.ts` and exports
+   * those files which are available outside the module.
+   */
+  barrelFileName?: string;
+
+  /**
+   * The barrel-less approach means that the module
+   * does not have an `index.ts` file. Instead, all files
+   * are directly available, except those which are located
+   * in a special folder ("internal" be default).
    */
   enableBarrelLess?: boolean;
+
+  /**
+   * The encapsulated folder contains all files
+   * which are not available outside the module.
+   * By default, it is set to `internal`.
+   */
+  encapsulatedFolderNameForBarrelLess?: string;
 
   /**
    * enable internal logging and save it to `sheriff.log`

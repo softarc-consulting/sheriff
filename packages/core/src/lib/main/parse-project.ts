@@ -40,9 +40,8 @@ export const parseProject = (
 
   const modulePaths = findModulePaths(
     projectDirs,
-    config.tagging,
-    config.barrelFileName,
-    config.enableBarrelLess,
+    rootDir,
+    config
   );
   const modules = createModules(
     unassignedFileInfo,

@@ -1,9 +1,9 @@
 import { FsPath } from '../file-info/fs-path';
-import { findModulePathsWithoutBarrel } from "./internal/find-module-paths-without-barrel";
-import { TagConfig } from "../config/tag-config";
-import { findModulePathsWithBarrel } from "./internal/find-module-paths-with-barrel";
+import { findModulePathsWithBarrel } from './internal/find-module-paths-with-barrel';
+import { findModulePathsWithoutBarrel } from './internal/find-module-paths-without-barrel';
+import { SheriffConfig } from '../config/sheriff-config';
 
-export type ModulePathMap = Record<FsPath, boolean>
+export type ModulePathMap = Record<FsPath, boolean>;
 
 /**
  * Find module paths which can be defined via having a barrel file or the
@@ -11,9 +11,23 @@ export type ModulePathMap = Record<FsPath, boolean>
  *
  * If a module has a barrel file and an internal, it is of type barrel file.
  */
-export function findModulePaths(projectDirs: FsPath[], moduleConfig: TagConfig, barrelFileName: string, enableBarrelLess: boolean): ModulePathMap {
-  const modulesWithoutBarrel = enableBarrelLess ? findModulePathsWithoutBarrel(projectDirs, moduleConfig) : [];
-  const modulesWithBarrel = findModulePathsWithBarrel(projectDirs, barrelFileName);
+export function findModulePaths(
+  projectDirs: FsPath[],
+  rootDir: FsPath,
+  sheriffConfig: SheriffConfig,
+): ModulePathMap {
+  const {
+    tagging,
+    enableBarrelLess,
+    barrelFileName,
+  } = sheriffConfig;
+  const modulesWithoutBarrel = enableBarrelLess
+    ? findModulePathsWithoutBarrel(tagging, rootDir, barrelFileName)
+    : [];
+  const modulesWithBarrel = findModulePathsWithBarrel(
+    projectDirs,
+    barrelFileName,
+  );
   const modulePaths: ModulePathMap = {};
 
   for (const path of modulesWithoutBarrel) {

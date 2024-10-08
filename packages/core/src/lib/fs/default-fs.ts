@@ -16,6 +16,20 @@ export class DefaultFs extends Fs {
   readFile = (path: string): string =>
     fs.readFileSync(path, { encoding: 'utf-8' }).toString();
 
+  override readDirectory(
+    directory: FsPath,
+    filter?: 'none' | 'directory',
+  ): FsPath[] {
+    return fs
+      .readdirSync(directory)
+      .map((child) => toFsPath(path.join(directory, child)))
+      .filter((path) =>
+        filter === 'none'
+          ? true
+          : fs.lstatSync(path).isDirectory(),
+      )
+  }
+
   removeDir = (path: string) => {
     fs.rmSync(path, { recursive: true });
   };

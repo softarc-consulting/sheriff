@@ -109,4 +109,16 @@ describe('Default Fs', () => {
       ).toThrowError('cannot find a file that does not exist');
     });
   });
+
+  it('should only find directories', () => {
+    const subDirectories = fs.readDirectory(
+      toFsPath(path.join(__dirname, './find-nearest/test1/customers')),
+      'directory',
+    );
+    expect(subDirectories).toEqual(
+      [path.join(__dirname, './find-nearest/test1/customers/admin')].map(
+        toFsPath,
+      ),
+    );
+  });
 });

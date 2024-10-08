@@ -58,6 +58,20 @@ export class VirtualFs extends Fs {
     this.root.children.set('project', this.project);
   }
 
+  override readDirectory(
+    path: FsPath,
+    filter: 'none' | 'directory' = 'none',
+  ): FsPath[] {
+    const result = this.#getNode(path);
+    if (!result.exists) {
+      throw new Error(`directory ${path} does not exist`);
+    }
+
+    return Array.from(result.node.children.values())
+      .filter((node) => (filter === 'none' ? true : node.type === 'directory'))
+      .map((node) => this.#absolutePath(node));
+  }
+
   findFiles = (path: FsPath, filename: string): FsPath[] => {
     const result = this.#getNode(path);
     if (!result.exists) {
@@ -288,8 +302,8 @@ export class VirtualFs extends Fs {
   }
 
   override isFile(path: FsPath): boolean {
-    const node  = this.#getNodeOrThrow(path);
-    return node.node.type === 'file'
+    const node = this.#getNodeOrThrow(path);
+    return node.node.type === 'file';
   }
 }
 
