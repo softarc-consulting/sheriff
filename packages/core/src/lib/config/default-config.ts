@@ -7,6 +7,7 @@ export const defaultConfig: SheriffConfig = {
   depRules: {},
   excludeRoot: false,
   enableBarrelLess: false,
+  encapsulatedFolderNameForBarrelLess: 'internal',
   log: false,
   entryFile: '',
   isConfigFileMissing: false,

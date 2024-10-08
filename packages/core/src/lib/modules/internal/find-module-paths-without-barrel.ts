@@ -18,10 +18,11 @@ import { flattenTagging } from './flatten-tagging';
 export function findModulePathsWithoutBarrel(
   moduleConfig: TagConfig,
   rootDir: FsPath,
+  barrelFileName: string
 ): Set<FsPath> {
   const paths = flattenTagging(moduleConfig, '');
   const modulePathsPatternTree = createModulePathPatternsTree(paths);
-  const modules = traverseAndMatch(modulePathsPatternTree, rootDir);
+  const modules = traverseAndMatch(modulePathsPatternTree, rootDir, barrelFileName);
   return new Set<FsPath>(modules);
 }
 
@@ -31,9 +32,15 @@ export function findModulePathsWithoutBarrel(
 function traverseAndMatch(
   groupedPatterns: ModulePathPatternsTree,
   basePath: FsPath,
+  barrelFileName: string
 ): FsPath[] {
   const fs = getFs();
   const matchedDirectories: FsPath[] = [];
+
+  // Check if the current directory should be matched
+  if ('' in groupedPatterns) {
+    addAsModuleIfWithoutBarrel(matchedDirectories, basePath, barrelFileName);
+  }
 
   const subDirectories = fs.readDirectory(basePath, 'directory');
   for (const subDirectory of subDirectories) {
@@ -46,11 +53,12 @@ function traverseAndMatch(
 
     if (matchingPattern) {
       if (Object.keys(groupedPatterns[matchingPattern]).length === 0) {
-        matchedDirectories.push(subDirectory);
+        addAsModuleIfWithoutBarrel(matchedDirectories, subDirectory, barrelFileName);
       } else {
-        matchedDirectories.push(
-          ...traverseAndMatch(groupedPatterns[matchingPattern], subDirectory),
-        );
+        const newDirectories = traverseAndMatch(groupedPatterns[matchingPattern], subDirectory, barrelFileName);
+        for (const newDirectory of newDirectories) {
+          addAsModuleIfWithoutBarrel(matchedDirectories, newDirectory, barrelFileName);
+        }
       }
     }
   }
@@ -76,4 +84,18 @@ function matchPattern(pattern: string, pathSegment: string): boolean {
   }
 
   return false;
+}
+
+function addAsModuleIfWithoutBarrel(
+  modulePaths: FsPath[],
+  directory: FsPath,
+  barrelFileName: string,
+) {
+  const fs = getFs();
+
+  if (fs.exists(fs.join(directory, barrelFileName))) {
+    return;
+  }
+
+  modulePaths.push(directory);
 }
