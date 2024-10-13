@@ -13,7 +13,7 @@ describe('violates dependency rules', () => {
     createProject({
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/shared/<type>': ['shared'],
           'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
         },
@@ -103,7 +103,7 @@ describe('violates dependency rules', () => {
   it('should show a unresolvable import', () => {
     createProject({
       'tsconfig.json': tsConfig(),
-      'sheriff.config.ts': sheriffConfig({ tagging: {}, depRules: {} }),
+      'sheriff.config.ts': sheriffConfig({ modules: {}, depRules: {} }),
       src: {
         'main.ts': ['./app.component'],
       },
@@ -122,7 +122,7 @@ describe('violates dependency rules', () => {
   it('should ignore json imports  ', () => {
     const fs = createProject({
       'tsconfig.json': tsConfig(),
-      'sheriff.config.ts': sheriffConfig({ tagging: {}, depRules: {} }),
+      'sheriff.config.ts': sheriffConfig({ modules: {}, depRules: {} }),
       src: {
         'main.ts': ['./data.json'],
         'data.json': [],

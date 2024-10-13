@@ -231,7 +231,7 @@ describe('createModule', () => {
           src: {
             'tsconfig.json': tsConfig(),
             'sheriff.config.ts': sheriffConfig({
-              tagging: { customer: 'domain:customer' },
+              modules: { customer: 'domain:customer' },
               depRules: {},
               enableBarrelLess: true,
               showWarningOnBarrelCollision,

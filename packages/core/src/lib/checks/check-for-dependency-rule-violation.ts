@@ -36,7 +36,7 @@ export function checkForDependencyRuleViolation(
   const fromTags = calcTagsForModule(
     fromModule,
     rootDir,
-    config.tagging,
+    config.modules,
     config.autoTagging,
   );
 
@@ -48,7 +48,7 @@ export function checkForDependencyRuleViolation(
       const toTags: string[] = calcTagsForModule(
         toFsPath(importedModulePath),
         rootDir,
-        config.tagging,
+        config.modules,
         config.autoTagging,
       );
       const isViolation = !isDependencyAllowed(

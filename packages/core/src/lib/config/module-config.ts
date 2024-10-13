@@ -27,6 +27,6 @@ export type TagConfigValue =
   | string[]
   | TagMatcherFn<string[] | string>;
 
-export interface TagConfig {
-  [pathMatcher: string]: TagConfigValue | TagConfig;
+export interface ModuleConfig {
+  [pathMatcher: string]: TagConfigValue | ModuleConfig;
 }

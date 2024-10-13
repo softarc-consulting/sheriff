@@ -3,7 +3,7 @@ import { EOL } from 'os';
 import * as crypto from 'crypto';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { toFsPath } from '../file-info/fs-path';
-import { SheriffConfig } from '../config/sheriff-config';
+import { Configuration } from '../config/configuration';
 import { defaultConfig } from '../config/default-config';
 import { Fs } from '../fs/fs';
 
@@ -61,7 +61,7 @@ class ProjectCreator {
   };
 }
 
-function serializeDepRules(config: SheriffConfig): SheriffConfig {
+function serializeDepRules(config: Configuration): Configuration {
   return {
     ...config,
     depRules: Object.entries(config.depRules).reduce(

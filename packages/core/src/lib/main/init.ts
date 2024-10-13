@@ -1,5 +1,5 @@
 import { FsPath, toFsPath } from '../file-info/fs-path';
-import { SheriffConfig } from '../config/sheriff-config';
+import { Configuration } from '../config/configuration';
 import { TsData } from '../file-info/ts-data';
 import getFs from '../fs/getFs';
 import { generateTsData } from '../file-info/generate-ts-data';
@@ -10,11 +10,11 @@ import { initialized } from './internal/initialized';
 import { callbacks } from './internal/callback';
 import { defaultConfig } from '../config/default-config';
 
-let config: SheriffConfig | undefined;
+let config: Configuration | undefined;
 
 export type ProjectInfo = {
   tsData: TsData;
-  config: SheriffConfig;
+  config: Configuration;
 } & ParsedResult;
 
 /**
@@ -98,7 +98,7 @@ export function init(entryFile: FsPath, options: InitOptions = {}) {
   };
 }
 
-function getConfig(rootPath: FsPath): SheriffConfig {
+function getConfig(rootPath: FsPath): Configuration {
   const configFile = findConfig(rootPath);
   if (configFile) {
     return parseConfig(configFile);

@@ -1,7 +1,7 @@
 import { FsPath } from '../file-info/fs-path';
 import { findModulePathsWithBarrel } from './internal/find-module-paths-with-barrel';
 import { findModulePathsWithoutBarrel } from './internal/find-module-paths-without-barrel';
-import { SheriffConfig } from '../config/sheriff-config';
+import { Configuration } from '../config/configuration';
 
 export type ModulePathMap = Record<FsPath, boolean>;
 
@@ -14,15 +14,15 @@ export type ModulePathMap = Record<FsPath, boolean>;
 export function findModulePaths(
   projectDirs: FsPath[],
   rootDir: FsPath,
-  sheriffConfig: SheriffConfig,
+  sheriffConfig: Configuration,
 ): ModulePathMap {
   const {
-    tagging,
+    modules,
     enableBarrelLess,
     barrelFileName
   } = sheriffConfig;
   const modulesWithoutBarrel = enableBarrelLess
-    ? findModulePathsWithoutBarrel(tagging, rootDir, barrelFileName)
+    ? findModulePathsWithoutBarrel(modules, rootDir, barrelFileName)
     : [];
   const modulesWithBarrel = findModulePathsWithBarrel(
     projectDirs,

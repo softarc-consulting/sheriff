@@ -37,7 +37,7 @@ describe('list', () => {
     createProject({
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
         },
         depRules: {},
@@ -75,7 +75,7 @@ describe('list', () => {
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
         entryFile: 'apps/eternal/src/app/main.ts',
-        tagging: {
+        modules: {
           libs: {
             'domains/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
             'shared/<shared>': ['shared:<shared>'],
@@ -131,7 +131,7 @@ describe('list', () => {
     createProject({
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
         },
         depRules: {},

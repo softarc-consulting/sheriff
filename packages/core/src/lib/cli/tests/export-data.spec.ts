@@ -15,7 +15,7 @@ describe('export data', () => {
     createProject({
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
         },
         depRules: {},
@@ -98,7 +98,7 @@ describe('export data', () => {
     createProject({
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: { 'src/<scope>': 'scope:<scope>' },
+        modules: { 'src/<scope>': 'scope:<scope>' },
         depRules: {},
       }),
       src: {

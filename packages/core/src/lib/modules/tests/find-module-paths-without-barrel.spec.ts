@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { FileTree } from '../../test/project-configurator';
-import { TagConfig } from '../../config/tag-config';
+import { ModuleConfig } from '../../config/module-config';
 import { createProject } from '../../test/project-creator';
 import { findModulePathsWithoutBarrel } from '../internal/find-module-paths-without-barrel';
 import { useVirtualFs } from '../../fs/getFs';
@@ -8,7 +8,7 @@ import { toFsPath } from '../../file-info/fs-path';
 
 function assertProject(fileTree: FileTree) {
   return {
-    withModuleConfig(moduleConfig: TagConfig) {
+    withModuleConfig(moduleConfig: ModuleConfig) {
       return {
         hasModulePaths(modulePaths: string[]) {
           const absoluteModulePaths = modulePaths.map(

@@ -57,7 +57,7 @@ describe('check for dependency rule violation', () => {
     const projectTemplate = () => ({
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/<domain>/feat-<type>': ['domain:<domain>', 'type:feature'],
           'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
         },
@@ -248,7 +248,7 @@ describe('check for dependency rule violation', () => {
     const project = {
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/shared/<type>': ['shared'],
           'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
         },
@@ -415,7 +415,7 @@ describe('check for dependency rule violation', () => {
       const projectInfo = testInit('src/app.component.ts', {
         'tsconfig.json': tsConfig(),
         'sheriff.config.ts': sheriffConfig({
-          tagging: {
+          modules: {
             'src/customers/<type>': ['domain:customers', 'type:<type>'],
           },
           depRules: {
@@ -485,7 +485,7 @@ describe('check for dependency rule violation', () => {
         },
       }),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/customers': ['domain:customers', 'type:feature'],
         },
         depRules: {
@@ -515,7 +515,7 @@ describe('check for dependency rule violation', () => {
     const projectInfo = testInit('src/customers/index.ts', {
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/customers': ['domain:customers', 'type:domain'],
           'src/customers/feature': ['domain:customers', 'type:feature'],
         },
@@ -555,7 +555,7 @@ describe('check for dependency rule violation', () => {
       return testInit('src/main.ts', {
         'tsconfig.json': tsConfig(),
         'sheriff.config.ts': sheriffConfig({
-          tagging: {
+          modules: {
             'src/customers': ['domain:customers', 'type:domain'],
             'src/customers/<type>': ['domain:customers', 'type:<type>'],
           },

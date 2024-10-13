@@ -1,6 +1,6 @@
-import { SheriffConfig } from '../../config/sheriff-config';
+import { Configuration } from '../../config/configuration';
 
 export const initialized: {
   status: boolean;
-  config: SheriffConfig | undefined;
+  config: Configuration | undefined;
 } = { status: false, config: undefined };

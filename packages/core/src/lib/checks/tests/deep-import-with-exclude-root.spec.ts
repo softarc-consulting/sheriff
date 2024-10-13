@@ -19,7 +19,7 @@ describe('deep imports and excludeRoot config property', () => {
       testInit('src/main.ts', {
         'tsconfig.json': tsConfig(),
         'sheriff.config.ts': sheriffConfig({
-          tagging: { 'src/shared': 'shared' },
+          modules: { 'src/shared': 'shared' },
           depRules: { '*': anyTag },
           excludeRoot,
           enableBarrelLess,

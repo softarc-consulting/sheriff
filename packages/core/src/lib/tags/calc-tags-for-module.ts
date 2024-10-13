@@ -1,8 +1,8 @@
 import {
   MatcherContext,
-  TagConfig,
+  ModuleConfig,
   TagConfigValue,
-} from '../config/tag-config';
+} from '../config/module-config';
 import getFs from '../fs/getFs';
 import { FsPath } from '../file-info/fs-path';
 import {
@@ -18,7 +18,7 @@ export const PLACE_HOLDER_REGEX = /<[a-zA-Z-_]+>/g;
 export const calcTagsForModule = (
   moduleDir: FsPath,
   rootDir: FsPath,
-  tagConfig: TagConfig,
+  moduleConfig: ModuleConfig,
   autoTagging = true,
 ): string[] => {
   if (moduleDir === rootDir) {
@@ -28,9 +28,9 @@ export const calcTagsForModule = (
   const paths = fs.split(moduleDir.slice(rootDir.length + 1));
   const placeholders: Record<string, string> = {};
 
-  const tags = traverseTagConfig(
+  const tags = traverseModuleConfig(
     paths,
-    tagConfig,
+    moduleConfig,
     placeholders,
     moduleDir,
     [],
@@ -48,9 +48,9 @@ export const calcTagsForModule = (
   return tags;
 };
 
-function traverseTagConfig(
+function traverseModuleConfig(
   paths: string[],
-  tagConfig: TagConfig,
+  tagConfig: ModuleConfig,
   placeholders: Record<string, string>,
   moduleDir: string,
   tagConfigPath: string[],
@@ -105,7 +105,7 @@ function traverseTagConfig(
         continue;
       }
 
-      return traverseTagConfig(
+      return traverseModuleConfig(
         restPaths,
         value,
         placeholders,
@@ -120,13 +120,13 @@ function traverseTagConfig(
 }
 
 function isTagConfigValue(
-  value: TagConfigValue | TagConfig,
+  value: TagConfigValue | ModuleConfig,
 ): value is TagConfigValue {
   return !(typeof value === 'object' && !Array.isArray(value));
 }
 
 function assertLeafHasTag(
-  value: TagConfigValue | TagConfig,
+  value: TagConfigValue | ModuleConfig,
   tagConfigPath: string[],
 ): asserts value is TagConfigValue {
   if (!isTagConfigValue(value)) {

@@ -1,5 +1,5 @@
 import { FsPath } from '../file-info/fs-path';
-import { SheriffConfig } from '../config/sheriff-config';
+import { Configuration } from '../config/configuration';
 import { ProjectInfo } from '../main/init';
 import { FileInfo } from '../modules/file.info';
 
@@ -62,7 +62,7 @@ function accessesBarrelFileForBarrelModules(fileInfo: FileInfo) {
 
 function isExcludedRootModule(
   rootDir: FsPath,
-  config: SheriffConfig,
+  config: Configuration,
   importedModule: FileInfo,
 ) {
   if (importedModule.moduleInfo.path !== rootDir) {

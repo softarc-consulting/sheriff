@@ -1,7 +1,7 @@
-import { TagConfig } from '../../config/tag-config';
+import { ModuleConfig } from '../../config/module-config';
 import { PLACE_HOLDER_REGEX } from "../../tags/calc-tags-for-module";
 
-export function flattenTagging(tagging: TagConfig, prefix = ''): string[] {
+export function flattenModules(tagging: ModuleConfig, prefix = ''): string[] {
   let flattened: string[] = [];
   for (const [rawPath, value] of Object.entries(tagging)) {
     const path = rawPath.replace(PLACE_HOLDER_REGEX, '*');
@@ -13,7 +13,7 @@ export function flattenTagging(tagging: TagConfig, prefix = ''): string[] {
     ) {
       flattened.push(fullPath);
     } else {
-      flattened = [...flattened, ...flattenTagging(value, fullPath)];
+      flattened = [...flattened, ...flattenModules(value, fullPath)];
     }
   }
 
