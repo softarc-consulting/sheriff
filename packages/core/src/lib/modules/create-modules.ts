@@ -13,15 +13,25 @@ import {
 } from '../util/typed-object-functions';
 import { warnOnBarrelFileLessCollision } from './warn-on-barrel-file-less-collision';
 
+interface CreateModulesContext {
+  entryFileInfo: UnassignedFileInfo;
+  rootDir: FsPath;
+  barrelFile: string;
+  encapsulatedFolderName: string;
+  showWarningOnBarrelFileLessCollision: boolean;
+}
+
 export function createModules(
-  entryFileInfo: UnassignedFileInfo,
   modulePathMap: ModulePathMap,
-  rootDir: FsPath,
   fileInfoMap: Map<FsPath, FileInfo>,
   getFileInfo: (path: FsPath) => FileInfo,
-  barrelFile: string,
-  encapsulatedFolderName: string,
-  showWarningOnBarrelFileLessCollision: boolean,
+  {
+    entryFileInfo,
+    rootDir,
+    barrelFile,
+    encapsulatedFolderName,
+    showWarningOnBarrelFileLessCollision,
+  }: CreateModulesContext,
 ): Module[] {
   const moduleMap = fromEntries(
     entries(modulePathMap).map(([path, hasBarrel]) => [

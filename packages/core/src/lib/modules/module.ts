@@ -9,8 +9,8 @@ import getFs from '../fs/getFs';
  * approach here.
  */
 export class Module {
-  fileInfos: FileInfo[] = [];
-  #encapsulatedFolderPath: FsPath | undefined;
+  readonly fileInfos: FileInfo[] = [];
+  readonly #encapsulatedFolderPath: FsPath | undefined;
 
   constructor(
     public readonly path: FsPath,

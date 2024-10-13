@@ -2,7 +2,16 @@ import { UnassignedFileInfo } from '../../file-info/unassigned-file-info';
 import { createModules } from '../create-modules';
 import findFileInfo from '../../test/find-file-info';
 import { Module } from '../module';
-import { afterEach, afterAll, beforeAll, beforeEach, describe, expect, it, vitest } from "vitest";
+import {
+  afterEach,
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vitest,
+} from 'vitest';
 import throwIfNull from '../../util/throw-if-null';
 import getFs, { useVirtualFs } from '../../fs/getFs';
 import { FsPath, toFsPath } from '../../file-info/fs-path';
@@ -12,6 +21,7 @@ import { fromEntries } from '../../util/typed-object-functions';
 import { testInit } from '../../test/test-init';
 import { tsConfig } from '../../test/fixtures/ts-config';
 import { sheriffConfig } from '../../test/project-configurator';
+import { ModulePathMap } from '../find-module-paths';
 
 interface TestParameter {
   fileInfo: UnassignedFileInfo;
@@ -215,7 +225,6 @@ describe('createModule', () => {
       warnSpy.mockRestore();
     });
 
-
     [true, false].forEach((showWarningOnBarrelCollision) => {
       it(`should${showWarningOnBarrelCollision ? ' ' : ' not '}show warnings on barrel collision`, () => {
         testInit('src/main.ts', {
@@ -225,7 +234,7 @@ describe('createModule', () => {
               tagging: { customer: 'domain:customer' },
               depRules: {},
               enableBarrelLess: true,
-              showWarningOnBarrelCollision
+              showWarningOnBarrelCollision,
             }),
             'main.ts': ['./customer'],
             customer: {
@@ -265,21 +274,17 @@ function assertModule(createTestParams: () => TestParameter) {
   barrelFiles.forEach((modulePath) => {
     getFs().writeFile(modulePath, '');
   });
-  const modules = createModules(
-    fileInfo,
-    fromEntries(
-      barrelFiles.map((path) => [
-        toFsPath(path.replace('/index.ts', '')),
-        true,
-      ]),
-    ),
-    toFsPath('/'),
-    fileInfoMap,
-    getFileInfo,
-    'index.ts',
-    'internals',
-    true,
+
+  const modulePathMap: ModulePathMap = fromEntries(
+    barrelFiles.map((path) => [toFsPath(path.replace('/index.ts', '')), true]),
   );
+  const modules = createModules(modulePathMap, fileInfoMap, getFileInfo, {
+    entryFileInfo: fileInfo,
+    rootDir: toFsPath('/'),
+    barrelFile: 'index.ts',
+    encapsulatedFolderName: 'internals',
+    showWarningOnBarrelFileLessCollision: true,
+  });
 
   const expectedModules = testParams.expectedModules.map((mi) => {
     const fileInfos = mi.fileInfoPaths.map((fip) =>
