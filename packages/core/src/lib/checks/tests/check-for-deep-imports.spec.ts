@@ -32,7 +32,7 @@ describe('check deep imports', () => {
     ]) {
       expect(
         checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo),
-        `failed deep import test for ${filename}`
+        `failed deep import test for ${filename}`,
       ).toEqual(deepImports);
     }
   });

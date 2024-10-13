@@ -50,6 +50,8 @@ export const parseProject = (
     fileInfoMap,
     getFileInfo,
     config.barrelFileName,
+    config.encapsulatedFolderNameForBarrelLess,
+    config.showWarningOnBarrelCollision,
   );
   fillFileInfoMap(fileInfoMap, modules);
 

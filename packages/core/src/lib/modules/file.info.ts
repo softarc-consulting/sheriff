@@ -43,6 +43,10 @@ export class FileInfo {
     return this.unassignedFileInfo.isUnresolvableImport(importCommand);
   }
 
+  hasUnresolvedImports() {
+    return this.unassignedFileInfo.hasUnresolvableImports();
+  }
+
   getExternalLibraries() {
     return this.unassignedFileInfo.getExternalLibraries();
   }

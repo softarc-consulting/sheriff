@@ -1,7 +1,7 @@
 import { FsPath } from '../file-info/fs-path';
 import { SheriffConfig } from '../config/sheriff-config';
 import { ProjectInfo } from '../main/init';
-import { FileInfo } from "../modules/file.info";
+import { FileInfo } from '../modules/file.info';
 
 /**
  * verifies if an existing file has deep imports which are forbidden.
@@ -16,17 +16,15 @@ export function checkForDeepImports(
   const deepImports: string[] = [];
   const assignedFileInfo = getFileInfo(fsPath);
 
-  const isRootAndExcluded = createIsRootAndExcluded(rootDir, config);
-  const isModuleBarrel = (fileInfo: FileInfo) =>
-    fileInfo.moduleInfo.hasBarrel &&
-    fileInfo.moduleInfo.barrelPath === fileInfo.path;
-
   for (const importedFileInfo of assignedFileInfo.imports) {
     if (
-      !isModuleBarrel(importedFileInfo) &&
-      !isRootAndExcluded(importedFileInfo.moduleInfo.path) &&
-      importedFileInfo.moduleInfo !== assignedFileInfo.moduleInfo
+      isSameModule(importedFileInfo, assignedFileInfo) ||
+      isExcludedRootModule(rootDir, config, importedFileInfo) ||
+      accessesBarrelFileForBarrelModules(importedFileInfo) ||
+      accessesExposedFileForBarrelLessModules(importedFileInfo, config.enableBarrelLess)
     ) {
+      // 👍 all good
+    } else {
       deepImports.push(
         assignedFileInfo.getRawImportForImportedFileInfo(importedFileInfo.path),
       );
@@ -36,22 +34,44 @@ export function checkForDeepImports(
   return deepImports;
 }
 
-/**
- * creates a function which allows a deep import, if
- * `excludeRoot` in the config is `true` and the
- * importedModulePath is the root module.
- */
-const createIsRootAndExcluded = (
-  rootDir: FsPath,
-  config: SheriffConfig | undefined,
-) => {
-  let excludeRoot = false;
-  if (config === undefined) {
-    excludeRoot = false;
-  } else {
-    excludeRoot = Boolean(config.excludeRoot);
+function accessesExposedFileForBarrelLessModules(fileInfo: FileInfo, enableBarrelLess: boolean) {
+  if (!enableBarrelLess) {
+    return false;
   }
 
-  return (importedModulePath: string): boolean =>
-    excludeRoot && importedModulePath === rootDir;
-};
+  if (fileInfo.moduleInfo.hasBarrel) {
+    return false;
+  }
+
+  const possibleEncapsulatedFolderPath =
+    fileInfo.moduleInfo.getEncapsulatedFolder();
+  if (possibleEncapsulatedFolderPath === undefined) {
+    return true;
+  }
+
+  return !fileInfo.path.startsWith(possibleEncapsulatedFolderPath);
+}
+
+function accessesBarrelFileForBarrelModules(fileInfo: FileInfo) {
+  if (!fileInfo.moduleInfo.hasBarrel) {
+    return false;
+  }
+
+  return fileInfo.moduleInfo.barrelPath === fileInfo.path;
+}
+
+function isExcludedRootModule(
+  rootDir: FsPath,
+  config: SheriffConfig,
+  importedModule: FileInfo,
+) {
+  if (importedModule.moduleInfo.path !== rootDir) {
+    return false;
+  }
+
+  return config.excludeRoot;
+}
+
+function isSameModule(importedFileInfo: FileInfo, assignedFileInfo: FileInfo) {
+  return importedFileInfo.moduleInfo.path === assignedFileInfo.moduleInfo.path
+}

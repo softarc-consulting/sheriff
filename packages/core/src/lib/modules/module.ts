@@ -10,6 +10,7 @@ import getFs from '../fs/getFs';
  */
 export class Module {
   fileInfos: FileInfo[] = [];
+  #encapsulatedFolderPath: FsPath | undefined;
 
   constructor(
     public readonly path: FsPath,
@@ -18,7 +19,17 @@ export class Module {
     public readonly isRoot: boolean,
     public readonly hasBarrel: boolean,
     private readonly barrelFile: string,
-  ) {}
+    private readonly encapsulatedFolderName: string,
+  ) {
+    const fs = getFs();
+    const possibleEncapsulatedFolderPath = fs.join(
+      path,
+      encapsulatedFolderName,
+    );
+    if (fs.exists(possibleEncapsulatedFolderPath)) {
+      this.#encapsulatedFolderPath = possibleEncapsulatedFolderPath;
+    }
+  }
 
   addFileInfo(unassignedFileInfo: UnassignedFileInfo) {
     const fileInfo = new FileInfo(unassignedFileInfo, this, this.getFileInfo);
@@ -28,5 +39,14 @@ export class Module {
 
   get barrelPath(): FsPath {
     return toFsPath(getFs().join(this.path, this.barrelFile));
+  }
+
+  /**
+   * return the path for the encapsulated (internal) folder.
+   * If the module exposes everything, that folder might not exist.
+   * It returns even if the module is a barrel module.
+   */
+  getEncapsulatedFolder(): FsPath | undefined {
+    return this.#encapsulatedFolderPath;
   }
 }

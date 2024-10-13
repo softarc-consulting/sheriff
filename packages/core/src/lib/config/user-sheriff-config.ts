@@ -133,6 +133,12 @@ export interface UserSheriffConfig {
   encapsulatedFolderNameForBarrelLess?: string;
 
   /**
+   * Show warning message when a module has both a barrel file
+   * and an "internal" (barrel-less) folder
+   */
+  showWarningOnBarrelCollision?: boolean
+
+  /**
    * enable internal logging and save it to `sheriff.log`
    */
   log?: boolean;
