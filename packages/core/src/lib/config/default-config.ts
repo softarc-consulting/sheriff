@@ -8,6 +8,7 @@ export const defaultConfig: SheriffConfig = {
   excludeRoot: false,
   enableBarrelLess: false,
   encapsulatedFolderNameForBarrelLess: 'internal',
+  showWarningOnBarrelCollision: true,
   log: false,
   entryFile: '',
   isConfigFileMissing: false,

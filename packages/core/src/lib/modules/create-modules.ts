@@ -5,20 +5,46 @@ import throwIfNull from '../util/throw-if-null';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { FileInfo } from './file.info';
 import { ModulePathMap } from './find-module-paths';
-import { entries, fromEntries, keys, values } from "../util/typed-object-functions";
+import {
+  entries,
+  fromEntries,
+  keys,
+  values,
+} from '../util/typed-object-functions';
+import { warnOnBarrelFileLessCollision } from './warn-on-barrel-file-less-collision';
+
+interface CreateModulesContext {
+  entryFileInfo: UnassignedFileInfo;
+  rootDir: FsPath;
+  barrelFile: string;
+  encapsulatedFolderName: string;
+  showWarningOnBarrelFileLessCollision: boolean;
+}
 
 export function createModules(
-  entryFileInfo: UnassignedFileInfo,
   modulePathMap: ModulePathMap,
-  rootDir: FsPath,
   fileInfoMap: Map<FsPath, FileInfo>,
   getFileInfo: (path: FsPath) => FileInfo,
-  barrelFile: string
+  {
+    entryFileInfo,
+    rootDir,
+    barrelFile,
+    encapsulatedFolderName,
+    showWarningOnBarrelFileLessCollision,
+  }: CreateModulesContext,
 ): Module[] {
   const moduleMap = fromEntries(
     entries(modulePathMap).map(([path, hasBarrel]) => [
       path,
-      new Module(toFsPath(path), fileInfoMap, getFileInfo, false, hasBarrel, barrelFile),
+      new Module(
+        toFsPath(path),
+        fileInfoMap,
+        getFileInfo,
+        false,
+        hasBarrel,
+        barrelFile,
+        encapsulatedFolderName,
+      ),
     ]),
   );
   // add root module
@@ -28,7 +54,8 @@ export function createModules(
     getFileInfo,
     true,
     false,
-    barrelFile
+    barrelFile,
+    encapsulatedFolderName,
   );
 
   const modulePaths = keys(moduleMap);
@@ -38,7 +65,12 @@ export function createModules(
     moduleMap[modulePath].addFileInfo(fileInfo);
   }
 
-  return values(moduleMap);
+  const modules = values(moduleMap);
+  if (showWarningOnBarrelFileLessCollision) {
+    warnOnBarrelFileLessCollision(modules, barrelFile, encapsulatedFolderName);
+  }
+
+  return modules;
 }
 
 function findClosestModulePath(path: string, modulePaths: FsPath[]) {

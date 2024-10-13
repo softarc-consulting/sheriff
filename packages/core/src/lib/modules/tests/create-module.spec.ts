@@ -2,13 +2,26 @@ import { UnassignedFileInfo } from '../../file-info/unassigned-file-info';
 import { createModules } from '../create-modules';
 import findFileInfo from '../../test/find-file-info';
 import { Module } from '../module';
-import { afterEach, beforeAll, describe, expect, it } from 'vitest';
+import {
+  afterEach,
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vitest,
+} from 'vitest';
 import throwIfNull from '../../util/throw-if-null';
 import getFs, { useVirtualFs } from '../../fs/getFs';
 import { FsPath, toFsPath } from '../../file-info/fs-path';
 import { FileInfo } from '../file.info';
 import { buildFileInfo } from '../../test/build-file-info';
 import { fromEntries } from '../../util/typed-object-functions';
+import { testInit } from '../../test/test-init';
+import { tsConfig } from '../../test/fixtures/ts-config';
+import { sheriffConfig } from '../../test/project-configurator';
+import { ModulePathMap } from '../find-module-paths';
 
 interface TestParameter {
   fileInfo: UnassignedFileInfo;
@@ -24,6 +37,7 @@ describe('createModule', () => {
   afterEach(() => {
     getFs().reset();
   });
+
   it('should create module for simple configuration', () => {
     assertModule(() => ({
       fileInfo: buildFileInfo('/src/app/app.component.ts', [
@@ -199,6 +213,52 @@ describe('createModule', () => {
       ],
     }));
   });
+
+  describe('warning message on barrel collision', () => {
+    const warnSpy = vitest.spyOn(console, 'warn');
+
+    beforeEach(() => {
+      warnSpy.mockReset();
+    });
+
+    afterAll(() => {
+      warnSpy.mockRestore();
+    });
+
+    [true, false].forEach((showWarningOnBarrelCollision) => {
+      it(`should${showWarningOnBarrelCollision ? ' ' : ' not '}show warnings on barrel collision`, () => {
+        testInit('src/main.ts', {
+          src: {
+            'tsconfig.json': tsConfig(),
+            'sheriff.config.ts': sheriffConfig({
+              tagging: { customer: 'domain:customer' },
+              depRules: {},
+              enableBarrelLess: true,
+              showWarningOnBarrelCollision,
+            }),
+            'main.ts': ['./customer'],
+            customer: {
+              'index.ts': [],
+              internal: {},
+            },
+          },
+        });
+
+        if (showWarningOnBarrelCollision) {
+          expect(warnSpy).toHaveBeenNthCalledWith(
+            1,
+            `Module /project/src/customer has both a barrel file (index.ts) and an encapsulated folder (internal)`,
+          );
+          expect(warnSpy).toHaveBeenNthCalledWith(
+            2,
+            `You can disable this warning by setting the property warnOnBarrelFileLessCollision in 'sheriff.config.ts' to false`,
+          );
+        } else {
+          expect(warnSpy).not.toHaveBeenCalled();
+        }
+      });
+    });
+  });
 });
 
 function assertModule(createTestParams: () => TestParameter) {
@@ -214,18 +274,17 @@ function assertModule(createTestParams: () => TestParameter) {
   barrelFiles.forEach((modulePath) => {
     getFs().writeFile(modulePath, '');
   });
-  const modules = createModules(
-    fileInfo,
-    fromEntries(
-      barrelFiles.map((path) => [
-        toFsPath(path.replace('/index.ts', '')),
-        true,
-      ]),
-    ),
-    toFsPath('/'),
-    fileInfoMap,
-    getFileInfo,
+
+  const modulePathMap: ModulePathMap = fromEntries(
+    barrelFiles.map((path) => [toFsPath(path.replace('/index.ts', '')), true]),
   );
+  const modules = createModules(modulePathMap, fileInfoMap, getFileInfo, {
+    entryFileInfo: fileInfo,
+    rootDir: toFsPath('/'),
+    barrelFile: 'index.ts',
+    encapsulatedFolderName: 'internals',
+    showWarningOnBarrelFileLessCollision: true,
+  });
 
   const expectedModules = testParams.expectedModules.map((mi) => {
     const fileInfos = mi.fileInfoPaths.map((fip) =>
@@ -240,6 +299,8 @@ function assertModule(createTestParams: () => TestParameter) {
       getFileInfo,
       mi.path === '/',
       mi.path !== '/',
+      'index.ts',
+      'internals',
     );
     for (const fi of fileInfos) {
       module.addFileInfo(fi);

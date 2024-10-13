@@ -43,14 +43,19 @@ export const parseProject = (
     rootDir,
     config
   );
+
   const modules = createModules(
-    unassignedFileInfo,
     modulePaths,
-    rootDir,
     fileInfoMap,
     getFileInfo,
-    config.barrelFileName,
-  );
+    {
+      entryFileInfo: unassignedFileInfo,
+      rootDir,
+      barrelFile: config.barrelFileName,
+      encapsulatedFolderName: config.encapsulatedFolderNameForBarrelLess,
+      showWarningOnBarrelFileLessCollision: config.showWarningOnBarrelCollision,
+    },
+  )
   fillFileInfoMap(fileInfoMap, modules);
 
   const fileInfo = getFileInfo(unassignedFileInfo.path);

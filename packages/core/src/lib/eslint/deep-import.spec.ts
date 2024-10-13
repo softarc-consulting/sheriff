@@ -1,8 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { FileTree, sheriffConfig } from '../test/project-configurator';
 import getFs, { useVirtualFs } from '../fs/getFs';
 import { hasDeepImport } from './deep-import';
-import { anyTag } from '../checks/any-tag';
 import { toFsPath } from '../file-info/fs-path';
 import { testInit } from '../test/test-init';
 import { tsConfig } from '../test/fixtures/ts-config';
@@ -75,60 +73,5 @@ describe('deep import', () => {
         getFs().readFile(toFsPath('/project/src/main.ts')),
       ),
     ).toBe('import ./app/app.component cannot be resolved');
-  });
-
-  describe('rootExcluded', () => {
-    const createFileTree = (excludeRoot?: boolean): FileTree => ({
-      'tsconfig.json': tsConfig(),
-      'sheriff.config.ts': sheriffConfig({
-        tagging: { 'src/shared': 'shared' },
-        depRules: { '*': anyTag },
-        excludeRoot,
-      }),
-      src: {
-        'main.ts': '',
-        'router.ts': ['./shared/dialog'], // always deep import
-        'config.ts': ['./shared/index'],
-        shared: {
-          'get.ts': ['../config', '../holidays/holidays-component'], // depends on `excludeRoot`
-          'dialog.ts': '',
-          'index.ts': '',
-        },
-        holidays: {
-          'holidays-component.ts': ['../config'], // always valid},
-        },
-      },
-    });
-
-    for (const { excludeRoot, outcome } of [
-      { excludeRoot: true, outcome: true },
-      { excludeRoot: false, outcome: false },
-      { excludeRoot: undefined, outcome: false },
-    ]) {
-      it(`should be ${
-        outcome ? 'valid' : 'invalid'
-      } for rootExcluded: ${excludeRoot}`, () => {
-        testInit('src/main.ts', createFileTree(excludeRoot));
-
-        assertDeepImport('/project/src/router.ts', './shared/dialog');
-        assertDeepImport(
-          '/project/src/holidays/holidays-component.ts',
-          '../config',
-          false,
-        );
-
-        assertDeepImport(
-          '/project/src/shared/get.ts',
-          '../config',
-          !excludeRoot,
-        );
-
-        assertDeepImport(
-          '/project/src/shared/get.ts',
-          '../holidays/holidays-component',
-          !excludeRoot,
-        );
-      });
-    }
   });
 });

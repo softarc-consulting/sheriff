@@ -19,7 +19,7 @@ export function findModulePaths(
   const {
     tagging,
     enableBarrelLess,
-    barrelFileName,
+    barrelFileName
   } = sheriffConfig;
   const modulesWithoutBarrel = enableBarrelLess
     ? findModulePathsWithoutBarrel(tagging, rootDir, barrelFileName)

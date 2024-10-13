@@ -547,6 +547,58 @@ describe('check for dependency rule violation', () => {
       toFsPath('/project/src/customers/feature/customer.component.ts'),
       projectInfo,
     );
-    expect(violationsForSubFolder).toHaveLength(1)
+    expect(violationsForSubFolder).toHaveLength(1);
+  });
+
+  describe('barrel less', () => {
+    const setup = (addRuleForRoot: boolean) => {
+      return testInit('src/main.ts', {
+        'tsconfig.json': tsConfig(),
+        'sheriff.config.ts': sheriffConfig({
+          tagging: {
+            'src/customers': ['domain:customers', 'type:domain'],
+            'src/customers/<type>': ['domain:customers', 'type:<type>'],
+          },
+          depRules: {
+            'domain:customers': sameTag,
+            'type:domain': ['type:feature'],
+            'type:feature': [],
+            root: addRuleForRoot ? ['domain:*', 'type:feature'] : [],
+          },
+          enableBarrelLess: true,
+        }),
+        src: {
+          'main.ts': ['./customers/feature/customer.component.ts'],
+          customers: {
+            feature: {
+              'customer.routes.ts': ['./customer.component.ts'],
+              'customer.component.ts': ['../data/customer.service.ts'],
+            },
+            data: {
+              'customer.service.ts': [],
+            },
+          },
+        },
+      });
+    };
+
+    it('should test a default case', () => {
+      const projectInfo = setup(true);
+      const violationsForSuperFolder = checkForDependencyRuleViolation(
+        toFsPath('/project/src/main.ts'),
+        projectInfo,
+      );
+      expect(violationsForSuperFolder).toEqual([]);
+    });
+
+    it('should fail for dependency violation', () => {
+      const projectInfo = setup(false);
+      const violations = checkForDependencyRuleViolation(
+        toFsPath('/project/src/main.ts'),
+        projectInfo,
+      );
+      expect(violations).toHaveLength(1);
+      expect(violations[0]).toMatchObject({fromTag: 'root', toTags: ['domain:customers', 'type:feature']});
+    });
   });
 });
