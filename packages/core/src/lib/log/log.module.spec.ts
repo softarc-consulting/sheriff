@@ -18,7 +18,7 @@ describe('log', () => {
       {
         'tsconfig.json': tsConfig(),
         'sheriff.config.ts': sheriffConfig({
-          tagging: {},
+          modules: {},
           depRules: {},
           log: enableLog,
         }),

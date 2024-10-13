@@ -5,7 +5,8 @@ export type UserErrorCode =
   | 'SH-004'
   | 'SH-005'
   | 'SH-006'
-  | 'SH-007';
+  | 'SH-007'
+  | 'SH-008';
 
 export class UserError extends Error {
   constructor(
@@ -67,11 +68,20 @@ export class InvalidPlaceholderError extends UserError {
   }
 }
 
-export class MissingTaggingWithoutAutoTagging extends UserError {
+export class MissingModulesWithoutAutoTaggingError extends UserError {
   constructor() {
     super(
       'SH-007',
-      'sheriff.config.ts must have either tagging or autoTagging set to true',
+      'sheriff.config.ts must have either modules or autoTagging set to true',
+    );
+  }
+}
+
+export class TaggingAndModulesError extends UserError {
+  constructor() {
+    super(
+      'SH-008',
+      'sheriff.config.ts contains both tagging and modules. Use only modules.',
     );
   }
 }

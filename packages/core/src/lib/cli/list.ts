@@ -81,7 +81,7 @@ function getTags(module: FsPath, projectInfo: ProjectInfo): string[] {
   return calcTagsForModule(
     module,
     projectInfo.rootDir,
-    projectInfo.config.tagging,
+    projectInfo.config.modules,
     projectInfo.config.autoTagging,
   );
 }

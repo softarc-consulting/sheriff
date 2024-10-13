@@ -3,7 +3,7 @@ import * as ts from 'typescript';
 import { parseConfig } from '../parse-config';
 import { toFsPath } from '../../file-info/fs-path';
 import getFs, { useVirtualFs } from '../../fs/getFs';
-import { MissingTaggingWithoutAutoTagging } from '../../error/user-error';
+import { MissingModulesWithoutAutoTaggingError, TaggingAndModulesError } from "../../error/user-error";
 import '../../test/expect.extensions';
 
 describe('parse Config', () => {
@@ -24,7 +24,7 @@ describe('parse Config', () => {
     expect(Object.keys(tsCode)).toEqual([
       'version',
       'autoTagging',
-      'tagging',
+      'modules',
       'depRules',
       'excludeRoot',
       'enableBarrelLess',
@@ -66,7 +66,7 @@ export const config: SheriffConfig = {
       expect(config).toEqual({
         version: 1,
         autoTagging: true,
-        tagging: {},
+        modules: {},
         depRules: { noTag: 'noTag' },
         enableBarrelLess: false,
         encapsulatedFolderNameForBarrelLess: 'internal',
@@ -79,7 +79,7 @@ export const config: SheriffConfig = {
       });
     });
 
-    it('should throw if tagging is missing and autoTagging is disabled', () => {
+    it('should throw if modules is missing and autoTagging is disabled', () => {
       getFs().writeFile(
         'sheriff.config.ts',
         `
@@ -93,7 +93,45 @@ export const config: SheriffConfig = {
 
       expect(() =>
         parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
-      ).toThrowUserError(new MissingTaggingWithoutAutoTagging());
+      ).toThrowUserError(new MissingModulesWithoutAutoTaggingError());
+    });
+
+
+
+    it('should throw if both tagging and modules are available', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  modules: {},
+  tagging: {}
+};
+      `,
+      );
+
+      expect(() =>
+        parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
+      ).toThrowUserError(new TaggingAndModulesError());
     });
   });
+
+  it('should map a tagging to modules', () => {
+    getFs().writeFile(
+      'sheriff.config.ts',
+      `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  tagging: {'src/app': 'app'}
+};
+      `,
+    );
+
+    const config: Record<string, unknown> = parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts'))
+    expect(config['tagging']).toBeUndefined();
+    expect(config['modules']).toEqual({ 'src/app': 'app' });
+  })
 });
+

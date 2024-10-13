@@ -35,7 +35,7 @@ function calcOrGetTags(
   const tags = calcTagsForModule(
     modulePath,
     projectInfo.rootDir,
-    projectInfo.config.tagging,
+    projectInfo.config.modules,
     projectInfo.config.autoTagging,
   );
 

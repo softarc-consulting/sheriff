@@ -7,7 +7,7 @@ import { fillFileInfoMap } from '../modules/fill-file-info-map';
 import throwIfNull from '../util/throw-if-null';
 import { TsData } from '../file-info/ts-data';
 import { Module } from '../modules/module';
-import { SheriffConfig } from '../config/sheriff-config';
+import { Configuration } from '../config/configuration';
 import { findModulePaths } from '../modules/find-module-paths';
 
 export type ParsedResult = {
@@ -21,7 +21,7 @@ export const parseProject = (
   entryFile: FsPath,
   traverse: boolean,
   tsData: TsData,
-  config: SheriffConfig,
+  config: Configuration,
   fileContent?: string,
 ): ParsedResult => {
   const unassignedFileInfo = generateUnassignedFileInfo(

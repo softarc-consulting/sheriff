@@ -1,4 +1,4 @@
-import { TagConfig } from '../../config/tag-config';
+import { ModuleConfig } from '../../config/module-config';
 import { FsPath } from '../../file-info/fs-path';
 import {
   createModulePathPatternsTree,
@@ -6,7 +6,7 @@ import {
 } from './create-module-path-patterns-tree';
 import getFs from '../../fs/getFs';
 import { FOLDER_CHARACTERS_REGEX_STRING } from '../../tags/calc-tags-for-module';
-import { flattenTagging } from './flatten-tagging';
+import { flattenModules } from './flatten-modules';
 
 /**
  * The current criterion for finding modules is via
@@ -16,11 +16,11 @@ import { flattenTagging } from './flatten-tagging';
  * against the patterns.
  */
 export function findModulePathsWithoutBarrel(
-  moduleConfig: TagConfig,
+  moduleConfig: ModuleConfig,
   rootDir: FsPath,
   barrelFileName: string
 ): Set<FsPath> {
-  const paths = flattenTagging(moduleConfig, '');
+  const paths = flattenModules(moduleConfig, '');
   const modulePathsPatternTree = createModulePathPatternsTree(paths);
   const modules = traverseAndMatch(modulePathsPatternTree, rootDir, barrelFileName);
   return new Set<FsPath>(modules);

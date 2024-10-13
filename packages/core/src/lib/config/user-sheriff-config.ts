@@ -1,4 +1,4 @@
-import { TagConfig } from './tag-config';
+import { ModuleConfig } from './module-config';
 import { DependencyRulesConfig } from './dependency-rules-config';
 
 /**
@@ -15,7 +15,7 @@ import { DependencyRulesConfig } from './dependency-rules-config';
  * import { SheriffConfig } from '@softarc/sheriff-core';
  *
  * export const config: SheriffConfig = {
- *   tags: {
+ *   modules: {
  *     src: {
  *       db: 'db',
  *       logic: 'logic',
@@ -35,7 +35,7 @@ import { DependencyRulesConfig } from './dependency-rules-config';
  * import { anyTag, SheriffConfig } from '@softarc/sheriff-core';
  *
  * export const config: SheriffConfig = {
- *   tags: {
+ *   modules: {
  *     'src/app': {
  *       'feature/<feature>': 'feature:<feature>',
  *       'shared': 'shared'
@@ -50,14 +50,62 @@ import { DependencyRulesConfig } from './dependency-rules-config';
 export interface UserSheriffConfig {
   /**
    * Tagging is not mandatory, if autoTagging is enabled (by default).
+   *
+   * @deprecated Use `modules` instead.
    */
-  tagging?: TagConfig;
+  tagging?: ModuleConfig;
+
   /**
-   * Assigns the tag "**noTag**" to all untagged modules.
+   * Defines the modules and their associated tags.
+   *
+   * Expects an object where keys represent the module paths, and each module
+   * requires one or more tags.
+   *
+   * __Example:__
+   *
+   * Given a project structure where `feature-1` and `feature-2` are modules:
+   *
+   * <pre>
+   * main.ts
+   * feature-1
+   *   ├── feature1.ts
+   *   └── internal
+   *       ├── client.ts
+   *       └── services.ts
+   * feature-2
+   *   ├── feature2.ts
+   *   └── internal
+   *       └── feature2-helper.ts
+   * </pre>
+   *
+   * The configuration for `modules` would look like this:
+   *
+   * ```typescript
+   * {
+   *   modules: {
+   *     'feature-1': ['type:feature', 'scope:global'],
+   *     'feature-2': 'type:feature2'
+   *   }
+   * }
+   * ```
+   *
+   * In this example, the `internal` folder encapsulates files, meaning they are
+   * not accessible outside the module.
+   *
+   * The assigned tags can also be used to enforce dependency rules, {@link #depRules}.
+   *
+   * If the {@link #autoTagging} property is enabled, the `modules` configuration is optional.
+   */
+  modules?: ModuleConfig;
+
+  /**
+   * Assigns the tag "**noTag**" to all untagged barrel-modules (modules with an `index.ts`).
    * Set to `true` by default.
    */
   autoTagging?: boolean;
+
   depRules: DependencyRulesConfig;
+
   // optional property. Has the value `1` by default.
   version?: number;
   /**
@@ -100,7 +148,7 @@ export interface UserSheriffConfig {
    * ```typescript
    * export const config: SheriffConfig = {
    *   excludeRoot: true,
-   *   tags: {
+   *   modules: {
    *     "src/shared": "shared",
    *   },
    *   depRules: {

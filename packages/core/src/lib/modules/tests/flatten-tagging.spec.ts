@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { TagConfig } from '../../config/tag-config';
-import { flattenTagging } from "../internal/flatten-tagging";
+import { ModuleConfig } from '../../config/module-config';
+import { flattenModules } from "../internal/flatten-modules";
 
 describe('flatten tags', () => {
   it('should flatten', () => {
-    const tagging: TagConfig = {
+    const tagging: ModuleConfig = {
       'src/app': {
         customer: ['domain:customer'],
         holidays: 'domain:holidays',
@@ -12,7 +12,7 @@ describe('flatten tags', () => {
       },
     };
 
-    expect(flattenTagging(tagging)).toEqual([
+    expect(flattenModules(tagging)).toEqual([
       'src/app/customer',
       'src/app/holidays',
       'src/app/bookings',
@@ -20,7 +20,7 @@ describe('flatten tags', () => {
   });
 
   it('should flatten mixed hierarchy', () => {
-    const tagging: TagConfig = {
+    const tagging: ModuleConfig = {
       src: {
         app: {
           customer: { feature: 'domain:customer' },
@@ -31,7 +31,7 @@ describe('flatten tags', () => {
         },
       },
     };
-    expect(flattenTagging(tagging)).toEqual([
+    expect(flattenModules(tagging)).toEqual([
       'src/app/customer/feature',
       'src/app/holidays',
       'src/lib/shared',
@@ -40,14 +40,14 @@ describe('flatten tags', () => {
 
 
   it('should mark tags as *', () => {
-    const tagging: TagConfig = {
+    const tagging: ModuleConfig = {
       src: {
         app: {
           customer: { 'feat-<feature>': 'feature', '<type>': '<type>' },
         },
       },
     };
-    expect(flattenTagging(tagging)).toEqual([
+    expect(flattenModules(tagging)).toEqual([
       'src/app/customer/feat-*',
       'src/app/customer/*',
     ]);
@@ -55,7 +55,7 @@ describe('flatten tags', () => {
 
 
   it('should flatten nested modules', () => {
-    const tagging: TagConfig = {
+    const tagging: ModuleConfig = {
       src: {
         'lib/customer': 'nx',
         lib: {
@@ -66,7 +66,7 @@ describe('flatten tags', () => {
         },
       },
     };
-    expect(flattenTagging(tagging)).toEqual([
+    expect(flattenModules(tagging)).toEqual([
       'src/lib/customer',
       'src/lib/customer/*',
       'src/lib/shared',

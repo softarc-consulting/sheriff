@@ -1,9 +1,9 @@
-import { SheriffConfig } from './sheriff-config';
+import { Configuration } from './configuration';
 
-export const defaultConfig: SheriffConfig = {
+export const defaultConfig: Configuration = {
   version: 1,
   autoTagging: true,
-  tagging: {},
+  modules: {},
   depRules: {},
   excludeRoot: false,
   enableBarrelLess: false,

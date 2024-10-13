@@ -136,7 +136,7 @@ function assertProject(config: Partial<UserSheriffConfig> = {}) {
             'tsconfig.json': tsConfig(),
             'sheriff.config.ts': sheriffConfig({
               ...{
-                tagging: {
+                modules: {
                   'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
                 },
                 depRules: {},

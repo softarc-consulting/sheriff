@@ -35,7 +35,7 @@ describe('verify', () => {
     createProject({
       'tsconfig.json': tsConfig(),
       'sheriff.config.ts': sheriffConfig({
-        tagging: {
+        modules: {
           'src/customers': ['customers'],
           'src/holidays': ['holidays'],
         },

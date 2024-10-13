@@ -2,11 +2,14 @@ import { FsPath } from '../file-info/fs-path';
 import * as ts from 'typescript';
 import { UserSheriffConfig } from './user-sheriff-config';
 import getFs from '../fs/getFs';
-import { SheriffConfig } from './sheriff-config';
-import { MissingTaggingWithoutAutoTagging } from '../error/user-error';
+import { Configuration } from './configuration';
+import {
+  MissingModulesWithoutAutoTaggingError,
+  TaggingAndModulesError,
+} from '../error/user-error';
 import { defaultConfig } from './default-config';
 
-export const parseConfig = (configFile: FsPath): SheriffConfig => {
+export const parseConfig = (configFile: FsPath): Configuration => {
   const tsCode = getFs().readFile(configFile);
 
   const { outputText } = ts.transpileModule(tsCode, {
@@ -15,8 +18,18 @@ export const parseConfig = (configFile: FsPath): SheriffConfig => {
 
   const userSheriffConfig = eval(outputText) as UserSheriffConfig;
   if (userSheriffConfig.autoTagging === false && !userSheriffConfig.tagging) {
-    throw new MissingTaggingWithoutAutoTagging();
+    throw new MissingModulesWithoutAutoTaggingError();
   }
 
-  return { ...defaultConfig, ...userSheriffConfig };
+  if (userSheriffConfig.tagging && userSheriffConfig.modules) {
+    throw new TaggingAndModulesError();
+  }
+
+  if (userSheriffConfig.tagging) {
+    const {tagging, ...rest} = userSheriffConfig;
+    return { ...defaultConfig, ...rest, modules: tagging };
+
+  } else {
+    return { ...defaultConfig, ...userSheriffConfig };
+  }
 };

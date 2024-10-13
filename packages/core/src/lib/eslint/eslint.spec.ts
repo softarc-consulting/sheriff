@@ -15,7 +15,7 @@ describe('ESLint features', () => {
       {
         'tsconfig.json': tsConfig(),
         'sheriff.config.ts': sheriffConfig({
-          tagging: { 'src/shared': 'shared' },
+          modules: { 'src/shared': 'shared' },
           depRules: { '*': anyTag },
         }),
         src: {
