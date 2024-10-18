@@ -22,7 +22,7 @@ import { SheriffConfig } from '@softarc/sheriff-core';
   */
 
 export const config: SheriffConfig = {
-  tagging: {}, // apply tags to your modules
+  modules: {}, // apply tags to your modules
   depRules: {
     // root is a virtual module, which contains all files not being part
     // of any module, e.g. application shell, main.ts, etc.

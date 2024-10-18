@@ -5,25 +5,21 @@ displayed_sidebar: tutorialSidebar
 ---
 
 ## Introduction
-
-Dependency rules determine which modules can access other modules. Since managing dependencies on a per-module basis
-doesn't scale well, Sheriff utilizes tags to group modules together. Dependency rules are then defined based on these
-tags.
+Dependency rules determine which modules can access each other. Since managing dependencies on a per-module basis doesn't scale well, Sheriff utilizes tags to group modules together. Dependency rules are then defined based on these tags.
 
 Each tag specifies a list of other tags it can access. To maintain clarity, it’s best practice to categorize tags into
 two groups: one for defining the module's domain/scope and another for defining the module's type.
 
 For instance, if an application includes a customer domain and a holiday domain, these would define the domain tags.
 
-Within a domain, you might have different modules distinguished by type tags. For example, one module might contain
-smart components, another might have dumb components, and another might handle logic.
+A domain has different modules distinguished by type tags. For example, one module might contain smart components, another might have dumb components, and another might handle logic.
 
 Domain tags could be `domain:customer` and `domain:holiday`. Type tags could be `type:feature` (for smart components),
 `type:ui` (for dumb components), or `type:data` (for logic).
 
-Each module should have both a domain tag and a type tag. For example, a module containing smart components for
-customers would be tagged with `domain:customer` and `type:feature`. A module in the same domain but containing UI
-components would be tagged with `domain:customer` and `type:ui`.
+In this case, each module has both a domain tag and a type tag. For example, a module containing smart components for
+customers would have `domain:customer` and `type:feature`. A module in the same domain but containing UI
+components would have `domain:customer` and `type:ui`.
 
 Dependency rules specify that a module tagged with `domain:customer` can only access modules with the same domain tag.
 Additionally, a module tagged with `type:feature` can access modules tagged with `type:ui` and `type:data`.
@@ -121,24 +117,19 @@ flowchart LR
 
 ## Automatic Tagging
 
-Initially, you don't need to assign tags to modules manually.
+Sheriff automatically detects modules and assigns the `noTag` tag to them.
 
-Any module that remains untagged is automatically assigned the `noTag` tag.
+It assigns all files that aren't part of a module to the `root` module. The root module gets the `root` tag.
 
-All files that are not part of a specific module are assigned to the `root` module and therefore receive the `root` tag.
+It's essential to set up the dependency rules. Specifically, the [`root` tag](#the-root-tag) (i.e., the root module) needs to access all modules tagged with `noTag`.
 
-However, it is essential to set up the dependency rules. Specifically, you must allow the [`root` tag](#the-root-tag) (
-i.e., the root module) to access all other untagged modules.
+The `depRules` property in the _sheriff.config.ts_ file defines the dependency rules. This property is an object literal where each key represents the tag of a module that wants to access another module. Its value specifies the tags it can access.
 
-This configuration is done by setting the `depRules` in the _sheriff.config.ts_ file. The `depRules` is an object
-literal where each key represents the from tag and its value specifies the tags it can access.
+Initially, all modules can access each other, meaning that every `noTag` module can access other `noTag` modules.
 
-Initially, all modules can access each other. As a result, every `noTag` module can access other `noTag` modules as well
-as those tagged with `root`.
+The initial configuration from the [CLI](./cli) includes this setup.
 
-If you use the [CLI](./cli) to initialize Sheriff for the first time, this configuration will be set up automatically.
-
-Here's an example configuration in _sheriff.config.ts_:
+Here’s an example configuration in `sheriff.config.ts`:
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
@@ -151,9 +142,9 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-This approach is recommended for existing projects, as it allows for the incremental introduction of Sheriff.
+That is also the recommendation for existing projects because it allows an incremental integration of Sheriff.
 
-If you are starting a new project, you can skip this step and proceed directly to [manual tagging](#manual-tagging).
+For green-field projects, the [manual tagging](#manual-tagging) is the better option.
 
 ---
 
@@ -164,7 +155,7 @@ import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
   autoTagging: false,
-  tagging: {
+  modules: {
     // see below...
   },
 };
@@ -172,7 +163,7 @@ export const sheriffConfig: SheriffConfig = {
 
 ## The `root` Tag
 
-Consider the following directory structure:
+Given the following project structure:
 
 <pre>
 src/app
@@ -192,10 +183,11 @@ src/app
 │   ├── footer.component.ts
 </pre>
 
-The directories _src/app/holidays/data_ and _src/app/holidays/feature_ are considered modules. All other files are part
-of the root module, which is automatically tagged with `root` by Sheriff. This tag cannot be changed, and the root
-module does not include an _index.ts_ file. [By default](./integration), importing from the root module is not
-permitted.
+The directories `src/app/holidays/data` and `src/app/holidays/feature` are barrel modules. All other files are part of the root module, which is automatically tagged with `root` by Sheriff
+
+This tagging of the `root` module cannot be changed. With disabled barrel-less mode (`enableBarrelLess: false`), which is the default, no module can access the root module.
+
+The property `excludeRoot` can disable this behavior. [By default](./integration). The best option, though, is to enable barrel-less mode which makes `root` a barrel-less module.
 
 ```mermaid
 flowchart LR
@@ -226,8 +218,9 @@ flowchart LR
 
 ## Manual Tagging
 
-To assign tags manually, you need to provide a `tagging` object in the _sheriff.config.ts_ file. The keys in this object
-represent the module directories, and the corresponding values are the tags assigned to those modules.
+The `modules` property in the `sheriff.config.ts` defines barrel-less modules but also assigns tags to modules, regardless if barrel or barrel-less.
+
+The keys of `modules` represent the module directories, and the corresponding values are the tags assigned to those modules.
 
 The following snippet demonstrates a configuration where four directories are assigned both a domain and a module type:
 
@@ -235,7 +228,7 @@ The following snippet demonstrates a configuration where four directories are as
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  tagging: {
+  modules: {
     'src/app/holidays/feature': ['domain:holidays', 'type:feature'],
     'src/app/holidays/data': ['domain:holidays', 'type:data'],
     'src/app/customers/feature': ['domain:customers', 'type:feature'],
@@ -245,9 +238,9 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-By using `domain:_` and `type:_`, we establish two dimensions that allow us to define the following rules:
+By using `domain:_` and `type:_` define two dimension for the whole project. The following rules should apply
 
-1. A module can only depend on other modules within the same domain.
+1. A module can only depend on other modules of the same domain.
 2. A module tagged as `type:feature` can depend on `type:data`, but the reverse is not allowed.
 3. The `root` module can depend on modules tagged as `type:feature`. Since the root module only has the `root` tag,
    there is no need to include domain tags.
@@ -256,8 +249,7 @@ By using `domain:_` and `type:_`, we establish two dimensions that allow us to d
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  version: 1,
-  tagging: {
+  modules: {
     'src/app/holidays/feature': ['domain:holidays', 'type:feature'],
     'src/app/holidays/data': ['domain:holidays', 'type:data'],
     'src/app/customers/feature': ['domain:customers', 'type:feature'],
@@ -276,16 +268,13 @@ If these rules are violated, a linting error will be triggered:
 
 <img width="1512" alt="Screenshot 2023-06-13 at 17 50 41" src="/img/dependency-rules-1.png"></img>
 
-For existing projects, it is recommended to tag modules and define dependency rules incrementally.
-
-If you prefer to only tag modules within the "holidays" directory and leave the rest of the modules auto-tagged, you can
-do so:
+If only the modules within the director "holidays" should get tags, and the other modules should be auto-tagged, i.e. `noTag`, the configuration would look like this:
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  tagging: {
+  modules: {
     'src/app/holidays/feature': ['domain:holidays', 'type:feature'],
     'src/app/holidays/data': ['domain:holidays', 'type:data'],
   },
@@ -298,8 +287,7 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-All modules in the "customers" directory are assigned the `noTag` tag. Be aware that this setup allows any module from
-`domain:holidays` to depend on modules within the "customers" directory, but the reverse is not permitted.
+Note: This setup allows any module from `domain:holidays` to depend on modules within the `customers` directory, but the reverse is not permitted.
 
 ## Nested Paths
 
@@ -309,7 +297,7 @@ Nested paths simplify the configuration. Multiple levels are allowed.
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  tagging: {
+  modules: {
     'src/app': {
       holidays: {
         feature: ['domain:holidays', 'type:feature'],
@@ -332,13 +320,13 @@ export const sheriffConfig: SheriffConfig = {
 
 ## Placeholders
 
-Placeholders help with repeating patterns. They have the snippet `<name>`.
+Placeholders help with repeating patterns. They have the syntax `<name>`, where `name` is the placeholder name.
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  tagging: {
+  modules: {
     'src/app': {
       holidays: {
         '<type>': ['domain:holidays', 'type:<type>'],
@@ -357,13 +345,13 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-We can use placeholders on all levels. Our configuration is now more concise.
+Placeholders are available on all levels. The configuration could therefore further be improved.
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  tagging: {
+  modules: {
     'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {
@@ -377,14 +365,13 @@ export const sheriffConfig: SheriffConfig = {
 
 ## `depRules` Functions & Wildcards
 
-We could use functions for `depRules` instead of static values. The names of the tags can include wildcards:
+`depRules` allows functions instead of static values. The names of the tags can include wildcards:
 
 ```typescript
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  version: 1,
-  tagging: {
+  modules: {
     'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {
@@ -401,8 +388,7 @@ or use `sameTag`, which is a pre-defined function.
 import { sameTag, SheriffConfig } from '@softarc/sheriff-core';
 
 export const sheriffConfig: SheriffConfig = {
-  version: 1,
-  tagging: {
+  modules: {
     'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
   },
   depRules: {

@@ -6,13 +6,17 @@ displayed_sidebar: tutorialSidebar
 It is usually not possible to modularize an existing codebase at once. Instead, we have to integrate Sheriff
 incrementally.
 
-Next to [automatic tagging](./dependency-rules#automatic-tagging), we introduce manual tagged modules step by step.
+Next to [automatic tagging](./dependency-rules#automatic-tagging), we introduce modules step by step.
 
-The recommended approach is start with only one module. For example _holidays/feature_. All files from the outside have
-to import from the module's _index.ts_, and it has the tags "type:feature".
+## With barrel-less modules
 
-It is very likely that _holidays/feature_ depends on files in the "root" module. Since "root" doesn't have
-an **index.ts**, no other module can depend on it:
+The recommended approach is start with only one module. For example `holidays/feature`. Encapsulated files of that modules need to be moved to the `internals` folder. If `holidays/feature` is barrel-less, it can access `root`, given the dependency rules allow access to tag `root`.
+
+By default, barrel-less modules are disabled. They have to be enabled in `sheriff.config.ts` via `enableBarrelLess: true`.
+
+## Without barrel-less modules
+
+If Sheriff only supports barrel modules, then the integration would still progress module by module. `holidays/feature` gets an `index.ts` and defines its exposed files. Since `root` would be barrel-less, `holidays/feature` cannot access it.
 
 ```mermaid
 flowchart LR
@@ -39,12 +43,12 @@ flowchart LR
   style app.config.ts fill:lightgreen
 ```
 
-We can disable the deep import checks for the **root** module by setting `excludeRoot` in _sheriff.config.ts_ to `true`:
+There is a special property for this use case: `excludeRoot`. Once set to `true`, all modules can access all files in the root module.
 
 ```typescript
 export const config: SheriffConfig = {
   excludeRoot: true, // <-- set this
-  tagging: {
+  modules: {
     'src/shared': 'shared',
   },
   depRules: {
@@ -80,4 +84,6 @@ flowchart LR
   style app.config.ts fill:lightgreen
 ```
 
-Once all files from "root" import form **shared's** _index.ts_, create another module and do the same.
+---
+
+Please note that the `excludeRoot` property only makes sense with `enableBarrelLess: false`.
