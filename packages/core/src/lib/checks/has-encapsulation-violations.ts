@@ -4,16 +4,18 @@ import { ProjectInfo } from '../main/init';
 import { FileInfo } from '../modules/file.info';
 
 /**
- * verifies if an existing file has deep imports which are forbidden.
+ * verifies if an existing file has imports which break
+ * the other module's encapsulation.
+ *
  * Unresolvable imports are skipped.
  *
  * It is up to the caller to decide.
  */
-export function checkForDeepImports(
+export function hasEncapsulationViolations(
   fsPath: FsPath,
   { rootDir, config, getFileInfo }: ProjectInfo,
-): string[] {
-  const deepImports: string[] = [];
+): Record<string, FileInfo> {
+  const encapsulationViolations: Record<string, FileInfo> = {};
   const assignedFileInfo = getFileInfo(fsPath);
 
   for (const importedFileInfo of assignedFileInfo.imports) {
@@ -25,13 +27,12 @@ export function checkForDeepImports(
     ) {
       // 👍 all good
     } else {
-      deepImports.push(
-        assignedFileInfo.getRawImportForImportedFileInfo(importedFileInfo.path),
-      );
+      const rawImport = assignedFileInfo.getRawImportForImportedFileInfo(importedFileInfo.path);
+      encapsulationViolations[rawImport] = importedFileInfo;
     }
   }
 
-  return deepImports;
+  return encapsulationViolations;
 }
 
 function accessesExposedFileForBarrelLessModules(fileInfo: FileInfo, enableBarrelLess: boolean) {

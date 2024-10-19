@@ -9,7 +9,7 @@ const tester = new RuleTester({
 });
 
 describe('deep-import', () => {
-  const spy = vitest.spyOn(sheriffCore, 'hasDeepImport');
+  const spy = vitest.spyOn(sheriffCore, 'violatesEncapsulationRule');
 
   afterEach(() => {
     spy.mockReset();

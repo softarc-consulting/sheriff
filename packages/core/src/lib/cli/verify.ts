@@ -1,4 +1,4 @@
-import { checkForDeepImports } from '../checks/check-for-deep-imports';
+import { hasEncapsulationViolations } from '../checks/has-encapsulation-violations';
 import { traverseFileInfo } from '../modules/traverse-file-info';
 import { checkForDependencyRuleViolation } from '../checks/check-for-dependency-rule-violation';
 import getFs from '../fs/getFs';
@@ -21,16 +21,17 @@ export function verify(args: string[]) {
   const projectInfo = getEntryFromCliOrConfig(args[0]);
 
   for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
-    const deepImports = checkForDeepImports(fileInfo.path, projectInfo);
+    const violations = Object.keys(hasEncapsulationViolations(fileInfo.path, projectInfo));
+
     const dependencyRuleViolations = checkForDependencyRuleViolation(
       fileInfo.path,
       projectInfo,
     );
 
-    if (deepImports.length > 0 || dependencyRuleViolations.length > 0) {
+    if (violations.length > 0 || dependencyRuleViolations.length > 0) {
       hasError = true;
       filesCount++;
-      deepImportsCount += deepImports.length;
+      deepImportsCount += violations.length;
       dependencyRulesCount += dependencyRuleViolations.length;
 
       const dependencyRules = dependencyRuleViolations.map(
@@ -39,7 +40,7 @@ export function verify(args: string[]) {
       );
 
       validationsMap[fs.relativeTo(fs.cwd(), fileInfo.path)] = {
-        deepImports,
+        deepImports: violations,
         dependencyRules,
       };
     }
