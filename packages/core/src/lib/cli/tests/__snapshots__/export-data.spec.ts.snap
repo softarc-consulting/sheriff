@@ -4,6 +4,7 @@ exports[`export data > should also work with a sheriff.config.ts > sheriff-confi
 "{
   "src/main.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -15,6 +16,7 @@ exports[`export data > should also work with a sheriff.config.ts > sheriff-confi
   },
   "src/holidays/index.ts": {
     "module": "src/holidays",
+    "moduleType": "barrel",
     "tags": [
       "scope:holidays"
     ],
@@ -23,6 +25,7 @@ exports[`export data > should also work with a sheriff.config.ts > sheriff-confi
   },
   "src/customers/index.ts": {
     "module": "src/customers",
+    "moduleType": "barrel",
     "tags": [
       "scope:customers"
     ],
@@ -36,6 +39,7 @@ exports[`export data > should avoid circular dependencies > circular-dependencie
 "{
   "src/main.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -47,6 +51,7 @@ exports[`export data > should avoid circular dependencies > circular-dependencie
   },
   "src/app1.service.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -57,6 +62,7 @@ exports[`export data > should avoid circular dependencies > circular-dependencie
   },
   "src/app2.service.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -72,6 +78,7 @@ exports[`export data > should skip not reachable files > not-reachable-files 1`]
 "{
   "src/main.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -82,6 +89,7 @@ exports[`export data > should skip not reachable files > not-reachable-files 1`]
   },
   "src/app1.service.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -95,6 +103,7 @@ exports[`export data > should test a simple application > simple-application 1`]
 "{
   "src/main.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -105,6 +114,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/feature/index.ts": {
     "module": "src/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -116,6 +126,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/feature/holidays-container.component.ts": {
     "module": "src/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -133,6 +144,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/data/index.ts": {
     "module": "src/holidays/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:data"
@@ -144,6 +156,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/data/holidays-store.ts": {
     "module": "src/holidays/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:data"
@@ -157,6 +170,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/model/index.ts": {
     "module": "src/holidays/model",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:model"
@@ -168,6 +182,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/model/holiday.ts": {
     "module": "src/holidays/model",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:model"
@@ -177,6 +192,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/ui/index.ts": {
     "module": "src/holidays/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:ui"
@@ -188,6 +204,7 @@ exports[`export data > should test a simple application > simple-application 1`]
   },
   "src/holidays/ui/holidays.component.ts": {
     "module": "src/holidays/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:ui"

@@ -8,12 +8,12 @@ exports[`verify > should find errors > logs.log 1`] = `
 
 Issues found:
   Total Invalid Files: 2
-  Total Deep Imports: 1
+  Total Encapsulation Violations: 1
   Total Dependency Rule Violations: 1
 ----------------------------------
 
 |-- src/main.ts
-|   |-- Deep Imports
+|   |-- Encapsulation Violations
 |   |   |-- ./customers/data
 |-- src/holidays/holidays.component.ts
 |   |-- Dependency Rule Violations
@@ -28,12 +28,12 @@ exports[`verify > should find errors without sheriff.config.ts > logs.log 1`] = 
 
 Issues found:
   Total Invalid Files: 1
-  Total Deep Imports: 1
+  Total Encapsulation Violations: 1
   Total Dependency Rule Violations: 0
 ----------------------------------
 
 |-- src/main.ts
-|   |-- Deep Imports
+|   |-- Encapsulation Violations
 |   |   |-- ./customers/data"
 `;
 
