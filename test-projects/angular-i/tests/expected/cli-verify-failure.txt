@@ -3,7 +3,7 @@
 
 Issues found:
   Total Invalid Files: 8
-  Total Deep Imports: 0
+  Total Encapsulation Violations: 0
   Total Dependency Rule Violations: 10
 ----------------------------------
 

@@ -1,6 +1,7 @@
 {
   "src/main.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -35,6 +36,7 @@
   },
   "src/app/app.component.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -52,6 +54,7 @@
   },
   "src/app/shell/sidemenu/sidemenu.component.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -67,6 +70,7 @@
   },
   "src/app/shared/security/index.ts": {
     "module": "src/app/shared/security",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:security"
@@ -79,6 +83,7 @@
   },
   "src/app/shared/security/security.provider.ts": {
     "module": "src/app/shared/security",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:security"
@@ -94,6 +99,7 @@
   },
   "src/app/shared/security/security.effects.ts": {
     "module": "src/app/shared/security",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:security"
@@ -111,6 +117,7 @@
   },
   "src/app/shared/security/security.actions.ts": {
     "module": "src/app/shared/security",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:security"
@@ -124,6 +131,7 @@
   },
   "src/app/shared/security/security.reducer.ts": {
     "module": "src/app/shared/security",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:security"
@@ -137,6 +145,7 @@
   },
   "src/app/shared/security/security.service.ts": {
     "module": "src/app/shared/security",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:security"
@@ -155,6 +164,7 @@
   },
   "src/app/shared/security/security.selectors.ts": {
     "module": "src/app/shared/security",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:security"
@@ -168,6 +178,7 @@
   },
   "src/app/shell/header/header.component.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -183,6 +194,7 @@
   },
   "src/app/shared/ui-messaging/index.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -199,6 +211,7 @@
   },
   "src/app/shared/ui-messaging/shared-ui-messaging.provider.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -214,6 +227,7 @@
   },
   "src/app/shared/ui-messaging/loader/loading.interceptor.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -231,6 +245,7 @@
   },
   "src/app/shared/ui-messaging/loader/loading.service.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -243,6 +258,7 @@
   },
   "src/app/shared/ui-messaging/loader/silent-load.context.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -254,6 +270,7 @@
   },
   "src/app/shared/ui-messaging/loader/loader.component.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -269,6 +286,7 @@
   },
   "src/app/shared/ui-messaging/message/message.service.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -285,6 +303,7 @@
   },
   "src/app/shared/ui-messaging/message/message.store.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -299,6 +318,7 @@
   },
   "src/app/shared/ui-messaging/message/message.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -308,6 +328,7 @@
   },
   "src/app/shared/ui-messaging/message/confirmation.component.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -321,6 +342,7 @@
   },
   "src/app/shared/ui-messaging/message/message.component.ts": {
     "module": "src/app/shared/ui-messaging",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui-messaging"
@@ -338,6 +360,7 @@
   },
   "src/app/shared/config/index.ts": {
     "module": "src/app/shared/config",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:config"
@@ -349,6 +372,7 @@
   },
   "src/app/shared/config/configuration.ts": {
     "module": "src/app/shared/config",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:config"
@@ -358,6 +382,7 @@
   },
   "src/app/shared/http/index.ts": {
     "module": "src/app/shared/http",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:http"
@@ -371,6 +396,7 @@
   },
   "src/app/shared/http/error.interceptor.ts": {
     "module": "src/app/shared/http",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:http"
@@ -387,6 +413,7 @@
   },
   "src/app/shared/http/error-message.context.ts": {
     "module": "src/app/shared/http",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:http"
@@ -398,6 +425,7 @@
   },
   "src/app/shared/http/base-url.interceptor.ts": {
     "module": "src/app/shared/http",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:http"
@@ -413,6 +441,7 @@
   },
   "src/app/shared/http/with-error-message-context.ts": {
     "module": "src/app/shared/http",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:http"
@@ -426,6 +455,7 @@
   },
   "src/app/shared/master-data/index.ts": {
     "module": "src/app/shared/master-data",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:master-data"
@@ -438,6 +468,7 @@
   },
   "src/app/shared/master-data/shared-master-data.provider.ts": {
     "module": "src/app/shared/master-data",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:master-data"
@@ -451,6 +482,7 @@
   },
   "src/app/shared/master-data/+state/master.reducer.ts": {
     "module": "src/app/shared/master-data",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:master-data"
@@ -462,6 +494,7 @@
   },
   "src/app/app.routes.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -478,6 +511,7 @@
   },
   "src/app/shell/services/user-loader.guard.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -492,6 +526,7 @@
   },
   "src/app/shell/home.component.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],
@@ -502,6 +537,7 @@
   },
   "src/app/customers/feature/index.ts": {
     "module": "src/app/customers/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:feature"
@@ -513,6 +549,7 @@
   },
   "src/app/customers/feature/customers.routes.ts": {
     "module": "src/app/customers/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:feature"
@@ -531,6 +568,7 @@
   },
   "src/app/customers/feature/components/add-customer.component.ts": {
     "module": "src/app/customers/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:feature"
@@ -549,6 +587,7 @@
   },
   "src/app/customers/model/index.ts": {
     "module": "src/app/customers/model",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:model"
@@ -560,6 +599,7 @@
   },
   "src/app/customers/model/customer.ts": {
     "module": "src/app/customers/model",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:model"
@@ -569,6 +609,7 @@
   },
   "src/app/customers/ui/index.ts": {
     "module": "src/app/customers/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:ui"
@@ -581,6 +622,7 @@
   },
   "src/app/customers/ui/customer/customer.component.ts": {
     "module": "src/app/customers/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:ui"
@@ -604,6 +646,7 @@
   },
   "src/app/shared/form/index.ts": {
     "module": "src/app/shared/form",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:form"
@@ -616,6 +659,7 @@
   },
   "src/app/shared/form/options.ts": {
     "module": "src/app/shared/form",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:form"
@@ -625,6 +669,7 @@
   },
   "src/app/shared/form/form-errors.component.ts": {
     "module": "src/app/shared/form",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:form"
@@ -639,6 +684,7 @@
   },
   "src/app/customers/ui/customers/customers.component.ts": {
     "module": "src/app/customers/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:ui"
@@ -660,6 +706,7 @@
   },
   "src/app/customers/ui/customer.pipe.ts": {
     "module": "src/app/customers/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:ui"
@@ -673,6 +720,7 @@
   },
   "src/app/customers/data/index.ts": {
     "module": "src/app/customers/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:data"
@@ -685,6 +733,7 @@
   },
   "src/app/customers/data/customers-repository.service.ts": {
     "module": "src/app/customers/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:data"
@@ -701,6 +750,7 @@
   },
   "src/app/customers/data/customers.actions.ts": {
     "module": "src/app/customers/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:data"
@@ -714,6 +764,7 @@
   },
   "src/app/customers/data/customers.selectors.ts": {
     "module": "src/app/customers/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:data"
@@ -728,6 +779,7 @@
   },
   "src/app/customers/data/customers.reducer.ts": {
     "module": "src/app/customers/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:data"
@@ -742,6 +794,7 @@
   },
   "src/app/customers/data/provide-customers.ts": {
     "module": "src/app/customers/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:data"
@@ -757,6 +810,7 @@
   },
   "src/app/customers/data/customers.effects.ts": {
     "module": "src/app/customers/data",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:data"
@@ -776,6 +830,7 @@
   },
   "src/app/customers/feature/components/customers-container.component.ts": {
     "module": "src/app/customers/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:feature"
@@ -793,6 +848,7 @@
   },
   "src/app/customers/feature/components/edit-customer.component.ts": {
     "module": "src/app/customers/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:feature"
@@ -815,6 +871,7 @@
   },
   "src/app/customers/feature/services/data.guard.ts": {
     "module": "src/app/customers/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:feature"
@@ -828,6 +885,7 @@
   },
   "src/app/customers/feature/components/customers-root/customers-root.component.ts": {
     "module": "src/app/customers/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:customers",
       "type:feature"
@@ -840,6 +898,7 @@
   },
   "src/app/bookings/index.ts": {
     "module": "src/app/bookings",
+    "moduleType": "barrel",
     "tags": [
       "domain:bookings",
       "type:feature"
@@ -851,6 +910,7 @@
   },
   "src/app/bookings/bookings.routes.ts": {
     "module": "src/app/bookings",
+    "moduleType": "barrel",
     "tags": [
       "domain:bookings",
       "type:feature"
@@ -868,6 +928,7 @@
   },
   "src/app/bookings/+state/bookings.reducer.ts": {
     "module": "src/app/bookings",
+    "moduleType": "barrel",
     "tags": [
       "domain:bookings",
       "type:feature"
@@ -881,6 +942,7 @@
   },
   "src/app/bookings/+state/bookings.actions.ts": {
     "module": "src/app/bookings",
+    "moduleType": "barrel",
     "tags": [
       "domain:bookings",
       "type:feature"
@@ -894,6 +956,7 @@
   },
   "src/app/bookings/overview/overview.component.ts": {
     "module": "src/app/bookings",
+    "moduleType": "barrel",
     "tags": [
       "domain:bookings",
       "type:feature"
@@ -916,6 +979,7 @@
   },
   "src/app/bookings/+state/bookings.selectors.ts": {
     "module": "src/app/bookings",
+    "moduleType": "barrel",
     "tags": [
       "domain:bookings",
       "type:feature"
@@ -927,6 +991,7 @@
   },
   "src/app/customers/api/index.ts": {
     "module": "src/app/customers/api",
+    "moduleType": "barrel",
     "tags": [
       "type:api",
       "domain:customers:api"
@@ -940,6 +1005,7 @@
   },
   "src/app/shared/ngrx-utils/index.ts": {
     "module": "src/app/shared/ngrx-utils",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ngrx-utils"
@@ -955,6 +1021,7 @@
   },
   "src/app/shared/ngrx-utils/noop.action.ts": {
     "module": "src/app/shared/ngrx-utils",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ngrx-utils"
@@ -966,6 +1033,7 @@
   },
   "src/app/shared/ngrx-utils/safe-concat-map.ts": {
     "module": "src/app/shared/ngrx-utils",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ngrx-utils"
@@ -980,6 +1048,7 @@
   },
   "src/app/shared/ngrx-utils/filter-defined.ts": {
     "module": "src/app/shared/ngrx-utils",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ngrx-utils"
@@ -993,6 +1062,7 @@
   },
   "src/app/shared/util/index.ts": {
     "module": "src/app/shared/util",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:util"
@@ -1006,6 +1076,7 @@
   },
   "src/app/shared/util/assert-defined.ts": {
     "module": "src/app/shared/util",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:util"
@@ -1015,6 +1086,7 @@
   },
   "src/app/shared/util/is-defined.ts": {
     "module": "src/app/shared/util",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:util"
@@ -1024,6 +1096,7 @@
   },
   "src/app/shared/util/safe-assign.ts": {
     "module": "src/app/shared/util",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:util"
@@ -1033,6 +1106,7 @@
   },
   "src/app/shared/ngrx-utils/deep-clone.ts": {
     "module": "src/app/shared/ngrx-utils",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ngrx-utils"
@@ -1044,6 +1118,7 @@
   },
   "src/app/shared/ngrx-utils/load-status.ts": {
     "module": "src/app/shared/ngrx-utils",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ngrx-utils"
@@ -1053,6 +1128,7 @@
   },
   "src/app/bookings/+state/bookings.effects.ts": {
     "module": "src/app/bookings",
+    "moduleType": "barrel",
     "tags": [
       "domain:bookings",
       "type:feature"
@@ -1071,6 +1147,7 @@
   },
   "src/app/holidays/feature/index.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1083,6 +1160,7 @@
   },
   "src/app/holidays/feature/holidays.routes.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1101,6 +1179,7 @@
   },
   "src/app/holidays/feature/+state/holidays.effects.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1119,6 +1198,7 @@
   },
   "src/app/holidays/model/index.ts": {
     "module": "src/app/holidays/model",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:model"
@@ -1130,6 +1210,7 @@
   },
   "src/app/holidays/model/holiday.ts": {
     "module": "src/app/holidays/model",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:model"
@@ -1139,6 +1220,7 @@
   },
   "src/app/holidays/feature/+state/holidays.actions.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1152,6 +1234,7 @@
   },
   "src/app/holidays/feature/+state/holidays.reducer.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1166,6 +1249,7 @@
   },
   "src/app/holidays/feature/holidays/holidays.component.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1184,6 +1268,7 @@
   },
   "src/app/holidays/feature/+state/holidays.selectors.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1197,6 +1282,7 @@
   },
   "src/app/holidays/ui/index.ts": {
     "module": "src/app/holidays/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:ui"
@@ -1208,6 +1294,7 @@
   },
   "src/app/holidays/ui/holiday-card/holiday-card.component.ts": {
     "module": "src/app/holidays/ui",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:ui"
@@ -1227,6 +1314,7 @@
   },
   "src/app/shared/ui/index.ts": {
     "module": "src/app/shared/ui",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui"
@@ -1238,6 +1326,7 @@
   },
   "src/app/shared/ui/blinker.directive.ts": {
     "module": "src/app/shared/ui",
+    "moduleType": "barrel",
     "tags": [
       "shared",
       "shared:ui"
@@ -1249,6 +1338,7 @@
   },
   "src/app/holidays/feature/request-info/request-info.component.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1271,6 +1361,7 @@
   },
   "src/app/holidays/feature/address-lookuper.service.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1287,6 +1378,7 @@
   },
   "src/app/holidays/feature/parse-address.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1298,6 +1390,7 @@
   },
   "src/app/holidays/feature/address.ts": {
     "module": "src/app/holidays/feature",
+    "moduleType": "barrel",
     "tags": [
       "domain:holidays",
       "type:feature"
@@ -1307,6 +1400,7 @@
   },
   "src/environments/environment.ts": {
     "module": ".",
+    "moduleType": "barrel-less",
     "tags": [
       "root"
     ],

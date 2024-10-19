@@ -1,0 +1,2517 @@
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Oct 13 23:03:36 2024 +0200	d28ee35f11aba30201faf31bb822a93a3236bb78,feat(core): rename config property `tagging` to `modules`"
+1	1	packages/core/src/lib/api/get-project-data.ts
+2	2	packages/core/src/lib/checks/check-for-deep-imports.ts
+2	2	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+1	1	packages/core/src/lib/checks/tests/check-for-deep-imports.barrel-less.spec.ts
+6	6	packages/core/src/lib/checks/tests/check-for-dependency-rule-violation.spec.ts
+1	1	packages/core/src/lib/checks/tests/deep-import-with-exclude-root.spec.ts
+1	1	packages/core/src/lib/cli/list.ts
+2	2	packages/core/src/lib/cli/tests/export-data.spec.ts
+3	3	packages/core/src/lib/cli/tests/list.spec.ts
+1	1	packages/core/src/lib/cli/tests/verify.spec.ts
+1	1	packages/core/src/lib/config/{sheriff-config.ts => configuration.ts}
+3	3	packages/core/src/lib/config/default-config.ts
+2	2	packages/core/src/lib/config/{tag-config.ts => module-config.ts}
+18	5	packages/core/src/lib/config/parse-config.ts
+43	5	packages/core/src/lib/config/tests/parse-config.spec.ts
+54	6	packages/core/src/lib/config/user-sheriff-config.ts
+13	3	packages/core/src/lib/error/user-error.ts
+1	1	packages/core/src/lib/eslint/eslint.spec.ts
+3	3	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+1	1	packages/core/src/lib/log/log.module.spec.ts
+2	2	packages/core/src/lib/main/after-init.ts
+2	2	packages/core/src/lib/main/callback.ts
+4	4	packages/core/src/lib/main/init.ts
+2	2	packages/core/src/lib/main/internal/initialized.ts
+2	2	packages/core/src/lib/main/parse-project.ts
+4	4	packages/core/src/lib/modules/find-module-paths.ts
+4	4	packages/core/src/lib/modules/internal/find-module-paths-without-barrel.ts
+3	3	packages/core/src/lib/modules/internal/{flatten-tagging.ts => flatten-modules.ts}
+1	1	packages/core/src/lib/modules/tests/create-module.spec.ts
+2	2	packages/core/src/lib/modules/tests/find-module-paths-without-barrel.spec.ts
+10	10	packages/core/src/lib/modules/tests/flatten-tagging.spec.ts
+10	10	packages/core/src/lib/tags/calc-tags-for-module.ts
+2	2	packages/core/src/lib/test/project-creator.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Oct 13 21:48:13 2024 +0200	fa29e978b6d1b65297eb1a9fdb26380feb6de081,feat(core): add support for barrel-less modules and checks"
+45	25	packages/core/src/lib/checks/check-for-deep-imports.ts
+182	0	packages/core/src/lib/checks/tests/check-for-deep-imports.barrel-less.spec.ts
+1	1	packages/core/src/lib/checks/tests/check-for-deep-imports.spec.ts
+53	1	packages/core/src/lib/checks/tests/check-for-dependency-rule-violation.spec.ts
+82	0	packages/core/src/lib/checks/tests/deep-import-with-exclude-root.spec.ts
+1	0	packages/core/src/lib/config/default-config.ts
+3	1	packages/core/src/lib/config/tests/parse-config.spec.ts
+6	0	packages/core/src/lib/config/user-sheriff-config.ts
+0	57	packages/core/src/lib/eslint/deep-import.spec.ts
+9	4	packages/core/src/lib/main/parse-project.ts
+39	7	packages/core/src/lib/modules/create-modules.ts
+4	0	packages/core/src/lib/modules/file.info.ts
+1	1	packages/core/src/lib/modules/find-module-paths.ts
+22	2	packages/core/src/lib/modules/module.ts
+73	12	packages/core/src/lib/modules/tests/create-module.spec.ts
+19	0	packages/core/src/lib/modules/warn-on-barrel-file-less-collision.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Oct 8 13:42:43 2024 +0200	10cd402510db90cb1690acd7ce82c9da255bffba,feat(core): add finder method for barrel-less modules"
+1	0	packages/core/src/lib/config/default-config.ts
+0	1	packages/core/src/lib/config/sheriff-config.ts
+2	0	packages/core/src/lib/config/tests/parse-config.spec.ts
+17	1	packages/core/src/lib/config/user-sheriff-config.ts
+12	0	packages/core/src/lib/fs/default-fs.spec.ts
+14	0	packages/core/src/lib/fs/default-fs.ts
+17	13	packages/core/src/lib/fs/fs.ts
+9	2	packages/core/src/lib/fs/getFs.ts
+33	1	packages/core/src/lib/fs/virtual-fs.spec.ts
+16	2	packages/core/src/lib/fs/virtual-fs.ts
+2	3	packages/core/src/lib/main/parse-project.ts
+21	7	packages/core/src/lib/modules/find-module-paths.ts
+58	0	packages/core/src/lib/modules/internal/create-module-path-patterns-tree.ts
+93	8	packages/core/src/lib/modules/internal/find-module-paths-without-barrel.ts
+68	0	packages/core/src/lib/modules/tests/create-module-path-patterns-tree.spec.ts
+194	55	packages/core/src/lib/modules/tests/find-module-paths-without-barrel.spec.ts
+1	0	packages/core/src/lib/tags/calc-tags-for-module.ts
+1	2	packages/core/src/lib/test/project-creator.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Oct 7 00:50:31 2024 +0200	05eeb71b6964797d17b025ef958aba321fe29717,fix(core): compilation issue due to barrel-less property"
+9	4	packages/core/src/lib/main/parse-project.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Oct 7 00:11:17 2024 +0200	57682a9530a057b26900f06802fbd971470987b6,feat(core): add barrel-less as feature toggle in config"
+1	0	packages/core/src/lib/config/default-config.ts
+9	0	packages/core/src/lib/config/tests/__snapshots__/parse-config.spec.ts.snap
+9	9	packages/core/src/lib/config/{ => tests}/parse-config.spec.ts
+5	0	packages/core/src/lib/config/user-sheriff-config.ts
+2	2	packages/core/src/lib/modules/find-module-paths.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Aug 27 07:53:07 2024 +0200	849176c406f35780a0ea466fe5f63526538f1ad4,refactor(core): make barrel file optional in module type"
+2	2	packages/core/src/lib/api/get-project-data.ts
+6	4	packages/core/src/lib/checks/check-for-deep-imports.ts
+8	8	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+2	1	packages/core/src/lib/checks/tests/check-for-deep-imports.spec.ts
+41	2	packages/core/src/lib/checks/tests/check-for-dependency-rule-violation.spec.ts
+1	1	packages/core/src/lib/cli/list.ts
+1	0	packages/core/src/lib/config/default-config.ts
+2	0	packages/core/src/lib/config/parse-config.spec.ts
+1	0	packages/core/src/lib/config/sheriff-config.ts
+1	0	packages/core/src/lib/main/init.ts
+6	3	packages/core/src/lib/main/parse-project.ts
+37	43	packages/core/src/lib/modules/create-modules.ts
+22	11	packages/core/src/lib/modules/find-module-paths.ts
+14	0	packages/core/src/lib/modules/internal/find-module-paths-with-barrel.ts
+16	0	packages/core/src/lib/modules/internal/find-module-paths-without-barrel.ts
+21	0	packages/core/src/lib/modules/internal/flatten-tagging.ts
+15	11	packages/core/src/lib/modules/module.ts
+219	205	packages/core/src/lib/modules/tests/create-module.spec.ts
+30	0	packages/core/src/lib/modules/tests/find-module-paths-with-barrel.spec.ts
+73	0	packages/core/src/lib/modules/tests/find-module-paths-without-barrel.spec.ts
+0	37	packages/core/src/lib/modules/tests/find-module-paths.spec.ts
+75	0	packages/core/src/lib/modules/tests/flatten-tagging.spec.ts
+1	1	packages/core/src/lib/modules/tests/get-project-dirs-from-file-info.spec.ts
+1	1	packages/core/src/lib/tags/calc-tags-for-module.ts
+19	0	packages/core/src/lib/util/typed-object-functions.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Sep 30 14:07:20 2024 +0200	883a472c2129c5e70b71f94063700128866a625e,fix(eslint): enforce rules on exports"
+28	1	packages/core/src/lib/file-info/tests/traverse-filesystem.spec.ts
+5	1	packages/core/src/lib/file-info/unassigned-file-info.ts
+10	3	packages/eslint-plugin/src/lib/rules/create-rule.ts
+1	10	packages/eslint-plugin/src/lib/rules/deep-import.ts
+1	9	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+4	2	packages/eslint-plugin/src/lib/rules/executor.ts
+18	0	packages/eslint-plugin/src/lib/rules/tests/create-rule.spec.ts
+10	0	test-projects/angular-i/integration-test.sh
+11	0	test-projects/angular-i/tests/customer-api-re-exports.index.ts
+25	0	test-projects/angular-i/tests/expected/re-exports-lint.json
+414	0	test-projects/angular-i/tests/expected/user-error-lint.json
+9	0	test-projects/angular-iv/integration-test.sh
+11	0	test-projects/angular-iv/tests/customer-api-re-exports.index.ts
+25	0	test-projects/angular-iv/tests/expected/re-exports-lint.json
+414	0	test-projects/angular-iv/tests/expected/user-error-lint.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Sep 22 20:08:58 2024 +0200	a418b7d32340a2870f85a3932cfcb6ab116a0941,chore: release 0.17.3"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Sep 22 19:34:31 2024 +0200	9124a60362b2cbff907381cf2f9bca9d7ccacb80,fix(core): fix dep rules when importing from same module's barrel"
+2	0	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+34	0	packages/core/src/lib/checks/tests/check-for-dependency-rule-violation.spec.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 14 20:34:48 2024 +0200	ff89d76f2759efe911718f0086922535ab675875,chore: release 0.17.2"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 14 20:32:31 2024 +0200	6f6ed46779172d9244fa338f54b1c6b3b6fdc531,refactor(core): eslint issues"
+1	8	packages/core/src/lib/file-info/traverse-filesystem.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 14 20:20:46 2024 +0200	380ae01b23e086c391c5d355774197fa7285a97b,fix(core): prioritize path resolution over native TypeScript"
+86	5	packages/core/src/lib/file-info/tests/traverse-filesystem.spec.ts
+26	30	packages/core/src/lib/file-info/traverse-filesystem.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 14 14:43:39 2024 +0200	6e9cb08f74a3a1ed61c5c1f8bfa20e50a53c4846,fix(core): allow `_` and `-` for tag names"
+25	1	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+6	4	packages/core/src/lib/tags/calc-tags-for-module.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Sep 12 18:23:10 2024 +0200	f8ae8fb0d15492e7c42c2423f8f7d1580935e98c,feat(core): add option to export external library imports"
+60	7	packages/core/src/lib/api/get-project-data.ts
+1	1	packages/core/src/lib/cli/export-data.ts
+201	0	packages/core/src/lib/cli/tests/__snapshots__/export-data.spec.ts.snap
+19	123	packages/core/src/lib/cli/tests/export-data.spec.ts
+1	1	packages/core/src/lib/file-info/format-file-info.ts
+2	2	packages/core/src/lib/file-info/generate-unassigned-file-info.ts
+71	9	packages/core/src/lib/file-info/tests/traverse-filesystem.spec.ts
+2	1	packages/core/src/lib/file-info/tests/unassigned-file-info.spec.ts
+4	3	packages/core/src/lib/file-info/traverse-filesystem.ts
+1	1	packages/core/src/lib/file-info/traverse-unassigned-file-info.ts
+13	49	packages/core/src/lib/file-info/unassigned-file-info.ts
+1	1	packages/core/src/lib/modules/create-modules.ts
+6	1	packages/core/src/lib/modules/file.info.ts
+1	1	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+1	1	packages/core/src/lib/modules/module.ts
+9	10	packages/core/src/lib/modules/{ => tests}/create-module.spec.ts
+5	5	packages/core/src/lib/modules/{ => tests}/find-module-paths.spec.ts
+5	6	packages/core/src/lib/modules/{ => tests}/get-project-dirs-from-file-info.spec.ts
+3	3	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+52	0	packages/core/src/lib/test/build-file-info.ts
+1	1	packages/core/src/lib/test/find-file-info.ts
+0	16	packages/core/src/lib/test/fixtures/file-infos.ts
+0	5	packages/core/src/lib/test/vfs-file-info.ts
+387	41	test-projects/angular-i/tests/expected/cli-export.txt
+385	41	test-projects/angular-iv/tests/expected/cli-export.txt
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Sep 11 21:44:43 2024 +0200	e9992532a1978b6e3e2adf8a68ff5933030c7dc1,fix(core): process static imports"
+0	4	.release-please-manifest.json
+2	1	package.json
+3	3	packages/core/src/lib/file-info/generate-ts-data.ts
+1	1	packages/core/src/lib/file-info/generate-unassigned-file-info.ts
+30	11	packages/core/src/lib/file-info/{get-ts-paths-and-root-dir.ts => get-ts-config-context.ts}
+0	137	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+5	5	packages/core/src/lib/file-info/{ => tests}/fs-path.spec.ts
+7	7	packages/core/src/lib/file-info/{ => tests}/generate-ts-data.spec.ts
+8	8	packages/core/src/lib/file-info/{ => tests}/generate-unassigned-file-info.spec.ts
+258	0	packages/core/src/lib/file-info/tests/get-ts-config-context.spec.ts
+47	51	packages/core/src/lib/file-info/{ => tests}/traverse-filesystem.spec.ts
+4	4	packages/core/src/lib/file-info/{ => tests}/unassigned-file-info.spec.ts
+8	7	packages/core/src/lib/file-info/traverse-filesystem.ts
+2	3	packages/core/src/lib/file-info/ts-data.ts
+2	10	packages/core/src/lib/log/log.module.spec.ts
+18	5	packages/core/src/lib/test/fixtures/ts-config.ts
+1	1	packages/eslint-plugin/src/lib/rules/{ => tests}/create-rule.spec.ts
+1	1	packages/eslint-plugin/src/lib/rules/{ => tests}/deep-import.spec.ts
+1	1	packages/eslint-plugin/src/lib/rules/{ => tests}/dependency-rule.spec.ts
+1	0	sonar-project.properties
+2	1	vitest.config.ts
+74	91	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Sep 9 01:59:04 2024 +0200	0ba97bf9ff82f51f931a8fbdb0027a5384941212,chore: release 0.17.1"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Sep 9 01:57:26 2024 +0200	9730e168f95bf4cd2f2c9d54ee266cfb3cf81f3d,refactor: make properties in `TsConfig` optional"
+1	1	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+2	2	packages/core/src/lib/file-info/ts-config.ts
+2	2	packages/core/src/lib/test/fixtures/ts-config.ts
+
+"Manfred Steyer <manfred.steyer@gmx.net>,Tue Sep 3 21:54:50 2024 +0200	f0726219617f6bf67b61e378cf00f5214055c8c0,fix: respect missing compiler options node in tsconfig"
+2	2	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Sep 2 16:15:07 2024 +0200	7544e45e982dc9f77833c05e2e3f1992c3a70699,chore: release 0.17.0"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Sep 2 14:35:25 2024 +0200	779bf30132edcadb4038ae2b8936bb688cb090f2,docs: update release notes"
+35	0	docs/docs/release-notes/0.17.md
+1	1	docs/docusaurus.config.ts
+1	1	docs/sidebars.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Sep 2 14:13:09 2024 +0200	db6ceb5716116c05754869731a1b525e7d91ffed,docs: improve documentation for dependency rules"
+159	34	docs/docs/dependency-rules.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Aug 29 19:42:35 2024 +0200	2cf1563fe8860151568951e755e7a8c4b3272ef0,fix(core): dependency rules - from tags"
+20	15	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+0	232	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+10	10	packages/core/src/lib/checks/is-dependency-allowed.ts
+5	5	packages/core/src/lib/checks/{ => tests}/check-for-deep-imports.spec.ts
+94	33	packages/core/src/lib/checks/{ => tests}/check-for-dependency-rule-violation.spec.ts
+213	0	packages/core/src/lib/checks/tests/is-dependency-allowed.spec.ts
+1	1	packages/core/src/lib/cli/tests/__snapshots__/verify.spec.ts.snap
+1	1	packages/core/src/lib/cli/verify.ts
+1	1	packages/core/src/lib/config/parse-config.spec.ts
+46	0	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+2	2	packages/core/src/lib/eslint/violates-dependency-rule.ts
+12	0	packages/core/src/lib/extend.extensions.d.ts
+1	1	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+1	1	packages/core/src/lib/fs/virtual-fs.spec.ts
+1	1	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+0	16	packages/core/src/lib/test/{matchers.ts => expect.extensions.ts}
+12	5	test-projects/angular-i/integration-test.sh
+4	3	test-projects/angular-i/sheriff.config.ts
+39	0	test-projects/angular-i/sheriff.config.ts.original
+4	3	test-projects/angular-i/tests/dynamic-import-sheriff.config.ts
+43	0	test-projects/angular-i/tests/expected/cli-export.txt
+10	10	test-projects/angular-i/tests/expected/cli-list.txt
+35	0	test-projects/angular-i/tests/expected/cli-verify-failure.txt
+0	0	test-projects/angular-i/tests/expected/{cli-verify.txt => cli-verify-success.txt}
+1	1	test-projects/angular-i/tests/expected/dependency-rule-lint.json
+3	3	test-projects/angular-i/tests/expected/dynamic-import-lint.json
+38	0	test-projects/angular-i/tests/sheriff.config-failure.ts
+2	1	test-projects/angular-ii/sheriff.config.ts
+4	3	test-projects/angular-iii/sheriff.config.ts
+12	5	test-projects/angular-iv/integration-test.sh
+4	3	test-projects/angular-iv/sheriff.config.ts
+1	1	test-projects/angular-iv/tests/customers-container.deep-import.component.ts
+4	3	test-projects/angular-iv/tests/dynamic-import-sheriff.config.ts
+43	0	test-projects/angular-iv/tests/expected/cli-export.txt
+10	10	test-projects/angular-iv/tests/expected/cli-list.txt
+35	0	test-projects/angular-iv/tests/expected/cli-verify-failure.txt
+0	0	test-projects/angular-iv/tests/expected/{cli-verify.txt => cli-verify-success.txt}
+2	2	test-projects/angular-iv/tests/expected/deep-import-lint.json
+1	1	test-projects/angular-iv/tests/expected/dependency-rule-lint.json
+3	3	test-projects/angular-iv/tests/expected/dynamic-import-lint.json
+38	0	test-projects/angular-iv/tests/sheriff.config-failure.ts
+1	0	vitest.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Aug 29 22:57:51 2024 +0200	f3d7e3084ab7fd4e03e5834d968d4f909c759255,chore: release 0.16.4"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Aug 29 22:35:05 2024 +0200	9636ec0a519d3d0a2adc365c9623fa8629f75a4c,feat(core): support projectData with relative paths"
+68	5	packages/core/src/lib/api/get-project-data.ts
+3	15	packages/core/src/lib/cli/export-data.ts
+6	3	packages/core/src/lib/cli/internal/get-entry-from-cli-or-config.ts
+1	1	packages/core/src/lib/cli/tests/export-data.spec.ts
+4	4	packages/core/src/lib/cli/tests/verify-cli-wrapper.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Aug 29 21:40:21 2024 +0200	d6a89525b19e41b22a1ae0bccb6772480a658651,chore: release 0.16.3"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Aug 29 21:30:03 2024 +0200	f220da8b9f8c47025a8c04e310bf8be186422274,chore(eslint-plugin): set min. version of @typescript-eslint/utils to 5.48.2"
+1	1	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Aug 29 20:35:19 2024 +0200	a9cd00773b30de6ef63891eb3b30b8195af157b8,refactor(core): rename `createDump` to `getProjectData`"
+1	1	packages/core/src/index.ts
+77	0	packages/core/src/lib/api/get-project-data.ts
+12	42	packages/core/src/lib/cli/export-data.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Aug 19 18:26:13 2024 +0200	b26c63ee7d78d1b43f51bdd703ab33f9a0214d23,chore: setup nx release"
+7	1	nx.json
+
+"Manfred Steyer <manfred.steyer@gmx.net>,Thu Aug 29 21:16:52 2024 +0200	e3e3f43d3805d8771407682fb0542f939a1d24b9,fix(core): `createDump` now takes an optional entry point"
+4	6	packages/core/src/lib/cli/export-data.ts
+
+"Manfred Steyer <manfred.steyer@gmx.net>,Wed Aug 28 21:42:32 2024 +0200	3b4cfefc00d61963ea8ea730d558645249f175cc,feat(core): expose api for export"
+1	0	packages/core/src/index.ts
+9	3	packages/core/src/lib/cli/export-data.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Aug 19 18:06:01 2024 +0200	db1d3f45a7b36c64abd604405e2c122048d19a87,chore: release 0.16.2"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Aug 19 14:17:33 2024 +0200	ff2ab4fe6c1b43a6cfbdf6d754f40cdf66521691,fix(eslint): remove parser from eslint plugin"
+0	2	packages/eslint-plugin/src/lib/configs/all.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Aug 19 13:52:44 2024 +0200	3f64e259420cfb812b9ca66cabb9e98de5dee7e8,test: isolated integration tests"
+1	1	.github/workflows/build.yml
+4	1	.gitignore
+10	0	DEVELOPMENT.md
+1	1	package.json
+65	20	packages/core/src/lib/file-info/traverse-filesystem.ts
+4	0	packages/core/src/lib/fs/default-fs.ts
+2	0	packages/core/src/lib/fs/fs.ts
+5	0	packages/core/src/lib/fs/virtual-fs.ts
+18	7	run-integration-tests.sh
+15	8	test-projects/angular-i/integration-test.sh
+1	1	test-projects/angular-i/tests/customers-container.deep-import.component.ts
+2	2	test-projects/angular-i/tests/expected/deep-import-lint.json
+15	8	test-projects/angular-iv/integration-test.sh
+5	1	test-projects/remove-paths.mjs
+6	1	test-projects/typescript-i/integration-test.sh
+566	38	test-projects/typescript-i/package-lock.json
+2	1	test-projects/typescript-i/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jul 24 23:28:28 2024 +0200	c45c4fd7ca4570e3a48fd6e40ee7132dd55769e9,chore: release 0.16.1"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jul 24 23:26:27 2024 +0200	9db03a930c64d05be824e4a692c6ccd296d48079,fix: add tsconfig for specs"
+2	0	packages/core/tsconfig.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jul 24 23:13:12 2024 +0200	3e942b085b45839bf58fd56adccb3150f8598612,refactor: cli gets version directly from package.json"
+2	1	packages/core/src/lib/cli/main.ts
+0	10	packages/core/src/lib/cli/tests/helpers/get-package-json-version.ts
+2	2	packages/core/src/lib/cli/tests/main.spec.ts
+2	2	packages/core/src/lib/cli/tests/version.spec.ts
+2	1	packages/core/src/lib/cli/version.ts
+3	1	packages/core/tsconfig.lib.json
+11	0	packages/core/tsconfig.spec.json
+1	1	packages/eslint-plugin/tsconfig.lib.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jul 24 22:40:28 2024 +0200	a0b61715100f6f7166b1bd664418700904671250,fix: add types to all ESLint config"
+8	2	packages/eslint-plugin/src/index.ts
+6	2	packages/eslint-plugin/src/lib/configs/all.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Jul 22 14:30:00 2024 +0200	409cf7efd8dc4f12812af5677884ff1ee5e7c1ce,chore: release 0.16.0"
+1	1	packages/core/package.json
+1	1	packages/core/src/lib/cli/main.ts
+1	1	packages/core/src/lib/cli/version.ts
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Jul 20 13:53:29 2024 +0200	72da15bb86ef65294138332120a89ee830e33cd2,docs: add roadmap"
+29	0	docs/docs/roadmap.md
+5	0	docs/docusaurus.config.ts
+1	13	docs/sidebars.ts
+1	1	docs/src/components/HomepageFeatures/index.tsx
+28	27	eslint.config.js
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Jul 19 13:15:03 2024 +0200	6e3962280fb6b2901f2f86082a2003a0dad355de,docs: update docs with new ESLint flat config"
+1	0	docs/docs/cli.md
+1	0	docs/docs/dependency-rules.md
+123	9	docs/docs/installation.md
+1	0	docs/docs/integration.md
+1	0	docs/docs/introduction.md
+1	0	docs/docs/module_boundaries.md
+50	0	docs/docs/release-notes/0.16.md
+8	10	docs/docusaurus.config.ts
+2	1	docs/sidebars.ts
+151	210	docs/yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Jul 9 12:47:15 2024 +0200	def3ff3e57d64f01c3e56c22618385f91fc2457c,feat: finalize ESLint flat config"
+0	1	.eslintignore
+0	79	.eslintrc.json
+1	1	.github/workflows/build.yml
+30	0	eslint.config.js
+12	16	package.json
+0	18	packages/core/.eslintrc.json
+4	4	packages/core/src/lib/cli/tests/helpers/mock-cli.ts
+0	9	packages/core/src/lib/config/dependency-rules-config-example.ts
+0	30	packages/core/src/lib/config/tag-config-example.ts
+25	0	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+7	0	packages/core/src/lib/eslint/violates-dependency-rule.ts
+1	1	packages/core/src/lib/file-info/generate-ts-data.ts
+1	1	packages/core/src/lib/file-info/ts-data.ts
+1	1	packages/core/src/lib/test/matchers.ts
+0	1	packages/core/src/lib/test/project-configurator.ts
+0	18	packages/eslint-plugin/.eslintrc.json
+1	1	packages/eslint-plugin/package.json
+7	24	packages/eslint-plugin/src/index.ts
+15	0	packages/eslint-plugin/src/lib/configs/all.ts
+0	8	packages/eslint-plugin/src/lib/configs/legacy-all.json
+10	0	packages/eslint-plugin/src/lib/configs/legacy.ts
+0	16	packages/eslint-plugin/src/lib/configs/ts-all.ts
+0	15	packages/eslint-plugin/src/lib/configs/ts-base.ts
+2	3	packages/eslint-plugin/src/lib/rules/create-rule.spec.ts
+4	3	packages/eslint-plugin/src/lib/rules/create-rule.ts
+2	2	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+2	2	packages/eslint-plugin/src/lib/rules/dependency-rule.spec.ts
+16	3	run-integration-tests.sh
+2	9	test-projects/angular-i/.gitignore
+0	1	test-projects/angular-i/dependency-rule-lint.json
+26	21	test-projects/angular-i/integration-test.sh
+0	0	test-projects/{angular-iiii/src/app/app.component.scss => angular-i/tests/actual/.gitkeep}
+0	0	test-projects/angular-i/tests/{expected-auto-tagging-lint.json => expected/auto-tagging-lint.json}
+0	0	test-projects/angular-i/tests/{expected-cli-export.txt => expected/cli-export.txt}
+0	0	test-projects/angular-i/tests/{expected-cli-list.txt => expected/cli-list.txt}
+0	0	test-projects/angular-i/tests/{expected-cli-verify.txt => expected/cli-verify.txt}
+2	2	test-projects/angular-i/tests/{expected-deep-import-lint.json => expected/deep-import-lint.json}
+2	2	test-projects/angular-i/tests/{expected-dependency-rule-lint.json => expected/dependency-rule-lint.json}
+2	2	test-projects/angular-i/tests/{expected-dynamic-import-lint.json => expected/dynamic-import-lint.json}
+145	145	test-projects/angular-i/tests/{expected-user-error-lint.json => expected/user-error-lint.json}
+0	4	test-projects/angular-iiii/.vscode/extensions.json
+0	20	test-projects/angular-iiii/.vscode/launch.json
+0	42	test-projects/angular-iiii/.vscode/tasks.json
+0	42	test-projects/angular-iiii/package.json
+-	-	test-projects/angular-iiii/public/favicon.ico
+0	336	test-projects/angular-iiii/src/app/app.component.html
+0	29	test-projects/angular-iiii/src/app/app.component.spec.ts
+0	8	test-projects/angular-iiii/src/app/app.config.ts
+0	3	test-projects/angular-iiii/src/app/app.routes.ts
+0	13	test-projects/angular-iiii/src/index.html
+0	6	test-projects/angular-iiii/src/main.ts
+0	1	test-projects/angular-iiii/src/styles.scss
+0	32	test-projects/angular-iiii/tsconfig.json
+0	0	test-projects/{angular-iiii => angular-iv}/.editorconfig
+3	1	test-projects/{angular-iiii => angular-iv}/.gitignore
+3	3	test-projects/{angular-iiii => angular-iv}/README.md
+36	35	test-projects/{angular-iiii => angular-iv}/angular.json
+4	4	test-projects/{angular-iiii => angular-iv}/eslint.config.js
+57	0	test-projects/angular-iv/integration-test.sh
+55	0	test-projects/angular-iv/package.json
+38	0	test-projects/angular-iv/sheriff.config.ts
+17	0	test-projects/angular-iv/src/app/app.component.html
+27	0	test-projects/angular-iv/src/app/app.component.scss
+27	0	test-projects/angular-iv/src/app/app.component.ts
+31	0	test-projects/angular-iv/src/app/app.routes.ts
+11	0	test-projects/angular-iv/src/app/bookings/+state/bookings.actions.ts
+53	0	test-projects/angular-iv/src/app/bookings/+state/bookings.effects.ts
+41	0	test-projects/angular-iv/src/app/bookings/+state/bookings.reducer.ts
+5	0	test-projects/angular-iv/src/app/bookings/+state/bookings.selectors.ts
+17	0	test-projects/angular-iv/src/app/bookings/bookings.routes.ts
+1	0	test-projects/angular-iv/src/app/bookings/index.ts
+30	0	test-projects/angular-iv/src/app/bookings/overview/overview.component.html
+56	0	test-projects/angular-iv/src/app/bookings/overview/overview.component.ts
+10	0	test-projects/angular-iv/src/app/customers/api/index.ts
+46	0	test-projects/angular-iv/src/app/customers/data/customers-repository.service.ts
+18	0	test-projects/angular-iv/src/app/customers/data/customers.actions.ts
+72	0	test-projects/angular-iv/src/app/customers/data/customers.effects.ts
+7	0	test-projects/angular-iv/src/app/customers/data/customers.json
+53	0	test-projects/angular-iv/src/app/customers/data/customers.reducer.ts
+39	0	test-projects/angular-iv/src/app/customers/data/customers.selectors.ts
+2	0	test-projects/angular-iv/src/app/customers/data/index.ts
+9	0	test-projects/angular-iv/src/app/customers/data/provide-customers.ts
+36	0	test-projects/angular-iv/src/app/customers/feature/components/add-customer.component.ts
+41	0	test-projects/angular-iv/src/app/customers/feature/components/customers-container.component.ts
+1	0	test-projects/angular-iv/src/app/customers/feature/components/customers-root/customers-root.component.html
+2	6	test-projects/{angular-iiii/src/app/app.component.ts => angular-iv/src/app/customers/feature/components/customers-root/customers-root.component.ts}
+68	0	test-projects/angular-iv/src/app/customers/feature/components/edit-customer.component.ts
+32	0	test-projects/angular-iv/src/app/customers/feature/customers.routes.ts
+1	0	test-projects/angular-iv/src/app/customers/feature/index.ts
+15	0	test-projects/angular-iv/src/app/customers/feature/services/data.guard.ts
+158	0	test-projects/angular-iv/src/app/customers/feature/services/data.ts
+26	0	test-projects/angular-iv/src/app/customers/model/customer.ts
+1	0	test-projects/angular-iv/src/app/customers/model/index.ts
+15	0	test-projects/angular-iv/src/app/customers/ui/customer.pipe.ts
+76	0	test-projects/angular-iv/src/app/customers/ui/customer/customer.component.html
+8	0	test-projects/angular-iv/src/app/customers/ui/customer/customer.component.scss
+63	0	test-projects/angular-iv/src/app/customers/ui/customer/customer.component.ts
+64	0	test-projects/angular-iv/src/app/customers/ui/customers/customers.component.html
+68	0	test-projects/angular-iv/src/app/customers/ui/customers/customers.component.ts
+5	0	test-projects/angular-iv/src/app/customers/ui/index.ts
+14	0	test-projects/angular-iv/src/app/holidays/feature/+state/holidays.actions.ts
+51	0	test-projects/angular-iv/src/app/holidays/feature/+state/holidays.effects.ts
+40	0	test-projects/angular-iv/src/app/holidays/feature/+state/holidays.reducer.ts
+17	0	test-projects/angular-iv/src/app/holidays/feature/+state/holidays.selectors.ts
+19	0	test-projects/angular-iv/src/app/holidays/feature/address-lookuper.service.ts
+6	0	test-projects/angular-iv/src/app/holidays/feature/address.ts
+27	0	test-projects/angular-iv/src/app/holidays/feature/holidays.routes.ts
+47	0	test-projects/angular-iv/src/app/holidays/feature/holidays/holidays.component.spec.ts
+43	0	test-projects/angular-iv/src/app/holidays/feature/holidays/holidays.component.ts
+2	0	test-projects/angular-iv/src/app/holidays/feature/index.ts
+22	0	test-projects/angular-iv/src/app/holidays/feature/parse-address.spec.ts
+20	0	test-projects/angular-iv/src/app/holidays/feature/parse-address.ts
+29	0	test-projects/angular-iv/src/app/holidays/feature/request-info/request-info.component.harness.ts
+15	0	test-projects/angular-iv/src/app/holidays/feature/request-info/request-info.component.html
+56	0	test-projects/angular-iv/src/app/holidays/feature/request-info/request-info.component.ts
+39	0	test-projects/angular-iv/src/app/holidays/model/holiday.ts
+1	0	test-projects/angular-iv/src/app/holidays/model/index.ts
+45	0	test-projects/angular-iv/src/app/holidays/ui/holiday-card/holiday-card.component.html
+100	0	test-projects/angular-iv/src/app/holidays/ui/holiday-card/holiday-card.component.scss
+29	0	test-projects/angular-iv/src/app/holidays/ui/holiday-card/holiday-card.component.ts
+1	0	test-projects/angular-iv/src/app/holidays/ui/index.ts
+3	0	test-projects/angular-iv/src/app/shared/config/configuration.ts
+1	0	test-projects/angular-iv/src/app/shared/config/index.ts
+16	0	test-projects/angular-iv/src/app/shared/form/form-errors.component.ts
+2	0	test-projects/angular-iv/src/app/shared/form/index.ts
+6	0	test-projects/angular-iv/src/app/shared/form/options.ts
+24	0	test-projects/angular-iv/src/app/shared/http/base-url.interceptor.ts
+5	0	test-projects/angular-iv/src/app/shared/http/error-message.context.ts
+23	0	test-projects/angular-iv/src/app/shared/http/error.interceptor.ts
+3	0	test-projects/angular-iv/src/app/shared/http/index.ts
+6	0	test-projects/angular-iv/src/app/shared/http/with-error-message-context.ts
+46	0	test-projects/angular-iv/src/app/shared/master-data/+state/master.reducer.ts
+2	0	test-projects/angular-iv/src/app/shared/master-data/index.ts
+4	0	test-projects/angular-iv/src/app/shared/master-data/shared-master-data.provider.ts
+5	0	test-projects/angular-iv/src/app/shared/ngrx-utils/deep-clone.ts
+8	0	test-projects/angular-iv/src/app/shared/ngrx-utils/filter-defined.ts
+5	0	test-projects/angular-iv/src/app/shared/ngrx-utils/index.ts
+1	0	test-projects/angular-iv/src/app/shared/ngrx-utils/load-status.ts
+3	0	test-projects/angular-iv/src/app/shared/ngrx-utils/noop.action.ts
+14	0	test-projects/angular-iv/src/app/shared/ngrx-utils/safe-concat-map.ts
+2	0	test-projects/angular-iv/src/app/shared/security/index.ts
+14	0	test-projects/angular-iv/src/app/shared/security/security.actions.ts
+38	0	test-projects/angular-iv/src/app/shared/security/security.effects.ts
+9	0	test-projects/angular-iv/src/app/shared/security/security.provider.ts
+43	0	test-projects/angular-iv/src/app/shared/security/security.reducer.ts
+16	0	test-projects/angular-iv/src/app/shared/security/security.selectors.ts
+51	0	test-projects/angular-iv/src/app/shared/security/security.service.ts
+3	0	test-projects/angular-iv/src/app/shared/testing/assert-type.ts
+2	0	test-projects/angular-iv/src/app/shared/testing/index.ts
+53	0	test-projects/angular-iv/src/app/shared/testing/mock-inject.ts
+6	0	test-projects/angular-iv/src/app/shared/ui-messaging/index.ts
+19	0	test-projects/angular-iv/src/app/shared/ui-messaging/loader/loader.component.ts
+33	0	test-projects/angular-iv/src/app/shared/ui-messaging/loader/loading.interceptor.ts
+16	0	test-projects/angular-iv/src/app/shared/ui-messaging/loader/loading.service.ts
+3	0	test-projects/angular-iv/src/app/shared/ui-messaging/loader/silent-load.context.ts
+6	0	test-projects/angular-iv/src/app/shared/ui-messaging/loader/with-silent-load-context.ts
+26	0	test-projects/angular-iv/src/app/shared/ui-messaging/message/confirmation.component.ts
+13	0	test-projects/angular-iv/src/app/shared/ui-messaging/message/message.component.html
+53	0	test-projects/angular-iv/src/app/shared/ui-messaging/message/message.component.ts
+33	0	test-projects/angular-iv/src/app/shared/ui-messaging/message/message.service.ts
+14	0	test-projects/angular-iv/src/app/shared/ui-messaging/message/message.store.ts
+4	0	test-projects/angular-iv/src/app/shared/ui-messaging/message/message.ts
+13	0	test-projects/angular-iv/src/app/shared/ui-messaging/shared-ui-messaging.provider.ts
+30	0	test-projects/angular-iv/src/app/shared/ui/blinker.directive.ts
+1	0	test-projects/angular-iv/src/app/shared/ui/index.ts
+5	0	test-projects/angular-iv/src/app/shared/util/assert-defined.ts
+3	0	test-projects/angular-iv/src/app/shared/util/index.ts
+3	0	test-projects/angular-iv/src/app/shared/util/is-defined.ts
+6	0	test-projects/angular-iv/src/app/shared/util/safe-assign.ts
+23	0	test-projects/angular-iv/src/app/shell/header/header.component.html
+26	0	test-projects/angular-iv/src/app/shell/header/header.component.scss
+21	0	test-projects/angular-iv/src/app/shell/header/header.component.ts
+15	0	test-projects/angular-iv/src/app/shell/home.component.ts
+13	0	test-projects/angular-iv/src/app/shell/services/error-handler.service.ts
+22	0	test-projects/angular-iv/src/app/shell/services/user-loader.guard.ts
+20	0	test-projects/angular-iv/src/app/shell/sidemenu/sidemenu.component.html
+10	0	test-projects/angular-iv/src/app/shell/sidemenu/sidemenu.component.scss
+18	0	test-projects/angular-iv/src/app/shell/sidemenu/sidemenu.component.ts
+0	0	test-projects/angular-iv/src/assets/.gitkeep
+-	-	test-projects/angular-iv/src/assets/copenhagen.jpg
+-	-	test-projects/angular-iv/src/assets/darmstadt-small.jpg
+-	-	test-projects/angular-iv/src/assets/darmstadt.jpg
+-	-	test-projects/angular-iv/src/assets/detroit.jpg
+-	-	test-projects/angular-iv/src/assets/firenze.jpg
+-	-	test-projects/angular-iv/src/assets/granada.jpg
+-	-	test-projects/angular-iv/src/assets/large-bg.jpg
+-	-	test-projects/angular-iv/src/assets/logo.png
+-	-	test-projects/angular-iv/src/assets/london.jpg
+-	-	test-projects/angular-iv/src/assets/luebeck.jpg
+-	-	"test-projects/angular-iv/src/assets/reykjav\303\255k.jpg"
+-	-	test-projects/angular-iv/src/assets/shanghai.jpg
+-	-	test-projects/angular-iv/src/assets/vienna-small.jpg
+-	-	test-projects/angular-iv/src/assets/vienna.jpg
+3	0	test-projects/angular-iv/src/environments/environment.development.ts
+3	0	test-projects/angular-iv/src/environments/environment.ts
+-	-	test-projects/angular-iv/src/favicon.ico
+21	0	test-projects/angular-iv/src/index.html
+75	0	test-projects/angular-iv/src/main.ts
+86	0	test-projects/angular-iv/src/styles.scss
+8	0	test-projects/angular-iv/tailwind.config.js
+0	0	test-projects/angular-iv/tests/actual/.gitkeep
+8	0	test-projects/angular-iv/tests/auto-tagging.config.ts
+66	0	test-projects/angular-iv/tests/customer.dependency-rule.component.ts
+41	0	test-projects/angular-iv/tests/customers-container.deep-import.component.ts
+38	0	test-projects/angular-iv/tests/dynamic-import-sheriff.config.ts
+7	0	test-projects/angular-iv/tests/empty-sheriff.config.ts
+1	0	test-projects/angular-iv/tests/expected/auto-tagging-lint.json
+929	0	test-projects/angular-iv/tests/expected/cli-export.txt
+27	0	test-projects/angular-iv/tests/expected/cli-list.txt
+4	0	test-projects/angular-iv/tests/expected/cli-verify.txt
+25	0	test-projects/angular-iv/tests/expected/deep-import-lint.json
+25	0	test-projects/angular-iv/tests/expected/dependency-rule-lint.json
+45	0	test-projects/angular-iv/tests/expected/dynamic-import-lint.json
+1658	0	test-projects/angular-iv/tests/expected/user-error-lint.json
+0	0	test-projects/{angular-iiii => angular-iv}/tsconfig.app.json
+51	0	test-projects/angular-iv/tsconfig.json
+0	0	test-projects/{angular-iiii => angular-iv}/tsconfig.spec.json
+3839	2113	test-projects/{angular-iiii => angular-iv}/yarn.lock
+12	0	test-projects/remove-paths.mjs
+0	22	test-projects/typescript-i/.eslintrc.extend.json
+0	0	test-projects/typescript-i/{ => configs}/.eslintrc.json
+8	0	test-projects/typescript-i/configs/eslint.config.js
+28	13	test-projects/typescript-i/integration-test.sh
+103	1	test-projects/typescript-i/tests/expected-lint.json
+0	40	test-projects/verify-linter.mjs
+11	13	vitest.config.ci.ts
+10	11	vitest.config.ts
+4685	0	yarn.lock
+
+"sts <sts@guidnew.com>,Wed May 29 19:20:20 2024 -0500	cf10d606d83d1840437a3c3d787cf23d678df930,feat: add support for flat config"
+1	1	.github/workflows/build.yml
+2	1	packages/eslint-plugin/package.json
+26	8	packages/eslint-plugin/src/index.ts
+0	10	packages/eslint-plugin/src/lib/config.ts
+8	0	packages/eslint-plugin/src/lib/configs/legacy-all.json
+16	0	packages/eslint-plugin/src/lib/configs/ts-all.ts
+15	0	packages/eslint-plugin/src/lib/configs/ts-base.ts
+3	4	packages/eslint-plugin/src/lib/rules/create-rule.ts
+7	0	packages/eslint-plugin/src/lib/rules/index.ts
+2	0	packages/eslint-plugin/tsconfig.lib.json
+1	1	test-projects/angular-i/.eslintrc.json
+5	13	test-projects/angular-ii/.eslintrc.json
+1	1	test-projects/angular-iii/.eslintrc.json
+16	0	test-projects/angular-iiii/.editorconfig
+42	0	test-projects/angular-iiii/.gitignore
+4	0	test-projects/angular-iiii/.vscode/extensions.json
+20	0	test-projects/angular-iiii/.vscode/launch.json
+42	0	test-projects/angular-iiii/.vscode/tasks.json
+27	0	test-projects/angular-iiii/README.md
+117	0	test-projects/angular-iiii/angular.json
+48	0	test-projects/angular-iiii/eslint.config.js
+42	0	test-projects/angular-iiii/package.json
+-	-	test-projects/angular-iiii/public/favicon.ico
+336	0	test-projects/angular-iiii/src/app/app.component.html
+0	0	test-projects/angular-iiii/src/app/app.component.scss
+29	0	test-projects/angular-iiii/src/app/app.component.spec.ts
+13	0	test-projects/angular-iiii/src/app/app.component.ts
+8	0	test-projects/angular-iiii/src/app/app.config.ts
+3	0	test-projects/angular-iiii/src/app/app.routes.ts
+13	0	test-projects/angular-iiii/src/index.html
+6	0	test-projects/angular-iiii/src/main.ts
+1	0	test-projects/angular-iiii/src/styles.scss
+14	0	test-projects/angular-iiii/tsconfig.app.json
+32	0	test-projects/angular-iiii/tsconfig.json
+14	0	test-projects/angular-iiii/tsconfig.spec.json
+7615	0	test-projects/angular-iiii/yarn.lock
+1	1	test-projects/typescript-i/.eslintrc.extend.json
+1	1	test-projects/typescript-i/.eslintrc.json
+0	4899	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jul 17 17:31:35 2024 +0800	ee718ec585eb660390d7647be1d226949930768e,test: add TypeScript 5.5 to tests"
+2	1	test-projects/typescript-i/integration-test.sh
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jul 17 17:13:20 2024 +0800	5cdb399f2620de317b32265c28325132da129404,feat: disable nx cloud"
+1	1	nx.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Jul 15 12:11:37 2024 +0800	9f77f8cdaaec24cef6d0d5733afe9d4e2445db31,ci: run sheriff.full-spec.ts only in the CI (#104)"
+1	1	.github/workflows/build.yml
+1	1	package.json
+8	4	packages/core/src/{lib/file-info/integration.spec.ts => sheriff.full-spec.ts}
+14	0	vitest.config.ci.ts
+6	4	vitest.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Jul 15 01:00:56 2024 +0800	e8dda154d2786adda6638d2ab49e44f3e18c40fa,docs: bring back logo to readme"
+3	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Jul 14 11:39:45 2024 +0800	c9a409cd6b8abe41e67a167642280387263e65a5,docs: shorten readme and link to docs"
+12	526	README.md
+
+"Philipp Kief <philipp.kief@gmx.de>,Thu Jul 11 10:17:28 2024 +0200	2a3b99ab7b6a8aa465efbfe4db0538c014ed54af,fix(core): Reset color if no issues are found"
+1	1	packages/core/src/lib/cli/tests/__snapshots__/verify.spec.ts.snap
+1	1	packages/core/src/lib/cli/verify.ts
+1	1	test-projects/angular-i/tests/expected-cli-verify.txt
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Jul 4 01:37:43 2024 +0200	7f3aeb3198213802d54e2c03f75b59bc307ff765,ci: use better social card"
+1	1	docs/docusaurus.config.ts
+-	-	docs/static/img/docusaurus-social-card.jpg
+-	-	docs/static/img/social-card.png
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Jul 4 01:30:38 2024 +0200	a0d7dd9353fe7d6a3e32ea452806eed17a6fb85d,ci: use sheriff logo as social card"
+1	1	docs/docusaurus.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Jul 4 01:22:36 2024 +0200	b528b2af479a9277b34952419ae33b4bd752918f,ci: fix image paths"
+2	2	docs/docs/module_boundaries.md
+1	1	docs/src/pages/index.tsx
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Jul 4 00:15:43 2024 +0200	996a4830e21b8dc05d44795d7ee6ce058e2da001,ci: set base url for docs"
+1	1	docs/docusaurus.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Jul 4 00:10:35 2024 +0200	4f664e20986b1776b336332465f1cda66992b34d,ci: fix build path"
+1	1	.github/workflows/deploy-docs.yml
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jul 3 23:29:41 2024 +0200	a029c67897b8fa2e4610c23af1f63f7b0af15cd1,ci: add actions for docs deployment"
+55	0	.github/workflows/deploy-docs.yml
+30	0	.github/workflows/test-deploy-docs.yml
+1	1	docs/docs/dependency-rules.md
+1	1	docs/docs/installation.md
+6	3	docs/docusaurus.config.ts
+
+"sts <sts@guidnew.com>,Wed May 29 19:20:20 2024 -0500	1f8d49b70a8f7442b2508b25fcc0840eb7792f7e,docs: add docusaurus"
+20	0	docs/.gitignore
+41	0	docs/README.md
+3	0	docs/babel.config.js
+28	0	docs/docs/cli.md
+288	0	docs/docs/dependency-rules.md
+76	0	docs/docs/installation.md
+82	0	docs/docs/integration.md
+10	0	docs/docs/introduction.md
+16	0	docs/docs/module_boundaries.md
+101	0	docs/docusaurus.config.ts
+48	0	docs/package.json
+31	0	docs/sidebars.ts
+76	0	docs/src/components/HomepageFeatures/index.tsx
+11	0	docs/src/components/HomepageFeatures/styles.module.css
+46	0	docs/src/css/custom.css
+38	0	docs/src/pages/index.module.css
+52	0	docs/src/pages/index.tsx
+7	0	docs/src/pages/markdown-page.md
+0	0	docs/static/.nojekyll
+-	-	docs/static/img/dependency-rules-1.png
+-	-	docs/static/img/docusaurus-social-card.jpg
+-	-	docs/static/img/docusaurus.png
+-	-	docs/static/img/favicon.ico
+-	-	docs/static/img/logo.png
+1	0	docs/static/img/logo.svg
+24	0	docs/static/img/modularity-dark.svg
+24	0	docs/static/img/modularity.svg
+-	-	docs/static/img/module-boundaries-1.png
+-	-	docs/static/img/module-boundaries-2.png
+35	0	docs/static/img/simple.svg
+33	0	docs/static/img/simplicity-dark.svg
+1421	0	docs/static/img/simplicity.ai
+31	0	docs/static/img/simplicity.svg
+171	0	docs/static/img/undraw_docusaurus_mountain.svg
+170	0	docs/static/img/undraw_docusaurus_react.svg
+40	0	docs/static/img/undraw_docusaurus_tree.svg
+24	0	docs/static/img/zero-dependencies-dark.svg
+20	0	docs/static/img/zero-dependencies.svg
+7	0	docs/tsconfig.json
+9114	0	docs/yarn.lock
+1	1	vitest.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Jun 1 14:57:34 2024 +0300	9fbf54819aa9fe7eaa58b65c36c9fcd3bf59ace1,chore: release 0.15.1"
+1	1	packages/core/package.json
+1	1	packages/core/src/lib/cli/main.ts
+1	1	packages/core/src/lib/cli/version.ts
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Jun 1 13:57:27 2024 +0300	a1394f8d7bd584f42aa6021a2e75e1ab1fde5562,feat(core): add version to cli"
+7	6	packages/core/src/lib/cli/main.ts
+10	0	packages/core/src/lib/cli/tests/helpers/get-package-json-version.ts
+10	0	packages/core/src/lib/cli/tests/main.spec.ts
+11	0	packages/core/src/lib/cli/tests/version.spec.ts
+11	0	packages/core/src/lib/cli/version.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Jun 1 12:37:11 2024 +0300	af89ea819ff33c45e3eb63612ed62b63725efd80,docs(core): add npm version to readme"
+5	0	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri May 31 15:53:22 2024 +0300	5becad84f8ba2fbc16fc78b5176817bcab65b336,test(core): add json imports in integration tests"
+7	0	test-projects/angular-i/src/app/customers/data/customers.json
+1	0	test-projects/angular-i/src/app/customers/data/provide-customers.ts
+1	1	test-projects/angular-i/tests/expected-user-error-lint.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri May 31 14:57:44 2024 +0300	fa43e3756eca07026f1aa5abc2f50b0f32962a66,fix(core): ignore json imports"
+25	0	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+3	1	packages/core/src/lib/file-info/traverse-filesystem.ts
+1	1	packages/core/src/lib/test/project-creator.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri May 31 00:56:49 2024 +0300	9d4f397d04f15bea223e0b0263263faf6efa7b45,chore: release 0.15.0"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Feb 6 01:28:30 2024 +0100	56b3c929ab97778991495406b1399b07059fe505,feat(core): add CLI"
+62	13	README.md
+3	2	package.json
+3	0	packages/core/package.json
+12	0	packages/core/src/bin/main.ts
+3	2	packages/core/src/lib/checks/check-for-deep-imports.ts
+16	0	packages/core/src/lib/checks/check-for-dependency-rule-violation.spec.ts
+9	7	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+7	0	packages/core/src/lib/cli/cli.ts
+50	0	packages/core/src/lib/cli/export-data.ts
+42	0	packages/core/src/lib/cli/init.ts
+25	0	packages/core/src/lib/cli/internal/get-entry-from-cli-or-config.ts
+24	0	packages/core/src/lib/cli/internal/handle-error.ts
+87	0	packages/core/src/lib/cli/list.ts
+57	0	packages/core/src/lib/cli/main.ts
+30	0	packages/core/src/lib/cli/tests/__snapshots__/init.spec.ts.snap
+50	0	packages/core/src/lib/cli/tests/__snapshots__/list.spec.ts.snap
+47	0	packages/core/src/lib/cli/tests/__snapshots__/verify.spec.ts.snap
+223	0	packages/core/src/lib/cli/tests/export-data.spec.ts
+81	0	packages/core/src/lib/cli/tests/get-entry-from-cli-or-file.spec.ts
+45	0	packages/core/src/lib/cli/tests/handle-error.spec.ts
+22	0	packages/core/src/lib/cli/tests/helpers/mock-cli.ts
+39	0	packages/core/src/lib/cli/tests/init.spec.ts
+167	0	packages/core/src/lib/cli/tests/list.spec.ts
+46	0	packages/core/src/lib/cli/tests/verify-cli-wrapper.ts
+84	0	packages/core/src/lib/cli/tests/verify.spec.ts
+84	0	packages/core/src/lib/cli/verify.ts
+2	0	packages/core/src/lib/config/default-config.ts
+4	0	packages/core/src/lib/config/parse-config.spec.ts
+4	1	packages/core/src/lib/config/sheriff-config.ts
+5	0	packages/core/src/lib/config/user-sheriff-config.ts
+0	1	packages/core/src/lib/eslint/deep-import.ts
+51	0	packages/core/src/lib/main/init.spec.ts
+16	10	packages/core/src/lib/main/init.ts
+3	2	packages/core/src/lib/main/parse-project.ts
+1	0	packages/core/src/lib/modules/create-module.spec.ts
+3	3	packages/core/src/lib/modules/create-modules.ts
+8	8	packages/core/src/lib/modules/find-module-paths.spec.ts
+8	8	packages/core/src/lib/modules/module.ts
+23	0	packages/core/src/lib/modules/traverse-file-info.ts
+8	2	packages/core/src/lib/test/project-creator.ts
+4	0	test-projects/angular-i/.gitignore
+15	0	test-projects/angular-i/integration-test.sh
+929	0	test-projects/angular-i/tests/expected-cli-export.txt
+27	0	test-projects/angular-i/tests/expected-cli-list.txt
+4	0	test-projects/angular-i/tests/expected-cli-verify.txt
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat May 11 20:16:06 2024 +0200	d5fc20b6a01320be36d533968d10933c8778759d,chore: release v0.14.6"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Apr 23 18:32:05 2024 +0200	f3953160a79e763acfcde48d0b0b0d10d6e801a7,chore: update to nx 18.3"
+4	89	migrations.json
+11	10	package.json
+280	282	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 13 16:14:12 2024 +0200	c78cd5658c670be2b57ed18c0bb22e38570b6f2c,feat: add automatic tagging"
+242	59	README.md
+1	1	packages/core/src/index.ts
+371	170	packages/core/src/lib/checks/check-for-dependency-rule-violation.spec.ts
+7	1	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+10	0	packages/core/src/lib/config/default-config.ts
+66	2	packages/core/src/lib/config/parse-config.spec.ts
+11	2	packages/core/src/lib/config/parse-config.ts
+2	109	packages/core/src/lib/config/sheriff-config.ts
+118	0	packages/core/src/lib/config/user-sheriff-config.ts
+11	1	packages/core/src/lib/error/user-error.ts
+1	2	packages/core/src/lib/main/after-init.ts
+6	1	packages/core/src/lib/main/internal/initialized.ts
+1	4	packages/core/src/lib/main/parse-project.ts
+36	4	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+6	1	packages/core/src/lib/tags/calc-tags-for-module.ts
+5	3	packages/core/src/lib/test/project-configurator.ts
+2	1	packages/core/src/lib/test/project-creator.ts
+1	1	packages/core/src/lib/test/sheriff.config.ts
+4	2	test-projects/angular-i/.gitignore
+11	4	test-projects/angular-i/integration-test.sh
+8	0	test-projects/angular-i/tests/auto-tagging.config.ts
+7	1	test-projects/angular-i/tests/empty-sheriff.config.ts
+1	0	test-projects/angular-i/tests/expected-auto-tagging-lint.json
+0	2	test-projects/verify-linter.mjs
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Apr 10 23:38:46 2024 +0200	8a42778285e0d68eba3447858c59f821e38a6ba9,feat(test): add TypeScript 5.4"
+1	1	test-projects/typescript-i/integration-test.sh
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Apr 10 23:37:20 2024 +0200	c0b717985b4aae565e966e1f13eb4c0ba22d1ae7,fix(test): fix error message from integration tests"
+4	4	test-projects/angular-i/integration-test.sh
+72	72	test-projects/angular-i/tests/{expected-internal-error-processing-lint.json => expected-user-error-lint.json}
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Apr 10 12:40:07 2024 +0200	ff3b3a846807440cdb4fe8a1905e098e4a5e5ba5,feat: add `UserError`"
+1	0	packages/core/src/index.ts
+3	1	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+2	1	packages/core/src/lib/checks/is-dependency-allowed.ts
+67	0	packages/core/src/lib/error/user-error.ts
+9	7	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+2	3	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+13	10	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+10	12	packages/core/src/lib/tags/calc-tags-for-module.ts
+29	0	packages/core/src/lib/test/matchers.ts
+14	3	packages/eslint-plugin/src/lib/rules/create-rule.spec.ts
+7	2	packages/eslint-plugin/src/lib/rules/create-rule.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Mar 25 13:16:48 2024 +0100	fbe681253b7e777538abf4319de4b74d5e83d51e,refactor(test): use `tsConfig` factory everywhere"
+3	3	packages/core/src/lib/checks/check-for-deep-imports.spec.ts
+2	2	packages/core/src/lib/checks/check-for-dependency-rule-violation.spec.ts
+4	4	packages/core/src/lib/eslint/deep-import.spec.ts
+2	2	packages/core/src/lib/eslint/eslint.spec.ts
+3	3	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+1	1	packages/core/src/lib/file-info/generate-ts-data.spec.ts
+5	5	packages/core/src/lib/file-info/generate-unassigned-file-info.spec.ts
+1	1	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+2	2	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+2	2	packages/core/src/lib/log/log.module.spec.ts
+2	2	packages/core/src/lib/modules/find-module-paths.spec.ts
+2	4	packages/core/src/lib/test/fixtures/{tsconfig.minimal.ts => ts-config.ts}
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Mar 25 10:01:12 2024 +0100	ac1a34e89fdcafca3e82e6183132b9c5225eb3cd,refactor(test): replace `ProjectCreator` with `createProject`"
+5	13	packages/core/src/lib/eslint/eslint.spec.ts
+46	56	packages/core/src/lib/file-info/generate-unassigned-file-info.spec.ts
+5	6	packages/core/src/lib/log/log.module.spec.ts
+3	13	packages/core/src/lib/modules/find-module-paths.spec.ts
+3	3	packages/core/src/lib/test/project-creator.ts
+3	7	packages/core/src/lib/test/test-init.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 24 21:16:48 2024 +0100	d4017d085725fd2e9524485bae7eb6331753912f,chore: release v0.14.5"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 24 12:39:20 2024 +0100	67bed6a7e5fe68b91e310b47814e270310828836,fix: `baseUrl` and TS paths"
+57	0	packages/core/src/lib/file-info/generate-ts-data.spec.ts
+19	1	packages/core/src/lib/file-info/generate-ts-data.ts
+1	1	packages/core/src/lib/file-info/generate-unassigned-file-info.ts
+51	49	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+7	2	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+48	42	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+2	8	packages/core/src/lib/file-info/traverse-filesystem.ts
+1	3	packages/core/src/lib/file-info/ts-data.ts
+1	1	packages/core/src/lib/main/init.ts
+1	1	packages/core/src/lib/main/parse-project.ts
+11	0	packages/core/src/lib/test/fixtures/tsconfig.minimal.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Mar 12 18:36:28 2024 +0100	f2a863b7f5170d21c01252d026423e416d2b1085,chore: release v0.14.4"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Mar 12 18:28:25 2024 +0100	a5d2a51ccce9cdf1259047b25bede7ea2e0a426a,fix: issue with nested modules and same placeholders"
+43	14	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+14	0	packages/core/src/lib/tags/calc-tags-for-module.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Feb 6 16:28:24 2024 +0100	194152ca3ab01f21b86d6038b799a6a3cc97f32d,feat: add MIT license"
+21	0	LICENSE
+1	1	package.json
+1	0	packages/core/package.json
+1	0	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Feb 5 15:33:14 2024 +0100	b8dec4dac67444fe0848c160443c86286afef92e,feat: add eslint prettier"
+32	0	.eslintrc.json
+9	7	package.json
+2	2	packages/core/src/lib/checks/check-for-deep-imports.spec.ts
+4	6	packages/core/src/lib/checks/check-for-deep-imports.ts
+3	3	packages/core/src/lib/checks/check-for-dependency-rule-violation.spec.ts
+2	2	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+2	2	packages/core/src/lib/checks/get-afi.ts
+24	19	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+1	1	packages/core/src/lib/checks/is-dependency-allowed.ts
+1	1	packages/core/src/lib/config/dependency-rules-config.ts
+1	1	packages/core/src/lib/config/parse-config.spec.ts
+1	1	packages/core/src/lib/config/tag-config.ts
+10	10	packages/core/src/lib/eslint/deep-import.spec.ts
+2	2	packages/core/src/lib/eslint/deep-import.ts
+1	1	packages/core/src/lib/eslint/eslint.spec.ts
+4	4	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+6	6	packages/core/src/lib/eslint/violates-dependency-rule.ts
+4	1	packages/core/src/lib/file-info/format-file-info.ts
+1	1	packages/core/src/lib/file-info/fs-path.spec.ts
+1	1	packages/core/src/lib/file-info/generate-ts-data.ts
+6	6	packages/core/src/lib/file-info/generate-unassigned-file-info.spec.ts
+2	2	packages/core/src/lib/file-info/generate-unassigned-file-info.ts
+5	5	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+4	4	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+12	13	packages/core/src/lib/file-info/integration.spec.ts
+9	9	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+7	7	packages/core/src/lib/file-info/traverse-filesystem.ts
+1	1	packages/core/src/lib/file-info/traverse-unassigned-file-info.ts
+7	7	packages/core/src/lib/file-info/unassigned-file-info.spec.ts
+6	3	packages/core/src/lib/file-info/unassigned-file-info.ts
+19	19	packages/core/src/lib/fs/default-fs.spec.ts
+1	1	packages/core/src/lib/fs/default-fs.ts
+1	1	packages/core/src/lib/fs/fs.ts
+10	10	packages/core/src/lib/fs/virtual-fs.spec.ts
+8	8	packages/core/src/lib/fs/virtual-fs.ts
+1	1	packages/core/src/lib/log/log.module.spec.ts
+1	1	packages/core/src/lib/log/log.ts
+1	1	packages/core/src/lib/main/after-init.ts
+3	3	packages/core/src/lib/main/init.ts
+16	8	packages/core/src/lib/main/parse-project.ts
+19	11	packages/core/src/lib/modules/create-module.spec.ts
+12	8	packages/core/src/lib/modules/create-modules.ts
+8	2	packages/core/src/lib/modules/file.info.ts
+4	1	packages/core/src/lib/modules/fill-file-info-map.ts
+1	1	packages/core/src/lib/modules/find-module-paths.spec.ts
+1	3	packages/core/src/lib/modules/format-modules.ts
+7	5	packages/core/src/lib/modules/get-project-dirs-from-file-info.spec.ts
+1	1	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+6	2	packages/core/src/lib/modules/module.ts
+31	31	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+21	21	packages/core/src/lib/tags/calc-tags-for-module.ts
+1	1	packages/core/src/lib/test/find-assigned-file-info.ts
+4	1	packages/core/src/lib/test/find-file-info.ts
+13	8	packages/core/src/lib/test/fixtures/file-infos.ts
+2	3	packages/core/src/lib/test/project-configurator.ts
+10	6	packages/core/src/lib/test/project-creator.ts
+2	2	packages/core/src/lib/test/test-init.ts
+8	5	packages/core/src/lib/test/traverse-project.ts
+1	1	packages/core/src/lib/util/assert-not-null.ts
+1	1	packages/core/src/lib/util/get.ts
+1	1	packages/core/src/lib/util/throw-if-null.spec.ts
+2	2	packages/eslint-plugin/src/lib/rules/create-rule.ts
+3	3	packages/eslint-plugin/src/lib/rules/deep-import.ts
+3	3	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+1	1	packages/eslint-plugin/src/lib/rules/executor.ts
+2	1	packages/eslint-plugin/tsconfig.json
+1	4	packages/eslint-plugin/tsconfig.spec.json
+236	471	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Feb 5 13:32:38 2024 +0100	4745d15bd361bc83f0d4f563e5a05cfbd003b85f,chore: ugrade to nx 18"
+4	0	.env
+2	0	.gitignore
+2	0	.prettierignore
+54	113	migrations.json
+9	40	nx.json
+11	12	package.json
+3	7	packages/core/project.json
+3	7	packages/eslint-plugin/project.json
+1259	859	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Feb 5 13:08:36 2024 +0100	5a82fde5ac4018eaf28526560ec48f86b8c9d983,fix: build"
+2	2	packages/core/src/lib/eslint/violates-dependency-rule.ts
+4	4	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Mon Feb 5 11:47:37 2024 +0100	974f0717bae6c531974515c67b61d8d201830dc7,refactor: rename `AssignedFileInfo` to `FileInfo`"
+6	7	packages/core/src/lib/checks/check-for-deep-imports.ts
+2	3	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+2	2	packages/core/src/lib/checks/get-afi.ts
+1	1	packages/core/src/lib/eslint/deep-import.ts
+2	2	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+2	2	packages/core/src/lib/eslint/violates-dependency-rule.ts
+4	4	packages/core/src/lib/file-info/format-file-info.ts
+5	5	packages/core/src/lib/file-info/{generate-file-info.spec.ts => generate-unassigned-file-info.spec.ts}
+4	4	packages/core/src/lib/file-info/{generate-file-info.ts => generate-unassigned-file-info.ts}
+2	2	packages/core/src/lib/file-info/integration.spec.ts
+3	3	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+5	5	packages/core/src/lib/file-info/traverse-filesystem.ts
+5	5	packages/core/src/lib/file-info/{traverse-file-info.ts => traverse-unassigned-file-info.ts}
+3	3	packages/core/src/lib/file-info/{file-info.spec.ts => unassigned-file-info.spec.ts}
+6	6	packages/core/src/lib/file-info/{file-info.ts => unassigned-file-info.ts}
+19	17	packages/core/src/lib/main/parse-project.ts
+0	30	packages/core/src/lib/modules/assigned-file.info.ts
+14	6	packages/core/src/lib/modules/create-module.spec.ts
+12	9	packages/core/src/lib/modules/create-modules.ts
+38	0	packages/core/src/lib/modules/file.info.ts
+16	0	packages/core/src/lib/modules/fill-file-info-map.ts
+1	1	packages/core/src/lib/modules/format-modules.ts
+0	19	packages/core/src/lib/modules/get-assigned-file-info-map.ts
+2	2	packages/core/src/lib/modules/get-project-dirs-from-file-info.spec.ts
+4	4	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+8	6	packages/core/src/lib/modules/module.ts
+3	3	packages/core/src/lib/test/find-assigned-file-info.ts
+4	4	packages/core/src/lib/test/find-file-info.ts
+6	6	packages/core/src/lib/test/fixtures/file-infos.ts
+3	3	packages/core/src/lib/test/vfs-file-info.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Feb 4 23:30:56 2024 +0100	76331ef3d4f2060dd22bd6f956db8703fb3c630b,refactor: shift code from eslint rules to initialization"
+1	3	.github/workflows/build.yml
+0	50	packages/core/src/lib/checks/check-deep-imports.spec.ts
+0	46	packages/core/src/lib/checks/check-deep-imports.ts
+59	0	packages/core/src/lib/checks/check-for-deep-imports.spec.ts
+57	0	packages/core/src/lib/checks/check-for-deep-imports.ts
+201	0	packages/core/src/lib/checks/check-for-dependency-rule-violation.spec.ts
+67	0	packages/core/src/lib/checks/check-for-dependency-rule-violation.ts
+0	5	packages/core/src/lib/checks/dependency-rules.spec.ts
+0	0	packages/core/src/lib/checks/dependency-rules.ts
+13	0	packages/core/src/lib/checks/get-afi.ts
+10	0	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+6	9	packages/core/src/lib/eslint/deep-import.spec.ts
+27	65	packages/core/src/lib/eslint/deep-import.ts
+10	20	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+38	78	packages/core/src/lib/eslint/violates-dependency-rule.ts
+6	3	packages/core/src/lib/file-info/integration.spec.ts
+0	59	packages/core/src/lib/init/init.ts
+5	5	packages/core/src/lib/log/log.module.spec.ts
+5	5	packages/core/src/lib/log/log.ts
+14	0	packages/core/src/lib/main/after-init.ts
+3	0	packages/core/src/lib/main/callback.ts
+101	0	packages/core/src/lib/main/init.ts
+3	0	packages/core/src/lib/main/internal/callback.ts
+1	0	packages/core/src/lib/main/internal/initialized.ts
+49	0	packages/core/src/lib/main/parse-project.ts
+12	1	packages/core/src/lib/modules/assigned-file.info.ts
+4	9	packages/core/src/lib/modules/find-module-paths.spec.ts
+11	0	packages/core/src/lib/test/project-configurator.ts
+24	2	packages/core/src/lib/test/project-creator.ts
+29	0	packages/core/src/lib/test/test-init.ts
+23	0	packages/core/src/lib/test/traverse-project.ts
+8	0	packages/core/src/lib/util/assert-not-null.ts
+5	0	tsconfig.spec.json
+432	562	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Dec 14 18:01:32 2023 +0100	d30d7de948797be5960bbc6bacf22d79c68e2565,fix: file extension in path mapping"
+1	1	packages/core/package.json
+130	3	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+13	1	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+26	0	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Dec 14 17:11:52 2023 +0100	36d3dc691e7405c3bcbe50155aeffff047b573c8,fix: move integration tests to JavaScript"
+4	4	test-projects/angular-i/integration-test.sh
+2	2	test-projects/typescript-i/integration-test.sh
+2	2	test-projects/{verify-linter.mts => verify-linter.mjs}
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Oct 8 01:45:31 2023 +0200	9850d511610898d2fe32d12e8e59954bea991530,chore: 0.14.2"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Oct 8 01:24:46 2023 +0200	6f80696f9b6d8d6e76af40e445afa661180cf495,fix(core): disable ts importHelpers"
+1	1	tsconfig.base.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Oct 5 19:28:43 2023 +0200	9eb2bceec4fe11a4dd755a9c61b2a5ec0e8c3bf1,fix: do not run github actions twice"
+7	1	.github/workflows/build.yml
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Oct 5 15:20:18 2023 +0200	a8441f2b88cae83c55063210c9261631eb83d58b,chore: release 0.14.1"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Oct 5 15:18:15 2023 +0200	55c0c758ce37f7f263e0e842cb0abddf75e36538,fix: nested module tagging"
+25	7	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+79	52	packages/core/src/lib/tags/calc-tags-for-module.ts
+72	72	test-projects/angular-i/tests/expected-internal-error-processing-lint.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Oct 1 03:22:41 2023 +0200	88e0e8ba3e8e25fdb167172ad55fead9edd7a515,feat: version 0.14.0"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 30 21:20:32 2023 -0400	e05c4a85493586fa49a4f5bfebc335ad4e26bbeb,feat: unresolvable imports"
+24	1	packages/core/src/lib/eslint/deep-import.spec.ts
+16	17	packages/core/src/lib/eslint/deep-import.ts
+57	3	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+8	6	packages/core/src/lib/eslint/violates-dependency-rule.ts
+21	0	packages/core/src/lib/file-info/file-info.ts
+22	0	packages/core/src/lib/file-info/generate-file-info.spec.ts
+3	1	packages/core/src/lib/file-info/traverse-filesystem.ts
+4	5	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+8	3	packages/eslint-plugin/src/lib/rules/deep-import.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 30 19:00:24 2023 -0400	a49c0b97cca45d8842b27663bf7d6c451bc82d0c,feat(ci): move release-please to own branch"
+1	1	.github/workflows/release-please.yml
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 30 18:37:05 2023 -0400	2a1940b3cb760e26b9795f85868dde4401c16c5d,feat: string instead of file content"
+5	0	packages/core/src/lib/config/sheriff-config.ts
+7	1	packages/core/src/lib/eslint/deep-import.spec.ts
+11	4	packages/core/src/lib/eslint/deep-import.ts
+57	0	packages/core/src/lib/eslint/eslint.spec.ts
+18	15	packages/core/src/lib/eslint/violates-dependency-rule.ts
+0	33	packages/core/src/lib/file-info/generate-file-info-and-get-root-dir.ts
+18	9	packages/core/src/lib/file-info/generate-file-info.spec.ts
+38	0	packages/core/src/lib/file-info/generate-file-info.ts
+4	2	packages/core/src/lib/file-info/integration.spec.ts
+8	5	packages/core/src/lib/file-info/traverse-filesystem.ts
+4	0	packages/core/src/lib/fs/default-fs.ts
+1	0	packages/core/src/lib/fs/fs.ts
+13	0	packages/core/src/lib/fs/virtual-fs.spec.ts
+10	0	packages/core/src/lib/fs/virtual-fs.ts
+59	0	packages/core/src/lib/init/init.ts
+1	0	packages/core/src/lib/log/index.ts
+1	0	packages/core/src/lib/log/log-level.ts
+76	0	packages/core/src/lib/log/log.module.spec.ts
+45	0	packages/core/src/lib/log/log.ts
+15	0	packages/core/src/lib/log/logger.ts
+4	2	packages/core/src/lib/modules/create-modules.ts
+6	5	packages/core/src/lib/modules/find-module-paths.spec.ts
+4	2	packages/core/src/lib/modules/find-module-paths.ts
+4	2	packages/core/src/lib/modules/get-assigned-file-info-map.ts
+4	2	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+0	11	packages/core/src/lib/util/log.ts
+4	1	packages/eslint-plugin/src/lib/rules/create-rule.ts
+1	1	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+4	2	packages/eslint-plugin/src/lib/rules/deep-import.ts
+13	3	packages/eslint-plugin/src/lib/rules/dependency-rule.spec.ts
+6	3	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+3	1	packages/eslint-plugin/src/lib/rules/executor.ts
+
+"Fynn Feldpausch <f.feldpausch@live.de>,Sat Sep 30 12:57:19 2023 +0200	6bae1acee9fef13c99625efae50ae5b284a6c197,feat: add github actions for deployment/releases"
+38	0	.github/workflows/release-please.yml
+4	0	.release-please-manifest.json
+22	0	release-please-config.json
+
+"Fynn Feldpausch <f.feldpausch@live.de>,Thu Sep 14 08:32:30 2023 +0200	daed276f0f8fa60502b26b25e53684324c52d1b3,doc: fix description for `excludeRoot` config"
+2	2	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Sep 13 20:44:18 2023 +0200	bb65844c70dbc30bc3b84644b5ad95c3020e9a7d,doc: fix missing comma in eslint config"
+2	2	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Sep 13 19:59:52 2023 +0200	9ae24d13967b20e696e00c8fb3fb70f7b53eb0e1,feat: fix sheriff"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Sep 12 10:19:48 2023 +0200	a894ff66f86eb131fe52dff14d802a5bb59b0c22,feat: upgrade to nx 16.8"
+1	0	.eslintignore
+5	7	.eslintrc.json
+155	0	migrations.json
+23	6	nx.json
+11	10	package.json
+4	3	packages/core/project.json
+4	3	packages/eslint-plugin/project.json
+0	0	tools/generators/.gitkeep
+1702	374	yarn.lock
+
+"Christian Woerz <chwoerz@users.noreply.github.com>,Mon Sep 11 11:14:58 2023 +0200	6dd9da6e6dbeaf90ed2d505cffc26ec9fe57bdb7,feat: integrate typescript-eslint"
+7	0	.eslintrc.json
+2	2	package.json
+2	2	packages/core/src/lib/checks/check-deep-imports.ts
+2	2	packages/core/src/lib/config/dependency-rules-config.ts
+2	1	packages/core/src/lib/config/parse-config.spec.ts
+1	3	packages/core/src/lib/config/parse-config.ts
+2	2	packages/core/src/lib/config/sheriff-config.ts
+6	6	packages/core/src/lib/config/tag-config.ts
+1	1	packages/core/src/lib/eslint/deep-import.ts
+1	1	packages/core/src/lib/eslint/violates-dependency-rule.ts
+1	1	packages/core/src/lib/file-info/file-info.ts
+6	3	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+5	4	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+6	0	packages/core/src/lib/file-info/ts-config.ts
+2	2	packages/core/src/lib/file-info/ts-data.ts
+5	2	packages/core/src/lib/fs/default-fs.ts
+15	12	packages/core/src/lib/fs/virtual-fs.spec.ts
+10	9	packages/core/src/lib/fs/virtual-fs.ts
+5	3	packages/core/src/lib/modules/create-module.spec.ts
+2	2	packages/core/src/lib/modules/get-project-dirs-from-file-info.spec.ts
+2	3	packages/core/src/lib/tags/calc-tags-for-module.ts
+2	1	packages/core/src/lib/test/matchers.ts
+7	4	packages/core/src/lib/test/project-configurator.ts
+4	2	packages/core/src/lib/util/get.ts
+2	1	packages/core/src/lib/util/log.ts
+5	12	packages/eslint-plugin/src/lib/rules/create-rule.spec.ts
+1	2	packages/eslint-plugin/src/lib/rules/dependency-rule.spec.ts
+1	0	tsconfig.base.json
+755	3821	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Sep 10 14:49:42 2023 +0200	7408ae6d9b6eba12f1cec1a0827c66f5274fe1c1,feat: run GitHub actions on PR"
+1	1	.github/workflows/build.yml
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 9 17:25:22 2023 +0200	83fca55040b269b19a501155d4c95e2a3090babc,doc: preview video as link to YouTube"
+1	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 9 17:19:00 2023 +0200	6d08b67eb5e3d6df69be6f61b2dd1b178c87e974,feat: add `excludeRoot` config property"
+48	31	README.md
+1	1	packages/core/package.json
+2	1	packages/core/src/index.ts
+6	0	packages/core/src/lib/checks/any-tag.ts
+3	0	packages/core/src/lib/checks/no-dependencies.ts
+24	0	packages/core/src/lib/checks/same-tag.ts
+0	8	packages/core/src/lib/config/config.ts
+3	5	packages/core/src/lib/config/parse-config.ts
+105	0	packages/core/src/lib/config/sheriff-config.ts
+73	8	packages/core/src/lib/eslint/deep-import.spec.ts
+29	3	packages/core/src/lib/eslint/deep-import.ts
+1	1	packages/core/src/lib/file-info/generate-file-info-and-get-root-dir.ts
+2	1	packages/core/src/lib/fs/default-fs.ts
+39	4	packages/core/src/lib/test/project-configurator.ts
+6	1	packages/core/src/lib/test/project-creator.ts
+1	1	packages/core/src/lib/test/sheriff.config.ts
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 9 11:43:27 2023 +0200	c82e75e2eda4f4879643153925ebd27ac129414b,doc: add better preview image"
+-	-	video-preview.jpg
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Sep 9 11:36:02 2023 +0200	26636d6b9ab2817d07d5f13aa22747291971aa84,doc: add video preview image"
+-	-	video-preview.jpg
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Aug 13 13:03:18 2023 +0200	0499cc38cdaa9585eed88cb81d72941eb7546234,feat: show internal errors only once in linter"
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+71	0	packages/eslint-plugin/src/lib/rules/create-rule.spec.ts
+47	0	packages/eslint-plugin/src/lib/rules/create-rule.ts
+21	3	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+11	37	packages/eslint-plugin/src/lib/rules/deep-import.ts
+39	0	packages/eslint-plugin/src/lib/rules/dependency-rule.spec.ts
+9	35	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+8	0	packages/eslint-plugin/src/lib/rules/executor.ts
+1	0	test-projects/angular-i/.gitignore
+7	1	test-projects/angular-i/integration-test.sh
+1	0	test-projects/angular-i/tests/empty-sheriff.config.ts
+1658	0	test-projects/angular-i/tests/expected-internal-error-processing-lint.json
+17	13	test-projects/verify-linter.mts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Aug 6 14:51:13 2023 +0200	c467af96a135d88bc63cab4cf689c5616671bd02,feat: add typeScript Integration tests"
+5	22	run-integration-tests.sh
+24	0	test-projects/angular-i/integration-test.sh
+27	0	test-projects/tsconfig.json
+22	0	test-projects/typescript-i/.eslintrc.extend.json
+14	0	test-projects/typescript-i/.eslintrc.json
+1	0	test-projects/typescript-i/.gitignore
+24	0	test-projects/typescript-i/integration-test.sh
+2831	0	test-projects/typescript-i/package-lock.json
+21	0	test-projects/typescript-i/package.json
+12	0	test-projects/typescript-i/sheriff.config.ts
+6	0	test-projects/typescript-i/src/data/credentials.ts
+15	0	test-projects/typescript-i/src/data/db.service.ts
+1	0	test-projects/typescript-i/src/data/index.ts
+12	0	test-projects/typescript-i/src/logic/checkout.ts
+1	0	test-projects/typescript-i/src/logic/index.ts
+4	0	test-projects/typescript-i/src/main.ts
+15	0	test-projects/typescript-i/src/web/checkout-controller.ts
+1	0	test-projects/typescript-i/src/web/index.ts
+1	0	test-projects/typescript-i/tests/expected-lint.json
+112	0	test-projects/typescript-i/tsconfig.json
+2	2	test-projects/{angular-i/tests => }/verify-linter.mts
+3558	407	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Jul 28 11:16:31 2023 +0200	6f6f02f26998cb0ca5db7afa2c07c916b02bf4d3,feat: add integration tests for Angular test project"
+2	0	.github/workflows/build.yml
+26	0	run-integration-tests.sh
+2	0	test-projects/angular-i/.gitignore
+1	0	test-projects/angular-i/dependency-rule-lint.json
+66	0	test-projects/angular-i/tests/customer.dependency-rule.component.ts
+41	0	test-projects/angular-i/tests/customers-container.deep-import.component.ts
+38	0	test-projects/angular-i/tests/dynamic-import-sheriff.config.ts
+25	0	test-projects/angular-i/tests/expected-deep-import-lint.json
+25	0	test-projects/angular-i/tests/expected-dependency-rule-lint.json
+45	0	test-projects/angular-i/tests/expected-dynamic-import-lint.json
+38	0	test-projects/angular-i/tests/verify-linter.mts
+1	0	test-projects/angular-i/tsconfig.json
+361	293	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Jul 11 13:24:07 2023 +0200	089ef8ecee24a4140c899d5c8b07ca1597f739a1,doc: add video to toc"
+1	0	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Tue Jul 11 13:23:22 2023 +0200	075bb9ee5bcd4e7d38242a68ebd9aec74c167661,doc: add video"
+5	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Jun 24 14:04:25 2023 +0200	b940aa7cfd039236ba04a5dacb2a6415c52966d1,fix: remove peer dependency for tslib (#14)"
+73	52	README.md
+15	2	packages/core/package.json
+12	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Jun 24 12:54:15 2023 +0200	98af2f3bdaee9354759973a01199a110fdde7bb0,docs: add screenshot"
+6	6	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed Jun 14 01:54:26 2023 +0200	f6317eb4657bf07394ab798ecb893dda80d15e13,Improve Documentation (#10)"
+178	4	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun May 28 00:09:57 2023 +0200	3f4804ccf8a97d8b36f07b21320e5a31f93b990b,fix(doc): add missing comma in .eslintrc.json"
+1	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat May 27 13:19:19 2023 +0200	88b766c675eaf831ed2ac5d556aa4a957f74b245,fix: add absolute logo path in readme"
+1	1	README.md
+1	2	packages/core/README.md
+1	2	packages/eslint-plugin/README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat May 27 13:13:26 2023 +0200	16904a2bec3340bc7e4cd3cb34d6321521f93d1b,feat: support dynamic imports"
+1	1	packages/core/package.json
+1	0	packages/core/src/lib/config/dependency-rules-config-example.ts
+2	0	packages/core/src/lib/config/tag-config-example.ts
+1	2	packages/core/src/lib/file-info/generate-ts-data.ts
+18	3	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+0	1	packages/core/src/lib/fs/virtual-fs.ts
+2	2	packages/eslint-plugin/package.json
+40	31	packages/eslint-plugin/src/lib/rules/deep-import.ts
+43	29	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+1	1	test-projects/angular-i/sheriff.config.ts
+1	1	test-projects/angular-iii/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu May 25 16:42:24 2023 +0200	a4c40f2f2dce8b9b3d61878296e84b4c4f916bf2,Allow Wildcards for TypeScript Paths (#8)"
+5	0	.github/workflows/build.yml
+1	0	package.json
+1	1	packages/core/package.json
+6	2	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+176	0	packages/core/src/lib/file-info/traverse-filesystem.spec.ts
+67	18	packages/core/src/lib/file-info/traverse-filesystem.ts
+3	1	packages/core/src/lib/file-info/ts-data.ts
+2	2	packages/core/src/lib/test/fixtures/tsconfig.minimal.ts
+2	2	packages/eslint-plugin/package.json
+1	1	test-projects/angular-i/package.json
+16	0	test-projects/angular-iii/.editorconfig
+42	0	test-projects/angular-iii/.eslintrc.json
+42	0	test-projects/angular-iii/.gitignore
+1	0	test-projects/angular-iii/README.md
+118	0	test-projects/angular-iii/angular.json
+59	0	test-projects/angular-iii/package.json
+38	0	test-projects/angular-iii/sheriff.config.ts
+17	0	test-projects/angular-iii/src/app/app.component.html
+27	0	test-projects/angular-iii/src/app/app.component.scss
+27	0	test-projects/angular-iii/src/app/app.component.ts
+21	0	test-projects/angular-iii/src/app/app.routes.ts
+10	0	test-projects/angular-iii/src/app/customers/api/index.ts
+46	0	test-projects/angular-iii/src/app/customers/data/customers-repository.service.ts
+18	0	test-projects/angular-iii/src/app/customers/data/customers.actions.ts
+72	0	test-projects/angular-iii/src/app/customers/data/customers.effects.ts
+53	0	test-projects/angular-iii/src/app/customers/data/customers.reducer.ts
+39	0	test-projects/angular-iii/src/app/customers/data/customers.selectors.ts
+2	0	test-projects/angular-iii/src/app/customers/data/index.ts
+9	0	test-projects/angular-iii/src/app/customers/data/provide-customers.ts
+36	0	test-projects/angular-iii/src/app/customers/feature/components/add-customer.component.ts
+41	0	test-projects/angular-iii/src/app/customers/feature/components/customers-container.component.ts
+1	0	test-projects/angular-iii/src/app/customers/feature/components/customers-root/customers-root.component.html
+9	0	test-projects/angular-iii/src/app/customers/feature/components/customers-root/customers-root.component.ts
+68	0	test-projects/angular-iii/src/app/customers/feature/components/edit-customer.component.ts
+32	0	test-projects/angular-iii/src/app/customers/feature/customers.routes.ts
+1	0	test-projects/angular-iii/src/app/customers/feature/index.ts
+15	0	test-projects/angular-iii/src/app/customers/feature/services/data.guard.ts
+158	0	test-projects/angular-iii/src/app/customers/feature/services/data.ts
+26	0	test-projects/angular-iii/src/app/customers/model/customer.ts
+1	0	test-projects/angular-iii/src/app/customers/model/index.ts
+15	0	test-projects/angular-iii/src/app/customers/ui/customer.pipe.ts
+76	0	test-projects/angular-iii/src/app/customers/ui/customer/customer.component.html
+8	0	test-projects/angular-iii/src/app/customers/ui/customer/customer.component.scss
+63	0	test-projects/angular-iii/src/app/customers/ui/customer/customer.component.ts
+64	0	test-projects/angular-iii/src/app/customers/ui/customers/customers.component.html
+68	0	test-projects/angular-iii/src/app/customers/ui/customers/customers.component.ts
+5	0	test-projects/angular-iii/src/app/customers/ui/index.ts
+3	0	test-projects/angular-iii/src/app/shared/config/configuration.ts
+1	0	test-projects/angular-iii/src/app/shared/config/index.ts
+16	0	test-projects/angular-iii/src/app/shared/form/form-errors.component.ts
+2	0	test-projects/angular-iii/src/app/shared/form/index.ts
+6	0	test-projects/angular-iii/src/app/shared/form/options.ts
+29	0	test-projects/angular-iii/src/app/shared/http/base-url.interceptor.ts
+5	0	test-projects/angular-iii/src/app/shared/http/error-message.context.ts
+28	0	test-projects/angular-iii/src/app/shared/http/error.interceptor.ts
+3	0	test-projects/angular-iii/src/app/shared/http/index.ts
+6	0	test-projects/angular-iii/src/app/shared/http/with-error-message-context.ts
+46	0	test-projects/angular-iii/src/app/shared/master-data/+state/master.reducer.ts
+2	0	test-projects/angular-iii/src/app/shared/master-data/index.ts
+4	0	test-projects/angular-iii/src/app/shared/master-data/shared-master-data.provider.ts
+5	0	test-projects/angular-iii/src/app/shared/ngrx-utils/deep-clone.ts
+8	0	test-projects/angular-iii/src/app/shared/ngrx-utils/filter-defined.ts
+5	0	test-projects/angular-iii/src/app/shared/ngrx-utils/index.ts
+1	0	test-projects/angular-iii/src/app/shared/ngrx-utils/load-status.ts
+3	0	test-projects/angular-iii/src/app/shared/ngrx-utils/noop.action.ts
+14	0	test-projects/angular-iii/src/app/shared/ngrx-utils/safe-concat-map.ts
+2	0	test-projects/angular-iii/src/app/shared/security/index.ts
+14	0	test-projects/angular-iii/src/app/shared/security/security.actions.ts
+38	0	test-projects/angular-iii/src/app/shared/security/security.effects.ts
+9	0	test-projects/angular-iii/src/app/shared/security/security.provider.ts
+43	0	test-projects/angular-iii/src/app/shared/security/security.reducer.ts
+16	0	test-projects/angular-iii/src/app/shared/security/security.selectors.ts
+51	0	test-projects/angular-iii/src/app/shared/security/security.service.ts
+3	0	test-projects/angular-iii/src/app/shared/testing/assert-type.ts
+2	0	test-projects/angular-iii/src/app/shared/testing/index.ts
+53	0	test-projects/angular-iii/src/app/shared/testing/mock-inject.ts
+6	0	test-projects/angular-iii/src/app/shared/ui-messaging/index.ts
+19	0	test-projects/angular-iii/src/app/shared/ui-messaging/loader/loader.component.ts
+39	0	test-projects/angular-iii/src/app/shared/ui-messaging/loader/loading.interceptor.ts
+16	0	test-projects/angular-iii/src/app/shared/ui-messaging/loader/loading.service.ts
+3	0	test-projects/angular-iii/src/app/shared/ui-messaging/loader/silent-load.context.ts
+6	0	test-projects/angular-iii/src/app/shared/ui-messaging/loader/with-silent-load-context.ts
+26	0	test-projects/angular-iii/src/app/shared/ui-messaging/message/confirmation.component.ts
+13	0	test-projects/angular-iii/src/app/shared/ui-messaging/message/message.component.html
+53	0	test-projects/angular-iii/src/app/shared/ui-messaging/message/message.component.ts
+33	0	test-projects/angular-iii/src/app/shared/ui-messaging/message/message.service.ts
+14	0	test-projects/angular-iii/src/app/shared/ui-messaging/message/message.store.ts
+4	0	test-projects/angular-iii/src/app/shared/ui-messaging/message/message.ts
+13	0	test-projects/angular-iii/src/app/shared/ui-messaging/shared-ui-messaging.provider.ts
+30	0	test-projects/angular-iii/src/app/shared/ui/blinker.directive.ts
+1	0	test-projects/angular-iii/src/app/shared/ui/index.ts
+5	0	test-projects/angular-iii/src/app/shared/util/assert-defined.ts
+3	0	test-projects/angular-iii/src/app/shared/util/index.ts
+3	0	test-projects/angular-iii/src/app/shared/util/is-defined.ts
+6	0	test-projects/angular-iii/src/app/shared/util/safe-assign.ts
+23	0	test-projects/angular-iii/src/app/shell/header/header.component.html
+26	0	test-projects/angular-iii/src/app/shell/header/header.component.scss
+21	0	test-projects/angular-iii/src/app/shell/header/header.component.ts
+15	0	test-projects/angular-iii/src/app/shell/home.component.ts
+13	0	test-projects/angular-iii/src/app/shell/services/error-handler.service.ts
+22	0	test-projects/angular-iii/src/app/shell/services/user-loader.guard.ts
+20	0	test-projects/angular-iii/src/app/shell/sidemenu/sidemenu.component.html
+10	0	test-projects/angular-iii/src/app/shell/sidemenu/sidemenu.component.scss
+18	0	test-projects/angular-iii/src/app/shell/sidemenu/sidemenu.component.ts
+0	0	test-projects/angular-iii/src/assets/.gitkeep
+-	-	test-projects/angular-iii/src/assets/copenhagen.jpg
+-	-	test-projects/angular-iii/src/assets/darmstadt-small.jpg
+-	-	test-projects/angular-iii/src/assets/darmstadt.jpg
+-	-	test-projects/angular-iii/src/assets/detroit.jpg
+-	-	test-projects/angular-iii/src/assets/firenze.jpg
+-	-	test-projects/angular-iii/src/assets/granada.jpg
+-	-	test-projects/angular-iii/src/assets/large-bg.jpg
+-	-	test-projects/angular-iii/src/assets/logo.png
+-	-	test-projects/angular-iii/src/assets/london.jpg
+-	-	test-projects/angular-iii/src/assets/luebeck.jpg
+-	-	"test-projects/angular-iii/src/assets/reykjav\303\255k.jpg"
+-	-	test-projects/angular-iii/src/assets/shanghai.jpg
+-	-	test-projects/angular-iii/src/assets/vienna-small.jpg
+-	-	test-projects/angular-iii/src/assets/vienna.jpg
+3	0	test-projects/angular-iii/src/environments/environment.development.ts
+3	0	test-projects/angular-iii/src/environments/environment.ts
+-	-	test-projects/angular-iii/src/favicon.ico
+21	0	test-projects/angular-iii/src/index.html
+76	0	test-projects/angular-iii/src/main.ts
+86	0	test-projects/angular-iii/src/styles.scss
+8	0	test-projects/angular-iii/tailwind.config.js
+14	0	test-projects/angular-iii/tsconfig.app.json
+33	0	test-projects/angular-iii/tsconfig.json
+14	0	test-projects/angular-iii/tsconfig.spec.json
+7837	0	test-projects/angular-iii/yarn.lock
+153	231	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat May 13 14:28:41 2023 +0200	7d8f3b8f7ac6693d78cc8b8f4fe6da30d36ee957,Update README.md"
+7	4	packages/eslint-plugin/README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat May 13 14:27:33 2023 +0200	11a3921eebc1c22a0cf51c16b5fadf228e287784,Update README.md"
+6	7	packages/core/README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed May 3 23:33:06 2023 +0200	287b95efa41f65b3b439c3f79609f99bb711cb64,Typescript 5: Fixes #3 and #5 (#6)"
+1	1	package.json
+1	1	packages/core/package.json
+2	2	packages/core/src/lib/eslint/violates-dependency-rule.ts
+20	6	packages/core/src/lib/file-info/generate-ts-data.ts
+17	0	packages/core/src/lib/file-info/integration.spec.ts
+0	6	packages/core/src/lib/file-info/traverse-filesystem.ts
+2	0	packages/core/src/lib/fs/getFs.ts
+1	1	packages/core/src/lib/tags/calc-tags-for-module.ts
+2	2	packages/eslint-plugin/package.json
+1	2	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+4	4	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Wed May 3 19:07:19 2023 +0200	d9c771d78d14a7e19da6483da57c4c7ac3d23ec5,Update README.md"
+1	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Apr 2 15:46:33 2023 +0200	e6db2d86292b8ad14eac53f9a616980abe21c4bb,fix: fix windows path separator in traverse-filesystem"
+1	1	packages/core/package.json
+11	1	packages/core/src/lib/file-info/traverse-filesystem.ts
+2	0	packages/core/src/lib/fs/fs.ts
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Apr 2 01:17:44 2023 +0200	d8690a77714fbde97bc7d09b04afd317502bf87f,fix: remove not needed normalise function"
+0	2	packages/core/src/lib/fs/default-fs.ts
+0	2	packages/core/src/lib/fs/fs.ts
+0	11	packages/core/src/lib/fs/virtual-fs.spec.ts
+0	2	packages/core/src/lib/fs/virtual-fs.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 15:10:14 2023 +0200	c472b8be6388936e852a7b05a7709f7a078a1b86,feat: add logo"
+5	1	README.md
+-	-	logo.png
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 11:28:25 2023 +0200	d950be16f7a40cc747cb020ca7e8819521a46887,feat: update package version"
+1	0	README.md
+1	1	packages/core/package.json
+2	2	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 11:19:38 2023 +0200	ec78fcaf17030849bd11c2ce24c7bc3de95e56b0,feat: add `noDependencies`, `sameTag` for depRules"
+2	2	README.md
+2	0	packages/core/src/index.ts
+32	0	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+3	0	packages/core/src/lib/checks/no-dependencies.ts
+3	0	packages/core/src/lib/checks/same-tag.ts
+3	3	test-projects/angular-i/sheriff.config.ts
+3	3	test-projects/angular-ii/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 10:59:21 2023 +0200	ef2092cbc4a8990f45443520f84409ba517dd6e8,feat: allow wildcard tags in to section of depRules"
+10	0	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+4	1	packages/core/src/lib/checks/is-dependency-allowed.ts
+3	3	test-projects/angular-i/sheriff.config.ts
+1	7	test-projects/angular-ii/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 10:38:16 2023 +0200	534086f162a45c796ea5a554699a724f529190c0,feat: allow tag values to re-use placeholders"
+35	0	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+43	8	packages/core/src/lib/tags/calc-tags-for-module.ts
+2	5	test-projects/angular-i/sheriff.config.ts
+4	10	test-projects/angular-ii/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 09:47:58 2023 +0200	60124b9e33ac4eef6305a5e40e4e08f962cc8896,docs: update readme"
+26	21	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 09:32:00 2023 +0200	fa6cc7cbfc5d696a80dfdc779846efb9c0424b0e,fix: project configs"
+2	2	test-projects/angular-i/sheriff.config.ts
+2	2	test-projects/angular-ii/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 09:29:51 2023 +0200	3edea5551ac46b0467501c78f9a1a4d80d144a83,feat: change placeholders to safe tag character"
+16	16	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+2	2	packages/core/src/lib/tags/calc-tags-for-module.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 09:23:20 2023 +0200	7265785933b5e30e2873de8b570e0b28078c4387,fix: dependency check for tag to need to match one of froms"
+28	12	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+22	19	packages/core/src/lib/checks/is-dependency-allowed.ts
+10	17	packages/core/src/lib/eslint/violates-dependency-rule.ts
+2	2	test-projects/angular-i/sheriff.config.ts
+7	1	test-projects/angular-ii/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 09:04:39 2023 +0200	ed68073ba7758379b444cc6838b2a451e34edee0,feat: simplify tagConfig"
+16	21	packages/core/src/lib/config/tag-config-example.ts
+19	0	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+0	2	test-projects/angular-ii/package.json
+23	28	test-projects/angular-ii/sheriff.config.ts
+26	22	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-search/flight-search.component.ts
+7	11	test-projects/angular-ii/src/app/domains/ticketing/feature-my-tickets/tickets.module.ts
+0	1	test-projects/angular-ii/src/app/domains/ticketing/ui-common/flight-card/index.ts
+1	0	test-projects/angular-ii/src/app/domains/ticketing/ui-common/index.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 01:42:43 2023 +0200	eb58837df23d0f1defec2866cac2dbbf4493eb97,feat: apply new tag config to angular-i"
+7	19	test-projects/angular-i/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 01:36:05 2023 +0200	e4ed5185d16022d5ead110f7f3d056f5ef0509c6,feat: improve tag config"
+8	7	packages/core/src/lib/config/tag-config.ts
+39	67	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+21	8	packages/core/src/lib/tags/calc-tags-for-module.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 00:52:21 2023 +0200	df136e8bab1ce53d6ff3c297fc118b7d3a11a56c,feat: rename test projects"
+3	12	packages/core/src/lib/config/tag-config-example.ts
+2	2	packages/core/src/lib/config/tag-config.ts
+8	14	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+7	4	packages/core/src/lib/tags/calc-tags-for-module.ts
+2	8	packages/core/src/lib/test/sheriff.config.ts
+0	0	test-projects/{angular => angular-i}/.editorconfig
+0	0	test-projects/{angular => angular-i}/.eslintrc.json
+0	0	test-projects/{angular => angular-i}/.gitignore
+0	0	test-projects/{angular => angular-i}/README.md
+0	0	test-projects/{angular => angular-i}/angular.json
+0	0	test-projects/{angular => angular-i}/package.json
+3	3	test-projects/{angular => angular-i}/sheriff.config.ts
+0	0	test-projects/{angular => angular-i}/src/app/app.component.html
+0	0	test-projects/{angular => angular-i}/src/app/app.component.scss
+0	0	test-projects/{angular => angular-i}/src/app/app.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/app.routes.ts
+0	0	test-projects/{angular => angular-i}/src/app/bookings/+state/bookings.actions.ts
+0	0	test-projects/{angular => angular-i}/src/app/bookings/+state/bookings.effects.ts
+0	0	test-projects/{angular => angular-i}/src/app/bookings/+state/bookings.reducer.ts
+0	0	test-projects/{angular => angular-i}/src/app/bookings/+state/bookings.selectors.ts
+0	0	test-projects/{angular => angular-i}/src/app/bookings/bookings.routes.ts
+0	0	test-projects/{angular => angular-i}/src/app/bookings/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/bookings/overview/overview.component.html
+0	0	test-projects/{angular => angular-i}/src/app/bookings/overview/overview.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/api/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/data/customers-repository.service.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/data/customers.actions.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/data/customers.effects.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/data/customers.reducer.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/data/customers.selectors.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/data/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/data/provide-customers.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/components/add-customer.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/components/customers-container.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/components/customers-root/customers-root.component.html
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/components/customers-root/customers-root.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/components/edit-customer.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/customers.routes.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/services/data.guard.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/feature/services/data.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/model/customer.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/model/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/ui/customer.pipe.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/ui/customer/customer.component.html
+0	0	test-projects/{angular => angular-i}/src/app/customers/ui/customer/customer.component.scss
+0	0	test-projects/{angular => angular-i}/src/app/customers/ui/customer/customer.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/ui/customers/customers.component.html
+0	0	test-projects/{angular => angular-i}/src/app/customers/ui/customers/customers.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/customers/ui/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/+state/holidays.actions.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/+state/holidays.effects.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/+state/holidays.reducer.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/+state/holidays.selectors.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/address-lookuper.service.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/address.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/holidays.routes.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/holidays/holidays.component.spec.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/holidays/holidays.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/parse-address.spec.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/parse-address.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/request-info/request-info.component.harness.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/request-info/request-info.component.html
+0	0	test-projects/{angular => angular-i}/src/app/holidays/feature/request-info/request-info.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/model/holiday.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/model/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/ui/holiday-card/holiday-card.component.html
+0	0	test-projects/{angular => angular-i}/src/app/holidays/ui/holiday-card/holiday-card.component.scss
+0	0	test-projects/{angular => angular-i}/src/app/holidays/ui/holiday-card/holiday-card.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/holidays/ui/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/config/configuration.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/config/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/form/form-errors.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/form/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/form/options.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/http/base-url.interceptor.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/http/error-message.context.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/http/error.interceptor.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/http/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/http/with-error-message-context.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/master-data/+state/master.reducer.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/master-data/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/master-data/shared-master-data.provider.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ngrx-utils/deep-clone.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ngrx-utils/filter-defined.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ngrx-utils/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ngrx-utils/load-status.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ngrx-utils/noop.action.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ngrx-utils/safe-concat-map.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/security/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/security/security.actions.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/security/security.effects.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/security/security.provider.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/security/security.reducer.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/security/security.selectors.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/security/security.service.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/testing/assert-type.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/testing/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/testing/mock-inject.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/loader/loader.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/loader/loading.interceptor.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/loader/loading.service.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/loader/silent-load.context.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/loader/with-silent-load-context.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/message/confirmation.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/message/message.component.html
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/message/message.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/message/message.service.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/message/message.store.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/message/message.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui-messaging/shared-ui-messaging.provider.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui/blinker.directive.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/ui/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/util/assert-defined.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/util/index.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/util/is-defined.ts
+0	0	test-projects/{angular => angular-i}/src/app/shared/util/safe-assign.ts
+0	0	test-projects/{angular => angular-i}/src/app/shell/header/header.component.html
+0	0	test-projects/{angular => angular-i}/src/app/shell/header/header.component.scss
+0	0	test-projects/{angular => angular-i}/src/app/shell/header/header.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/shell/home.component.ts
+0	0	test-projects/{angular => angular-i}/src/app/shell/services/error-handler.service.ts
+0	0	test-projects/{angular => angular-i}/src/app/shell/services/user-loader.guard.ts
+0	0	test-projects/{angular => angular-i}/src/app/shell/sidemenu/sidemenu.component.html
+0	0	test-projects/{angular => angular-i}/src/app/shell/sidemenu/sidemenu.component.scss
+0	0	test-projects/{angular => angular-i}/src/app/shell/sidemenu/sidemenu.component.ts
+0	0	test-projects/{angular => angular-i}/src/assets/.gitkeep
+-	-	test-projects/{angular => angular-i}/src/assets/copenhagen.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/darmstadt-small.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/darmstadt.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/detroit.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/firenze.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/granada.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/large-bg.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/logo.png
+-	-	test-projects/{angular => angular-i}/src/assets/london.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/luebeck.jpg
+-	-	"test-projects/angular/src/assets/reykjav\303\255k.jpg" => "test-projects/angular-i/src/assets/reykjav\303\255k.jpg"
+-	-	test-projects/{angular => angular-i}/src/assets/shanghai.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/vienna-small.jpg
+-	-	test-projects/{angular => angular-i}/src/assets/vienna.jpg
+0	0	test-projects/{angular => angular-i}/src/environments/environment.development.ts
+0	0	test-projects/{angular => angular-i}/src/environments/environment.ts
+-	-	test-projects/{angular => angular-i}/src/favicon.ico
+0	0	test-projects/{angular => angular-i}/src/index.html
+0	0	test-projects/{angular => angular-i}/src/main.ts
+0	0	test-projects/{angular => angular-i}/src/styles.scss
+0	0	test-projects/{angular => angular-i}/tailwind.config.js
+0	0	test-projects/{angular => angular-i}/tsconfig.app.json
+0	0	test-projects/{angular => angular-i}/tsconfig.json
+0	0	test-projects/{angular => angular-i}/tsconfig.spec.json
+0	0	test-projects/{angular => angular-i}/yarn.lock
+16	0	test-projects/angular-ii/.editorconfig
+50	0	test-projects/angular-ii/.eslintrc.json
+42	0	test-projects/angular-ii/.gitignore
+4	0	test-projects/angular-ii/.vscode/extensions.json
+20	0	test-projects/angular-ii/.vscode/launch.json
+33	0	test-projects/angular-ii/.vscode/settings.json
+42	0	test-projects/angular-ii/.vscode/tasks.json
+27	0	test-projects/angular-ii/README.md
+115	0	test-projects/angular-ii/angular.json
+24073	0	test-projects/angular-ii/package-lock.json
+55	0	test-projects/angular-ii/package.json
+36	0	test-projects/angular-ii/sheriff.config.ts
+13	0	test-projects/angular-ii/src/app/+state/index.ts
+24	0	test-projects/angular-ii/src/app/about/about.component.ts
+13	0	test-projects/angular-ii/src/app/about/lazy/lazy.component.ts
+21	0	test-projects/angular-ii/src/app/app.component.css
+9	0	test-projects/angular-ii/src/app/app.component.html
+44	0	test-projects/angular-ii/src/app/app.component.ts
+40	0	test-projects/angular-ii/src/app/app.routes.ts
+12	0	test-projects/angular-ii/src/app/domains/checkin/data/checkin.service.ts
+1	0	test-projects/angular-ii/src/app/domains/checkin/data/index.ts
+3	0	test-projects/angular-ii/src/app/domains/checkin/feature-manage/feature-manage.component.css
+8	0	test-projects/angular-ii/src/app/domains/checkin/feature-manage/feature-manage.component.html
+21	0	test-projects/angular-ii/src/app/domains/checkin/feature-manage/feature-manage.component.ts
+1	0	test-projects/angular-ii/src/app/domains/checkin/feature-manage/index.ts
+17	0	test-projects/angular-ii/src/app/domains/shared/util-auth/auth.interceptor.ts
+9	0	test-projects/angular-ii/src/app/domains/shared/util-auth/auth.service.ts
+2	0	test-projects/angular-ii/src/app/domains/shared/util-auth/index.ts
+32	0	test-projects/angular-ii/src/app/domains/shared/util-common/city.pipe.ts
+32	0	test-projects/angular-ii/src/app/domains/shared/util-common/city.validator.ts
+6	0	test-projects/angular-ii/src/app/domains/shared/util-common/combine-environment-providers.ts
+12	0	test-projects/angular-ii/src/app/domains/shared/util-common/custom-appender.ts
+5	0	test-projects/angular-ii/src/app/domains/shared/util-common/index.ts
+21	0	test-projects/angular-ii/src/app/domains/shared/util-common/legacy.interceptor.ts
+13	0	test-projects/angular-ii/src/app/domains/shared/util-logger/color-config.ts
+21	0	test-projects/angular-ii/src/app/domains/shared/util-logger/color.service.ts
+34	0	test-projects/angular-ii/src/app/domains/shared/util-logger/features.ts
+10	0	test-projects/angular-ii/src/app/domains/shared/util-logger/index.ts
+21	0	test-projects/angular-ii/src/app/domains/shared/util-logger/log-appender.ts
+11	0	test-projects/angular-ii/src/app/domains/shared/util-logger/log-formatter.ts
+6	0	test-projects/angular-ii/src/app/domains/shared/util-logger/log-level.ts
+18	0	test-projects/angular-ii/src/app/domains/shared/util-logger/logger-config.ts
+33	0	test-projects/angular-ii/src/app/domains/shared/util-logger/logger-module.ts
+52	0	test-projects/angular-ii/src/app/domains/shared/util-logger/logger.ts
+68	0	test-projects/angular-ii/src/app/domains/shared/util-logger/providers.ts
+17	0	test-projects/angular-ii/src/app/domains/ticketing/data/+state/actions.ts
+20	0	test-projects/angular-ii/src/app/domains/ticketing/data/+state/effects.ts
+35	0	test-projects/angular-ii/src/app/domains/ticketing/data/+state/reducers.ts
+9	0	test-projects/angular-ii/src/app/domains/ticketing/data/+state/selectors.ts
+72	0	test-projects/angular-ii/src/app/domains/ticketing/data/flight.service.ts
+16	0	test-projects/angular-ii/src/app/domains/ticketing/data/flight.ts
+7	0	test-projects/angular-ii/src/app/domains/ticketing/data/index.ts
+7	0	test-projects/angular-ii/src/app/domains/ticketing/data/passenger.ts
+18	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-booking.component.html
+21	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-booking.component.ts
+62	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-booking.routes.ts
+0	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-edit/flight-edit.component.css
+4	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-edit/flight-edit.component.html
+26	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-edit/flight-edit.component.ts
+0	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-search/flight-search.component.css
+52	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-search/flight-search.component.html
+73	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/flight-search/flight-search.component.ts
+1	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/index.ts
+0	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/passenger-search/passenger-search.component.css
+19	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/passenger-search/passenger-search.component.html
+29	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/passenger-search/passenger-search.component.ts
+21	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/provider.ts
+17	0	test-projects/angular-ii/src/app/domains/ticketing/feature-booking/utils/booking.interceptor.ts
+3	0	test-projects/angular-ii/src/app/domains/ticketing/feature-my-tickets/index.ts
+28	0	test-projects/angular-ii/src/app/domains/ticketing/feature-my-tickets/my-tickets.component.ts
+22	0	test-projects/angular-ii/src/app/domains/ticketing/feature-my-tickets/ticket.service.ts
+31	0	test-projects/angular-ii/src/app/domains/ticketing/feature-my-tickets/tickets.module.ts
+1	0	test-projects/angular-ii/src/app/domains/ticketing/feature-next-flight/index.ts
+17	0	test-projects/angular-ii/src/app/domains/ticketing/feature-next-flight/next-flight.component.ts
+0	0	test-projects/angular-ii/src/app/domains/ticketing/ui-common/flight-card/flight-card.component.css
+17	0	test-projects/angular-ii/src/app/domains/ticketing/ui-common/flight-card/flight-card.component.html
+29	0	test-projects/angular-ii/src/app/domains/ticketing/ui-common/flight-card/flight-card.component.ts
+1	0	test-projects/angular-ii/src/app/domains/ticketing/ui-common/flight-card/index.ts
+0	0	test-projects/angular-ii/src/app/home/home.component.css
+1	0	test-projects/angular-ii/src/app/home/home.component.html
+17	0	test-projects/angular-ii/src/app/home/home.component.ts
+9	0	test-projects/angular-ii/src/app/init.service.ts
+8	0	test-projects/angular-ii/src/app/logger.config.ts
+11	0	test-projects/angular-ii/src/app/shell/index.ts
+10	0	test-projects/angular-ii/src/app/shell/navbar/navbar.component.html
+28	0	test-projects/angular-ii/src/app/shell/navbar/navbar.component.ts
+21	0	test-projects/angular-ii/src/app/shell/sidebar/sidebar.component.css
+24	0	test-projects/angular-ii/src/app/shell/sidebar/sidebar.component.html
+37	0	test-projects/angular-ii/src/app/shell/sidebar/sidebar.component.ts
+0	0	test-projects/angular-ii/src/assets/.gitkeep
+-	-	test-projects/angular-ii/src/favicon.ico
+13	0	test-projects/angular-ii/src/index.html
+73	0	test-projects/angular-ii/src/main.ts
+4	0	test-projects/angular-ii/src/styles.css
+14	0	test-projects/angular-ii/tsconfig.app.json
+33	0	test-projects/angular-ii/tsconfig.json
+14	0	test-projects/angular-ii/tsconfig.spec.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Apr 1 00:25:11 2023 +0200	9f90b338286e415f93b99107dca3ea596d2ff032,fix: increase version"
+1	1	packages/core/package.json
+3	4	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 31 08:56:00 2023 +0200	e070ce87e34c1cea48edd3472ea280b4a9f20e0b,feat: release 0.0.5"
+1	1	packages/core/package.json
+5	3	packages/eslint-plugin/package.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 30 18:43:17 2023 +0100	d32d7f47d87f935f6ca6a3481cf8075c409ba070,fix: sheriff config for angular test-project"
+22	6	test-projects/angular/sheriff.config.ts
+3	2	test-projects/angular/src/app/bookings/+state/bookings.effects.ts
+1	20	test-projects/angular/src/app/bookings/+state/bookings.selectors.ts
+35	13	test-projects/angular/src/app/bookings/overview/overview.component.ts
+10	1	test-projects/angular/src/app/customers/api/index.ts
+4	0	test-projects/angular/src/app/customers/data/customers-repository.service.ts
+1	0	test-projects/angular/src/app/customers/data/index.ts
+9	0	test-projects/angular/src/app/customers/data/provide-customers.ts
+2	8	test-projects/angular/src/app/customers/feature/customers.routes.ts
+0	3	test-projects/angular/src/app/customers/feature/index.ts
+3	3	test-projects/angular/src/app/customers/ui/customer/customer.component.ts
+0	3	test-projects/angular/src/app/customers/ui/customers/customers.component.ts
+0	56	test-projects/angular/src/app/holidays/feature/request-info/request-info.component.spec.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 30 16:26:27 2023 +0100	eab31bd83290218171bc632b1c318352c393de75,fix: bookings as feature module as a whole"
+1	2	test-projects/angular/sheriff.config.ts
+0	2	test-projects/angular/src/app/bookings/+state/bookings.effects.ts
+0	3	test-projects/angular/src/app/bookings/+state/index.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 30 16:19:43 2023 +0100	5f4a67dc304dae2dee223ba0de19fb5dfda12bde,fix: dependency check can run for multiple rules"
+16	0	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+7	2	packages/core/src/lib/checks/is-dependency-allowed.ts
+1	2	packages/core/src/lib/eslint/violates-dependency-rule.ts
+3	1	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+4	2	packages/core/src/lib/tags/calc-tags-for-module.ts
+7	2	test-projects/angular/sheriff.config.ts
+1	2	test-projects/angular/src/app/bookings/+state/bookings.effects.ts
+1	0	test-projects/angular/src/app/customers/api/index.ts
+0	1	test-projects/angular/src/app/customers/feature/components/customers-container.component.ts
+1	0	test-projects/angular/tsconfig.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 30 13:51:47 2023 +0100	2a95bdc0b92f444aaa79b287a24e5bdfa6e5a315,fix: set root to root tag"
+1	1	packages/core/src/lib/config/parse-config.spec.ts
+11	0	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+4	1	packages/core/src/lib/tags/calc-tags-for-module.ts
+17	9	test-projects/angular/sheriff.config.ts
+1	3	test-projects/angular/src/app/customers/feature/components/customers-container.component.ts
+1	0	test-projects/angular/src/app/holidays/feature/index.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 26 23:24:04 2023 +0200	57b1d791d0f296d7a9d15b6e11408b651a077418,feat: update"
+1	1	packages/core/package.json
+1	1	packages/core/src/lib/config/dependency-rules-config.ts
+1	0	packages/core/src/lib/eslint/violates-dependency-rule.ts
+29	21	packages/core/src/lib/file-info/fs-path.spec.ts
+2	2	packages/core/src/lib/file-info/fs-path.ts
+5	0	packages/core/src/lib/modules/create-module.spec.ts
+8	4	packages/core/src/lib/modules/module.ts
+2	2	packages/eslint-plugin/package.json
+9	17	test-projects/angular/sheriff.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 18:13:08 2023 +0100	7386565605f8ac6577dfa6d73eb23796e3b4e6b2,feat: add linting error in test project"
+3	1	test-projects/angular/src/app/customers/ui/customers/customers.component.ts
+1	1	test-projects/angular/src/main.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 18:07:21 2023 +0100	66be0fc5c9786a9f938ac3dd931c4db5d4c09eb0,fix: working dependency rules"
+6	0	packages/core/src/lib/eslint/violates-dependency-rule.spec.ts
+32	16	packages/core/src/lib/eslint/violates-dependency-rule.ts
+7	8	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+14	2	test-projects/angular/sheriff.config.ts
+42	0	test-projects/angular/src/app/customers/data/customers-repository.service.ts
+0	0	test-projects/angular/src/app/customers/{feature/+state => data}/customers.actions.ts
+0	0	test-projects/angular/src/app/customers/{feature/+state => data}/customers.effects.ts
+0	0	test-projects/angular/src/app/customers/{feature/+state => data}/customers.reducer.ts
+0	0	test-projects/angular/src/app/customers/{feature/+state => data}/customers.selectors.ts
+1	0	test-projects/angular/src/app/customers/data/index.ts
+3	4	test-projects/angular/src/app/customers/feature/components/add-customer.component.ts
+16	13	test-projects/angular/src/app/customers/feature/components/customers-container.component.ts
+10	19	test-projects/angular/src/app/customers/feature/components/edit-customer.component.ts
+2	2	test-projects/angular/src/app/customers/feature/customers.routes.ts
+1	1	test-projects/angular/src/app/customers/feature/index.ts
+3	4	test-projects/angular/src/app/customers/feature/services/data.guard.ts
+1	0	test-projects/angular/src/app/customers/ui/customers/customers.component.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 16:38:24 2023 +0100	7765a64e55ac250fbeb57e81281cb31ff5991b7c,feat: add dependency rule eslint rule"
+1	0	README.md
+3	1	packages/core/src/index.ts
+1	3	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+1	1	packages/core/src/lib/checks/is-dependency-allowed.ts
+1	0	packages/core/src/lib/config/config.ts
+12	0	packages/core/src/lib/config/find-config.ts
+0	0	packages/core/src/lib/{util => config}/parse-config.spec.ts
+3	3	packages/core/src/lib/{util => config}/parse-config.ts
+4	4	packages/core/src/lib/{ => eslint}/deep-import.spec.ts
+7	7	packages/core/src/lib/{ => eslint}/deep-import.ts
+94	0	packages/core/src/lib/eslint/violates-dependency-rule.ts
+0	9	packages/core/src/lib/file-info/find-config.ts
+0	5	packages/core/src/lib/file-info/find-project-root.ts
+2	2	packages/core/src/lib/fs/default-fs.ts
+1	1	packages/core/src/lib/fs/fs.ts
+2	2	packages/core/src/lib/fs/virtual-fs.ts
+4	1	packages/core/src/lib/test/sheriff.config.ts
+3	1	packages/eslint-plugin/src/index.ts
+1	0	packages/eslint-plugin/src/lib/config.ts
+1	1	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+1	3	packages/eslint-plugin/src/lib/rules/deep-import.ts
+40	0	packages/eslint-plugin/src/lib/rules/dependency-rule.ts
+21	0	test-projects/angular/sheriff.config.ts
+0	0	test-projects/angular/src/app/bookings/+state/{export.ts => index.ts}
+1	4	test-projects/angular/src/app/bookings/overview/overview.component.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 14:42:02 2023 +0100	6f783b509d54b891f97640e558448e736d8cd2b6,feat: working deep-import check"
+3	0	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+0	1	test-projects/angular/src/app/bookings/+state/bookings.selectors.ts
+3	0	test-projects/angular/src/app/bookings/+state/export.ts
+1	0	test-projects/angular/src/app/bookings/overview/overview.component.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 14:18:46 2023 +0100	78936d409f3a09db1d86f7e43d0da139a5d6cc11,feat(eslint-plugin): map thrown error to linting error"
+27	13	packages/eslint-plugin/src/lib/rules/deep-import.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 14:10:22 2023 +0100	e642382f8a5a81e3b1c31b407b0131e8d85de6af,fix: deep import tests"
+2	2	packages/core/src/lib/checks/check-deep-imports.spec.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 14:03:18 2023 +0100	d8f84c3818ad23c9432945beacb44c111650c1a1,fix(core): include module's index in the module's assignFileInfos"
+13	0	packages/core/src/lib/file-info/format-file-info.ts
+0	9	packages/core/src/lib/file-info/print-file-info.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 14:03:12 2023 +0100	b37494738280cc52f93ccfbc0edba9b4840f396e,fix(core): include module's index in the module's assignFileInfos"
+11	9	packages/core/src/lib/deep-import.ts
+8	1	packages/core/src/lib/file-info/generate-file-info-and-get-root-dir.ts
+6	0	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.spec.ts
+1	1	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+15	11	packages/core/src/lib/modules/create-module.spec.ts
+16	6	packages/core/src/lib/modules/create-modules.ts
+8	6	packages/core/src/lib/modules/{find-modules.spec.ts => find-module-paths.spec.ts}
+4	2	packages/core/src/lib/modules/{find-modules.ts => find-module-paths.ts}
+14	0	packages/core/src/lib/modules/format-modules.ts
+3	0	packages/core/src/lib/modules/get-assigned-file-info-map.ts
+2	0	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+10	0	packages/core/src/lib/util/log.ts
+42	0	test-projects/angular/.eslintrc.json
+35	6	test-projects/angular/angular.json
+11	2	test-projects/angular/package.json
+4	3	test-projects/angular/src/app/app.component.ts
+1	3	test-projects/angular/tsconfig.json
+824	27	test-projects/angular/yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 11:45:00 2023 +0100	ce0b69768b57d2767d2a0e576dcfe65dfc8c0fca,fix: pre-push vitest"
+1	1	.husky/pre-push
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 11:42:07 2023 +0100	363fad7e6b46241a064c40616e9974073542c096,feat: add git hooks"
+1	0	.husky/commit-msg
+4	0	.husky/pre-push
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 11:11:10 2023 +0100	cb043e4eea5f6d7c11ca3b04db82fc9218937b53,feat: add config parser"
+7	0	packages/core/src/lib/config/config.ts
+29	0	packages/core/src/lib/test/sheriff.config.ts
+24	0	packages/core/src/lib/util/parse-config.spec.ts
+17	0	packages/core/src/lib/util/parse-config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 23 01:37:04 2023 +0100	fe81b15da833e9a497ed0e13e9fa9d1147b56315,feat: add dependency rule config and checker"
+143	0	packages/core/src/lib/checks/is-dependency-allowed.spec.ts
+32	0	packages/core/src/lib/checks/is-dependency-allowed.ts
+0	34	packages/core/src/lib/config.js
+8	0	packages/core/src/lib/config/dependency-rules-config-example.ts
+17	0	packages/core/src/lib/config/dependency-rules-config.ts
+42	0	packages/core/src/lib/config/tag-config-example.ts
+0	0	packages/core/src/lib/{tags => config}/tag-config.ts
+1	1	packages/core/src/lib/tags/calc-tags-for-module.ts
+11	0	packages/core/src/lib/util/wildcard-to-regex.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 19 16:49:16 2023 +0100	41382934e53f6c69380cd267e24f635c7b4d696a,docs: add jsonc for docs"
+1	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 19 16:46:00 2023 +0100	ac185aac09e1a1826081156032d06fe8174cd535,test(core): tests for FsPath"
+34	0	packages/core/src/lib/file-info/fs-path.spec.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 19 16:36:20 2023 +0100	e1d588a9e5a4561da7e7b2d770035e0a5484e3e9,test(core): full coverage on tag matcher"
+174	18	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+108	65	packages/core/src/lib/tags/calc-tags-for-module.ts
+26	20	packages/core/src/lib/tags/tag-config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 19 00:46:23 2023 +0100	ec20bb5c8da965cf0332431ed072d30a710da4d7,feat(core): parts of working tagConfig"
+1	1	.github/workflows/build.yml
+2	1	package.json
+3	3	packages/core/src/lib/checks/check-deep-imports.spec.ts
+3	3	packages/core/src/lib/checks/check-deep-imports.ts
+2	2	packages/core/src/lib/deep-import.ts
+1	1	packages/core/src/lib/fs/default-fs.ts
+1	1	packages/core/src/lib/fs/fs.ts
+1	1	packages/core/src/lib/fs/virtual-fs.ts
+2	2	packages/core/src/lib/modules/assigned-file.info.ts
+4	4	packages/core/src/lib/modules/{create-module-infos.spec.ts => create-module.spec.ts}
+6	6	packages/core/src/lib/modules/{create-module-infos.ts => create-modules.ts}
+2	2	packages/core/src/lib/modules/get-assigned-file-info-map.ts
+2	2	packages/core/src/lib/modules/{module-info.ts => module.ts}
+146	0	packages/core/src/lib/tags/calc-tags-for-module.spec.ts
+105	0	packages/core/src/lib/tags/calc-tags-for-module.ts
+25	0	packages/core/src/lib/tags/tag-config.ts
+2	2	packages/core/src/lib/test/find-assigned-file-info.ts
+17	0	packages/core/src/lib/util/throw-if-null.spec.ts
+4	1	vitest.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Mar 18 14:39:45 2023 +0100	a0d8ee36cf4f2db92a5dc06e44b57b67696c0d20,feat(test-project): add angular project for tests"
+-	-	logo.png
+10	4	packages/core/src/lib/checks/check-deep-imports.spec.ts
+34	0	packages/core/src/lib/config.js
+43	0	packages/core/src/lib/deep-import.spec.ts
+1	1	packages/core/src/lib/deep-import.ts
+14	8	packages/core/src/lib/modules/create-module-infos.spec.ts
+5	3	packages/core/src/lib/modules/create-module-infos.ts
+6	7	packages/core/src/lib/modules/module-info.ts
+16	0	test-projects/angular/.editorconfig
+42	0	test-projects/angular/.gitignore
+27	0	test-projects/angular/README.md
+89	0	test-projects/angular/angular.json
+50	0	test-projects/angular/package.json
+17	0	test-projects/angular/src/app/app.component.html
+27	0	test-projects/angular/src/app/app.component.scss
+26	0	test-projects/angular/src/app/app.component.ts
+31	0	test-projects/angular/src/app/app.routes.ts
+11	0	test-projects/angular/src/app/bookings/+state/bookings.actions.ts
+56	0	test-projects/angular/src/app/bookings/+state/bookings.effects.ts
+41	0	test-projects/angular/src/app/bookings/+state/bookings.reducer.ts
+25	0	test-projects/angular/src/app/bookings/+state/bookings.selectors.ts
+17	0	test-projects/angular/src/app/bookings/bookings.routes.ts
+1	0	test-projects/angular/src/app/bookings/index.ts
+30	0	test-projects/angular/src/app/bookings/overview/overview.component.html
+36	0	test-projects/angular/src/app/bookings/overview/overview.component.ts
+18	0	test-projects/angular/src/app/customers/feature/+state/customers.actions.ts
+72	0	test-projects/angular/src/app/customers/feature/+state/customers.effects.ts
+53	0	test-projects/angular/src/app/customers/feature/+state/customers.reducer.ts
+39	0	test-projects/angular/src/app/customers/feature/+state/customers.selectors.ts
+37	0	test-projects/angular/src/app/customers/feature/components/add-customer.component.ts
+41	0	test-projects/angular/src/app/customers/feature/components/customers-container.component.ts
+1	0	test-projects/angular/src/app/customers/feature/components/customers-root/customers-root.component.html
+9	0	test-projects/angular/src/app/customers/feature/components/customers-root/customers-root.component.ts
+77	0	test-projects/angular/src/app/customers/feature/components/edit-customer.component.ts
+38	0	test-projects/angular/src/app/customers/feature/customers.routes.ts
+4	0	test-projects/angular/src/app/customers/feature/index.ts
+16	0	test-projects/angular/src/app/customers/feature/services/data.guard.ts
+158	0	test-projects/angular/src/app/customers/feature/services/data.ts
+26	0	test-projects/angular/src/app/customers/model/customer.ts
+1	0	test-projects/angular/src/app/customers/model/index.ts
+15	0	test-projects/angular/src/app/customers/ui/customer.pipe.ts
+76	0	test-projects/angular/src/app/customers/ui/customer/customer.component.html
+8	0	test-projects/angular/src/app/customers/ui/customer/customer.component.scss
+63	0	test-projects/angular/src/app/customers/ui/customer/customer.component.ts
+64	0	test-projects/angular/src/app/customers/ui/customers/customers.component.html
+68	0	test-projects/angular/src/app/customers/ui/customers/customers.component.ts
+5	0	test-projects/angular/src/app/customers/ui/index.ts
+14	0	test-projects/angular/src/app/holidays/feature/+state/holidays.actions.ts
+51	0	test-projects/angular/src/app/holidays/feature/+state/holidays.effects.ts
+40	0	test-projects/angular/src/app/holidays/feature/+state/holidays.reducer.ts
+17	0	test-projects/angular/src/app/holidays/feature/+state/holidays.selectors.ts
+19	0	test-projects/angular/src/app/holidays/feature/address-lookuper.service.ts
+6	0	test-projects/angular/src/app/holidays/feature/address.ts
+27	0	test-projects/angular/src/app/holidays/feature/holidays.routes.ts
+50	0	test-projects/angular/src/app/holidays/feature/holidays/holidays.component.spec.ts
+43	0	test-projects/angular/src/app/holidays/feature/holidays/holidays.component.ts
+1	0	test-projects/angular/src/app/holidays/feature/index.ts
+22	0	test-projects/angular/src/app/holidays/feature/parse-address.spec.ts
+20	0	test-projects/angular/src/app/holidays/feature/parse-address.ts
+29	0	test-projects/angular/src/app/holidays/feature/request-info/request-info.component.harness.ts
+15	0	test-projects/angular/src/app/holidays/feature/request-info/request-info.component.html
+56	0	test-projects/angular/src/app/holidays/feature/request-info/request-info.component.spec.ts
+56	0	test-projects/angular/src/app/holidays/feature/request-info/request-info.component.ts
+39	0	test-projects/angular/src/app/holidays/model/holiday.ts
+1	0	test-projects/angular/src/app/holidays/model/index.ts
+45	0	test-projects/angular/src/app/holidays/ui/holiday-card/holiday-card.component.html
+100	0	test-projects/angular/src/app/holidays/ui/holiday-card/holiday-card.component.scss
+29	0	test-projects/angular/src/app/holidays/ui/holiday-card/holiday-card.component.ts
+1	0	test-projects/angular/src/app/holidays/ui/index.ts
+3	0	test-projects/angular/src/app/shared/config/configuration.ts
+1	0	test-projects/angular/src/app/shared/config/index.ts
+16	0	test-projects/angular/src/app/shared/form/form-errors.component.ts
+2	0	test-projects/angular/src/app/shared/form/index.ts
+6	0	test-projects/angular/src/app/shared/form/options.ts
+29	0	test-projects/angular/src/app/shared/http/base-url.interceptor.ts
+5	0	test-projects/angular/src/app/shared/http/error-message.context.ts
+28	0	test-projects/angular/src/app/shared/http/error.interceptor.ts
+3	0	test-projects/angular/src/app/shared/http/index.ts
+6	0	test-projects/angular/src/app/shared/http/with-error-message-context.ts
+46	0	test-projects/angular/src/app/shared/master-data/+state/master.reducer.ts
+2	0	test-projects/angular/src/app/shared/master-data/index.ts
+4	0	test-projects/angular/src/app/shared/master-data/shared-master-data.provider.ts
+5	0	test-projects/angular/src/app/shared/ngrx-utils/deep-clone.ts
+8	0	test-projects/angular/src/app/shared/ngrx-utils/filter-defined.ts
+5	0	test-projects/angular/src/app/shared/ngrx-utils/index.ts
+1	0	test-projects/angular/src/app/shared/ngrx-utils/load-status.ts
+3	0	test-projects/angular/src/app/shared/ngrx-utils/noop.action.ts
+14	0	test-projects/angular/src/app/shared/ngrx-utils/safe-concat-map.ts
+2	0	test-projects/angular/src/app/shared/security/index.ts
+14	0	test-projects/angular/src/app/shared/security/security.actions.ts
+38	0	test-projects/angular/src/app/shared/security/security.effects.ts
+9	0	test-projects/angular/src/app/shared/security/security.provider.ts
+43	0	test-projects/angular/src/app/shared/security/security.reducer.ts
+16	0	test-projects/angular/src/app/shared/security/security.selectors.ts
+51	0	test-projects/angular/src/app/shared/security/security.service.ts
+3	0	test-projects/angular/src/app/shared/testing/assert-type.ts
+2	0	test-projects/angular/src/app/shared/testing/index.ts
+53	0	test-projects/angular/src/app/shared/testing/mock-inject.ts
+6	0	test-projects/angular/src/app/shared/ui-messaging/index.ts
+19	0	test-projects/angular/src/app/shared/ui-messaging/loader/loader.component.ts
+39	0	test-projects/angular/src/app/shared/ui-messaging/loader/loading.interceptor.ts
+16	0	test-projects/angular/src/app/shared/ui-messaging/loader/loading.service.ts
+3	0	test-projects/angular/src/app/shared/ui-messaging/loader/silent-load.context.ts
+6	0	test-projects/angular/src/app/shared/ui-messaging/loader/with-silent-load-context.ts
+26	0	test-projects/angular/src/app/shared/ui-messaging/message/confirmation.component.ts
+13	0	test-projects/angular/src/app/shared/ui-messaging/message/message.component.html
+53	0	test-projects/angular/src/app/shared/ui-messaging/message/message.component.ts
+33	0	test-projects/angular/src/app/shared/ui-messaging/message/message.service.ts
+14	0	test-projects/angular/src/app/shared/ui-messaging/message/message.store.ts
+4	0	test-projects/angular/src/app/shared/ui-messaging/message/message.ts
+13	0	test-projects/angular/src/app/shared/ui-messaging/shared-ui-messaging.provider.ts
+30	0	test-projects/angular/src/app/shared/ui/blinker.directive.ts
+1	0	test-projects/angular/src/app/shared/ui/index.ts
+5	0	test-projects/angular/src/app/shared/util/assert-defined.ts
+3	0	test-projects/angular/src/app/shared/util/index.ts
+3	0	test-projects/angular/src/app/shared/util/is-defined.ts
+6	0	test-projects/angular/src/app/shared/util/safe-assign.ts
+23	0	test-projects/angular/src/app/shell/header/header.component.html
+26	0	test-projects/angular/src/app/shell/header/header.component.scss
+21	0	test-projects/angular/src/app/shell/header/header.component.ts
+15	0	test-projects/angular/src/app/shell/home.component.ts
+13	0	test-projects/angular/src/app/shell/services/error-handler.service.ts
+22	0	test-projects/angular/src/app/shell/services/user-loader.guard.ts
+20	0	test-projects/angular/src/app/shell/sidemenu/sidemenu.component.html
+10	0	test-projects/angular/src/app/shell/sidemenu/sidemenu.component.scss
+18	0	test-projects/angular/src/app/shell/sidemenu/sidemenu.component.ts
+0	0	test-projects/angular/src/assets/.gitkeep
+-	-	test-projects/angular/src/assets/copenhagen.jpg
+-	-	test-projects/angular/src/assets/darmstadt-small.jpg
+-	-	test-projects/angular/src/assets/darmstadt.jpg
+-	-	test-projects/angular/src/assets/detroit.jpg
+-	-	test-projects/angular/src/assets/firenze.jpg
+-	-	test-projects/angular/src/assets/granada.jpg
+-	-	test-projects/angular/src/assets/large-bg.jpg
+-	-	test-projects/angular/src/assets/logo.png
+-	-	test-projects/angular/src/assets/london.jpg
+-	-	test-projects/angular/src/assets/luebeck.jpg
+-	-	"test-projects/angular/src/assets/reykjav\303\255k.jpg"
+-	-	test-projects/angular/src/assets/shanghai.jpg
+-	-	test-projects/angular/src/assets/vienna-small.jpg
+-	-	test-projects/angular/src/assets/vienna.jpg
+3	0	test-projects/angular/src/environments/environment.development.ts
+3	0	test-projects/angular/src/environments/environment.ts
+-	-	test-projects/angular/src/favicon.ico
+21	0	test-projects/angular/src/index.html
+76	0	test-projects/angular/src/main.ts
+86	0	test-projects/angular/src/styles.scss
+8	0	test-projects/angular/tailwind.config.js
+14	0	test-projects/angular/tsconfig.app.json
+51	0	test-projects/angular/tsconfig.json
+14	0	test-projects/angular/tsconfig.spec.json
+7040	0	test-projects/angular/yarn.lock
+1	0	vitest.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 22:54:49 2023 +0100	fad1b51b05a0718c8218942b4d8cf49793e0ca8b,fix: remove not required ts-jest"
+0	1	package.json
+282	1628	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 22:53:39 2023 +0100	aa798fd54da3e9c003ee3675415f7e25fb69af95,fix: build"
+2	1	packages/core/src/lib/file-info/find-config.ts
+2	1	packages/core/src/lib/file-info/find-project-root.ts
+2	1	packages/core/src/lib/test/project-creator.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 22:48:37 2023 +0100	462ea1281374c8e93ed1a3d64a651495dda3145d,feat: add build to pipeline"
+2	0	.github/workflows/{test.yml => build.yml}
+1	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 22:47:21 2023 +0100	ff7fdff423f19b1edd1dc81bc85ddb29416bd9b4,fix: remove log from specs"
+0	1	packages/core/src/lib/file-info/generate-file-info.spec.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 21:43:13 2023 +0100	0ab453bd5a15b509b5ea9eb8426acc2553bb671c,test: error on import outside of root"
+16	1	packages/core/src/lib/file-info/generate-file-info.spec.ts
+3	0	packages/core/src/lib/file-info/traverse-filesystem.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 15:25:06 2023 +0100	0e2f3eec3e2b0aeef3c5794d47810c5b2c6406fe,fix: fix all linting issues"
+0	3	packages/core/src/lib/deep-import.ts
+1	3	packages/core/src/lib/file-info/file-info.spec.ts
+1	1	packages/core/src/lib/file-info/file-info.ts
+2	2	packages/core/src/lib/modules/create-module-infos.spec.ts
+0	1	packages/core/src/lib/test/in-vfs.ts
+2	0	packages/core/src/lib/test/matchers.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 15:06:30 2023 +0100	b61ec1b8ba767238b6d2a6d26c18fa714d3570da,feat(doc): improve documentation"
+1	1	.editorconfig
+49	1	README.md
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Fri Mar 17 14:37:26 2023 +0100	4fbad29ec9e08d3bf94044b8fc3c4f0d275aae1d,feat(eslint-plugin): a deep-import linter"
+21	12	packages/core/src/lib/checks/check-deep-imports.spec.ts
+4	2	packages/core/src/lib/checks/check-deep-imports.ts
+0	14	packages/core/src/lib/deep-import.spec.ts
+49	13	packages/core/src/lib/deep-import.ts
+39	34	packages/core/src/lib/file-info/file-info.spec.ts
+31	3	packages/core/src/lib/file-info/file-info.ts
+8	0	packages/core/src/lib/file-info/find-config.ts
+4	0	packages/core/src/lib/file-info/find-project-root.ts
+51	0	packages/core/src/lib/file-info/fs-path.ts
+26	0	packages/core/src/lib/file-info/generate-file-info-and-get-root-dir.ts
+75	23	packages/core/src/lib/file-info/generate-file-info.spec.ts
+0	16	packages/core/src/lib/file-info/generate-file-info.ts
+9	8	packages/core/src/lib/file-info/{prepare-ts-data.ts => generate-ts-data.ts}
+43	0	packages/core/src/lib/file-info/get-ts-paths-and-root-dir.ts
+2	2	packages/core/src/lib/file-info/traverse-file-info.ts
+24	17	packages/core/src/lib/file-info/traverse-filesystem.ts
+3	1	packages/core/src/lib/file-info/ts-data.ts
+38	23	packages/core/src/lib/fs/default-fs.spec.ts
+18	13	packages/core/src/lib/fs/default-fs.ts
+30	13	packages/core/src/lib/fs/fs.ts
+1	1	packages/core/src/lib/fs/getFs.ts
+40	23	packages/core/src/lib/fs/virtual-fs.spec.ts
+33	41	packages/core/src/lib/fs/virtual-fs.ts
+14	7	packages/core/src/lib/modules/assigned-file.info.ts
+75	64	packages/core/src/lib/modules/create-module-infos.spec.ts
+5	2	packages/core/src/lib/modules/create-module-infos.ts
+10	9	packages/core/src/lib/modules/find-modules.spec.ts
+3	2	packages/core/src/lib/modules/find-modules.ts
+14	0	packages/core/src/lib/modules/get-assigned-file-info-map.ts
+64	50	packages/core/src/lib/modules/get-project-dirs-from-file-info.spec.ts
+20	12	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+2	4	packages/core/src/lib/modules/module-info.ts
+5	2	packages/core/src/lib/test/find-assigned-file-info.ts
+10	24	packages/core/src/lib/test/fixtures/file-infos.ts
+7	0	packages/core/src/lib/test/in-vfs.ts
+32	0	packages/core/src/lib/test/matchers.ts
+5	0	packages/core/src/lib/test/vfs-file-info.ts
+7	2	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+12	2	packages/eslint-plugin/src/lib/rules/deep-import.ts
+1507	259	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 11:30:09 2023 +0100	e957ca9777c19a6ecff9ea2805ed25a28e8a4f40,fix: remove old jest config files"
+0	5	jest.config.ts
+0	3	jest.preset.js
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 02:51:01 2023 +0100	ec98622b9df1a85ac053aeab6b682f9ce9ed1802,fix(build): fix build"
+1	1	.github/workflows/test.yml
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 02:48:35 2023 +0100	c583b6ca364cb96af117d8627dd29009bee58bd7,feat: add lint to build"
+1	0	.github/workflows/test.yml
+1	0	package.json
+1	1	packages/core/src/lib/checks/check-deep-imports.ts
+1	1	packages/core/src/lib/deep-import.ts
+2	2	packages/core/src/lib/file-info/file-info.ts
+1	1	packages/core/src/lib/fs/default-fs.spec.ts
+4	2	packages/core/src/lib/fs/default-fs.ts
+1	1	packages/core/src/lib/fs/getFs.ts
+2	3	packages/core/src/lib/fs/virtual-fs.ts
+0	5	packages/core/src/lib/modules/create-module-infos.spec.ts
+1	1	packages/core/src/lib/modules/create-module-infos.ts
+2	6	packages/core/src/lib/modules/find-modules.spec.ts
+1	3	packages/core/src/lib/modules/find-modules.ts
+2	3	packages/core/src/lib/modules/get-project-dirs-from-file-info.spec.ts
+1	1	packages/core/src/lib/util/throw-if-null.ts
+2	2	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 02:40:06 2023 +0100	6edd247acb2711a008c6b1ad0477bc6c60d9d616,feat(core): go full sychronous"
+14	0	packages/core/src/lib/deep-import.spec.ts
+2	1	packages/core/src/lib/deep-import.ts
+6	6	packages/core/src/lib/file-info/generate-file-info.spec.ts
+2	5	packages/core/src/lib/file-info/generate-file-info.ts
+5	8	packages/core/src/lib/file-info/prepare-ts-data.ts
+5	5	packages/core/src/lib/file-info/traverse-filesystem.ts
+15	15	packages/core/src/lib/fs/default-fs.spec.ts
+16	18	packages/core/src/lib/fs/default-fs.ts
+5	5	packages/core/src/lib/fs/fs.ts
+83	81	packages/core/src/lib/fs/virtual-fs.spec.ts
+12	21	packages/core/src/lib/fs/virtual-fs.ts
+4	4	packages/core/src/lib/modules/find-modules.spec.ts
+3	3	packages/core/src/lib/modules/find-modules.ts
+15	15	packages/core/src/lib/test/project-creator.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 02:09:57 2023 +0100	567bbdb0dd2234577cd125fa7ccfb823d482cdb4,fix(eslint): test via adding tsconfig aliases to vitest"
+0	1	package.json
+6	0	vitest.config.ts
+257	1527	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 01:53:06 2023 +0100	87ef8ea10fcfffce4f8105b4cc02bf5a2b7d15ab,feat(core): make deepImport to print out found tsconfig"
+2	0	README.md
+16	2	packages/core/src/lib/deep-import.ts
+1	1	packages/eslint-plugin/src/index.ts
+0	1	packages/eslint-plugin/src/lib/config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 01:47:52 2023 +0100	19c62a9b867b0bb20a081c5fcc368687d913e896,feat(core): make findNearestFile sync"
+3	3	packages/core/src/lib/fs/default-fs.spec.ts
+4	7	packages/core/src/lib/fs/default-fs.ts
+1	4	packages/core/src/lib/fs/fs.ts
+2	5	packages/core/src/lib/fs/virtual-fs.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Mar 12 01:43:57 2023 +0100	2b29458f9187660041ef89af3bd3f324c29afdb7,feat(core): add findNearestFile in fs"
+1	0	packages/core/src/lib/file-info/generate-file-info.spec.ts
+45	2	packages/core/src/lib/fs/default-fs.spec.ts
+29	0	packages/core/src/lib/fs/default-fs.ts
+0	0	packages/core/src/lib/fs/find-nearest/test1/customers/admin/core/feature/index.ts
+0	0	packages/core/src/lib/fs/find-nearest/test1/customers/tsconfig.json
+0	0	packages/core/src/lib/fs/find-nearest/test2/customers/admin/core/feature/index.ts
+0	0	packages/core/src/lib/fs/find-nearest/test2/customers/admin/core/tsconfig.json
+0	0	packages/core/src/lib/fs/find-nearest/test2/customers/tsconfig.json
+0	0	packages/core/src/lib/fs/find-nearest/test3/customers/admin/core/feature/index.ts
+16	0	packages/core/src/lib/fs/fs.ts
+1	1	packages/core/src/lib/fs/getFs.ts
+49	9	packages/core/src/lib/fs/virtual-fs.spec.ts
+54	2	packages/core/src/lib/fs/virtual-fs.ts
+23	23	packages/core/src/lib/modules/find-modules.spec.ts
+1995	749	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Mar 11 20:51:02 2023 +0100	8a027b50d8c4f8b3ffe9651e847054e37d43c295,feat(core): remove jest dependency"
+0	4	package.json
+90	1898	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Mar 11 13:46:02 2023 +0100	b61686513e013b6b96c3f4df9caad3613271ae35,feat(core): fully migrate to traverseFileinfo generator"
+2	0	package.json
+5	6	packages/core/src/lib/file-info/print-file-info.ts
+71	4	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Mar 4 16:58:04 2023 -0500	e1510feb536bf28b2db6c34de72fd26efbbf6872,feat: add coverage for vitest"
+69	0	packages/core/src/lib/file-info/generate-file-info.spec.ts
+9	4	packages/core/src/lib/file-info/generate-file-info.ts
+24	5	packages/core/src/lib/file-info/traverse-filesystem.ts
+4	1	packages/core/src/lib/file-info/ts-data.ts
+2	2	packages/core/src/lib/fs/getFs.ts
+0	47	packages/core/src/lib/integration/simple.spec.ts
+0	42	packages/core/src/lib/integration/sub-module.spec.ts
+7	0	vitest.config.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 2 18:19:05 2023 +0100	c1170a9312987c3695cada17c27ed2dc213e109e,feat(core): replace traverse-file-info with generator"
+2	28	packages/core/src/lib/file-info/traverse-file-info.ts
+41	38	packages/core/src/lib/modules/create-module-infos.spec.ts
+5	7	packages/core/src/lib/modules/create-module-infos.ts
+4	4	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+6	9	packages/core/src/lib/test/find-file-info.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 2 17:41:42 2023 +0100	2c36195260bf59f90a543216a33c18ae1b570091,feat: rename packages to @softarc/sheriff-**"
+2	1	package.json
+1	1	packages/core/package.json
+6	2	packages/eslint-plugin/package.json
+1	1	packages/eslint-plugin/src/index.ts
+2	2	packages/eslint-plugin/src/lib/config.ts
+1	2	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+1	1	packages/eslint-plugin/src/lib/rules/deep-import.ts
+2	3	tsconfig.base.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 2 15:35:42 2023 +0100	77bb5df2a4c4a5b572cff68287ad40b713f9662e,test(eslint-plugin): test for deep-import"
+4	0	README.md
+5	0	package.json
+1	0	packages/core/src/index.ts
+0	1	packages/core/src/lib/checks/check-deep-imports.ts
+0	0	packages/core/src/lib/{ => checks}/check-for-circular.ts
+0	0	packages/core/src/lib/{ => checks}/unused-files.ts
+7	0	packages/core/src/lib/deep-import.ts
+3	3	packages/core/src/lib/fs/default-fs.ts
+1	1	packages/core/src/lib/fs/virtual-fs.ts
+0	5	packages/core/src/lib/is-in-node-modules.ts
+2	2	packages/eslint-plugin/src/index.ts
+1	1	packages/eslint-plugin/src/lib/config.ts
+61	0	packages/eslint-plugin/src/lib/rules/deep-import.spec.ts
+18	0	packages/eslint-plugin/src/lib/rules/deep-import.ts
+0	15	packages/eslint-plugin/src/lib/rules/no-literal.test.ts
+0	17	packages/eslint-plugin/src/lib/rules/no-literal.ts
+2	0	packages/eslint-plugin/tsconfig.json
+12	0	packages/eslint-plugin/tsconfig.spec.json
+1	1	tsconfig.base.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 2 13:39:21 2023 +0100	621e2a048aa5739af1387c6503a20e47434e52ef,feat: remove jest dependency"
+0	5	package.json
+0	8	packages/core/project.json
+0	1	packages/core/src/index.ts
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Thu Mar 2 13:16:23 2023 +0100	7f338667a4de36205887244982268f06b4f4f79b,feat(eslint-plugin): add type-safe eslint-plugin project"
+5	3	package.json
+0	0	packages/{eslint => eslint-plugin}/.eslintrc.json
+7	0	packages/eslint-plugin/README.md
+1	1	packages/{eslint => eslint-plugin}/package.json
+33	0	packages/eslint-plugin/project.json
+9	0	packages/eslint-plugin/src/index.ts
+10	0	packages/eslint-plugin/src/lib/config.ts
+15	0	packages/eslint-plugin/src/lib/rules/no-literal.test.ts
+17	0	packages/eslint-plugin/src/lib/rules/no-literal.ts
+0	3	packages/{eslint => eslint-plugin}/tsconfig.json
+0	0	packages/{eslint => eslint-plugin}/tsconfig.lib.json
+0	11	packages/eslint/README.md
+0	15	packages/eslint/jest.config.ts
+0	41	packages/eslint/project.json
+0	1	packages/eslint/src/index.ts
+0	7	packages/eslint/src/lib/eslint.spec.ts
+0	3	packages/eslint/src/lib/eslint.ts
+0	14	packages/eslint/tsconfig.spec.json
+1	0	tsconfig.base.json
+14	1	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Feb 26 02:14:58 2023 +0100	4660684828ccf9242c285ac4fcf13dbe846062e3,feat(eslint): add eslint project"
+5	0	jest.config.ts
+3	0	jest.preset.js
+6	1	nx.json
+18	0	packages/eslint/.eslintrc.json
+11	0	packages/eslint/README.md
+15	0	packages/eslint/jest.config.ts
+5	0	packages/eslint/package.json
+41	0	packages/eslint/project.json
+1	0	packages/eslint/src/index.ts
+7	0	packages/eslint/src/lib/eslint.spec.ts
+3	0	packages/eslint/src/lib/eslint.ts
+22	0	packages/eslint/tsconfig.json
+10	0	packages/eslint/tsconfig.lib.json
+14	0	packages/eslint/tsconfig.spec.json
+2	1	tsconfig.base.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Feb 26 01:57:08 2023 +0100	6570041ec2081bbfdeeaeabfa2943381b1f6f879,fix(core): fix file test"
+0	0	packages/core/src/lib/fs/find-files/test4/.gitkeep
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Feb 26 01:54:02 2023 +0100	471dd3594519d2f6df18479adaf81552a7cc7792,fix(core): add github actions"
+13	0	.github/workflows/test.yml
+0	3	packages/core/tsconfig.json
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sun Feb 26 01:50:16 2023 +0100	dec2f72c7dc22e9b5092ec03db63ee77f85c3334,add further files"
+42	0	.eslintrc.json
+4	0	.husky/commit-msg
+3	2	.vscode/extensions.json
+22	17	README.md
+1	0	commitlint.config.js
+13	1	nx.json
+0	1814	package-lock.json
+32	5	package.json
+18	0	packages/core/.eslintrc.json
+11	0	packages/core/README.md
+5	0	packages/core/package.json
+41	0	packages/core/project.json
+1	0	packages/core/src/index.ts
+5	0	packages/core/src/lib/check-for-circular.ts
+35	0	packages/core/src/lib/checks/check-deep-imports.spec.ts
+45	0	packages/core/src/lib/checks/check-deep-imports.ts
+5	0	packages/core/src/lib/checks/dependency-rules.spec.ts
+0	0	packages/core/src/lib/checks/dependency-rules.ts
+79	0	packages/core/src/lib/file-info/file-info.spec.ts
+41	0	packages/core/src/lib/file-info/file-info.ts
+14	0	packages/core/src/lib/file-info/generate-file-info.ts
+27	0	packages/core/src/lib/file-info/prepare-ts-data.ts
+10	0	packages/core/src/lib/file-info/print-file-info.ts
+51	0	packages/core/src/lib/file-info/traverse-file-info.ts
+67	0	packages/core/src/lib/file-info/traverse-filesystem.ts
+10	0	packages/core/src/lib/file-info/ts-data.ts
+54	0	packages/core/src/lib/fs/default-fs.spec.ts
+58	0	packages/core/src/lib/fs/default-fs.ts
+0	0	packages/core/src/lib/fs/find-files/test1/index.ts
+0	0	packages/core/src/lib/fs/find-files/test2/customers/index.ts
+0	0	packages/core/src/lib/fs/find-files/test3/admin/booking/data/index.ts
+0	0	packages/core/src/lib/fs/find-files/test3/admin/booking/feature/index.ts
+0	0	packages/core/src/lib/fs/find-files/test3/customers/index.ts
+0	0	packages/core/src/lib/fs/find-files/test3/holidays/index.ts
+17	0	packages/core/src/lib/fs/fs.ts
+13	0	packages/core/src/lib/fs/getFs.ts
+201	0	packages/core/src/lib/fs/virtual-fs.spec.ts
+253	0	packages/core/src/lib/fs/virtual-fs.ts
+47	0	packages/core/src/lib/integration/simple.spec.ts
+42	0	packages/core/src/lib/integration/sub-module.spec.ts
+5	0	packages/core/src/lib/is-in-node-modules.ts
+12	0	packages/core/src/lib/modules/assigned-file.info.ts
+203	0	packages/core/src/lib/modules/create-module-infos.spec.ts
+36	0	packages/core/src/lib/modules/create-module-infos.ts
+52	0	packages/core/src/lib/modules/find-modules.spec.ts
+14	0	packages/core/src/lib/modules/find-modules.ts
+94	0	packages/core/src/lib/modules/get-project-dirs-from-file-info.spec.ts
+23	0	packages/core/src/lib/modules/get-project-dirs-from-file-info.ts
+21	0	packages/core/src/lib/modules/module-info.ts
+14	0	packages/core/src/lib/test/find-assigned-file-info.ts
+15	0	packages/core/src/lib/test/find-file-info.ts
+25	0	packages/core/src/lib/test/fixtures/file-infos.ts
+10	0	packages/core/src/lib/test/fixtures/tsconfig.minimal.ts
+6	0	packages/core/src/lib/test/project-configurator.ts
+39	0	packages/core/src/lib/test/project-creator.ts
+0	0	packages/core/src/lib/unused-files.ts
+4	0	packages/core/src/lib/util/get.ts
+7	0	packages/core/src/lib/util/throw-if-null.ts
+22	0	packages/core/tsconfig.json
+10	0	packages/core/tsconfig.lib.json
+61	0	tools/scripts/publish.mjs
+3	1	tsconfig.base.json
+5313	0	yarn.lock
+
+"Rainer Hahnekamp <rainer.hahnekamp@gmail.com>,Sat Feb 25 23:50:06 2023 +0100	e650c01eec25c898d326be8f105bd9bdc33713b2,Initial commit"
+13	0	.editorconfig
+39	0	.gitignore
+4	0	.prettierignore
+3	0	.prettierrc
+7	0	.vscode/extensions.json
+17	0	README.md
+27	0	nx.json
+1814	0	package-lock.json
+15	0	package.json
+0	0	packages/.gitkeep
+0	0	tools/generators/.gitkeep
+12	0	tools/tsconfig.tools.json
+20	0	tsconfig.base.json

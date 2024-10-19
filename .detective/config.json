@@ -1,0 +1,40 @@
+{
+  "scopes": [
+    "packages/core/src/lib/api",
+    "packages/core/src/lib/checks",
+    "packages/core/src/lib/cli",
+    "packages/core/src/lib/config",
+    "packages/core/src/lib/error",
+    "packages/core/src/lib/eslint",
+    "packages/core/src/lib/file-info",
+    "packages/core/src/lib/fs",
+    "packages/core/src/lib/log",
+    "packages/core/src/lib/main",
+    "packages/core/src/lib/modules",
+    "packages/core/src/lib/tags",
+    "packages/core/src/lib/util"
+  ],
+  "groups": [
+    "packages/core/src/lib",
+    "packages/core/src"
+  ],
+  "entries": [
+    "packages/core/src/index.ts",
+    "packages/core/src/bin/main.ts"
+  ],
+  "filter": {
+    "files": [],
+    "logs": []
+  },
+  "aliases": {},
+  "teams": {
+    "example-team-a": [
+      "John Doe",
+      "Jane Doe"
+    ],
+    "example-team-b": [
+      "Max Muster",
+      "Susi Sorglos"
+    ]
+  }
+}
