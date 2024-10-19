@@ -39,12 +39,7 @@ describe('encapsulation and excludeRoot config property', () => {
         },
       });
 
-      assertViolation(
-        '/project/src/router.ts',
-        './shared/dialog',
-        false,
-        true,
-      );
+      assertViolation('/project/src/router.ts', './shared/dialog', false, true);
 
       assertViolation(
         '/project/src/holidays/holidays-component.ts',
@@ -85,11 +80,18 @@ function assertViolation(
       false,
     ),
     `import in ${filename} to ${importCommand} should violate encapsulation: ${hasViolation}`,
-  ).toBe(
-    hasViolation
-      ? (isImportToBarrelLess
-        ? `'${importCommand}' cannot be imported. It is encapsulated.`
-        : `'${importCommand}' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.`)
-      : '',
-  );
+  ).toBe(getMessage(hasViolation, isImportToBarrelLess, importCommand));
+}
+
+function getMessage(
+  hasViolation: boolean,
+  isImportToBarrelLess: boolean,
+  importCommand: string,
+) {
+  if (!hasViolation) {
+    return '';
+  }
+  return isImportToBarrelLess
+    ? `'${importCommand}' cannot be imported. It is encapsulated.`
+    : `'${importCommand}' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.`;
 }
