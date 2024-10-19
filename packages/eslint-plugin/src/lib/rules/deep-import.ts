@@ -10,6 +10,7 @@ export const deepImport = createRule(
       importValue,
       isFirstRun,
       sourceCode,
+      true
     );
     if (message) {
       context.report({

@@ -36,13 +36,13 @@ npx ng lint --force --format json --output-file tests/actual/dynamic-import-lint
 diff tests/actual/dynamic-import-lint.json tests/expected/dynamic-import-lint.json
 cp sheriff.config.ts.original sheriff.config.ts
 
-## Deep Import Check
-echo 'checking for deep import error'
+## Encapsulation Check
+echo 'checking for encapsulation error'
 mv src/app/customers/feature/components/customers-container.component.ts src/app/customers/feature/components/customers-container.component.ts.original
 cp tests/customers-container.deep-import.component.ts src/app/customers/feature/components/customers-container.component.ts
-npx ng lint --force --format json --output-file tests/actual/deep-import-lint.json
-../remove-paths.mjs tests/actual/deep-import-lint.json
-diff tests/actual/deep-import-lint.json tests/expected/deep-import-lint.json
+npx ng lint --force --format json --output-file tests/actual/encapsulation-lint.json
+../remove-paths.mjs tests/actual/encapsulation-lint.json
+diff tests/actual/encapsulation-lint.json tests/expected/encapsulation-lint.json
 mv src/app/customers/feature/components/customers-container.component.ts.original src/app/customers/feature/components/customers-container.component.ts
 
 ## Dependency Rule Check

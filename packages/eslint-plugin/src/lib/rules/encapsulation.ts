@@ -10,6 +10,7 @@ export const encapsulation = createRule(
       importValue,
       isFirstRun,
       sourceCode,
+      false
     );
     if (message) {
       context.report({
