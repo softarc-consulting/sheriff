@@ -55,7 +55,7 @@ Therefore, ESLint does not show any errors.
 
 However, if `fetcher.ts` accesses `credentials.ts` from `db`, ESLint will show an error. This results in an encapsulation violation because `credentials.ts` is located in the `internal` directory of `db`.
 
-<img width="1905" alt="Invalid Import" src="../img/module-boundaries-barrel-less-valid.png"></img>
+<img width="1905" alt="Invalid Import" src="../img/module-boundaries-barrel-less-invalid.png"></img>
 
 ## Barrel Modules
 
