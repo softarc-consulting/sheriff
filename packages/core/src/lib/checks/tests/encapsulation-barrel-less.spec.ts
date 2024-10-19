@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { testInit } from '../../test/test-init';
 import { tsConfig } from '../../test/fixtures/ts-config';
 import { FileTree, sheriffConfig } from '../../test/project-configurator';
-import { checkForDeepImports } from '../check-for-deep-imports';
+import { hasEncapsulationViolations } from '../has-encapsulation-violations';
 import { UserSheriffConfig } from '../../config/user-sheriff-config';
 import { traverseFileInfo } from '../../modules/traverse-file-info';
 
@@ -25,7 +25,7 @@ describe('barrel-less', () => {
           internal: { 'hidden.service.ts': [] },
         },
       })
-      .hasDeepImports({
+      .hasEncapsulationViolations({
         'feature/customers.component.ts': [
           '../data/internal/hidden.service.ts',
         ],
@@ -52,7 +52,7 @@ describe('barrel-less', () => {
           internal: { services: { 'hidden.service.ts': [] } },
         },
       })
-      .hasDeepImports({
+      .hasEncapsulationViolations({
         'feature/customers.component.ts': [
           '../data/internal/services/hidden.service.ts',
         ],
@@ -82,7 +82,7 @@ describe('barrel-less', () => {
           internal: { 'hidden.service.ts': [] },
         },
       })
-      .hasDeepImports({
+      .hasEncapsulationViolations({
         'feature/components/customers-sub.component.ts': [
           '../../data/internal/hidden.service.ts',
         ],
@@ -103,7 +103,7 @@ describe('barrel-less', () => {
           internal: { 'customer.service.ts': ['../private/hidden.service.ts'] },
         },
       })
-      .hasDeepImports({
+      .hasEncapsulationViolations({
         'feature/customers.component.ts': ['../data/private/hidden.service.ts'],
       });
   });
@@ -121,7 +121,7 @@ describe('barrel-less', () => {
           internal: { 'hidden.service.ts': [] },
         },
       })
-      .hasDeepImports({
+      .hasEncapsulationViolations({
         'feature/customers.component.ts': ['../data/open.service.ts'],
       });
   });
@@ -131,7 +131,7 @@ function assertProject(config: Partial<UserSheriffConfig> = {}) {
   return {
     withCustomerRoute(customerFileTree: FileTree) {
       return {
-        hasDeepImports(deepImports: Record<string, string[]> = {}) {
+        hasEncapsulationViolations(encapsulationViolations: Record<string, string[]> = {}) {
           const projectInfo = testInit('src/main.ts', {
             'tsconfig.json': tsConfig(),
             'sheriff.config.ts': sheriffConfig({
@@ -167,10 +167,12 @@ function assertProject(config: Partial<UserSheriffConfig> = {}) {
               '',
             );
 
-            const expectedDeepImports = deepImports[pathToLookup] || [];
+            const expectedDeepImports = encapsulationViolations[pathToLookup] || [];
+            const violations = hasEncapsulationViolations(fileInfo.path, projectInfo);
+            const violatedImports = Object.keys(violations);
             expect
               .soft(
-                checkForDeepImports(fileInfo.path, projectInfo),
+                violatedImports,
                 `deep imports check failed for ${fileInfo.path}`,
               )
               .toEqual(expectedDeepImports);

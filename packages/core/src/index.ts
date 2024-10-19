@@ -1,4 +1,4 @@
-export { hasDeepImport } from './lib/eslint/deep-import';
+export { violatesEncapsulationRule } from './lib/eslint/violates-encapsulation-rule';
 export { violatesDependencyRule } from './lib/eslint/violates-dependency-rule';
 export { anyTag } from './lib/checks/any-tag';
 export { sameTag } from './lib/checks/same-tag';

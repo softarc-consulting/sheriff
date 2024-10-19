@@ -1,14 +1,14 @@
 import { RuleTester } from 'eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
-import { deepImport } from '../deep-import';
 import * as sheriffCore from '@softarc/sheriff-core';
 import { parser } from "typescript-eslint";
+import { encapsulation } from "../encapsulation";
 
 const tester = new RuleTester({
   languageOptions: { parser, sourceType: 'module' },
 });
 
-describe('deep-import', () => {
+describe('encapsulation', () => {
   const spy = vitest.spyOn(sheriffCore, 'violatesEncapsulationRule');
 
   afterEach(() => {
@@ -30,24 +30,24 @@ describe('deep-import', () => {
     },
   ])('should check for $moduleName in $code', ({ code, moduleName }) => {
     spy.mockImplementation(() => '');
-    tester.run('deep-import', deepImport, {
+    tester.run('encapsulation', encapsulation, {
       valid: [{ code }],
       invalid: [],
     });
-    expect(spy).toHaveBeenCalledWith('<input>', moduleName, true, code, true);
+    expect(spy).toHaveBeenCalledWith('<input>', moduleName, true, code, false);
   });
 
-  it('should not check for deep imports if no import are present', () => {
-    tester.run('deep-import', deepImport, {
+  it('should not check for violations if no import is present', () => {
+    tester.run('encapsulation', encapsulation, {
       valid: [{ code: 'const a = 1' }],
       invalid: [],
     });
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should use any message from deep import', () => {
+  it('should direclty use the message from encapsulation', () => {
     spy.mockImplementation(() => 'nothing works');
-    tester.run('deep-import', deepImport, {
+    tester.run('encapsulation', encapsulation, {
       valid: [],
       invalid: [
         {
@@ -66,7 +66,7 @@ describe('deep-import', () => {
     spy.mockImplementation(() => {
       throw new Error('This is an error');
     });
-    tester.run('deep-import', deepImport, {
+    tester.run('encapsulation', encapsulation, {
       valid: [],
       invalid: [
         {
@@ -75,7 +75,7 @@ describe('deep-import', () => {
             'import {Service} from "somewhere";',
           errors: [
             {
-              message: 'Deep Import (internal error): This is an error',
+              message: 'Encapsulation (internal error): This is an error',
             },
           ],
         },

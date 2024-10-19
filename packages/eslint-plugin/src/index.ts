@@ -1,6 +1,6 @@
 import rules from './lib/rules';
-import { legacy } from "./lib/configs/legacy";
-import { all } from "./lib/configs/all";
+import { legacy, legacyBarrelModulesOnly } from "./lib/configs/legacy";
+import { all, barrelModulesOnly } from "./lib/configs/all";
 import {
   name as packageName,
   version as packageVersion,
@@ -10,6 +10,8 @@ const meta = { name: packageName, version: packageVersion };
 
 const configs = {
   legacy,
+  legacyBarrelModulesOnly,
+  barrelModulesOnly,
   all
 };
 

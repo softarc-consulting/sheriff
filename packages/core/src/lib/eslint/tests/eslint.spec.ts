@@ -1,12 +1,12 @@
 import { describe, expect, it, vitest } from 'vitest';
-import getFs from '../fs/getFs';
-import { sheriffConfig } from '../test/project-configurator';
-import { anyTag } from '../checks/any-tag';
-import { createProject } from '../test/project-creator';
-import { hasDeepImport } from './deep-import';
-import { toFsPath } from '../file-info/fs-path';
-import { violatesDependencyRule } from './violates-dependency-rule';
-import { tsConfig } from '../test/fixtures/ts-config';
+import getFs from '../../fs/getFs';
+import { sheriffConfig } from '../../test/project-configurator';
+import { anyTag } from '../../checks/any-tag';
+import { createProject } from '../../test/project-creator';
+import { toFsPath } from '../../file-info/fs-path';
+import { violatesDependencyRule } from '../violates-dependency-rule';
+import { tsConfig } from '../../test/fixtures/ts-config';
+import { violatesEncapsulationRule } from "../violates-encapsulation-rule";
 
 describe('ESLint features', () => {
   it('should never read from linted file', () => {
@@ -38,7 +38,7 @@ describe('ESLint features', () => {
     const fsPath = toFsPath('/project/src/shared/get.ts');
     const fileContent = getFs().readFile(fsPath);
     const fileReadSpy = vitest.spyOn(fs, 'readFile');
-    hasDeepImport(fsPath, '../config', true, fileContent);
+    violatesEncapsulationRule(fsPath, '../config', true, fileContent, false);
     violatesDependencyRule(fsPath, '../config', true, fileContent);
 
     const readsOnLintedFile = fileReadSpy.mock.calls.filter((params) => {

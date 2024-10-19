@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { checkForDeepImports } from '../check-for-deep-imports';
+import { hasEncapsulationViolations } from '../has-encapsulation-violations';
 import { toFsPath } from '../../file-info/fs-path';
 import { testInit } from '../../test/test-init';
 import { tsConfig } from '../../test/fixtures/ts-config';
 
-describe('check deep imports', () => {
+describe('check encapsulation', () => {
   it('should check for deep imports', () => {
     const projectInfo = testInit('src/main.ts', {
       'tsconfig.json': tsConfig(),
@@ -31,7 +31,7 @@ describe('check deep imports', () => {
       ['src/app/customers/index.ts', []],
     ]) {
       expect(
-        checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo),
+        Object.keys(hasEncapsulationViolations(toFsPath(`/project/${filename}`), projectInfo)),
         `failed deep import test for ${filename}`,
       ).toEqual(deepImports);
     }
@@ -53,7 +53,7 @@ describe('check deep imports', () => {
       ['src/app/app.component.ts', []],
     ]) {
       expect(
-        checkForDeepImports(toFsPath(`/project/${filename}`), projectInfo),
+        Object.keys(hasEncapsulationViolations(toFsPath(`/project/${filename}`), projectInfo)),
       ).toEqual(deepImports);
     }
   });

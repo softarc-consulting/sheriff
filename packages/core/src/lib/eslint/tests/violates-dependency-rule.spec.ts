@@ -1,11 +1,11 @@
 import { describe, expect, it, vitest } from 'vitest';
-import * as fileInfoGenerator from '../file-info/generate-unassigned-file-info';
-import { sheriffConfig } from '../test/project-configurator';
-import { createProject } from '../test/project-creator';
-import getFs from '../fs/getFs';
-import { toFsPath } from '../file-info/fs-path';
-import { violatesDependencyRule } from './violates-dependency-rule';
-import { tsConfig } from '../test/fixtures/ts-config';
+import * as fileInfoGenerator from '../../file-info/generate-unassigned-file-info';
+import { sheriffConfig } from '../../test/project-configurator';
+import { createProject } from '../../test/project-creator';
+import getFs from '../../fs/getFs';
+import { toFsPath } from '../../file-info/fs-path';
+import { violatesDependencyRule } from '../violates-dependency-rule';
+import { tsConfig } from '../../test/fixtures/ts-config';
 import { noDependencies, sameTag } from '@softarc/sheriff-core';
 
 describe('violates dependency rules', () => {
