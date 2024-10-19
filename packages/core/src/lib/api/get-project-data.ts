@@ -6,6 +6,7 @@ import getFs from '../fs/getFs';
 
 export type ProjectDataEntry = {
   module: string;
+  moduleType: 'barrel' | 'barrel-less',
   tags: string[];
   imports: string[];
   externalLibraries?: string[];
@@ -141,6 +142,7 @@ export function getProjectData(
   for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
     const entry: ProjectDataEntry = {
       module: fileInfo.moduleInfo.path || '.',
+      moduleType: fileInfo.moduleInfo.hasBarrel ? 'barrel' : 'barrel-less',
       tags: calcOrGetTags(
         fileInfo.moduleInfo.path,
         projectInfo,
@@ -177,6 +179,7 @@ function relativizeIfRequired(
   for (const [modulePath, moduleData] of Object.entries(data)) {
     const entry: ProjectDataEntry = {
       module: relative(toFsPath(moduleData.module)),
+      moduleType: moduleData.moduleType,
       tags: moduleData.tags,
       imports: moduleData.imports.map((importPath) =>
         relative(toFsPath(importPath)),

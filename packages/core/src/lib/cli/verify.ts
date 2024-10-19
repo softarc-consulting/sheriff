@@ -7,7 +7,7 @@ import { getEntryFromCliOrConfig } from './internal/get-entry-from-cli-or-config
 
 type ValidationsMap = Record<
   string,
-  { deepImports: string[]; dependencyRules: string[] }
+  { encapsulations: string[]; dependencyRules: string[] }
 >;
 
 export function verify(args: string[]) {
@@ -21,17 +21,17 @@ export function verify(args: string[]) {
   const projectInfo = getEntryFromCliOrConfig(args[0]);
 
   for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
-    const violations = Object.keys(hasEncapsulationViolations(fileInfo.path, projectInfo));
+    const encapsulations = Object.keys(hasEncapsulationViolations(fileInfo.path, projectInfo));
 
     const dependencyRuleViolations = checkForDependencyRuleViolation(
       fileInfo.path,
       projectInfo,
     );
 
-    if (violations.length > 0 || dependencyRuleViolations.length > 0) {
+    if (encapsulations.length > 0 || dependencyRuleViolations.length > 0) {
       hasError = true;
       filesCount++;
-      deepImportsCount += violations.length;
+      deepImportsCount += encapsulations.length;
       dependencyRulesCount += dependencyRuleViolations.length;
 
       const dependencyRules = dependencyRuleViolations.map(
@@ -40,7 +40,7 @@ export function verify(args: string[]) {
       );
 
       validationsMap[fs.relativeTo(fs.cwd(), fileInfo.path)] = {
-        deepImports: violations,
+        encapsulations,
         dependencyRules,
       };
     }
@@ -52,7 +52,7 @@ export function verify(args: string[]) {
     cli.log('');
     cli.log('Issues found:');
     cli.log(`  Total Invalid Files: ${filesCount}`);
-    cli.log(`  Total Deep Imports: ${deepImportsCount}`);
+    cli.log(`  Total Encapsulation Violations: ${deepImportsCount}`);
     cli.log(`  Total Dependency Rule Violations: ${dependencyRulesCount}`);
     cli.log('----------------------------------');
     cli.log('');
@@ -62,14 +62,14 @@ export function verify(args: string[]) {
     cli.endProcessOk();
   }
 
-  for (const [file, { deepImports, dependencyRules }] of Object.entries(
+  for (const [file, { encapsulations, dependencyRules }] of Object.entries(
     validationsMap,
   )) {
     cli.log('|-- ' + file);
-    if (deepImports.length > 0) {
-      cli.log('|   |-- Deep Imports');
-      deepImports.forEach((deepImport) => {
-        cli.log('|   |   |-- ' + deepImport);
+    if (encapsulations.length > 0) {
+      cli.log('|   |-- Encapsulation Violations');
+      encapsulations.forEach((encapsulation) => {
+        cli.log('|   |   |-- ' + encapsulation);
       });
     }
 
