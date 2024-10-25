@@ -2,6 +2,7 @@ import { FsPath } from '../file-info/fs-path';
 import { Configuration } from '../config/configuration';
 import { ProjectInfo } from '../main/init';
 import { FileInfo } from '../modules/file.info';
+import getFs from '../fs/getFs';
 
 /**
  * verifies if an existing file has imports which break
@@ -23,11 +24,17 @@ export function hasEncapsulationViolations(
       isSameModule(importedFileInfo, assignedFileInfo) ||
       isExcludedRootModule(rootDir, config, importedFileInfo) ||
       accessesBarrelFileForBarrelModules(importedFileInfo) ||
-      accessesExposedFileForBarrelLessModules(importedFileInfo, config.enableBarrelLess)
+      accessesExposedFileForBarrelLessModules(
+        importedFileInfo,
+        config.enableBarrelLess,
+        config.encapsulationPatternForBarrelLess,
+      )
     ) {
       // 👍 all good
     } else {
-      const rawImport = assignedFileInfo.getRawImportForImportedFileInfo(importedFileInfo.path);
+      const rawImport = assignedFileInfo.getRawImportForImportedFileInfo(
+        importedFileInfo.path,
+      );
       encapsulationViolations[rawImport] = importedFileInfo;
     }
   }
@@ -35,7 +42,12 @@ export function hasEncapsulationViolations(
   return encapsulationViolations;
 }
 
-function accessesExposedFileForBarrelLessModules(fileInfo: FileInfo, enableBarrelLess: boolean) {
+function accessesExposedFileForBarrelLessModules(
+  fileInfo: FileInfo,
+  enableBarrelLess: boolean,
+  encapsulationPatternForBarrelLess: string,
+) {
+  const fs = getFs();
   if (!enableBarrelLess) {
     return false;
   }
@@ -44,13 +56,8 @@ function accessesExposedFileForBarrelLessModules(fileInfo: FileInfo, enableBarre
     return false;
   }
 
-  const possibleEncapsulatedFolderPath =
-    fileInfo.moduleInfo.getEncapsulatedFolder();
-  if (possibleEncapsulatedFolderPath === undefined) {
-    return true;
-  }
-
-  return !fileInfo.path.startsWith(possibleEncapsulatedFolderPath);
+  const relativePath = fs.relativeTo(fileInfo.moduleInfo.path, fileInfo.path);
+  return !relativePath.startsWith(encapsulationPatternForBarrelLess);
 }
 
 function accessesBarrelFileForBarrelModules(fileInfo: FileInfo) {
@@ -74,5 +81,5 @@ function isExcludedRootModule(
 }
 
 function isSameModule(importedFileInfo: FileInfo, assignedFileInfo: FileInfo) {
-  return importedFileInfo.moduleInfo.path === assignedFileInfo.moduleInfo.path
+  return importedFileInfo.moduleInfo.path === assignedFileInfo.moduleInfo.path;
 }

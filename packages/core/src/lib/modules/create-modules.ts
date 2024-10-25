@@ -11,7 +11,8 @@ import {
   keys,
   values,
 } from '../util/typed-object-functions';
-import { warnOnBarrelFileLessCollision } from './warn-on-barrel-file-less-collision';
+
+
 
 interface CreateModulesContext {
   entryFileInfo: UnassignedFileInfo;
@@ -42,8 +43,7 @@ export function createModules(
         getFileInfo,
         false,
         hasBarrel,
-        barrelFile,
-        encapsulatedFolderName,
+        barrelFile
       ),
     ]),
   );
@@ -54,8 +54,7 @@ export function createModules(
     getFileInfo,
     true,
     false,
-    barrelFile,
-    encapsulatedFolderName,
+    barrelFile
   );
 
   const modulePaths = keys(moduleMap);
@@ -65,12 +64,7 @@ export function createModules(
     moduleMap[modulePath].addFileInfo(fileInfo);
   }
 
-  const modules = values(moduleMap);
-  if (showWarningOnBarrelFileLessCollision) {
-    warnOnBarrelFileLessCollision(modules, barrelFile, encapsulatedFolderName);
-  }
-
-  return modules;
+  return values(moduleMap);
 }
 
 function findClosestModulePath(path: string, modulePaths: FsPath[]) {

@@ -4,6 +4,7 @@ import { UserSheriffConfig } from './user-sheriff-config';
 import getFs from '../fs/getFs';
 import { Configuration } from './configuration';
 import {
+  CollidingEncapsulationSettings,
   MissingModulesWithoutAutoTaggingError,
   TaggingAndModulesError,
 } from '../error/user-error';
@@ -24,12 +25,23 @@ export const parseConfig = (configFile: FsPath): Configuration => {
   if (userSheriffConfig.tagging && userSheriffConfig.modules) {
     throw new TaggingAndModulesError();
   }
-
   if (userSheriffConfig.tagging) {
-    const {tagging, ...rest} = userSheriffConfig;
-    return { ...defaultConfig, ...rest, modules: tagging };
-
-  } else {
-    return { ...defaultConfig, ...userSheriffConfig };
+    userSheriffConfig.modules = userSheriffConfig.tagging;
   }
+
+  if (
+    userSheriffConfig.encapsulationPatternForBarrelLess !== undefined &&
+    userSheriffConfig.encapsulatedFolderNameForBarrelLess !== undefined
+  ) {
+    throw new CollidingEncapsulationSettings();
+  }
+
+  if (userSheriffConfig.encapsulatedFolderNameForBarrelLess) {
+    userSheriffConfig.encapsulationPatternForBarrelLess =
+      userSheriffConfig.encapsulatedFolderNameForBarrelLess;
+  }
+
+  const { tagging, encapsulatedFolderNameForBarrelLess, ...rest } =
+    userSheriffConfig;
+  return { ...defaultConfig, ...rest };
 };

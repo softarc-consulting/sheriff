@@ -6,7 +6,8 @@ export type UserErrorCode =
   | 'SH-005'
   | 'SH-006'
   | 'SH-007'
-  | 'SH-008';
+  | 'SH-008'
+  | 'SH-009';
 
 export class UserError extends Error {
   constructor(
@@ -82,6 +83,15 @@ export class TaggingAndModulesError extends UserError {
     super(
       'SH-008',
       'sheriff.config.ts contains both tagging and modules. Use only modules.',
+    );
+  }
+}
+
+export class CollidingEncapsulationSettings extends UserError {
+  constructor() {
+    super(
+      'SH-009',
+      'sheriff.config.ts contains both encapsulatedFolderNameForBarrelLess and encapsulationPatternForBarrellLess. Use encapsulationPatternForBarrellLess.',
     );
   }
 }
