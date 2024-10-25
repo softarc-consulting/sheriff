@@ -12,27 +12,17 @@ import {
   values,
 } from '../util/typed-object-functions';
 
-
-
 interface CreateModulesContext {
   entryFileInfo: UnassignedFileInfo;
   rootDir: FsPath;
   barrelFile: string;
-  encapsulatedFolderName: string;
-  showWarningOnBarrelFileLessCollision: boolean;
 }
 
 export function createModules(
   modulePathMap: ModulePathMap,
   fileInfoMap: Map<FsPath, FileInfo>,
   getFileInfo: (path: FsPath) => FileInfo,
-  {
-    entryFileInfo,
-    rootDir,
-    barrelFile,
-    encapsulatedFolderName,
-    showWarningOnBarrelFileLessCollision,
-  }: CreateModulesContext,
+  { entryFileInfo, rootDir, barrelFile }: CreateModulesContext,
 ): Module[] {
   const moduleMap = fromEntries(
     entries(modulePathMap).map(([path, hasBarrel]) => [
@@ -43,7 +33,7 @@ export function createModules(
         getFileInfo,
         false,
         hasBarrel,
-        barrelFile
+        barrelFile,
       ),
     ]),
   );
@@ -54,7 +44,7 @@ export function createModules(
     getFileInfo,
     true,
     false,
-    barrelFile
+    barrelFile,
   );
 
   const modulePaths = keys(moduleMap);
