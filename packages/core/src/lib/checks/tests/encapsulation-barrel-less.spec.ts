@@ -6,6 +6,68 @@ import { hasEncapsulationViolations } from '../has-encapsulation-violations';
 import { UserSheriffConfig } from '../../config/user-sheriff-config';
 import { traverseFileInfo } from '../../modules/traverse-file-info';
 
+function assertProject(config: Partial<UserSheriffConfig> = {}) {
+  return {
+    withCustomerRoute(customerFileTree: FileTree) {
+      return {
+        hasEncapsulationViolations(
+          encapsulationViolations: Record<string, string[]> = {},
+        ) {
+          const projectInfo = testInit('src/main.ts', {
+            'tsconfig.json': tsConfig(),
+            'sheriff.config.ts': sheriffConfig({
+              ...{
+                modules: {
+                  'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
+                },
+                depRules: {},
+                enableBarrelLess: true,
+              },
+              ...config,
+            }),
+            src: {
+              'main.ts': ['./app/app.routes'],
+              app: {
+                'app.routes.ts': [
+                  './customer/feature/customer.component.ts',
+                  './customer/feature/customers.component.ts',
+                ],
+                customer: customerFileTree,
+              },
+            },
+          });
+
+          for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
+            expect(
+              fileInfo.hasUnresolvedImports(),
+              `${fileInfo.path} has unresolved imports`,
+            ).toBe(false);
+
+            const pathToLookup = fileInfo.path.replace(
+              '/project/src/app/customer/',
+              '',
+            );
+
+            const expectedDeepImports =
+              encapsulationViolations[pathToLookup] || [];
+            const violations = hasEncapsulationViolations(
+              fileInfo.path,
+              projectInfo,
+            );
+            const violatedImports = Object.keys(violations);
+            expect
+              .soft(
+                violatedImports,
+                `deep imports check failed for ${fileInfo.path}`,
+              )
+              .toEqual(expectedDeepImports);
+          }
+        },
+      };
+    },
+  };
+}
+
 describe('barrel-less', () => {
   it('should check for deep imports', () => {
     assertProject()
@@ -91,7 +153,7 @@ describe('barrel-less', () => {
 
   it('should be able to change the name of internals', () => {
     assertProject({
-      encapsulatedFolderNameForBarrelLess: 'private',
+      encapsulationPatternForBarrelLess: 'private',
     })
       .withCustomerRoute({
         feature: {
@@ -125,60 +187,51 @@ describe('barrel-less', () => {
         'feature/customers.component.ts': ['../data/open.service.ts'],
       });
   });
+
+  it('should be by default first level only', () => {
+    assertProject()
+      .withCustomerRoute({
+        feature: {
+          'customer.component.ts': [''],
+          'customers.component.ts': ['../data/sub1/internal/hidden.service.ts'],
+        },
+        data: {
+          sub1: {
+            internal: { 'hidden.service.ts': [] },
+          },
+        },
+      })
+      .hasEncapsulationViolations({});
+  });
+
+  it.skip('should support wildcards', () => {
+    assertProject({ encapsulationPatternForBarrelLess: '**/internal' })
+      .withCustomerRoute({
+        feature: {
+          'customer.component.ts': [],
+          'customers.component.ts': [
+            '../data/sub1/internal/hidden.service.ts',
+            '../data/sub2/sub3/internal/hidden.service.ts',
+          ],
+        },
+        data: {
+          sub1: {
+            internal: { 'hidden.service.ts': [] },
+          },
+          sub2: {
+            sub3: {
+              internal: { 'hidden.service.ts': [] },
+            },
+          },
+        },
+      })
+      .hasEncapsulationViolations({
+        'feature/customers.component.ts': ['../data/open.service.ts'],
+      });
+  });
+
+  it.skip('should support nested wildcards', () => {});
+
+  it.skip('should apply regex to path', () => {});
 });
 
-function assertProject(config: Partial<UserSheriffConfig> = {}) {
-  return {
-    withCustomerRoute(customerFileTree: FileTree) {
-      return {
-        hasEncapsulationViolations(encapsulationViolations: Record<string, string[]> = {}) {
-          const projectInfo = testInit('src/main.ts', {
-            'tsconfig.json': tsConfig(),
-            'sheriff.config.ts': sheriffConfig({
-              ...{
-                modules: {
-                  'src/app/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
-                },
-                depRules: {},
-                enableBarrelLess: true,
-              },
-              ...config,
-            }),
-            src: {
-              'main.ts': ['./app/app.routes'],
-              app: {
-                'app.routes.ts': [
-                  './customer/feature/customer.component.ts',
-                  './customer/feature/customers.component.ts',
-                ],
-                customer: customerFileTree,
-              },
-            },
-          });
-
-          for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
-            expect(
-              fileInfo.hasUnresolvedImports(),
-              `${fileInfo.path} has unresolved imports`,
-            ).toBe(false);
-
-            const pathToLookup = fileInfo.path.replace(
-              '/project/src/app/customer/',
-              '',
-            );
-
-            const expectedDeepImports = encapsulationViolations[pathToLookup] || [];
-            const violations = hasEncapsulationViolations(fileInfo.path, projectInfo);
-            const violatedImports = Object.keys(violations);
-            expect
-              .soft(
-                violatedImports,
-                `deep imports check failed for ${fileInfo.path}`,
-              )
-              .toEqual(expectedDeepImports);
-          }
-        },
-      };
-    },
-  };
-}

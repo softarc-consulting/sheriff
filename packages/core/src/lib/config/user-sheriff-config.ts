@@ -177,12 +177,33 @@ export interface UserSheriffConfig {
    * The encapsulated folder contains all files
    * which are not available outside the module.
    * By default, it is set to `internal`.
+   *
+   * @deprecated use {@link encapsulationPatternForBarrelLess} instead
    */
   encapsulatedFolderNameForBarrelLess?: string;
 
   /**
-   * Show warning message when a module has both a barrel file
-   * and an "internal" (barrel-less) folder
+   * By default, it is set to `internal`, meaning
+   * all files within the subfolder `internal` of
+   * a module are encapsulated.
+   *
+   * You can choose a string value, a global value
+   * or a regex to define the location/pattern for
+   * encapsulation in barrel-less modules.
+   *
+   * Example with a simple string:
+   *
+   * <code>
+   *
+   * </code>
+   *
+   * This is a more powerful alternative to
+   * {@link encapsulatedFolderNameForBarrelLess}.
+   */
+  encapsulationPatternForBarrelLess?: string
+
+  /**
+   * @deprecated no warning is shown.
    */
   showWarningOnBarrelCollision?: boolean
 

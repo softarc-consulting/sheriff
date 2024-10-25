@@ -3,7 +3,11 @@ import * as ts from 'typescript';
 import { parseConfig } from '../parse-config';
 import { toFsPath } from '../../file-info/fs-path';
 import getFs, { useVirtualFs } from '../../fs/getFs';
-import { MissingModulesWithoutAutoTaggingError, TaggingAndModulesError } from "../../error/user-error";
+import {
+  CollidingEncapsulationSettings,
+  MissingModulesWithoutAutoTaggingError,
+  TaggingAndModulesError
+} from "../../error/user-error";
 import '../../test/expect.extensions';
 
 describe('parse Config', () => {
@@ -28,8 +32,7 @@ describe('parse Config', () => {
       'depRules',
       'excludeRoot',
       'enableBarrelLess',
-      'encapsulatedFolderNameForBarrelLess',
-      'showWarningOnBarrelCollision',
+      'encapsulationPatternForBarrelLess',
       'log',
       'entryFile',
       'isConfigFileMissing',
@@ -69,8 +72,7 @@ export const config: SheriffConfig = {
         modules: {},
         depRules: { noTag: 'noTag' },
         enableBarrelLess: false,
-        encapsulatedFolderNameForBarrelLess: 'internal',
-        showWarningOnBarrelCollision: true,
+        encapsulationPatternForBarrelLess: 'internal',
         excludeRoot: false,
         log: false,
         isConfigFileMissing: false,
@@ -95,8 +97,6 @@ export const config: SheriffConfig = {
         parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
       ).toThrowUserError(new MissingModulesWithoutAutoTaggingError());
     });
-
-
 
     it('should throw if both tagging and modules are available', () => {
       getFs().writeFile(
@@ -129,9 +129,53 @@ export const config: SheriffConfig = {
       `,
     );
 
-    const config: Record<string, unknown> = parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts'))
+    const config: Record<string, unknown> = parseConfig(
+      toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+    );
     expect(config['tagging']).toBeUndefined();
     expect(config['modules']).toEqual({ 'src/app': 'app' });
-  })
-});
+  });
 
+  it('should use encapsulatedFolderNameForBarrelLess for encapsulationPatternForBarrellLess', () => {
+    getFs().writeFile(
+      'sheriff.config.ts',
+      `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  depRules: {
+    'root': 'noTag',
+    'noTag': 'noTag',
+  },
+  encapsulatedFolderNameForBarrelLess: '_private'
+};
+      `,
+    );
+
+    expect(parseConfig(
+      toFsPath(getFs().cwd() + '/sheriff.config.ts')
+    ).encapsulationPatternForBarrelLess).toBe('_private')
+  })
+
+  it('should throw if both encapsulatedFolderNameForBarrelLess and encapsulationPatternForBarrelLess exist', () => {
+    getFs().writeFile(
+      'sheriff.config.ts',
+      `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  depRules: {
+    'root': 'noTag',
+    'noTag': 'noTag',
+  },
+  encapsulatedFolderNameForBarrelLess: 'internal',
+  encapsulationPatternForBarrelLess: 'internal'
+};
+      `,
+    );
+
+    expect(() => parseConfig(
+      toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+    )).toThrowUserError(new CollidingEncapsulationSettings())
+  });
+});

@@ -45,7 +45,7 @@ describe('encapsulation', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should direclty use the message from encapsulation', () => {
+  it('should directly use the message from encapsulation', () => {
     spy.mockImplementation(() => 'nothing works');
     tester.run('encapsulation', encapsulation, {
       valid: [],
