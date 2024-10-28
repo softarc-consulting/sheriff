@@ -7,7 +7,7 @@ export const defaultConfig: Configuration = {
   depRules: {},
   excludeRoot: false,
   enableBarrelLess: false,
-  encapsulationPatternForBarrelLess: 'internal',
+  encapsulationPattern: 'internal',
   log: false,
   entryFile: '',
   isConfigFileMissing: false,

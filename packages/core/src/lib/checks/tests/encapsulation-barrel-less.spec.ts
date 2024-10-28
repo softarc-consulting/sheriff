@@ -153,7 +153,7 @@ describe('barrel-less', () => {
 
   it('should be able to change the name of internals', () => {
     assertProject({
-      encapsulationPatternForBarrelLess: 'private',
+      encapsulationPattern: 'private',
     })
       .withCustomerRoute({
         feature: {
@@ -171,7 +171,7 @@ describe('barrel-less', () => {
   });
 
   it('should always prioritize the barrel file', () => {
-    assertProject({ showWarningOnBarrelCollision: false })
+    assertProject()
       .withCustomerRoute({
         feature: {
           'customer.component.ts': ['../data'],
@@ -205,7 +205,7 @@ describe('barrel-less', () => {
   });
 
   it.skip('should support wildcards', () => {
-    assertProject({ encapsulationPatternForBarrelLess: '**/internal' })
+    assertProject({ encapsulationPattern: '**/internal' })
       .withCustomerRoute({
         feature: {
           'customer.component.ts': [],
