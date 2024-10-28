@@ -30,14 +30,14 @@ export const parseConfig = (configFile: FsPath): Configuration => {
   }
 
   if (
-    userSheriffConfig.encapsulationPatternForBarrelLess !== undefined &&
+    userSheriffConfig.encapsulationPattern !== undefined &&
     userSheriffConfig.encapsulatedFolderNameForBarrelLess !== undefined
   ) {
     throw new CollidingEncapsulationSettings();
   }
 
   if (userSheriffConfig.encapsulatedFolderNameForBarrelLess) {
-    userSheriffConfig.encapsulationPatternForBarrelLess =
+    userSheriffConfig.encapsulationPattern =
       userSheriffConfig.encapsulatedFolderNameForBarrelLess;
   }
 

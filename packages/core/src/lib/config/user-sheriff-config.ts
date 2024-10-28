@@ -178,7 +178,7 @@ export interface UserSheriffConfig {
    * which are not available outside the module.
    * By default, it is set to `internal`.
    *
-   * @deprecated use {@link encapsulationPatternForBarrelLess} instead
+   * @deprecated use {@link encapsulationPattern} instead
    */
   encapsulatedFolderNameForBarrelLess?: string;
 
@@ -200,7 +200,7 @@ export interface UserSheriffConfig {
    * This is a more powerful alternative to
    * {@link encapsulatedFolderNameForBarrelLess}.
    */
-  encapsulationPatternForBarrelLess?: string
+  encapsulationPattern?: string
 
   /**
    * @deprecated no warning is shown.

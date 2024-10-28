@@ -27,7 +27,7 @@ export function hasEncapsulationViolations(
       accessesExposedFileForBarrelLessModules(
         importedFileInfo,
         config.enableBarrelLess,
-        config.encapsulationPatternForBarrelLess,
+        config.encapsulationPattern,
       )
     ) {
       // 👍 all good

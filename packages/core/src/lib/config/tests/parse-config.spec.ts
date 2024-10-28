@@ -32,7 +32,7 @@ describe('parse Config', () => {
       'depRules',
       'excludeRoot',
       'enableBarrelLess',
-      'encapsulationPatternForBarrelLess',
+      'encapsulationPattern',
       'log',
       'entryFile',
       'isConfigFileMissing',
@@ -72,7 +72,7 @@ export const config: SheriffConfig = {
         modules: {},
         depRules: { noTag: 'noTag' },
         enableBarrelLess: false,
-        encapsulationPatternForBarrelLess: 'internal',
+        encapsulationPattern: 'internal',
         excludeRoot: false,
         log: false,
         isConfigFileMissing: false,
@@ -154,7 +154,7 @@ export const config: SheriffConfig = {
 
     expect(parseConfig(
       toFsPath(getFs().cwd() + '/sheriff.config.ts')
-    ).encapsulationPatternForBarrelLess).toBe('_private')
+    ).encapsulationPattern).toBe('_private')
   })
 
   it('should throw if both encapsulatedFolderNameForBarrelLess and encapsulationPatternForBarrelLess exist', () => {
@@ -169,7 +169,7 @@ export const config: SheriffConfig = {
     'noTag': 'noTag',
   },
   encapsulatedFolderNameForBarrelLess: 'internal',
-  encapsulationPatternForBarrelLess: 'internal'
+  encapsulationPattern: 'internal'
 };
       `,
     );
