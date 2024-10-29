@@ -45,7 +45,7 @@ export function hasEncapsulationViolations(
 function accessesExposedFileForBarrelLessModules(
   fileInfo: FileInfo,
   enableBarrelLess: boolean,
-  encapsulationPatternForBarrelLess: string,
+  encapsulationPattern: string | RegExp,
 ) {
   const fs = getFs();
   if (!enableBarrelLess) {
@@ -57,7 +57,13 @@ function accessesExposedFileForBarrelLessModules(
   }
 
   const relativePath = fs.relativeTo(fileInfo.moduleInfo.path, fileInfo.path);
-  return !relativePath.startsWith(encapsulationPatternForBarrelLess);
+
+  if (typeof encapsulationPattern === 'string') {
+    return !relativePath.startsWith(encapsulationPattern);
+  } else {
+    const matches = relativePath.match(encapsulationPattern);
+    return !matches
+  }
 }
 
 function accessesBarrelFileForBarrelModules(fileInfo: FileInfo) {
