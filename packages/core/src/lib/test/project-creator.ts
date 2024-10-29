@@ -47,9 +47,20 @@ class ProjectCreator {
       } else if (typeof value === 'string') {
         this.fs.writeFile(`${currentDir}/${child}`, value);
       } else if (isSheriffConfigContent(value)) {
-        const serializedConfig = JSON.stringify(
-          serializeDepRules({ ...defaultConfig, ...value.content }),
-        ).replace(/"α([^ω]+)ω"/g, '$1');
+        let serializedConfig = JSON.stringify(
+          serializeEncapsulationPattern(
+            serializeDepRules({ ...defaultConfig, ...value.content }),
+          ),
+        );
+
+        if (value.content.encapsulationPattern instanceof RegExp) {
+          serializedConfig = serializedConfig.replace(
+            /"Δ.*Δ"/,
+            value.content.encapsulationPattern.toString(),
+          );
+        }
+
+        serializedConfig = serializedConfig.replace(/"α([^ω]+)ω"/g, '$1');
         this.fs.writeFile(
           `${currentDir}/${child}`,
           `export const config = ${serializedConfig};`,
@@ -74,4 +85,15 @@ function serializeDepRules(config: Configuration): Configuration {
       {},
     ),
   };
+}
+
+function serializeEncapsulationPattern(config: Configuration): Configuration {
+  if (typeof config.encapsulationPattern === 'string') {
+    return config;
+  } else {
+    return {
+      ...config,
+      encapsulationPattern: `Δ${config.encapsulationPattern.toString()}Δ`,
+    };
+  }
 }

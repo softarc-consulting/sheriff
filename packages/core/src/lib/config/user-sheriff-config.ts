@@ -191,16 +191,36 @@ export interface UserSheriffConfig {
    * or a regex to define the location/pattern for
    * encapsulation in barrel-less modules.
    *
-   * Example with a simple string:
+   * Examples:
    *
-   * <code>
+   * ---
+   * A **string** `encapsulationPattern: 'private'` encapsulates
    *
-   * </code>
+   * - `private/main.ts`
+   * - `private/sub/sub.ts`
    *
-   * This is a more powerful alternative to
-   * {@link encapsulatedFolderNameForBarrelLess}.
+   * But would expose
+   * - `main.ts`
+   * - `internal/hidden.ts`
+   *
+   * ---
+   *
+   * A **regular expression** `encapsulationPattern: /(^|\/)_/` encapsulates
+   * any file or directory starting with an underscore:
+   *
+   * - _main.ts
+   * - internal/_hidden
+   * - _sub/main.ts
+   *
+   * But would expose
+   *
+   * - main.ts
+   * - internal/hidden
+   * - sub/main_file.ts
+   *
+   * ---
    */
-  encapsulationPattern?: string
+  encapsulationPattern?: string | RegExp
 
   /**
    * @deprecated no warning is shown.

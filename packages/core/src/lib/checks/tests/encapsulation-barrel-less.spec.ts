@@ -232,6 +232,35 @@ describe('barrel-less', () => {
 
   it.skip('should support nested wildcards', () => {});
 
-  it.skip('should apply regex to path', () => {});
+  it('should apply regex to path', () => {
+    assertProject({ encapsulationPattern: /(^|\/)_/ })
+      .withCustomerRoute({
+        feature: {
+          'customer.component.ts': [],
+          'customers.component.ts': [
+            '../data/_main.ts',
+            '../data/sub/_file.ts',
+            '../data/_sub/file.ts',
+            '../data/main.ts',
+            '../data/main_file.ts',
+            '../data/internal/file.ts',
+          ],
+        },
+        data: {
+          '_main.ts': [],
+          sub: { '_file.ts': [] },
+          _sub: { 'file.ts': [] },
+          'main.ts': [],
+          'main_file.ts': [],
+          'internal/file.ts': [],
+        },
+      })
+      .hasEncapsulationViolations({
+        'feature/customers.component.ts': [
+          '../data/_main.ts',
+          '../data/sub/_file.ts',
+          '../data/_sub/file.ts',
+        ],
+      });
+  });
 });
-
