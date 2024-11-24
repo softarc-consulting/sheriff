@@ -6,7 +6,7 @@ const unusedImports = require('eslint-plugin-unused-imports');
 module.exports = tseslint.config(
   ...tseslint.configs.recommended,
   {
-    files: ['*.json', '*.html', '*.ts'],
+    files: ['*.html', '*.ts'],
     extends: [prettierRecommended],
   },
   {
