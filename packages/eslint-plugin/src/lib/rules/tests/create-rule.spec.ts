@@ -1,17 +1,18 @@
+import { UserError } from '@softarc/sheriff-core';
 import { RuleTester } from 'eslint';
+import { parser } from 'typescript-eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from '../create-rule';
-import { UserError } from '@softarc/sheriff-core';
-import { parser } from 'typescript-eslint';
+import { excludeSheriffConfig } from '../file-filter';
 
 const tester = new RuleTester({
-  languageOptions: { parser, sourceType: 'module' }
+  languageOptions: { parser, sourceType: 'module' },
 });
 
 const ruleExecutor = { foo: () => void true };
 const spy = vitest.spyOn(ruleExecutor, 'foo');
 
-export const testRule = createRule('Test Rule', () => {
+export const testRule = createRule('Test Rule', excludeSheriffConfig, () => {
   ruleExecutor.foo();
 });
 
@@ -84,7 +85,7 @@ describe('create rule', () => {
           `,
         },
       ],
-      invalid: []
+      invalid: [],
     });
 
     expect(spy).toHaveBeenCalledTimes(2);
