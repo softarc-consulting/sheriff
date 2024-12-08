@@ -35,7 +35,7 @@ describe('create rule', () => {
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it.only('should NOT call the rule executor for any import or export types when filename is "sheriff.config.ts"', () => {
+  it('should NOT call the rule executor for any import or export types when filename is "sheriff.config.ts"', () => {
     tester.run('test-rule', testRule, {
       valid: [
         {

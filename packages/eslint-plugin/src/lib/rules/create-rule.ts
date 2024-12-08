@@ -21,16 +21,16 @@ export const createRule: (
   executor: Executor,
 ) => Rule.RuleModule = (ruleName, fileFilter, executor) => ({
   create: (context) => {
+    const filename = context.filename ?? context.getFilename();
+    if (isExcluded(fileFilter, filename)) {
+      return {};
+    }
+
     let isFirstRun = true;
     let hasInternalError = false;
     const executeRuleWithContext = (node: ExecutorNode) => {
-      const filename = context.filename ?? context.getFilename();
       const sourceCode =
         context.sourceCode?.text ?? context.getSourceCode().text;
-
-      if (isExcluded(fileFilter, filename)) {
-        return;
-      }
 
       if (!hasInternalError) {
         try {
