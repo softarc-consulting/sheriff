@@ -3,7 +3,7 @@ export interface FileFilter {
   exclude?: string[];
 }
 
-const sheriffConfigFileName = 'sheriff.config.ts';
+export const sheriffConfigFileName = 'sheriff.config.ts';
 
 export const excludeSheriffConfig: FileFilter = {
   exclude: [sheriffConfigFileName],

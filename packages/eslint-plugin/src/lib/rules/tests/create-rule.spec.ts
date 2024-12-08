@@ -3,7 +3,7 @@ import { RuleTester } from 'eslint';
 import { parser } from 'typescript-eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from '../create-rule';
-import { excludeSheriffConfig } from '../file-filter';
+import { excludeSheriffConfig, sheriffConfigFileName } from '../file-filter';
 
 const tester = new RuleTester({
   languageOptions: { parser, sourceType: 'module' },
@@ -33,6 +33,21 @@ describe('create rule', () => {
       invalid: [],
     });
     expect(spy).toHaveBeenCalledTimes(2);
+  });
+
+  it.only('should NOT call the rule executor for any import or export types when filename is "sheriff.config.ts"', () => {
+    tester.run('test-rule', testRule, {
+      valid: [
+        {
+          filename: sheriffConfigFileName,
+          code: `import {AppComponent} from './app.component'
+      const a = new AppComponent();
+      import('../util.ts')`,
+        },
+      ],
+      invalid: [],
+    });
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   for (const { throwing, message } of [
