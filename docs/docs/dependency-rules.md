@@ -238,7 +238,7 @@ export const sheriffConfig: SheriffConfig = {
 };
 ```
 
-By using `domain:_` and `type:_` define two dimension for the whole project. The following rules should apply
+`domain:_` and `type:_` define two dimensions for the whole project. The following rules should apply:
 
 1. A module can only depend on other modules of the same domain.
 2. A module tagged as `type:feature` can depend on `type:data`, but the reverse is not allowed.
@@ -266,7 +266,7 @@ export const sheriffConfig: SheriffConfig = {
 
 If these rules are violated, a linting error will be triggered:
 
-<img width="1512" alt="Screenshot 2023-06-13 at 17 50 41" src="/img/dependency-rules-1.png"></img>
+<img width="1512" alt="Violation of Dependency Rules" src="../img/dependency-rules-1.png"></img>
 
 If only the modules within the director "holidays" should get tags, and the other modules should be auto-tagged, i.e. `noTag`, the configuration would look like this:
 
