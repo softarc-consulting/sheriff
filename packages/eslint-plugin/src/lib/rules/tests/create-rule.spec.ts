@@ -1,17 +1,18 @@
+import { UserError } from '@softarc/sheriff-core';
 import { RuleTester } from 'eslint';
+import { parser } from 'typescript-eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from '../create-rule';
-import { UserError } from '@softarc/sheriff-core';
-import { parser } from 'typescript-eslint';
+import { excludeSheriffConfig, sheriffConfigFileName } from '../file-filter';
 
 const tester = new RuleTester({
-  languageOptions: { parser, sourceType: 'module' }
+  languageOptions: { parser, sourceType: 'module' },
 });
 
 const ruleExecutor = { foo: () => void true };
 const spy = vitest.spyOn(ruleExecutor, 'foo');
 
-export const testRule = createRule('Test Rule', () => {
+export const testRule = createRule('Test Rule', excludeSheriffConfig, () => {
   ruleExecutor.foo();
 });
 
@@ -32,6 +33,21 @@ describe('create rule', () => {
       invalid: [],
     });
     expect(spy).toHaveBeenCalledTimes(2);
+  });
+
+  it('should NOT call the rule executor for any import or export types when filename is "sheriff.config.ts"', () => {
+    tester.run('test-rule', testRule, {
+      valid: [
+        {
+          filename: sheriffConfigFileName,
+          code: `import {AppComponent} from './app.component'
+      const a = new AppComponent();
+      import('../util.ts')`,
+        },
+      ],
+      invalid: [],
+    });
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   for (const { throwing, message } of [
@@ -84,7 +100,7 @@ describe('create rule', () => {
           `,
         },
       ],
-      invalid: []
+      invalid: [],
     });
 
     expect(spy).toHaveBeenCalledTimes(2);
