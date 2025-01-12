@@ -1,4 +1,4 @@
-import { ESLint } from "eslint";
+import { ESLint } from 'eslint';
 
 export const legacyBarrelModulesOnly: ESLint.ConfigData = {
   parser: '@typescript-eslint/parser',
@@ -7,7 +7,7 @@ export const legacyBarrelModulesOnly: ESLint.ConfigData = {
     '@softarc/sheriff/dependency-rule': 'error',
     '@softarc/sheriff/deep-import': 'error',
   },
-}
+};
 
 export const legacy: ESLint.ConfigData = {
   parser: '@typescript-eslint/parser',
@@ -16,5 +16,4 @@ export const legacy: ESLint.ConfigData = {
     '@softarc/sheriff/dependency-rule': 'error',
     '@softarc/sheriff/encapsulation': 'error',
   },
-}
-
+};
