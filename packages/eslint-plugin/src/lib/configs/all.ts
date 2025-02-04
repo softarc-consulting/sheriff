@@ -14,18 +14,40 @@ const commonConfig: TSESLint.FlatConfig.Config = {
   },
 };
 
-export const barrelModulesOnly: TSESLint.FlatConfig.Config = {
-  ...commonConfig,
+const sheriffConfig: TSESLint.FlatConfig.Config = {
+  files: ['sheriff.config.ts'],
+  languageOptions: {
+    sourceType: 'module',
+  },
+  plugins: {
+    '@softarc/sheriff-config': {
+      sheriffConfig,
+    },
+  },
   rules: {
-    '@softarc/sheriff/dependency-rule': 'error',
-    '@softarc/sheriff/deep-import': 'error',
+    '@softarc/sheriff-config/module-paths': 'error',
+    '@softarc/sheriff-config/barrel-less': 'error',
   },
 };
 
-export const all: TSESLint.FlatConfig.Config = {
-  ...commonConfig,
-  rules: {
-    '@softarc/sheriff/dependency-rule': 'error',
-    '@softarc/sheriff/encapsulation': 'error',
+export const barrelModulesOnly: TSESLint.FlatConfig.ConfigArray = [
+  {
+    ...commonConfig,
+    rules: {
+      '@softarc/sheriff/dependency-rule': 'error',
+      '@softarc/sheriff/deep-import': 'error',
+    },
   },
-};
+  sheriffConfig,
+];
+
+export const all: TSESLint.FlatConfig.ConfigArray = [
+  {
+    ...commonConfig,
+    rules: {
+      '@softarc/sheriff/dependency-rule': 'error',
+      '@softarc/sheriff/encapsulation': 'error',
+    },
+  },
+  sheriffConfig,
+];
