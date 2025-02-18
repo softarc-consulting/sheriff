@@ -7,7 +7,8 @@ export type UserErrorCode =
   | 'SH-006'
   | 'SH-007'
   | 'SH-008'
-  | 'SH-009';
+  | 'SH-009'
+  | 'SH-010';
 
 export class UserError extends Error {
   constructor(
@@ -92,6 +93,15 @@ export class CollidingEncapsulationSettings extends UserError {
     super(
       'SH-009',
       'sheriff.config.ts contains both encapsulatedFolderNameForBarrelLess and encapsulationPatternForBarrellLess. Use encapsulationPatternForBarrellLess.',
+    );
+  }
+}
+
+export class TsExtendsResolutionError extends UserError {
+  constructor(tsConfigPath: string, extendsPath: string) {
+    super(
+      'SH-010',
+      `Cannot resolve path ${extendsPath} of "extends" property in ${tsConfigPath}. Please verify that the path exists.`,
     );
   }
 }

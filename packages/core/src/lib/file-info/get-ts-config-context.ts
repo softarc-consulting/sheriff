@@ -2,7 +2,13 @@ import getFs from '../fs/getFs';
 import * as ts from 'typescript';
 import { FsPath, toFsPath } from './fs-path';
 import { TsConfig } from './ts-config';
-import { InvalidPathError } from '../error/user-error';
+import {
+  InvalidPathError,
+  TsExtendsResolutionError,
+} from '../error/user-error';
+import { resolvePotentialTsPath } from './resolve-potential-ts-path';
+import { ResolveFn } from './traverse-filesystem';
+import { sys } from 'typescript';
 
 export type TsConfigContext = {
   paths: Record<string, FsPath>;
@@ -44,7 +50,9 @@ export function getTsConfigContext(tsConfigPath: FsPath): TsConfigContext {
     const config = configContent.config as TsConfig;
     currentTsConfigDir = fs.getParent(currentTsConfigPath);
     if (baseUrl === undefined && config.compilerOptions?.baseUrl) {
-      baseUrl = toFsPath(fs.join(currentTsConfigDir, config.compilerOptions.baseUrl))
+      baseUrl = toFsPath(
+        fs.join(currentTsConfigDir, config.compilerOptions.baseUrl),
+      );
     }
 
     const newPaths: Record<string, string[]> =
@@ -69,9 +77,28 @@ export function getTsConfigContext(tsConfigPath: FsPath): TsConfigContext {
     }
 
     if (config.extends) {
-      currentTsConfigPath = toFsPath(
-        fs.join(fs.getParent(currentTsConfigPath), config.extends),
+      // try non-alias exports first
+      const potentialExtendsFsPath = fs.join(
+        fs.getParent(currentTsConfigPath),
+        config.extends,
       );
+
+      if (fs.exists(potentialExtendsFsPath)) {
+        currentTsConfigPath = toFsPath(potentialExtendsFsPath);
+      } else {
+        // try if extends uses an alias
+        const resolveFn: ResolveFn = (moduleName: string) =>
+          ts.resolveModuleName(moduleName, currentTsConfigDir, {}, sys);
+        const parentTsConfigPath = resolvePotentialTsPath(
+          config.extends,
+          paths,
+          resolveFn,
+        );
+        if (!parentTsConfigPath) {
+          throw new TsExtendsResolutionError(tsConfigPath, config.extends);
+        }
+        currentTsConfigPath = parentTsConfigPath;
+      }
     } else {
       break;
     }
@@ -80,6 +107,6 @@ export function getTsConfigContext(tsConfigPath: FsPath): TsConfigContext {
   return {
     paths,
     rootDir: currentTsConfigDir,
-    baseUrl
+    baseUrl,
   };
 }
