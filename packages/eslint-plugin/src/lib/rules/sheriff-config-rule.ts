@@ -4,7 +4,7 @@ import { Property } from 'estree';
 import fs from 'fs';
 import path from 'path';
 
-const createSheriffConfigCheckRule: (
+const createSheriffConfigRule: (
   meta: RuleMetaData<string>,
   executor: (
     node: Property & Rule.NodeParentExtension,
@@ -29,7 +29,7 @@ const createSheriffConfigCheckRule: (
   },
 });
 
-const sheriffConfigCheckMeta: RuleMetaData<string> = {
+const sheriffConfigRuleMeta: RuleMetaData<string> = {
   type: 'problem',
   docs: {
     description: 'Ensure file paths in sheriff.config.ts are valid',
@@ -41,8 +41,8 @@ const sheriffConfigCheckMeta: RuleMetaData<string> = {
   schema: [],
 };
 
-export const sheriffConfigCheck = createSheriffConfigCheckRule(
-  sheriffConfigCheckMeta,
+export const sheriffConfigRule = createSheriffConfigRule(
+  sheriffConfigRuleMeta,
   (node, context) => {
     if (node.key.type === 'Identifier' && node.key.name === 'modules') {
       if (node.value.type === 'ObjectExpression') {
