@@ -10,6 +10,7 @@ exports[`init > should create the file > sheriff.config 1`] = `
   */
 
 export const config: SheriffConfig = {
+  enableBarrelLess: true,
   modules: {}, // apply tags to your modules
   depRules: {
     // root is a virtual module, which contains all files not being part
