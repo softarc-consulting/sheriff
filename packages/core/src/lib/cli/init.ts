@@ -22,6 +22,7 @@ import { SheriffConfig } from '@softarc/sheriff-core';
   */
 
 export const config: SheriffConfig = {
+  enableBarrelLess: true,
   modules: {}, // apply tags to your modules
   depRules: {
     // root is a virtual module, which contains all files not being part
