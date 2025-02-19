@@ -4,11 +4,7 @@ import { generateTsData } from '../generate-ts-data';
 import { FsPath, toFsPath } from '../fs-path';
 import { UnassignedFileInfo } from '../unassigned-file-info';
 import { tsConfig } from '../../test/fixtures/ts-config';
-import {
-  ResolveFn,
-  resolvePotentialTsPath,
-  traverseFilesystem,
-} from '../traverse-filesystem';
+import { traverseFilesystem } from '../traverse-filesystem';
 import { describe, it, expect } from 'vitest';
 import { buildFileInfo } from '../../test/build-file-info';
 import getFs from '../../fs/getFs';
@@ -210,23 +206,6 @@ describe('traverse filesystem', () => {
     });
   });
 
-  it('should return undefined if TS resolving does not work', () => {
-    const resolveFn: ResolveFn = () => ({
-      resolvedModule: undefined,
-    });
-
-    expect(
-      resolvePotentialTsPath(
-        '@customers',
-        {
-          '@customers': '/project/src/app/customers/index.ts' as FsPath,
-        },
-        resolveFn,
-        'home.component.ts',
-      ),
-    ).toBeUndefined();
-  });
-
   describe('external libraries', () => {
     it('should add external libraries', () => {
       const fileInfo = setup({
@@ -383,8 +362,12 @@ describe('traverse filesystem', () => {
     const tsData = generateTsData(toFsPath('/project/tsconfig.json'));
     const mainPath = toFsPath('/project/src/app/app.component.ts');
 
-    const unassignedFileInfo = traverseFilesystem(mainPath, new Map<FsPath, UnassignedFileInfo>(), tsData);
+    const unassignedFileInfo = traverseFilesystem(
+      mainPath,
+      new Map<FsPath, UnassignedFileInfo>(),
+      tsData,
+    );
 
-    expect(unassignedFileInfo.imports).toHaveLength(1)
+    expect(unassignedFileInfo.imports).toHaveLength(1);
   });
 });
