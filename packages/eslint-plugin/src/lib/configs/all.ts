@@ -14,13 +14,15 @@ const commonConfig: TSESLint.FlatConfig.Config = {
   },
 };
 
-export const barrelModulesOnly: TSESLint.FlatConfig.Config = {
-  ...commonConfig,
-  rules: {
-    '@softarc/sheriff/dependency-rule': 'error',
-    '@softarc/sheriff/deep-import': 'error',
+export const barrelModulesOnly: TSESLint.FlatConfig.ConfigArray = [
+  {
+    ...commonConfig,
+    rules: {
+      '@softarc/sheriff/dependency-rule': 'error',
+      '@softarc/sheriff/deep-import': 'error',
+    },
   },
-};
+];
 
 const sheriffConfigOnly: TSESLint.FlatConfig.Config = {
   files: ['sheriff.config.ts'],
