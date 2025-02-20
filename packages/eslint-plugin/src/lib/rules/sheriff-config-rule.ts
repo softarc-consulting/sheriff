@@ -41,6 +41,8 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
   schema: [],
 };
 
+const physicalFilenamePostfix = '/sheriff.config.ts';
+
 export const sheriffConfigRule = createSheriffConfigRule(
   sheriffConfigRuleMeta,
   (node, context) => {
@@ -51,13 +53,16 @@ export const sheriffConfigRule = createSheriffConfigRule(
           if (module.type === 'Property' && module.key.type === 'Literal') {
             const modulePath = module.key.value;
             if (typeof modulePath === 'string') {
-              const fullPath = path.resolve(__dirname, modulePath);
+              const fullPath = path.resolve(
+                context.physicalFilename.replace(physicalFilenamePostfix, ''),
+                modulePath,
+              );
               if (!fs.existsSync(fullPath)) {
                 context.report({
                   node,
                   messageId: 'invalidPath',
                   data: {
-                    filePath: modulePath,
+                    filePath: fullPath,
                   },
                 });
               }
