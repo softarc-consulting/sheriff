@@ -3,26 +3,29 @@ import Image from "next/image";
 interface IconLinkProps {
   href: string;
   label: string;
-  imageSrc: string;
-  imageAlt: string;
-  className?: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
 }
 
-export const IconLink = ({ href, label, imageSrc, imageAlt, className = "" }: IconLinkProps) => {
+export const IconLink = ({ href, label, image }: IconLinkProps) => {
   return (
     <a
-      className={`flex items-center gap-2 hover:underline hover:underline-offset-4 ${className}`}
+      className={`flex items-center gap-2 hover:underline hover:underline-offset-4`}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Image
-        aria-hidden
-        src={imageSrc}
-        alt={imageAlt}
-        width={16}
-        height={16}
-      />
+      {image && (
+        <Image
+          aria-hidden
+          src={image.src}
+          alt={image.alt}
+          width={16}
+          height={16}
+        />
+      )}
       {label}
     </a>
   );
