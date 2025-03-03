@@ -11,6 +11,14 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ✔ Would you like to customize the import alias (`@/*` by default)? - No
 ```
 
+## Boundaries demonstration
+
+1. `app` directory contains Next.js App Router pages and layouts
+2. Feature modules like `shell` encapsulate business logic
+3. Both `app` and feature modules can import from `shared/ui` (including `IconLink` component, etc.)
+4. `app` focuses on page composition, importing from `shell` and `shared`
+5. `shell` can also import UI components from `shared/ui`
+
 ## Getting Started
 
 First, run the development server:
