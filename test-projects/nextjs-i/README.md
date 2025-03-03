@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) with the following settings:
+# Module Boundaries in Next.js
+
+This project demonstrates how Sheriff enforces module boundaries in a Next.js application:
+
+- Through editor intellisense, you'll get immediate feedback if you try to import from a restricted module
+- Running `pnpm lint` will catch any violations of the module boundaries defined below
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`pnpm dlx create-next-app@latest`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) with the following settings:
 
 ```
 ✔ What is your project named? `nextjs-i`
@@ -11,7 +18,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ✔ Would you like to customize the import alias (`@/*` by default)? - No
 ```
 
-## Boundaries demonstration
+## Example modules
 
 1. `app` directory contains Next.js App Router pages and layouts
 2. Feature modules like `shell` encapsulate business logic
