@@ -23,7 +23,6 @@ export const Footer = () => {
     <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
       {links.map((link) => (
         <IconLink
-          className="flex items-center gap-2"
           key={link.href}
           href={link.href}
           label={link.label}
