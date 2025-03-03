@@ -1,9 +1,9 @@
 import Image from "next/image";
+import { iconLink, IconLinkVariants } from "./icon-link.variants";
 
-interface IconLinkProps {
+interface IconLinkProps extends IconLinkVariants {
   href: string;
   label: string;
-  className?: string;
   image?: {
     src: string;
     alt: string;
@@ -12,10 +12,10 @@ interface IconLinkProps {
   };
 }
 
-export const IconLink = ({ href, label, image, className }: IconLinkProps) => {
+export const IconLink = ({ href, label, image, variant }: IconLinkProps) => {
   return (
     <a
-      className={`hover:underline hover:underline-offset-4 ${className}`}
+      className={iconLink({ variant })}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
