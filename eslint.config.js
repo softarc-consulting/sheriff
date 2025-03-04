@@ -1,4 +1,4 @@
-// @ts-check
+/* eslint-disable @typescript-eslint/no-require-imports */
 const tseslint = require('typescript-eslint');
 const prettierRecommended = require('eslint-plugin-prettier/recommended');
 const unusedImports = require('eslint-plugin-unused-imports');
@@ -6,7 +6,7 @@ const unusedImports = require('eslint-plugin-unused-imports');
 module.exports = tseslint.config(
   ...tseslint.configs.recommended,
   {
-    files: ['*.json', '*.html', '*.ts'],
+    files: ['*.ts'],
     extends: [prettierRecommended],
   },
   {
