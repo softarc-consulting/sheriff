@@ -41,8 +41,5 @@ module.exports = tseslint.config(
     ],
     rules: {},
   },
-  {
-    files: ['**/*.ts'],
-    extends: [sheriff.configs.all],
-  },
+  ...sheriff.configs.all,
 );
