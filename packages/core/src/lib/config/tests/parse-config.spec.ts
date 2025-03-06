@@ -6,8 +6,8 @@ import getFs, { useVirtualFs } from '../../fs/getFs';
 import {
   CollidingEncapsulationSettings,
   MissingModulesWithoutAutoTaggingError,
-  TaggingAndModulesError
-} from "../../error/user-error";
+  TaggingAndModulesError,
+} from '../../error/user-error';
 import '../../test/expect.extensions';
 
 describe('parse Config', () => {
@@ -98,6 +98,23 @@ export const config: SheriffConfig = {
       ).toThrowUserError(new MissingModulesWithoutAutoTaggingError());
     });
 
+    it('should not throw if modules is empty and autoTagging does not exist', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  modules: {}
+};
+      `,
+      );
+
+      expect(() =>
+        parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
+      ).not.toThrowUserError(new MissingModulesWithoutAutoTaggingError());
+    });
+
     it('should throw if both tagging and modules are available', () => {
       getFs().writeFile(
         'sheriff.config.ts',
@@ -152,10 +169,11 @@ export const config: SheriffConfig = {
       `,
     );
 
-    expect(parseConfig(
-      toFsPath(getFs().cwd() + '/sheriff.config.ts')
-    ).encapsulationPattern).toBe('_private')
-  })
+    expect(
+      parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts'))
+        .encapsulationPattern,
+    ).toBe('_private');
+  });
 
   it('should throw if both encapsulatedFolderNameForBarrelLess and encapsulationPatternForBarrelLess exist', () => {
     getFs().writeFile(
@@ -174,8 +192,8 @@ export const config: SheriffConfig = {
       `,
     );
 
-    expect(() => parseConfig(
-      toFsPath(getFs().cwd() + '/sheriff.config.ts'),
-    )).toThrowUserError(new CollidingEncapsulationSettings())
+    expect(() =>
+      parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
+    ).toThrowUserError(new CollidingEncapsulationSettings());
   });
 });

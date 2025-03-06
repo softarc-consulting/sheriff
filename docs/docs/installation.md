@@ -149,10 +149,29 @@ module.exports = tseslint.config(
 
 </details>
 
+<details>
+  <summary>Angular (Nx, Flat) Example</summary>
+
+  **eslint.config.mjs**
+
+```js
+import nx from '@nx/eslint-plugin';
+import sheriff from '@softarc/eslint-plugin-sheriff' // <-- add this
+
+export default [
+  ...nx.configs['flat/base'],
+  ...nx.configs['flat/typescript'],
+  ...nx.configs['flat/javascript'],
+  sheriff.configs.all, // <-- add this
+  // ... further settings
+];
+```
+</details>
+
 
 <details>
 
-<summary>Angular (NX) Example</summary>
+<summary>Angular (Nx, Legacy) Example</summary>
 
 ```jsonc
 {
