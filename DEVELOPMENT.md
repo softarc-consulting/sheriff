@@ -8,3 +8,13 @@ Sheriff consists of three processes:
    files and modules. It is done by
 
 The entry point is always the `init` function.
+
+
+## Run local integration tests
+
+We can use Sheriff locally against the projects in the `test-projects`-folder in order to verify that the tool works as
+expected. The following steps are required to run the tests:
+
+1. **Build Sheriff**: `yarn build:all`
+2. **Link Sheriff**: `yarn link:sheriff`
+3. **Run the integration tests**: Execute one of the `integration-test.sh`-scripts within the tests projects or run all by executing the `run-integration-tests.sh`.
