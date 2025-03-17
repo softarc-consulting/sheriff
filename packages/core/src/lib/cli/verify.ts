@@ -4,6 +4,10 @@ import { checkForDependencyRuleViolation } from '../checks/check-for-dependency-
 import getFs from '../fs/getFs';
 import { cli } from './cli';
 import { getEntryFromCliOrConfig } from './internal/get-entry-from-cli-or-config';
+import minimist from 'minimist';
+import { Reporter } from './internal/reporter/reporter';
+import { getReporter } from './internal/reporter/get-reporter';
+import { SheriffViolations } from './sheriff-violations';
 
 type ValidationsMap = Record<
   string,
@@ -19,13 +23,28 @@ export function verify(args: string[]) {
   const fs = getFs();
 
   const projectInfo = getEntryFromCliOrConfig(args[0]);
+  const sheriffViolations: SheriffViolations = {
+    encapsulationsCount: 0,
+    encapsulationValidations: [],
+    dependencyRuleViolationsCount: 0,
+    dependencyRuleViolations: [],
+  };
 
   for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
-    const encapsulations = Object.keys(hasEncapsulationViolations(fileInfo.path, projectInfo));
+    const encapsulations = Object.keys(
+      hasEncapsulationViolations(fileInfo.path, projectInfo),
+    );
 
     const dependencyRuleViolations = checkForDependencyRuleViolation(
       fileInfo.path,
       projectInfo,
+    );
+
+    encapsulations.forEach((encapsulation) =>
+      sheriffViolations.encapsulationValidations.push(encapsulation),
+    );
+    dependencyRuleViolations.forEach((violation) =>
+      sheriffViolations.dependencyRuleViolations.push(violation),
     );
 
     if (encapsulations.length > 0 || dependencyRuleViolations.length > 0) {
@@ -45,6 +64,9 @@ export function verify(args: string[]) {
       };
     }
   }
+
+  sheriffViolations.encapsulationsCount = deepImportsCount;
+  sheriffViolations.dependencyRuleViolationsCount = dependencyRulesCount;
 
   cli.log('');
   cli.log(cli.bold('Verification Report'));
@@ -81,5 +103,47 @@ export function verify(args: string[]) {
     }
   }
 
+  const parsedReporters = parseReporters(minimist(process.argv.slice(2)));
+
+  parsedReporters.forEach((reporterFormat) => {
+    const reporter: Reporter | null = getReporter(reporterFormat);
+
+    if (!reporter) {
+      cli.log(`Report format ${reporterFormat} is not supported`);
+      return;
+    }
+    const exportDir = projectInfo.config.exportDir ?? '.sheriff';
+
+    const projectName = projectInfo.rootDir.split('/').pop();
+    if (!projectName) {
+      cli.logError(`Project name ${projectName} is not valid`);
+      return;
+    }
+
+    reporter.createReport({
+      exportDir,
+      projectName,
+      validationResults: sheriffViolations,
+    });
+  });
+
   cli.endProcessError();
+}
+
+function parseReporters(args: minimist.ParsedArgs) {
+  let reporters: string[] = [];
+  if (args['reporter']) {
+    if (
+      typeof args['reporter'] === 'string' &&
+      args['reporter'].includes(',')
+    ) {
+      // Handle comma-separated reporters: --reporter=json,junit
+      reporters = args['reporter'].split(',').map((r) => r.trim());
+    } else {
+      // Handle single reporter: --reporter=json
+      reporters = [args['reporter']];
+    }
+  }
+
+  return reporters;
 }
