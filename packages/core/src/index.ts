@@ -6,3 +6,4 @@ export { noDependencies } from './lib/checks/no-dependencies';
 export { UserSheriffConfig as SheriffConfig } from './lib/config/user-sheriff-config';
 export { UserError } from './lib/error/user-error';
 export { getProjectData } from './lib/api/get-project-data';
+export { SheriffViolations } from './lib/cli/sheriff-violations';

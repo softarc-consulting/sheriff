@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`json reporter > should create a json-file in /.sheriff/project/sheriff-report.json 1`] = `
+"{
+  "encapsulationsCount": 0,
+  "encapsulationValidations": [],
+  "dependencyRuleViolationsCount": 2,
+  "dependencyRuleViolations": [
+    {
+      "rawImport": "@eternal/shared/master-data",
+      "fromModulePath": "/project/customers/feature",
+      "toModulePath": "/project/shared/master-data",
+      "fromTag": "domain:customers",
+      "toTags": [
+        "shared:master-data"
+      ]
+    },
+    {
+      "rawImport": "@eternal/shared/form",
+      "fromModulePath": "/project/customers/ui",
+      "toModulePath": "/project/app/shared/form",
+      "fromTag": "domain:customers",
+      "toTags": [
+        "shared:form"
+      ]
+    }
+  ]
+}"
+`;
