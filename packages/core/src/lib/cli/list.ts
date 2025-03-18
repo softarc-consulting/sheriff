@@ -4,9 +4,12 @@ import { calcTagsForModule } from '../tags/calc-tags-for-module';
 import { getEntryFromCliOrConfig } from './internal/get-entry-from-cli-or-config';
 import getFs from '../fs/getFs';
 import { cli } from './cli';
+import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
 
 export function list(args: string[]) {
   const projectInfo = getEntryFromCliOrConfig(args[0]);
+  logInfoForMissingSheriffConfig(projectInfo);
+
   // root doesn't count
   const modulesCount = projectInfo.modules.length - 1;
 
