@@ -1,3 +1,4 @@
+# About Sheriff
 Sheriff consists of three processes:
 
 1. File Graph: `traverseFilesystem` gets and entry file and returns a graph of all the files that are required to run
@@ -9,6 +10,14 @@ Sheriff consists of three processes:
 
 The entry point is always the `init` function.
 
+# Development
+
+## Setup
+We are using `yarn` as our package manager. To install all dependencies, run the following command:
+
+```shell
+yarn install
+```
 
 ## Run local integration tests
 
