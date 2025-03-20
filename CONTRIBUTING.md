@@ -13,6 +13,9 @@ As a contributor, here are the guidelines we would like you to follow:
 If you find a bug in the source code, you can help us by submitting an issue to our [GitHub Repository](https://github.com/softarc-consulting/sheriff).
 Even better, you can submit a Pull Request with a fix.
 
+When you are opening a new issue, it would be very appreciated and helpful for us if you could provide a minimal reproducible example. To do so you can 
+use our [stackblitz starter](https://stackblitz.com/github/softarc-consulting/sheriff-stackblitz-starter).
+
 ## <a name="feature"></a> Missing a Feature?
 
 You can _request_ a new feature by submitting an issue to our GitHub Repository.
