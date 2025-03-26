@@ -1,0 +1,26 @@
+[
+  {
+    "filePath": "./sheriff.config.ts",
+    "messages": [
+      {
+        "ruleId": "@softarc/sheriff/sheriff-config-rule",
+        "severity": 2,
+        "message": "./src/app/blah' is not a real folder or barrel file",
+        "line": 5,
+        "column": 3,
+        "nodeType": "Property",
+        "messageId": "invalidPath",
+        "endLine": 12,
+        "endColumn": 4
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { noDependencies, sameTag, SheriffConfig } from '@softarc/sheriff-core';\n\nexport const config: SheriffConfig = {\n  version: 1,\n  modules: {\n    'src/app/blah': {\n      'shared/<type>': ['shared', 'shared:<type>'],\n      bookings: ['domain:bookings', 'type:feature'],\n      'customers/api': ['type:api', 'domain:customers:api'],\n      '<domain>/<type>': ['domain:<domain>', 'type:<type>'],\n    },\n  },\n  depRules: {\n    root: ['type:feature', 'shared:*'],\n    'domain:*': [sameTag, 'shared'],\n    'domain:bookings': 'domain:customers:api',\n    'domain:customers:api': 'domain:customers',\n    'type:api': 'type:*',\n    'type:feature': [\n      'type:*',\n      'shared:config',\n      'shared:form',\n      'shared:master-data',\n      'shared:ngrx-utils',\n      'shared:util',\n    ],\n    'type:data': [\n      'type:model',\n      'shared:http',\n      'shared:ngrx-utils',\n      'shared:ui-messaging',\n    ],\n    'type:ui': ['type:model', 'shared:form', 'shared:ui'],\n    'type:model': noDependencies,\n    shared: 'shared:*',\n    'shared:http': ['shared:config', 'shared:ui-messaging'],\n    'shared:ngrx-utils': ['shared:util'],\n  },\n};\n",
+    "usedDeprecatedRules": []
+  }
+]
