@@ -220,12 +220,12 @@ export interface UserSheriffConfig {
    *
    * ---
    */
-  encapsulationPattern?: string | RegExp
+  encapsulationPattern?: string | RegExp;
 
   /**
    * @deprecated no warning is shown.
    */
-  showWarningOnBarrelCollision?: boolean
+  showWarningOnBarrelCollision?: boolean;
 
   /**
    * enable internal logging and save it to `sheriff.log`
@@ -233,7 +233,7 @@ export interface UserSheriffConfig {
   log?: boolean;
 
   /**
-   * The file that the CLI should use by default.
+   * The file or files that the CLI should use by default.
    */
-  entryFile?: string;
+  entryFile?: string | Record<string, string>;
 }

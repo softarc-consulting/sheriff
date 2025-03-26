@@ -8,24 +8,28 @@ import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-
 
 export function list(args: string[]) {
   const projectInfo = getEntryFromCliOrConfig(args[0]);
-  logInfoForMissingSheriffConfig(projectInfo);
+  if (projectInfo.length > 0) {
+    logInfoForMissingSheriffConfig(projectInfo[0].entry);
+  }
 
-  // root doesn't count
-  const modulesCount = projectInfo.modules.length - 1;
+  projectInfo.forEach((projectInfo) => {
+    // root doesn't count
+    const modulesCount = projectInfo.entry.modules.length - 1;
 
-  cli.log(`This project contains ${modulesCount} modules:`);
-  cli.log('');
+    cli.log(`This project contains ${modulesCount} modules:`);
+    cli.log('');
 
-  cli.log('. (root)');
-  const directory = mapModulesToDirectory(
-    Array.from(
-      projectInfo.modules
-        .filter((module) => !module.isRoot)
-        .map((module) => toFsPath(module.path)),
-    ),
-    projectInfo,
-  );
-  printDirectory(directory);
+    cli.log('. (root)');
+    const directory = mapModulesToDirectory(
+      Array.from(
+        projectInfo.entry.modules
+          .filter((module) => !module.isRoot)
+          .map((module) => toFsPath(module.path)),
+      ),
+      projectInfo.entry,
+    );
+    printDirectory(directory);
+  });
 }
 
 type Directory = Record<

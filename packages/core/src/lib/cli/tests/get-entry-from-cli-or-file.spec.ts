@@ -16,9 +16,9 @@ describe('get entry file from cli or config', () => {
       },
     });
 
-    const projectInfo = getEntryFromCliOrConfig('./src/main.ts');
+    const projectInfo = getEntryFromCliOrConfig('./src/main.ts')[0];
 
-    expect(projectInfo.fileInfo.path).toBe('/project/src/main.ts');
+    expect(projectInfo.entry.fileInfo.path).toBe('/project/src/main.ts');
   });
   it('should use config entry file', () => {
     createProject({
@@ -33,9 +33,9 @@ describe('get entry file from cli or config', () => {
       },
     });
 
-    const projectInfo = getEntryFromCliOrConfig();
+    const projectInfo = getEntryFromCliOrConfig()[0];
 
-    expect(projectInfo.fileInfo.path).toBe('/project/src/app.ts');
+    expect(projectInfo.entry.fileInfo.path).toBe('/project/src/app.ts');
   });
 
   it('should favor CLI over config', () => {
@@ -51,9 +51,9 @@ describe('get entry file from cli or config', () => {
       },
     });
 
-    const projectInfo = getEntryFromCliOrConfig('src/main.ts');
+    const projectInfo = getEntryFromCliOrConfig('src/main.ts')[0];
 
-    expect(projectInfo.fileInfo.path).toBe('/project/src/main.ts');
+    expect(projectInfo.entry.fileInfo.path).toBe('/project/src/main.ts');
   });
 
   it('should throw error if neither config file exist or cli has entry file', () => {

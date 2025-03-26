@@ -45,5 +45,8 @@ exports[`verify > should find no errors > log 1`] = `
 
 <b>Verification Report</b>
 
-[32mNo issues found. Well done![0m"
+
+[32mNo issues found for this project. Well done![0m
+
+[32mAll projects validated successfully![0m"
 `;
