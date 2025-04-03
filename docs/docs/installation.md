@@ -21,11 +21,8 @@ npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
 const sheriff = require('@softarc/eslint-plugin-sheriff');
 
 module.exports = tseslint.config(
-  // ...
-  {
-    files: ['**/*.ts'],
-    extends: [sheriff.configs.all],
-  },
+  // ...,
+  ...sheriff.configs.all
 );
 ````
 
@@ -93,10 +90,7 @@ module.exports = tseslint.config(
     ],
     rules: {},
   },
-  {
-    files: ['**/*.ts'],
-    extends: [sheriff.configs.all],
-  },
+  ...sheriff.configs.all
 );
 
 ```
