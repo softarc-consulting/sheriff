@@ -46,6 +46,8 @@ const physicalFilenamePostfix = '/sheriff.config.ts';
 export const validateSheriffConfig = createSheriffConfigRule(
   sheriffConfigRuleMeta,
   (node, context) => {
+    // TODO: make this work for 'tagging' folder as well.
+    // Then drill children to build path but exclude <xxx>
     if (node.key.type === 'Identifier' && node.key.name === 'modules') {
       if (node.value.type === 'ObjectExpression') {
         const modules = node.value.properties;
