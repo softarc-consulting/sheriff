@@ -43,7 +43,7 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
 
 const physicalFilenamePostfix = '/sheriff.config.ts';
 
-export const sheriffConfigRule = createSheriffConfigRule(
+export const validateSheriffConfig = createSheriffConfigRule(
   sheriffConfigRuleMeta,
   (node, context) => {
     if (node.key.type === 'Identifier' && node.key.name === 'modules') {

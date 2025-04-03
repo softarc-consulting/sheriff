@@ -35,14 +35,17 @@ export const sheriffConfigOnly: TSESLint.FlatConfig.Config = {
     },
   },
   rules: {
-    '@softarc/sheriff-config/sheriff-config-rule': 'error',
+    '@softarc/sheriff-config/validate-sheriff-config': 'error',
   },
 };
 
-export const all: TSESLint.FlatConfig.Config = {
-  ...commonConfig,
-  rules: {
-    '@softarc/sheriff/dependency-rule': 'error',
-    '@softarc/sheriff/encapsulation': 'error',
+export const all: TSESLint.FlatConfig.ConfigArray = [
+  {
+    ...commonConfig,
+    rules: {
+      '@softarc/sheriff/dependency-rule': 'error',
+      '@softarc/sheriff/encapsulation': 'error',
+    },
   },
-};
+  sheriffConfigOnly,
+];

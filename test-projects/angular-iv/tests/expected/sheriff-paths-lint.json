@@ -3,7 +3,7 @@
     "filePath": "./sheriff.config.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff-config/sheriff-config-rule",
+        "ruleId": "@softarc/sheriff-config/validate-sheriff-config",
         "severity": 2,
         "message": "./src/app/blah' is not a real folder or barrel file",
         "line": 5,
