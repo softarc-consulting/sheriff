@@ -35,19 +35,38 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
 };
 
 const physicalFilenamePostfix = '/sheriff.config.ts';
+const filePathConfigKeys = ['modules', 'tagging'];
 
 export const validateSheriffConfig = createSheriffConfigRule(
   sheriffConfigRuleMeta,
   (node, context) => {
-    // TODO: make this work for 'tagging' folder as well.
-    // Then drill children to build path but exclude <xxx>
-    if (node.key.type === 'Identifier' && node.key.name === 'modules') {
+    if (
+      node.key.type === 'Identifier' &&
+      filePathConfigKeys.includes(node.key.name)
+    ) {
       if (node.value.type === 'ObjectExpression') {
         const modules = node.value.properties;
         modules.forEach((module) => {
           if (module.type === 'Property' && module.key.type === 'Literal') {
-            const modulePath = module.key.value;
+            let modulePath = module.key.value;
             if (typeof modulePath === 'string') {
+              // Get nested module properties
+              if (module.value.type === 'ObjectExpression') {
+                const subModules = module.value.properties;
+                for (const subModule of subModules) {
+                  if (
+                    subModule.type === 'Property' &&
+                    subModule.key.type === 'Literal'
+                  ) {
+                    const subPath = subModule.key.value;
+                    if (typeof subPath === 'string') {
+                      modulePath = path.join(modulePath, subPath);
+                    }
+                  }
+                }
+              }
+              // remove placeholder from path
+              modulePath = modulePath.split('<')[0];
               const fullPath = path.resolve(
                 context.physicalFilename.replace(physicalFilenamePostfix, ''),
                 modulePath,

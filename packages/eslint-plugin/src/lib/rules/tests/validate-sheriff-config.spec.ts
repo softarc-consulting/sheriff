@@ -5,7 +5,7 @@ import { validateSheriffConfig } from '../validate-sheriff-config';
 
 vi.mock('fs', () => ({
   default: {
-    existsSync: (_path: string) => _path === '/project/existing-folder',
+    existsSync: (_path: string) => _path === '/project/existing-folder/shared',
   },
 }));
 
@@ -21,7 +21,9 @@ describe('validate-sheriff-config', () => {
           code: `
             const config = {
               modules: {
-                './existing-folder': {},
+                './existing-folder': {
+                  'shared/<type>': ['shared', 'shared:<type>'],
+                },
               },
             };
           `,
