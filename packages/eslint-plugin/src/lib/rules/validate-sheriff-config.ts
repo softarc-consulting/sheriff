@@ -1,6 +1,7 @@
 import { RuleMetaData } from '@typescript-eslint/utils/dist/ts-eslint';
 import { Rule } from 'eslint';
 import { Property } from 'estree';
+
 import fs from 'fs';
 import path from 'path';
 
@@ -13,14 +14,6 @@ const createSheriffConfigRule: (
 ) => Rule.RuleModule = (meta, executor) => ({
   meta,
   create: (context) => {
-    // TODO: involve UserError concept in executor
-    // const message =
-    //         error instanceof UserError
-    //           ? `User Error: ${error.code} - ${error.message}`
-    //           : `${ruleName} (internal error): ${
-    //               error instanceof Error ? error.message : String(error)
-    //             }`;
-
     return {
       Property(node) {
         executor(node, context);
@@ -36,7 +29,7 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
   },
   messages: {
     invalidPath:
-      "File path '{{ filePath }}' is not a real folder or barrel file",
+      "User Error: File path '{{ filePath }}' is not a real folder or barrel file",
   },
   schema: [],
 };

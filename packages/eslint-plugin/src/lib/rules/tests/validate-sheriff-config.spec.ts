@@ -48,7 +48,7 @@ describe('validate-sheriff-config', () => {
           errors: [
             {
               message:
-                "File path '/project/non-existent-folder' is not a real folder or barrel file",
+                "User Error: File path '/project/non-existent-folder' is not a real folder or barrel file",
             },
           ],
         },
