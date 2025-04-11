@@ -32,7 +32,7 @@ export const config: SheriffConfig = {
     ],
     'type:ui': ['type:model', 'shared:form', 'shared:ui'],
     'type:model': noDependencies,
-    'shared': 'shared:*',
+    shared: 'shared:*',
     'shared:http': ['shared:config', 'shared:ui-messaging'],
     'shared:ngrx-utils': ['shared:util'],
   },
