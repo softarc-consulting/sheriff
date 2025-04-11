@@ -1,25 +1,15 @@
 import { RuleMetaData } from '@typescript-eslint/utils/dist/ts-eslint';
 import { Rule } from 'eslint';
-import { ObjectExpression, Property } from 'estree';
+import { Identifier, Literal, ObjectExpression, Property } from 'estree';
 import fs from 'fs';
 import path from 'path';
 
-const createSheriffConfigRule: (
-  meta: RuleMetaData<string>,
-  executor: (
-    node: Property & Rule.NodeParentExtension,
-    context: Rule.RuleContext,
-  ) => void,
-) => Rule.RuleModule = (meta, executor) => ({
-  meta,
-  create: (context) => {
-    return {
-      Property(node) {
-        executor(node, context);
-      },
-    };
-  },
-});
+interface PropertyWithParent extends Property, Rule.NodeParentExtension {}
+
+const SHERIFF_CONFIG_FILENAME = '/sheriff.config.ts';
+const FILE_PATH_CONFIG_KEYS = ['modules', 'tagging'] as const;
+const PLACEHOLDER_REGEX = /<[a-zA-Z0-9]+>/;
+
 const sheriffConfigRuleMeta: RuleMetaData<string> = {
   type: 'problem',
   docs: {
@@ -31,75 +21,98 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
   },
   schema: [],
 };
-const physicalFilenamePostfix = '/sheriff.config.ts';
-const filePathConfigKeys = ['modules', 'tagging'];
-const placeholderRegex = /<[a-zA-Z0-9]+>/;
+
+const getProjectRoot = (filename: string): string =>
+  filename.slice(0, filename.indexOf(SHERIFF_CONFIG_FILENAME));
+
+const getPropertyKey = (property: Property): string => {
+  const key = property.key as Identifier | Literal;
+  return key.type === 'Identifier' ? key.name : String(key.value);
+};
+
+const collectPaths = (obj: ObjectExpression, prefix = ''): string[] => {
+  const paths: string[] = [];
+
+  for (const property of obj.properties) {
+    if (property.type !== 'Property') continue;
+
+    const key = getPropertyKey(property);
+    const currentPath = prefix ? `${prefix}/${key}` : key;
+
+    if (property.value.type === 'ArrayExpression') {
+      paths.push(currentPath.split(PLACEHOLDER_REGEX)[0].replace(/\/$/g, ''));
+    } else if (property.value.type === 'ObjectExpression') {
+      paths.push(...collectPaths(property.value, currentPath));
+    }
+  }
+
+  return paths;
+};
+
+const validatePaths = (
+  paths: string[],
+  node: PropertyWithParent,
+  context: Rule.RuleContext,
+): void => {
+  for (const filePath of paths) {
+    if (!fs.existsSync(filePath)) {
+      context.report({
+        node,
+        messageId: 'invalidPath',
+        data: { filePath },
+      });
+    }
+  }
+};
+
+const processModule = (
+  module: PropertyWithParent,
+  projectRoot: string,
+  context: Rule.RuleContext,
+): void => {
+  if (module.key.type !== 'Literal') return;
+
+  const modulePath = String(module.key.value);
+  const fullPath = path.join(projectRoot, modulePath);
+
+  if (module.value.type === 'ObjectExpression') {
+    const paths = collectPaths(module.value, fullPath);
+    validatePaths(paths, module, context);
+  }
+};
+
+const createSheriffConfigRule = (
+  meta: RuleMetaData<string>,
+  executor: (node: PropertyWithParent, context: Rule.RuleContext) => void,
+): Rule.RuleModule => ({
+  meta,
+  create: (context) => ({
+    Property(node) {
+      executor(node, context);
+    },
+  }),
+});
 
 export const validateSheriffConfig = createSheriffConfigRule(
   sheriffConfigRuleMeta,
   (node, context) => {
-    const filename = context.filename;
-    const projectRoot = filename.slice(
-      0,
-      filename.indexOf(physicalFilenamePostfix),
-    );
     if (
-      node.key.type === 'Identifier' &&
-      filePathConfigKeys.includes(node.key.name)
+      node.key.type !== 'Identifier' ||
+      !FILE_PATH_CONFIG_KEYS.includes(
+        node.key.name as (typeof FILE_PATH_CONFIG_KEYS)[number],
+      )
     ) {
-      if (node.value.type === 'ObjectExpression') {
-        const modules = node.value.properties;
-        modules.forEach((module) => {
-          if (module.type === 'Property' && module.key.type === 'Literal') {
-            const modulePath = module.key.value;
-            if (typeof modulePath === 'string') {
-              const fullPath = path.join(projectRoot, modulePath);
-
-              if (module.value.type === 'ObjectExpression') {
-                const paths: string[] = [];
-                const traverse = (obj: ObjectExpression, prefix = '') => {
-                  for (const property of obj.properties) {
-                    if (
-                      property.type === 'Property' &&
-                      (property.key.type === 'Identifier' ||
-                        property.key.type === 'Literal')
-                    ) {
-                      const key = (
-                        property.key.type === 'Identifier'
-                          ? property.key.name
-                          : property.key.value
-                      ) as string;
-                      const currentPath = prefix ? `${prefix}/${key}` : key;
-
-                      if (property.value.type === 'ArrayExpression') {
-                        paths.push(
-                          currentPath
-                            .split(placeholderRegex)[0]
-                            .replace(/\/$/g, ''),
-                        );
-                      } else if (property.value.type === 'ObjectExpression') {
-                        traverse(property.value, currentPath);
-                      }
-                    }
-                  }
-                };
-
-                traverse(module.value, fullPath);
-
-                for (const path of paths) {
-                  if (!fs.existsSync(path)) {
-                    context.report({
-                      node: module,
-                      messageId: 'invalidPath',
-                      data: { filePath: path },
-                    });
-                  }
-                }
-              }
-            }
-          }
-        });
-      }
+      return;
     }
+
+    if (node.value.type !== 'ObjectExpression') return;
+
+    const projectRoot = getProjectRoot(context.filename);
+    node.value.properties
+      .filter(
+        (module): module is PropertyWithParent =>
+          module.type === 'Property' && 'parent' in module,
+      )
+      .forEach((module) => processModule(module, projectRoot, context));
   },
 );
