@@ -91,7 +91,6 @@ export const validateSheriffConfig = createSheriffConfigRule(
 
                 for (const path of paths) {
                   if (!fs.existsSync(path)) {
-                    console.log('invalidPath', path);
                     context.report({
                       node: module,
                       messageId: 'invalidPath',

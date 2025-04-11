@@ -49,7 +49,15 @@ describe('validate-sheriff-config', () => {
           code: `
             const config = {
               modules: {
-                './non-existent-folder': {},
+                './non-existent-folder': {
+                  holidays: {
+                    '<type>': ['domain:holidays', 'type:<type>'],
+                  },
+                  customers: {
+                    feature: ['domain:customers', 'type:feature'],
+                    data: ['domain:customers', 'type:data'],
+                  },
+                },
               },
             };
           `,
@@ -57,7 +65,15 @@ describe('validate-sheriff-config', () => {
           errors: [
             {
               message:
-                "User Error: File path '/project/non-existent-folder' is not a real folder or barrel file",
+                "User Error: File path '/project/non-existent-folder/holidays' is not a real folder or barrel file",
+            },
+            {
+              message:
+                "User Error: File path '/project/non-existent-folder/customers/feature' is not a real folder or barrel file",
+            },
+            {
+              message:
+                "User Error: File path '/project/non-existent-folder/customers/data' is not a real folder or barrel file",
             },
           ],
         },
