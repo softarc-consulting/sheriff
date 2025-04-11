@@ -24,7 +24,7 @@ export const barrelModulesOnly: TSESLint.FlatConfig.ConfigArray = [
   },
 ];
 
-export const sheriffConfigOnly: TSESLint.FlatConfig.Config = {
+export const validateSheriffConfig: TSESLint.FlatConfig.Config = {
   files: ['sheriff.config.ts'],
   languageOptions: {
     sourceType: 'module',
@@ -47,5 +47,5 @@ export const all: TSESLint.FlatConfig.ConfigArray = [
       '@softarc/sheriff/encapsulation': 'error',
     },
   },
-  sheriffConfigOnly,
+  validateSheriffConfig,
 ];
