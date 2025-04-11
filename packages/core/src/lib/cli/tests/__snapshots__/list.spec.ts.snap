@@ -14,7 +14,8 @@ exports[`list > should include modules not reachable by entryFile > log 1`] = `
 `;
 
 exports[`list > should list modules without sheriff config > log 1`] = `
-"This project contains 2 modules:
+"Default settings applied. For more control, run "npx sheriff init" to create a sheriff.config.ts.
+This project contains 2 modules:
 
 . (root)
 └── src

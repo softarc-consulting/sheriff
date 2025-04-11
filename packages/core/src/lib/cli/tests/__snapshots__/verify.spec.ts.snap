@@ -23,7 +23,8 @@ Issues found:
 exports[`verify > should find errors without sheriff.config.ts > error.log 1`] = `""`;
 
 exports[`verify > should find errors without sheriff.config.ts > logs.log 1`] = `
-"
+"Default settings applied. For more control, run "npx sheriff init" to create a sheriff.config.ts.
+
 <b>Verification Report</b>
 
 Issues found:
@@ -40,7 +41,8 @@ Issues found:
 exports[`verify > should find no errors > error 1`] = `""`;
 
 exports[`verify > should find no errors > log 1`] = `
-"
+"Default settings applied. For more control, run "npx sheriff init" to create a sheriff.config.ts.
+
 <b>Verification Report</b>
 
 [32mNo issues found. Well done![0m"

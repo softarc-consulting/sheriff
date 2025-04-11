@@ -4,6 +4,7 @@ import { checkForDependencyRuleViolation } from '../checks/check-for-dependency-
 import getFs from '../fs/getFs';
 import { cli } from './cli';
 import { getEntryFromCliOrConfig } from './internal/get-entry-from-cli-or-config';
+import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
 
 type ValidationsMap = Record<
   string,
@@ -19,9 +20,12 @@ export function verify(args: string[]) {
   const fs = getFs();
 
   const projectInfo = getEntryFromCliOrConfig(args[0]);
+  logInfoForMissingSheriffConfig(projectInfo);
 
   for (const { fileInfo } of traverseFileInfo(projectInfo.fileInfo)) {
-    const encapsulations = Object.keys(hasEncapsulationViolations(fileInfo.path, projectInfo));
+    const encapsulations = Object.keys(
+      hasEncapsulationViolations(fileInfo.path, projectInfo),
+    );
 
     const dependencyRuleViolations = checkForDependencyRuleViolation(
       fileInfo.path,
