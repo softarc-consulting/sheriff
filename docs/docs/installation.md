@@ -85,7 +85,10 @@ module.exports = tseslint.config(
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {},
   },
-  ...sheriff.configs.all,
+  {
+    files: ['**/*.ts'],
+    extends: [...sheriff.configs.all],
+  },
 );
 ```
 
