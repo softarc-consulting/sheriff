@@ -1,7 +1,6 @@
 import { RuleMetaData } from '@typescript-eslint/utils/dist/ts-eslint';
 import { Rule } from 'eslint';
 import { ObjectExpression, Property } from 'estree';
-
 import fs from 'fs';
 import path from 'path';
 
@@ -21,7 +20,6 @@ const createSheriffConfigRule: (
     };
   },
 });
-
 const sheriffConfigRuleMeta: RuleMetaData<string> = {
   type: 'problem',
   docs: {
@@ -33,7 +31,6 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
   },
   schema: [],
 };
-
 const physicalFilenamePostfix = '/sheriff.config.ts';
 const filePathConfigKeys = ['modules', 'tagging'];
 const placeholderRegex = /<[a-zA-Z0-9]+>/;

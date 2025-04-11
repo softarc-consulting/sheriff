@@ -3,7 +3,7 @@ import { noDependencies, sameTag, SheriffConfig } from '@softarc/sheriff-core';
 export const config: SheriffConfig = {
   version: 1,
   modules: {
-    'src/app/blah': {
+    'src/app/non-existent-folder': {
       'shared/<type>': ['shared', 'shared:<type>'],
       bookings: ['domain:bookings', 'type:feature'],
       'customers/api': ['type:api', 'domain:customers:api'],
