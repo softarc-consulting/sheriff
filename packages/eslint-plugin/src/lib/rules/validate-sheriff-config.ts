@@ -1,6 +1,6 @@
 import { RuleMetaData } from '@typescript-eslint/utils/dist/ts-eslint';
 import { Rule } from 'eslint';
-import { Identifier, Literal, ObjectExpression, Property } from 'estree';
+import { ObjectExpression, Property } from 'estree';
 import fs from 'fs';
 import path from 'path';
 
@@ -25,9 +25,15 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
 const getProjectRoot = (filename: string): string =>
   filename.slice(0, filename.indexOf(SHERIFF_CONFIG_FILENAME));
 
-const getPropertyKey = (property: Property): string => {
-  const key = property.key as Identifier | Literal;
-  return key.type === 'Identifier' ? key.name : String(key.value);
+const getPropertyKey = ({ key }: Property): string => {
+  switch (key.type) {
+    case 'Identifier':
+      return key.name;
+    case 'Literal':
+      return String(key.value);
+    default:
+      return '';
+  }
 };
 
 const collectPaths = (obj: ObjectExpression, prefix = ''): string[] => {
