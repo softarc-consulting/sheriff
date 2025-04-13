@@ -44,7 +44,7 @@ const collectPaths = (obj: ObjectExpression, prefix = ''): string[] => {
     if (property.type !== 'Property') continue;
 
     const key = getPropertyKey(property);
-    const currentPath = prefix ? `${prefix}/${key}` : key;
+    const currentPath = path.join(prefix, key);
 
     if (property.value.type === 'ArrayExpression') {
       paths.push(currentPath.split(PLACEHOLDER_REGEX)[0].replace(/\/$/g, ''));
@@ -69,22 +69,6 @@ const validatePaths = (
         data: { filePath },
       });
     }
-  }
-};
-
-const processModule = (
-  module: PropertyWithParent,
-  projectRoot: string,
-  context: Rule.RuleContext,
-): void => {
-  if (module.key.type !== 'Literal') return;
-
-  const modulePath = String(module.key.value);
-  const fullPath = path.join(projectRoot, modulePath);
-
-  if (module.value.type === 'ObjectExpression') {
-    const paths = collectPaths(module.value, fullPath);
-    validatePaths(paths, module, context);
   }
 };
 
@@ -121,14 +105,11 @@ export const validateSheriffConfig = createSheriffConfigRule(
       return;
     }
 
-    if (node.value.type !== 'ObjectExpression') return;
-
     const projectRoot = getProjectRoot(context.filename);
-    node.value.properties
-      .filter(
-        (module): module is PropertyWithParent =>
-          module.type === 'Property' && 'parent' in module,
-      )
-      .forEach((module) => processModule(module, projectRoot, context));
+
+    if (node.value.type === 'ObjectExpression') {
+      const paths = collectPaths(node.value, projectRoot);
+      validatePaths(paths, node, context);
+    }
   },
 );
