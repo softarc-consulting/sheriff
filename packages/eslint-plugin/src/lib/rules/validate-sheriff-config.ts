@@ -3,6 +3,7 @@ import { Rule } from 'eslint';
 import { ObjectExpression, Property } from 'estree';
 import fs from 'fs';
 import path from 'path';
+import { FileFilter, isExcluded, onlySheriffConfig } from './utils/file-filter';
 
 interface PropertyWithParent extends Property, Rule.NodeParentExtension {}
 
@@ -89,18 +90,27 @@ const processModule = (
 
 const createSheriffConfigRule = (
   meta: RuleMetaData<string>,
+  fileFilter: FileFilter,
   executor: (node: PropertyWithParent, context: Rule.RuleContext) => void,
 ): Rule.RuleModule => ({
   meta,
-  create: (context) => ({
-    Property(node) {
-      executor(node, context);
-    },
-  }),
+  create: (context) => {
+    const filename = context.filename ?? context.getFilename();
+    if (isExcluded(fileFilter, filename)) {
+      return {};
+    }
+
+    return {
+      Property(node) {
+        executor(node, context);
+      },
+    };
+  },
 });
 
 export const validateSheriffConfig = createSheriffConfigRule(
   sheriffConfigRuleMeta,
+  onlySheriffConfig,
   (node, context) => {
     if (
       node.key.type !== 'Identifier' ||

@@ -21,7 +21,7 @@ const sheriff = require('@softarc/eslint-plugin-sheriff');
 
 module.exports = tseslint.config({
   files: ['**/*.ts'],
-  extends: [...sheriff.configs.all],
+  extends: [sheriff.configs.all],
 });
 ```
 
@@ -87,7 +87,7 @@ module.exports = tseslint.config(
   },
   {
     files: ['**/*.ts'],
-    extends: [...sheriff.configs.all],
+    extends: [sheriff.configs.all],
   },
 );
 ```
@@ -100,46 +100,46 @@ module.exports = tseslint.config(
 
 ```json5
 {
-  "root": true,
-  "ignorePatterns": ["projects/**/*"],
-  "overrides": [
+  root: true,
+  ignorePatterns: ['projects/**/*'],
+  overrides: [
     {
-      "files": ["*.ts"],
-      "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+      files: ['*.ts'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@angular-eslint/recommended',
+        'plugin:@angular-eslint/template/process-inline-templates',
       ],
-      "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
+      rules: {
+        '@angular-eslint/directive-selector': [
+          'error',
           {
-            "type": "attribute",
-            "prefix": "eternal",
-            "style": "camelCase"
-          }
+            type: 'attribute',
+            prefix: 'eternal',
+            style: 'camelCase',
+          },
         ],
-        "@angular-eslint/component-selector": [
-          "error",
+        '@angular-eslint/component-selector': [
+          'error',
           {
-            "type": "element",
-            "prefix": "eternal",
-            "style": "kebab-case"
-          }
-        ]
-      }
+            type: 'element',
+            prefix: 'eternal',
+            style: 'kebab-case',
+          },
+        ],
+      },
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {}
+      files: ['*.html'],
+      extends: ['plugin:@angular-eslint/template/recommended'],
+      rules: {},
     },
     {
-      "files": ["*.ts"],
-      "extends": ["plugin:@softarc/sheriff/legacy"]
-    }
-  ]
+      files: ['*.ts'],
+      extends: ['plugin:@softarc/sheriff/legacy'],
+    },
+  ],
 }
 ```
 

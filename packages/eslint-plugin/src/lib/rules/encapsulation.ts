@@ -1,5 +1,5 @@
 import { violatesEncapsulationRule } from '@softarc/sheriff-core';
-import { createRule } from './create-rule';
+import { createRule } from './utils/create-rule';
 
 export const encapsulation = createRule(
   'Encapsulation',
@@ -10,7 +10,7 @@ export const encapsulation = createRule(
       importValue,
       isFirstRun,
       sourceCode,
-      false
+      false,
     );
     if (message) {
       context.report({

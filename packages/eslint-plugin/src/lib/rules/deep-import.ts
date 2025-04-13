@@ -1,5 +1,5 @@
 import { violatesEncapsulationRule } from '@softarc/sheriff-core';
-import { createRule } from './create-rule';
+import { createRule } from './utils/create-rule';
 
 export const deepImport = createRule(
   'Deep Import',
@@ -10,7 +10,7 @@ export const deepImport = createRule(
       importValue,
       isFirstRun,
       sourceCode,
-      true
+      true,
     );
     if (message) {
       context.report({

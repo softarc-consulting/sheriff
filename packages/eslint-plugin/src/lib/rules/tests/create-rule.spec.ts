@@ -1,11 +1,11 @@
-import { RuleTester } from 'eslint';
-import { afterEach, describe, expect, it, vitest } from 'vitest';
-import { createRule } from '../create-rule';
 import { UserError } from '@softarc/sheriff-core';
+import { RuleTester } from 'eslint';
 import { parser } from 'typescript-eslint';
+import { afterEach, describe, expect, it, vitest } from 'vitest';
+import { createRule } from '../utils/create-rule';
 
 const tester = new RuleTester({
-  languageOptions: { parser, sourceType: 'module' }
+  languageOptions: { parser, sourceType: 'module' },
 });
 
 const ruleExecutor = { foo: () => void true };
@@ -84,7 +84,7 @@ describe('create rule', () => {
           `,
         },
       ],
-      invalid: []
+      invalid: [],
     });
 
     expect(spy).toHaveBeenCalledTimes(2);
