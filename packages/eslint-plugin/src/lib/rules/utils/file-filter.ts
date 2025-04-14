@@ -15,10 +15,28 @@ export const onlySheriffConfig: FileFilter = {
   include: [sheriffConfigFileName],
 };
 
-export function isExcluded({ include, exclude }: FileFilter, filePath: string) {
+// TODO: Add test for isExcluded
+export function isExcluded(
+  { include, exclude }: FileFilter,
+  filePath: string,
+): boolean {
   const fileName = path.basename(filePath);
-  return (
-    (include && !include.some((includeFile) => fileName === includeFile)) ||
-    (exclude && exclude.some((excludeFile) => fileName === excludeFile))
-  );
+
+  if (include) {
+    const isIncluded = include.includes(fileName);
+    if (!isIncluded) {
+      return true;
+    }
+  }
+
+  if (exclude) {
+    const isExcluded = exclude.includes(fileName);
+    if (isExcluded) {
+      return true;
+    }
+  }
+
+  return false;
 }
+
+// TODO: add tests for each rule to confirm exclusions
