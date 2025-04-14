@@ -89,4 +89,12 @@ describe('create rule', () => {
 
     expect(spy).toHaveBeenCalledTimes(2);
   });
+
+  it('should not run the rule if the file is excluded', () => {
+    tester.run('test-rule', testRule, {
+      valid: [],
+      invalid: [],
+    });
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
 });

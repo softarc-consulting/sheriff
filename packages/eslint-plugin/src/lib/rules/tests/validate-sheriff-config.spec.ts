@@ -120,4 +120,30 @@ describe('validate-sheriff-config', () => {
       ],
     });
   });
+
+  it('should NOT run the rule if the file is excluded', () => {
+    tester.run('validate-sheriff-config', validateSheriffConfig, {
+      valid: [
+        {
+          code: `
+            const config = {
+              modules: {
+                'non-existent-folder': {
+                  holidays: {
+                    '<type>': ['domain:holidays', 'type:<type>'],
+                  },
+                  customers: {
+                    feature: ['domain:customers', 'type:feature'],
+                    data: ['domain:customers', 'type:data'],
+                  },
+                },
+              },
+            };
+          `,
+          filename: '/project/not-a-sheriff-config-file.ts',
+        },
+      ],
+      invalid: [],
+    });
+  });
 });
