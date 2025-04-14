@@ -3,7 +3,7 @@ import { RuleTester } from 'eslint';
 import { parser } from 'typescript-eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from '../utils/create-rule';
-
+import { excludeSheriffConfig } from '../utils/file-filter';
 const tester = new RuleTester({
   languageOptions: { parser, sourceType: 'module' },
 });
@@ -11,7 +11,7 @@ const tester = new RuleTester({
 const ruleExecutor = { foo: () => void true };
 const spy = vitest.spyOn(ruleExecutor, 'foo');
 
-export const testRule = createRule('Test Rule', () => {
+export const testRule = createRule('Test Rule', excludeSheriffConfig, () => {
   ruleExecutor.foo();
 });
 
