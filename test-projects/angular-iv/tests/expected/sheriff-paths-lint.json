@@ -6,45 +6,45 @@
         "ruleId": "@softarc/sheriff/validate-sheriff-config",
         "severity": 2,
         "message": "./src/app/non-existent-folder/shared' is not a real folder or barrel file",
-        "line": 6,
-        "column": 5,
+        "line": 5,
+        "column": 3,
         "nodeType": "Property",
         "messageId": "invalidPath",
-        "endLine": 11,
-        "endColumn": 6
+        "endLine": 12,
+        "endColumn": 4
       },
       {
         "ruleId": "@softarc/sheriff/validate-sheriff-config",
         "severity": 2,
         "message": "./src/app/non-existent-folder/bookings' is not a real folder or barrel file",
-        "line": 6,
-        "column": 5,
+        "line": 5,
+        "column": 3,
         "nodeType": "Property",
         "messageId": "invalidPath",
-        "endLine": 11,
-        "endColumn": 6
+        "endLine": 12,
+        "endColumn": 4
       },
       {
         "ruleId": "@softarc/sheriff/validate-sheriff-config",
         "severity": 2,
         "message": "./src/app/non-existent-folder/customers/api' is not a real folder or barrel file",
-        "line": 6,
-        "column": 5,
+        "line": 5,
+        "column": 3,
         "nodeType": "Property",
         "messageId": "invalidPath",
-        "endLine": 11,
-        "endColumn": 6
+        "endLine": 12,
+        "endColumn": 4
       },
       {
         "ruleId": "@softarc/sheriff/validate-sheriff-config",
         "severity": 2,
         "message": "./src/app/non-existent-folder' is not a real folder or barrel file",
-        "line": 6,
-        "column": 5,
+        "line": 5,
+        "column": 3,
         "nodeType": "Property",
         "messageId": "invalidPath",
-        "endLine": 11,
-        "endColumn": 6
+        "endLine": 12,
+        "endColumn": 4
       }
     ],
     "suppressedMessages": [],
