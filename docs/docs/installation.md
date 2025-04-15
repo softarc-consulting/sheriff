@@ -17,13 +17,17 @@ npm install -D @softarc/sheriff-core @softarc/eslint-plugin-sheriff
 ### Flat Config (_eslint.config.js_)
 
 ```javascript
+// ...
 const sheriff = require('@softarc/eslint-plugin-sheriff');
 
-module.exports = tseslint.config({
-  files: ['**/*.ts'],
-  extends: [sheriff.configs.all],
-});
-```
+module.exports = tseslint.config(
+  // ...
+  {
+    files: ['**/*.ts'],
+    extends: [sheriff.configs.all],
+  },
+);
+````
 
 ### Legacy Config (_.eslintrc.json_)
 
@@ -33,6 +37,7 @@ module.exports = tseslint.config({
   "extends": ["plugin:@softarc/sheriff/legacy"]
 }
 ```
+
 
 :::note
 
@@ -82,7 +87,10 @@ module.exports = tseslint.config(
   },
   {
     files: ['**/*.html'],
-    extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
     rules: {},
   },
   {
@@ -90,6 +98,7 @@ module.exports = tseslint.config(
     extends: [sheriff.configs.all],
   },
 );
+
 ```
 
 </details>
@@ -141,6 +150,7 @@ module.exports = tseslint.config(
     }
   ]
 }
+
 ```
 
 </details>
@@ -148,11 +158,11 @@ module.exports = tseslint.config(
 <details>
   <summary>Angular (Nx, Flat) Example</summary>
 
-**eslint.config.mjs**
+  **eslint.config.mjs**
 
 ```js
 import nx from '@nx/eslint-plugin';
-import sheriff from '@softarc/eslint-plugin-sheriff'; // <-- add this
+import sheriff from '@softarc/eslint-plugin-sheriff' // <-- add this
 
 export default [
   ...nx.configs['flat/base'],
@@ -162,8 +172,8 @@ export default [
   // ... further settings
 ];
 ```
-
 </details>
+
 
 <details>
 
