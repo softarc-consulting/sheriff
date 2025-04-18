@@ -1,17 +1,17 @@
-import { RuleTester } from 'eslint';
-import { afterEach, describe, expect, it, vitest } from 'vitest';
-import { createRule } from '../create-rule';
 import { UserError } from '@softarc/sheriff-core';
+import { RuleTester } from 'eslint';
 import { parser } from 'typescript-eslint';
-
+import { afterEach, describe, expect, it, vitest } from 'vitest';
+import { createRule } from '../utils/create-rule';
+import { excludeSheriffConfig } from '../utils/file-filter';
 const tester = new RuleTester({
-  languageOptions: { parser, sourceType: 'module' }
+  languageOptions: { parser, sourceType: 'module' },
 });
 
 const ruleExecutor = { foo: () => void true };
 const spy = vitest.spyOn(ruleExecutor, 'foo');
 
-export const testRule = createRule('Test Rule', () => {
+export const testRule = createRule('Test Rule', excludeSheriffConfig, () => {
   ruleExecutor.foo();
 });
 
@@ -84,9 +84,17 @@ describe('create rule', () => {
           `,
         },
       ],
-      invalid: []
+      invalid: [],
     });
 
     expect(spy).toHaveBeenCalledTimes(2);
+  });
+
+  it('should not run the rule if the file is excluded', () => {
+    tester.run('test-rule', testRule, {
+      valid: [],
+      invalid: [],
+    });
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 });
