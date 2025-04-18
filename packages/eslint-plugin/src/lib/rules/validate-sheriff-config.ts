@@ -7,7 +7,6 @@ import { FileFilter, isExcluded, onlySheriffConfig } from './utils/file-filter';
 
 interface PropertyWithParent extends Property, Rule.NodeParentExtension {}
 
-const SHERIFF_CONFIG_FILENAME = '/sheriff.config.ts';
 const FILE_PATH_CONFIG_KEYS = ['modules', 'tagging'] as const;
 const PLACEHOLDER_REGEX = /<[a-zA-Z0-9]+>/;
 
@@ -22,9 +21,6 @@ const sheriffConfigRuleMeta: RuleMetaData<string> = {
   },
   schema: [],
 };
-
-const getProjectRoot = (filename: string): string =>
-  filename.slice(0, filename.indexOf(SHERIFF_CONFIG_FILENAME));
 
 const getPropertyKey = ({ key }: Property): string => {
   switch (key.type) {
@@ -105,7 +101,7 @@ export const validateSheriffConfig = createSheriffConfigRule(
       return;
     }
 
-    const projectRoot = getProjectRoot(context.filename);
+    const projectRoot = path.dirname(context.filename);
 
     if (node.value.type === 'ObjectExpression') {
       const paths = collectPaths(node.value, projectRoot);
