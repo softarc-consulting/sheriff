@@ -98,6 +98,42 @@ export const config: SheriffConfig = {
       ).toThrowUserError(new MissingModulesWithoutAutoTaggingError());
     });
 
+    it('should not throw if modules is present and autoTagging is disabled', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  autoTagging: false,
+  modules: {}
+};
+      `,
+      );
+
+      expect(() =>
+        parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
+      ).not.toThrowUserError(new MissingModulesWithoutAutoTaggingError());
+    });
+
+    it('should not throw if tagging is present and autoTagging is disabled', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  autoTagging: false,
+  tagging: {}
+};
+      `,
+      );
+
+      expect(() =>
+        parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
+      ).not.toThrowUserError(new MissingModulesWithoutAutoTaggingError());
+    });
+
     it('should not throw if modules is empty and autoTagging does not exist', () => {
       getFs().writeFile(
         'sheriff.config.ts',
