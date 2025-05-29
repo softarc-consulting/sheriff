@@ -18,15 +18,16 @@ export const parseConfig = (configFile: FsPath): Configuration => {
   });
 
   const userSheriffConfig = eval(outputText) as UserSheriffConfig;
-  if (userSheriffConfig.autoTagging === false && !userSheriffConfig.tagging) {
-    throw new MissingModulesWithoutAutoTaggingError();
-  }
 
   if (userSheriffConfig.tagging && userSheriffConfig.modules) {
     throw new TaggingAndModulesError();
   }
   if (userSheriffConfig.tagging) {
     userSheriffConfig.modules = userSheriffConfig.tagging;
+  }
+
+  if (userSheriffConfig.autoTagging === false && !userSheriffConfig.modules) {
+    throw new MissingModulesWithoutAutoTaggingError();
   }
 
   if (
