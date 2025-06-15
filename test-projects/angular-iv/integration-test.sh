@@ -78,3 +78,11 @@ npx ng lint --force --format json --output-file tests/actual/re-exports-lint.jso
 ../remove-paths.mjs tests/actual/re-exports-lint.json
 diff tests/actual/re-exports-lint.json tests/expected/re-exports-lint.json
 mv src/app/customers/api/index.ts.original src/app/customers/api/index.ts
+
+## sheriff paths check
+echo 'checking for sheriff paths'
+cp tests/sheriff-paths.config.ts sheriff.config.ts
+npx ng lint --force --format json --output-file tests/actual/sheriff-paths-lint.json
+../remove-paths.mjs tests/actual/sheriff-paths-lint.json
+diff tests/actual/sheriff-paths-lint.json tests/expected/sheriff-paths-lint.json
+cp sheriff.config.ts.original sheriff.config.ts
