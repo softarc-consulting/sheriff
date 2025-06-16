@@ -42,7 +42,10 @@ export const parseConfig = (configFile: FsPath): Configuration => {
       userSheriffConfig.encapsulatedFolderNameForBarrelLess;
   }
 
-  const { tagging, encapsulatedFolderNameForBarrelLess, ...rest } =
-    userSheriffConfig;
+  const {
+    tagging: _1,
+    encapsulatedFolderNameForBarrelLess: _2,
+    ...rest
+  } = userSheriffConfig;
   return { ...defaultConfig, ...rest };
 };
