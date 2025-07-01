@@ -1,31 +1,42 @@
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { ProjectInfo } from '../main/init';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
-import { getEntryFromCliOrConfig } from './internal/get-entries-from-cli-or-config';
+import {
+  DEFAULT_PROJECT_NAME,
+  getEntriesFromCliOrConfig,
+} from './internal/get-entries-from-cli-or-config';
 import getFs from '../fs/getFs';
 import { cli } from './cli';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
 
 export function list(args: string[]) {
-  const projectInfo = getEntryFromCliOrConfig(args[0]);
-  logInfoForMissingSheriffConfig(projectInfo);
+  const projectEntries = getEntriesFromCliOrConfig(args[0]);
+  if (projectEntries.length > 0) {
+    logInfoForMissingSheriffConfig(projectEntries[0].entry);
+  }
 
-  // root doesn't count
-  const modulesCount = projectInfo.modules.length - 1;
+  for (const projectEntry of projectEntries) {
+    // root doesn't count
+    const modulesCount = projectEntry.entry.modules.length - 1;
+    const projectName = projectEntry.projectName;
+    if (projectName !== DEFAULT_PROJECT_NAME) {
+      cli.log(cli.bold(`Project: ${projectName}`));
+      cli.log('');
+    }
+    cli.log(`This project contains ${modulesCount} modules:`);
+    cli.log('');
 
-  cli.log(`This project contains ${modulesCount} modules:`);
-  cli.log('');
-
-  cli.log('. (root)');
-  const directory = mapModulesToDirectory(
-    Array.from(
-      projectInfo.modules
-        .filter((module) => !module.isRoot)
-        .map((module) => toFsPath(module.path)),
-    ),
-    projectInfo,
-  );
-  printDirectory(directory);
+    cli.log('. (root)');
+    const directory = mapModulesToDirectory(
+      Array.from(
+        projectEntry.entry.modules
+          .filter((module) => !module.isRoot)
+          .map((module) => toFsPath(module.path)),
+      ),
+      projectEntry.entry,
+    );
+    printDirectory(directory);
+  }
 }
 
 type Directory = Record<

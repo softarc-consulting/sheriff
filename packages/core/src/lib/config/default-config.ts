@@ -11,5 +11,6 @@ export const defaultConfig: Configuration = {
   log: false,
   entryFile: '',
   isConfigFileMissing: false,
-  barrelFileName: 'index.ts'
+  barrelFileName: 'index.ts',
+  entryPoints: {},
 };

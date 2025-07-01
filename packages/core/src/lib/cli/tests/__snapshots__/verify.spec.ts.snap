@@ -1,5 +1,55 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`verify > Multi project setup > should find errors > error.log 1`] = `""`;
+
+exports[`verify > Multi project setup > should find errors > logs.log 1`] = `
+"
+<b>Verification Report</b>
+
+<b>Project: project-i</b>
+
+Issues found:
+  Total Invalid Files: 2
+  Total Encapsulation Violations: 1
+  Total Dependency Rule Violations: 1
+----------------------------------
+
+|-- projects/project-i/src/main.ts
+|   |-- Encapsulation Violations
+|   |   |-- ./customers/data
+|-- projects/project-i/src/holidays/holidays.component.ts
+|   |-- Dependency Rule Violations
+|   |   |-- from tag holidays to tags customers
+
+<b>Project: project-ii</b>
+
+
+[32mNo issues found for this project. Well done![0m"
+`;
+
+exports[`verify > Multi project setup > should find errors without sheriff.config.ts > error.log 1`] = `"FsPath: /project/project-i,project-ii does not exist"`;
+
+exports[`verify > Multi project setup > should find errors without sheriff.config.ts > logs.log 1`] = `""`;
+
+exports[`verify > Multi project setup > should find no errors > error 1`] = `""`;
+
+exports[`verify > Multi project setup > should find no errors > log 1`] = `
+"
+<b>Verification Report</b>
+
+<b>Project: project-i</b>
+
+
+[32mNo issues found for this project. Well done![0m
+
+<b>Project: project-ii</b>
+
+
+[32mNo issues found for this project. Well done![0m
+
+[32mAll projects validated successfully![0m"
+`;
+
 exports[`verify > should find errors > error.log 1`] = `""`;
 
 exports[`verify > should find errors > logs.log 1`] = `
@@ -45,5 +95,8 @@ exports[`verify > should find no errors > log 1`] = `
 
 <b>Verification Report</b>
 
-[32mNo issues found. Well done![0m"
+
+[32mNo issues found for this project. Well done![0m
+
+[32mAll projects validated successfully![0m"
 `;
