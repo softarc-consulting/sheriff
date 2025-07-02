@@ -3,7 +3,6 @@ import { init, ProjectInfo } from '../../main/init';
 import { parseConfig } from '../../config/parse-config';
 import { toFsPath } from '../../file-info/fs-path';
 import { isEmptyRecord } from '../../util/is-empty-record';
-import { Configuration } from '../../config/configuration';
 import { parseEntryPointsFromCli } from './parse-entry-points-from-cli';
 
 export type Entry<TEntry> = {
