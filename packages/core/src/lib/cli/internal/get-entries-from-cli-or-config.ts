@@ -4,11 +4,7 @@ import { parseConfig } from '../../config/parse-config';
 import { toFsPath } from '../../file-info/fs-path';
 import { isEmptyRecord } from '../../util/is-empty-record';
 import { parseEntryPointsFromCli } from './parse-entry-points-from-cli';
-
-export type Entry<TEntry> = {
-  projectName: string;
-  entry: TEntry;
-};
+import { Entry } from './entry';
 
 export const DEFAULT_PROJECT_NAME = 'default';
 
