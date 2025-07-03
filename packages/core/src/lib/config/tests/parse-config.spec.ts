@@ -39,6 +39,7 @@ describe('parse Config', () => {
       'entryFile',
       'isConfigFileMissing',
       'barrelFileName',
+      'entryPoints',
     ]);
   });
 
