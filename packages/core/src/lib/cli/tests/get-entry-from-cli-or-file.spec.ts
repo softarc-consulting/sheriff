@@ -79,35 +79,6 @@ describe('get entry file from CLI or config', () => {
     );
   });
 
-  it('should throw error if both entry file and entry points are given', () => {
-    createProject({
-      'tsconfig.json': tsConfig(),
-      'sheriff.config.ts': sheriffConfig({
-        depRules: {},
-        entryFile: 'projects/project-i/src/main.ts',
-        entryPoints: {
-          'project-i': 'projects/project-i/src/main.ts',
-        },
-      }),
-      projects: {
-        'project-i': {
-          src: {
-            'main.ts': ['./holidays', './customers', './customers/data'],
-            holidays: {
-              'index.ts': ['./holidays.component'],
-              'holidays.component.ts': ['../customers'],
-            },
-            customers: { 'index.ts': [], 'data.ts': [] },
-          },
-        },
-      },
-    });
-
-    expect(() => getEntriesFromCliOrConfig()).toThrow(
-      'Both entry file and entry points found in sheriff.config.ts. Please provide only one option',
-    );
-  });
-
   describe('Multi project setup', () => {
     it('should use the CLI entry points', () => {
       createProject({

@@ -6,6 +6,7 @@ export type Configuration = Required<
     | 'tagging'
     | 'showWarningOnBarrelCollision'
     | 'encapsulatedFolderNameForBarrelLess'
+    | 'entryPoints'
   >
 > & {
   // dependency rules will skip if `isConfigFileMissing` is true
