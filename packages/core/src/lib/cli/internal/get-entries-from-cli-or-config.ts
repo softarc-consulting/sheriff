@@ -36,7 +36,7 @@ export function getEntriesFromCliOrConfig(
   if (entryFileOrEntryPoints) {
     // CLI argument given and no config file is present -> only entry file can work
     if (!fs.exists(potentialConfigFile)) {
-      return processEntryFile(entryFileOrEntryPoints as string, runInit, fs);
+      return processEntryFile(entryFileOrEntryPoints, runInit, fs);
     }
 
     if (fs.exists(potentialConfigFile)) {
@@ -101,11 +101,11 @@ function processEntryFile(
     return runInit
       ? (entries.map(([projectName, entry]) => ({
           projectName,
-          entry: init(toFsPath(fs.join(fs.cwd(), entry as string))),
+          entry: init(toFsPath(fs.join(fs.cwd(), entry))),
         })) as Array<Entry<ProjectInfo>>)
       : (entries.map(([projectName, entry]) => ({
           projectName,
-          entry: entry as string,
+          entry: entry,
         })) as Array<Entry<string>>);
   }
 }
