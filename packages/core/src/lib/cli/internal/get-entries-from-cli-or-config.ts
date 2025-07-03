@@ -61,12 +61,6 @@ export function getEntriesFromCliOrConfig(
   if (fs.exists(potentialConfigFile)) {
     const sheriffConfig = parseConfig(potentialConfigFile);
 
-    if (sheriffConfig.entryFile && !isEmptyRecord(sheriffConfig.entryPoints)) {
-      throw new Error(
-        'Both entry file and entry points found in sheriff.config.ts. Please provide only one option',
-      );
-    }
-
     if (sheriffConfig.entryFile) {
       return processEntryFile(sheriffConfig.entryFile, runInit, fs);
     } else if (
