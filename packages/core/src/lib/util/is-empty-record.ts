@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export function isEmptyRecord<T>(value: T): value is Record<never, never> {
   return (
