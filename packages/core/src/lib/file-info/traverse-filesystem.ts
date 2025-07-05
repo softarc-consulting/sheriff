@@ -84,7 +84,7 @@ export function traverseFilesystem(
     // might be an undetected dependency in node_modules
     // or an incomplete import (= developer is still typing),
     // if we read from an unsaved file via ESLint.
-    else if (fileName.startsWith('.')) {
+    else {
       fileInfo.addUnresolvableImport(fileName);
     }
 

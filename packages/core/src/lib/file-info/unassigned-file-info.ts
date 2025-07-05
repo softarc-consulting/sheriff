@@ -27,6 +27,10 @@ export class UnassignedFileInfo {
     this.#unresolvableImports.push(importCommand);
   }
 
+  get unresolvableImports() {
+    return [...this.#unresolvableImports];
+  }
+
   isUnresolvableImport(importCommand: string) {
     return this.#unresolvableImports.includes(importCommand);
   }

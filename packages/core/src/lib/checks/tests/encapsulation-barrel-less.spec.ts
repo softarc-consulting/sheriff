@@ -178,7 +178,7 @@ describe('barrel-less', () => {
           'customers.component.ts': ['../data/open.service.ts'],
         },
         data: {
-          'index.ts': ['open.service.ts'],
+          'index.ts': ['./open.service.ts'],
           'open.service.ts': [],
           internal: { 'hidden.service.ts': [] },
         },
@@ -192,7 +192,7 @@ describe('barrel-less', () => {
     assertProject()
       .withCustomerRoute({
         feature: {
-          'customer.component.ts': [''],
+          'customer.component.ts': [],
           'customers.component.ts': ['../data/sub1/internal/hidden.service.ts'],
         },
         data: {
