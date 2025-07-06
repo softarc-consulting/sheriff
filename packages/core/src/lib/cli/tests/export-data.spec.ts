@@ -116,4 +116,19 @@ describe('export data', () => {
 
     expect(allLogs()).toMatchSnapshot('sheriff-config');
   });
+
+  it('should show unresolved imports', () => {
+    const { allLogs } = mockCli();
+
+    createProject({
+      'tsconfig.json': tsConfig(),
+      src: {
+        'main.ts': ['my-module'],
+      },
+    });
+
+    exportData('src/main.ts');
+
+    expect(allLogs()).toMatchSnapshot('unresolved-imports');
+  });
 });

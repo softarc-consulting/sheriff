@@ -39,6 +39,10 @@ export class FileInfo {
     return this.unassignedFileInfo.getRawImportForImportedFileInfo(path);
   }
 
+  get unresolvableImports() {
+    return this.unassignedFileInfo.unresolvableImports;
+  }
+
   isUnresolvableImport(importCommand: string) {
     return this.unassignedFileInfo.isUnresolvableImport(importCommand);
   }
