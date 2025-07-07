@@ -5,10 +5,13 @@ import getFs from '../fs/getFs';
 import { Configuration } from './configuration';
 import {
   CollidingEncapsulationSettings,
+  CollidingEntrySettings,
   MissingModulesWithoutAutoTaggingError,
+  NoEntryPointsFoundError,
   TaggingAndModulesError,
 } from '../error/user-error';
 import { defaultConfig } from './default-config';
+import { isEmptyRecord } from '../util/is-empty-record';
 
 export const parseConfig = (configFile: FsPath): Configuration => {
   const tsCode = getFs().readFile(configFile);
@@ -47,5 +50,17 @@ export const parseConfig = (configFile: FsPath): Configuration => {
     encapsulatedFolderNameForBarrelLess: _2,
     ...rest
   } = userSheriffConfig;
+
+    if (userSheriffConfig.entryFile && userSheriffConfig.entryPoints) {
+    throw new CollidingEntrySettings();
+  }
+
+  if (
+    userSheriffConfig.entryPoints &&
+    isEmptyRecord(userSheriffConfig.entryPoints)
+  ) {
+    throw new NoEntryPointsFoundError();
+  }
+
   return { ...defaultConfig, ...rest };
 };
