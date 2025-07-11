@@ -1,10 +1,10 @@
-import rules from './lib/rules';
-import { legacy, legacyBarrelModulesOnly } from "./lib/configs/legacy";
-import { all, barrelModulesOnly } from "./lib/configs/all";
 import {
   name as packageName,
   version as packageVersion,
 } from '../package.json';
+import { all, barrelModulesOnly } from './lib/configs/all';
+import { legacy, legacyBarrelModulesOnly } from './lib/configs/legacy';
+import rules from './lib/rules';
 
 const meta = { name: packageName, version: packageVersion };
 
@@ -12,9 +12,9 @@ const configs = {
   legacy,
   legacyBarrelModulesOnly,
   barrelModulesOnly,
-  all
+  all,
 };
 
-export {configs, rules, meta};
+export { configs, meta, rules };
 
 export default { configs, rules, meta };

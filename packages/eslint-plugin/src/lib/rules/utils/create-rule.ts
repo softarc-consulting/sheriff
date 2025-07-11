@@ -1,6 +1,7 @@
-import { Rule } from 'eslint';
-import {Executor, ExecutorNode} from './executor';
 import { UserError } from '@softarc/sheriff-core';
+import { Rule } from 'eslint';
+import { Executor, ExecutorNode } from './executor';
+import { FileFilter, isExcluded } from './file-filter';
 
 /**
  * Factory function generating a rule that traverses
@@ -15,14 +16,18 @@ import { UserError } from '@softarc/sheriff-core';
  */
 export const createRule: (
   ruleName: string,
+  fileFilter: FileFilter,
   executor: Executor,
-) => Rule.RuleModule = (ruleName, executor) => ({
+) => Rule.RuleModule = (ruleName, fileFilter, executor) => ({
   create: (context) => {
+    const filename = context.filename ?? context.getFilename();
+    if (isExcluded(fileFilter, filename)) {
+      return {};
+    }
+
     let isFirstRun = true;
     let hasInternalError = false;
-    const executeRuleWithContext = (
-      node: ExecutorNode,
-    ) => {
+    const executeRuleWithContext = (node: ExecutorNode) => {
       const filename = context.filename ?? context.getFilename();
       const sourceCode =
         context.sourceCode?.text ?? context.getSourceCode().text;

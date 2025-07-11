@@ -2,8 +2,7 @@ import type { TSESLint } from '@typescript-eslint/utils';
 import rules from '../rules';
 
 const commonConfig: TSESLint.FlatConfig.Config = {
-  files: ['*.ts, *.js'],
-  ignores: ['sheriff.config.ts'],
+  files: ['**/*.ts', '**/*.js'],
   languageOptions: {
     sourceType: 'module',
   },
@@ -27,5 +26,6 @@ export const all: TSESLint.FlatConfig.Config = {
   rules: {
     '@softarc/sheriff/dependency-rule': 'error',
     '@softarc/sheriff/encapsulation': 'error',
+    '@softarc/sheriff/validate-sheriff-config': 'error',
   },
 };
