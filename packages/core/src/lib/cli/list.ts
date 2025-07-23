@@ -15,11 +15,14 @@ export function list(args: string[]) {
     logInfoForMissingSheriffConfig(projectEntries[0].entry);
   }
 
-  for (const projectEntry of projectEntries) {
+  for (const [i, projectEntry] of projectEntries.entries()) {
     // root doesn't count
     const modulesCount = projectEntry.entry.modules.length - 1;
     const projectName = projectEntry.projectName;
     if (projectName !== DEFAULT_PROJECT_NAME) {
+      if (i > 0) {
+        cli.log('');
+      }
       cli.log(cli.bold(`Project: ${projectName}`));
       cli.log('');
     }
