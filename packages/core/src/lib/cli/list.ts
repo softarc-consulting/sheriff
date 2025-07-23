@@ -1,7 +1,7 @@
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { ProjectInfo } from '../main/init';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
-import { getEntryFromCliOrConfig } from './internal/get-entry-from-cli-or-config';
+import { getEntryFromCliOrConfig } from './internal/get-entries-from-cli-or-config';
 import getFs from '../fs/getFs';
 import { cli } from './cli';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
