@@ -83,7 +83,40 @@ describe('verify', () => {
   });
 
   describe('Multi project setup', () => {
-    it('should find no errors', () => {
+    it('should find no errors when passing a single entryPoint', () => {
+      const { allLogs, allErrorLogs } = mockCli();
+
+      createProject({
+        'tsconfig.json': tsConfig(),
+        'sheriff.config.ts': sheriffConfig({
+          depRules: {},
+          entryPoints: {
+            'project-i': 'projects/project-i/src/main.ts',
+            'project-ii': 'projects/project-ii/src/main.ts',
+          },
+        }),
+        projects: {
+          'project-i': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+          'project-ii': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+        },
+      });
+
+      main('verify', 'project-i');
+
+      expect(allErrorLogs()).toMatchSnapshot('error');
+      expect(allLogs()).toMatchSnapshot('log');
+    });
+    it('should find no errors when passing multiple entryPoints', () => {
       const { allLogs, allErrorLogs } = mockCli();
 
       createProject({
