@@ -3,7 +3,7 @@ import { traverseFileInfo } from '../modules/traverse-file-info';
 import { checkForDependencyRuleViolation } from '../checks/check-for-dependency-rule-violation';
 import getFs from '../fs/getFs';
 import { cli } from './cli';
-import { getEntryFromCliOrConfig } from './internal/get-entry-from-cli-or-config';
+import { getEntryFromCliOrConfig } from './internal/get-entries-from-cli-or-config';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
 
 type ValidationsMap = Record<

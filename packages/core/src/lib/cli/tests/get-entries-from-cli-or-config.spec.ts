@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createProject } from '../../test/project-creator';
 import { tsConfig } from '../../test/fixtures/ts-config';
 import { sheriffConfig } from '../../test/project-configurator';
-import { getEntryFromCliOrConfig } from '../internal/get-entry-from-cli-or-config';
+import { getEntryFromCliOrConfig } from '../internal/get-entries-from-cli-or-config';
 
 describe('get entry file from cli or config', () => {
   it('should use the CLI entry file', () => {

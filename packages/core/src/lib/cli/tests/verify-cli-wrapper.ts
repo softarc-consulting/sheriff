@@ -1,4 +1,4 @@
-import * as getEntryFromCliOrConfigFile from '../internal/get-entry-from-cli-or-config';
+import * as getEntryFromCliOrConfigFile from '../internal/get-entries-from-cli-or-config';
 import * as handleErrorFile from '../internal/handle-error';
 import { expect, it, vitest } from 'vitest';
 import { createProject } from '../../test/project-creator';
