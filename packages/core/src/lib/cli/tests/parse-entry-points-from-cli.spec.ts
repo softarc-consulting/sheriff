@@ -41,4 +41,19 @@ describe(parseEntryPointsFromCli.name, () => {
     const result = parseEntryPointsFromCli('src/main.ts', config);
     expect(result).toBeUndefined();
   });
+
+  it('should ignore whitespace between comma separated entryPoints', () => {
+    const config: Configuration = {
+      entryPoints: {
+        'app-i': 'src/app-i.ts',
+        'app-ii': 'src/app-ii.ts',
+      },
+    } as unknown as Configuration;
+    const result = parseEntryPointsFromCli('app-i, app-ii', config);
+
+    expect(result).toEqual({
+      'app-i': 'src/app-i.ts',
+      'app-ii': 'src/app-ii.ts',
+    });
+  });
 });

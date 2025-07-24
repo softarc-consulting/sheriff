@@ -14,9 +14,10 @@ export function parseEntryPointsFromCli(
     const entryPoints: Record<string, string> = {};
 
     for (const entry of splittedEntries) {
-      const entryPoint = entryPointsFromConfig[entry];
+      const trimmedEntry = entry.trim();
+      const entryPoint = entryPointsFromConfig[trimmedEntry];
       if (entryPoint) {
-        entryPoints[entry] = entryPoint;
+        entryPoints[trimmedEntry] = entryPoint;
       }
     }
     return entryPoints;
