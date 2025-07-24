@@ -11,6 +11,7 @@ export type ProjectDataEntry = {
   imports: string[];
   externalLibraries?: string[];
   unresolvedImports: string[];
+  projectName: string;
 };
 
 /**
@@ -77,6 +78,7 @@ function calcOrGetTags(
  */
 export function getProjectData(
   entryFileAbsolute: string,
+  projectName: string,
   options?: Options,
 ): ProjectData;
 /**
@@ -112,28 +114,43 @@ export function getProjectData(
 export function getProjectData(
   entryFileRelative: string,
   cwd: string,
+  projectName: string,
   options?: Options,
 ): ProjectData;
 
 export function getProjectData(
   entryFile: string,
-  cwdOrOptions?: string | Options,
+  cwdOrProjectName: string,
+  projectNameOrOptions?: string | Options,
   optionalOptions?: Options,
 ): ProjectData {
   const fs = getFs();
-  const absoluteEntryFile =
-    cwdOrOptions === undefined
-      ? entryFile
-      : typeof cwdOrOptions === 'string'
-        ? fs.join(cwdOrOptions, entryFile)
-        : entryFile;
+  let absoluteEntryFile: string;
+  let cwd: string | undefined;
+  let projectName: string;
+  let options: Options;
 
-  const cwd = typeof cwdOrOptions === 'string' ? cwdOrOptions : undefined;
-  const options = optionalOptions
-    ? optionalOptions
-    : typeof cwdOrOptions === 'object'
-      ? cwdOrOptions
-      : {};
+  if (
+    typeof cwdOrProjectName === 'string' &&
+    typeof projectNameOrOptions === 'string'
+  ) {
+    // Called with: (entryFile, cwd, projectName, options?)
+    absoluteEntryFile = fs.join(entryFile);
+    cwd = cwdOrProjectName;
+    projectName = projectNameOrOptions;
+    options = optionalOptions || {};
+  } else if (
+    typeof cwdOrProjectName === 'string' &&
+    typeof projectNameOrOptions === 'object'
+  ) {
+    // Called with: (entryFile, projectName, options)
+    absoluteEntryFile = entryFile;
+    cwd = undefined;
+    projectName = cwdOrProjectName;
+    options = projectNameOrOptions || {};
+  } else {
+    throw new Error('Invalid arguments to getProjectData');
+  }
 
   const projectInfo = init(toFsPath(absoluteEntryFile));
 
@@ -147,6 +164,7 @@ export function getProjectData(
       tags: calcOrGetTags(fileInfo.moduleInfo.path, projectInfo, tagsCache),
       imports: fileInfo.imports.map((fileInfo) => fileInfo.path),
       unresolvedImports: fileInfo.unresolvableImports,
+      projectName: projectName,
     };
 
     if (options.includeExternalLibraries) {
@@ -183,6 +201,7 @@ function relativizeIfRequired(
         relative(toFsPath(importPath)),
       ),
       unresolvedImports: moduleData.unresolvedImports,
+      projectName: moduleData.projectName,
     };
 
     if (options.includeExternalLibraries) {

@@ -5,12 +5,17 @@ import getFs from '../fs/getFs';
 
 export function exportData(...args: string[]): void {
   const fs = getFs();
-  const projectEntries = getEntriesFromCliOrConfig(args[0], false);
+  const projectEntries = getEntriesFromCliOrConfig(args[0], true);
 
   for (const entry of projectEntries) {
-    const data = getProjectData(entry.entry, fs.cwd(), {
-      includeExternalLibraries: true,
-    });
+    const data = getProjectData(
+      entry.entry.fileInfo.path,
+      fs.cwd(),
+      entry.projectName,
+      {
+        includeExternalLibraries: true,
+      },
+    );
     cli.log(JSON.stringify(data, null, '  '));
   }
 }
