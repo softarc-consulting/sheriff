@@ -16,6 +16,7 @@
       "src/environments/environment.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/common/http",
@@ -47,6 +48,7 @@
       "src/app/shared/ui-messaging/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@angular/material/sidenav",
@@ -64,6 +66,7 @@
       "src/app/shared/security/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -83,6 +86,7 @@
       "src/app/shared/security/security.service.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/security/security.provider.ts": {
@@ -97,6 +101,7 @@
       "src/app/shared/security/security.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/effects",
       "@ngrx/store"
@@ -114,6 +119,7 @@
       "src/app/shared/security/security.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -132,6 +138,7 @@
       "src/app/shared/security/security.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -147,6 +154,7 @@
       "src/app/shared/security/security.actions.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -164,6 +172,7 @@
       "src/app/shared/security/security.selectors.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@ngrx/store",
@@ -182,6 +191,7 @@
       "src/app/shared/security/security.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -196,6 +206,7 @@
       "src/app/shared/security/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -219,6 +230,7 @@
       "src/app/shared/ui-messaging/message/message.component.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/ui-messaging/shared-ui-messaging.provider.ts": {
@@ -232,6 +244,7 @@
       "src/app/shared/ui-messaging/loader/loading.interceptor.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -250,6 +263,7 @@
       "src/app/shared/ui-messaging/loader/silent-load.context.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -266,6 +280,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "rxjs"
@@ -280,6 +295,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http"
     ]
@@ -295,6 +311,7 @@
       "src/app/shared/ui-messaging/loader/loading.service.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -313,6 +330,7 @@
       "src/app/shared/ui-messaging/message/confirmation.component.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@angular/material/dialog",
@@ -330,6 +348,7 @@
       "src/app/shared/ui-messaging/message/message.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "rxjs"
@@ -344,6 +363,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/ui-messaging/message/confirmation.component.ts": {
@@ -355,6 +375,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@angular/material/button",
@@ -373,6 +394,7 @@
       "src/app/shared/ui-messaging/message/message.store.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/animations",
       "@angular/common",
@@ -391,6 +413,7 @@
       "src/app/shared/config/configuration.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/config/configuration.ts": {
@@ -402,6 +425,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/http/index.ts": {
@@ -417,6 +441,7 @@
       "src/app/shared/http/with-error-message-context.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/http/error.interceptor.ts": {
@@ -431,6 +456,7 @@
       "src/app/shared/http/error-message.context.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -446,6 +472,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http"
     ]
@@ -461,6 +488,7 @@
       "src/app/shared/config/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -478,6 +506,7 @@
       "src/app/shared/http/error-message.context.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http"
     ]
@@ -494,6 +523,7 @@
       "src/app/shared/master-data/+state/master.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/master-data/shared-master-data.provider.ts": {
@@ -507,6 +537,7 @@
       "src/app/shared/master-data/+state/master.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -520,6 +551,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -538,6 +570,7 @@
       "src/app/holidays/feature/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/router"
     ]
@@ -552,6 +585,7 @@
       "src/app/shared/security/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@angular/router",
@@ -567,6 +601,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core"
     ]
@@ -582,6 +617,7 @@
       "src/app/customers/feature/customers.routes.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/customers/feature/customers.routes.ts": {
@@ -600,6 +636,7 @@
       "src/app/customers/data/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/router"
     ]
@@ -618,6 +655,7 @@
       "src/app/customers/data/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -635,6 +673,7 @@
       "src/app/customers/model/customer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/customers/model/customer.ts": {
@@ -646,6 +685,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/customers/ui/index.ts": {
@@ -660,6 +700,7 @@
       "src/app/customers/ui/customers/customers.component.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/customers/ui/customer/customer.component.ts": {
@@ -675,6 +716,7 @@
       "src/app/shared/form/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -699,6 +741,7 @@
       "src/app/shared/form/form-errors.component.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/form/options.ts": {
@@ -710,6 +753,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/form/form-errors.component.ts": {
@@ -721,6 +765,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -740,6 +785,7 @@
       "src/app/customers/ui/customer.pipe.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -762,6 +808,7 @@
       "src/app/customers/model/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core"
     ]
@@ -778,6 +825,7 @@
       "src/app/customers/data/provide-customers.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/customers/data/customers-repository.service.ts": {
@@ -793,6 +841,7 @@
       "src/app/customers/data/customers.selectors.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@ngrx/store"
@@ -809,6 +858,7 @@
       "src/app/customers/model/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -825,6 +875,7 @@
       "src/app/customers/data/customers.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -841,6 +892,7 @@
       "src/app/customers/data/customers.actions.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -857,6 +909,7 @@
       "src/app/customers/data/customers.effects.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/effects",
       "@ngrx/store"
@@ -875,6 +928,7 @@
       "src/app/customers/data/customers.actions.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -895,6 +949,7 @@
       "src/app/customers/data/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -917,6 +972,7 @@
       "src/app/customers/data/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -937,6 +993,7 @@
       "src/app/customers/data/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@angular/router"
@@ -951,6 +1008,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@angular/router"
@@ -967,6 +1025,7 @@
       "src/app/bookings/bookings.routes.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/bookings/bookings.routes.ts": {
@@ -982,6 +1041,7 @@
       "src/app/bookings/+state/bookings.effects.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/router",
       "@ngrx/effects",
@@ -999,6 +1059,7 @@
       "src/app/bookings/+state/bookings.actions.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -1014,6 +1075,7 @@
       "src/app/bookings/+state/bookings.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -1033,6 +1095,7 @@
       "src/app/shared/ngrx-utils/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -1053,6 +1116,7 @@
       "src/app/bookings/+state/bookings.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/customers/api/index.ts": {
@@ -1066,6 +1130,7 @@
       "src/app/customers/data/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core"
     ]
@@ -1085,6 +1150,7 @@
       "src/app/shared/ngrx-utils/load-status.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/ngrx-utils/noop.action.ts": {
@@ -1096,6 +1162,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -1111,6 +1178,7 @@
       "src/app/shared/ngrx-utils/noop.action.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store/src/models",
       "rxjs"
@@ -1127,6 +1195,7 @@
       "src/app/shared/util/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "rxjs"
     ]
@@ -1144,6 +1213,7 @@
       "src/app/shared/util/safe-assign.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/util/assert-defined.ts": {
@@ -1155,6 +1225,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/util/is-defined.ts": {
@@ -1166,6 +1237,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/util/safe-assign.ts": {
@@ -1177,6 +1249,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/ngrx-utils/deep-clone.ts": {
@@ -1188,6 +1261,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "rxjs"
     ]
@@ -1201,6 +1275,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/bookings/+state/bookings.effects.ts": {
@@ -1216,6 +1291,7 @@
       "src/app/customers/api/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core",
       "@ngrx/effects",
@@ -1235,6 +1311,7 @@
       "src/app/holidays/feature/address-lookuper.service.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/holidays/feature/holidays.routes.ts": {
@@ -1251,6 +1328,7 @@
       "src/app/holidays/feature/request-info/request-info.component.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/router",
       "@ngrx/effects",
@@ -1270,6 +1348,7 @@
       "src/app/holidays/feature/+state/holidays.actions.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -1288,6 +1367,7 @@
       "src/app/holidays/model/holiday.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/holidays/model/holiday.ts": {
@@ -1299,6 +1379,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/holidays/feature/+state/holidays.actions.ts": {
@@ -1312,6 +1393,7 @@
       "src/app/holidays/model/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -1328,6 +1410,7 @@
       "src/app/holidays/feature/+state/holidays.actions.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -1346,6 +1429,7 @@
       "src/app/holidays/ui/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -1363,6 +1447,7 @@
       "src/app/holidays/feature/+state/holidays.reducer.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@ngrx/store"
     ]
@@ -1378,6 +1463,7 @@
       "src/app/holidays/ui/holiday-card/holiday-card.component.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/holidays/ui/holiday-card/holiday-card.component.ts": {
@@ -1392,6 +1478,7 @@
       "src/app/shared/ui/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -1412,6 +1499,7 @@
       "src/app/shared/ui/blinker.directive.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/shared/ui/blinker.directive.ts": {
@@ -1423,6 +1511,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/core"
     ]
@@ -1439,6 +1528,7 @@
       "src/app/shared/util/index.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common",
       "@angular/core",
@@ -1462,6 +1552,7 @@
       "src/app/holidays/feature/parse-address.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": [
       "@angular/common/http",
       "@angular/core",
@@ -1480,6 +1571,7 @@
       "src/app/holidays/feature/address.ts"
     ],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/app/holidays/feature/address.ts": {
@@ -1491,6 +1583,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   },
   "src/environments/environment.ts": {
@@ -1501,6 +1594,7 @@
     ],
     "imports": [],
     "unresolvedImports": [],
+    "projectName": "default",
     "externalLibraries": []
   }
 }

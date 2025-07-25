@@ -132,10 +132,14 @@ export function verify(args: string[]) {
         }
       }
     } else {
-      cli.log('');
-      cli.log(
-        '\u001b[32mNo issues found for this project. Well done!\u001b[0m',
-      );
+      if (projectValidations.size > 1) {
+        cli.log('');
+        cli.log(
+          '\u001b[32mNo issues found for this project. Well done!\u001b[0m',
+        );
+      } else {
+        cli.log('\u001b[32mNo issues found. Well done!\u001b[0m');
+      }
     }
   }
 
@@ -143,8 +147,10 @@ export function verify(args: string[]) {
   if (hasAnyProjectError) {
     cli.endProcessError();
   } else {
-    cli.log('');
-    cli.log('\u001b[32mAll projects validated successfully!\u001b[0m');
+    if (projectValidations.size > 1) {
+      cli.log('');
+      cli.log('\u001b[32mAll projects validated successfully!\u001b[0m');
+    }
     cli.endProcessOk();
   }
 }
