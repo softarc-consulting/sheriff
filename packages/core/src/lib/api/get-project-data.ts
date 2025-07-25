@@ -23,6 +23,11 @@ export type Options = {
    * that contains the external libraries, i.e. node_modules.
    */
   includeExternalLibraries?: boolean;
+  /**
+   * Adds a property `projectName` to each entry
+   * that contains the name of the project.
+   */
+  projectName?: string;
 };
 export type ProjectData = Record<string, ProjectDataEntry>;
 
@@ -78,7 +83,6 @@ function calcOrGetTags(
  */
 export function getProjectData(
   entryFileAbsolute: string,
-  projectName: string,
   options?: Options,
 ): ProjectData;
 /**
@@ -114,43 +118,28 @@ export function getProjectData(
 export function getProjectData(
   entryFileRelative: string,
   cwd: string,
-  projectName: string,
   options?: Options,
 ): ProjectData;
 
 export function getProjectData(
   entryFile: string,
-  cwdOrProjectName: string,
-  projectNameOrOptions?: string | Options,
+  cwdOrOptions?: string | Options,
   optionalOptions?: Options,
 ): ProjectData {
   const fs = getFs();
-  let absoluteEntryFile: string;
-  let cwd: string | undefined;
-  let projectName: string;
-  let options: Options;
+  const absoluteEntryFile =
+    cwdOrOptions === undefined
+      ? entryFile
+      : typeof cwdOrOptions === 'string'
+        ? fs.join(entryFile)
+        : entryFile;
 
-  if (
-    typeof cwdOrProjectName === 'string' &&
-    typeof projectNameOrOptions === 'string'
-  ) {
-    // Called with: (entryFile, cwd, projectName, options?)
-    absoluteEntryFile = fs.join(entryFile);
-    cwd = cwdOrProjectName;
-    projectName = projectNameOrOptions;
-    options = optionalOptions || {};
-  } else if (
-    typeof cwdOrProjectName === 'string' &&
-    typeof projectNameOrOptions === 'object'
-  ) {
-    // Called with: (entryFile, projectName, options)
-    absoluteEntryFile = entryFile;
-    cwd = undefined;
-    projectName = cwdOrProjectName;
-    options = projectNameOrOptions || {};
-  } else {
-    throw new Error('Invalid arguments to getProjectData');
-  }
+  const cwd = typeof cwdOrOptions === 'string' ? cwdOrOptions : undefined;
+  const options = optionalOptions
+    ? optionalOptions
+    : typeof cwdOrOptions === 'object'
+      ? cwdOrOptions
+      : {};
 
   const projectInfo = init(toFsPath(absoluteEntryFile));
 
@@ -164,7 +153,7 @@ export function getProjectData(
       tags: calcOrGetTags(fileInfo.moduleInfo.path, projectInfo, tagsCache),
       imports: fileInfo.imports.map((fileInfo) => fileInfo.path),
       unresolvedImports: fileInfo.unresolvableImports,
-      projectName: projectName,
+      projectName: options.projectName ?? '',
     };
 
     if (options.includeExternalLibraries) {

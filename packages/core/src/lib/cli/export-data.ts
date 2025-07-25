@@ -8,14 +8,10 @@ export function exportData(...args: string[]): void {
   const projectEntries = getEntriesFromCliOrConfig(args[0], true);
 
   for (const entry of projectEntries) {
-    const data = getProjectData(
-      entry.entry.fileInfo.path,
-      fs.cwd(),
-      entry.projectName,
-      {
-        includeExternalLibraries: true,
-      },
-    );
+    const data = getProjectData(entry.entry.fileInfo.path, fs.cwd(), {
+      includeExternalLibraries: true,
+      projectName: entry.projectName,
+    });
     cli.log(JSON.stringify(data, null, '  '));
   }
 }
