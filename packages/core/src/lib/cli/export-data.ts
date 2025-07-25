@@ -1,14 +1,17 @@
-import { getEntryFromCliOrConfig } from './internal/get-entries-from-cli-or-config';
+import { getEntriesFromCliOrConfig } from './internal/get-entries-from-cli-or-config';
 import { cli } from './cli';
 import { getProjectData } from '../api/get-project-data';
 import getFs from '../fs/getFs';
 
 export function exportData(...args: string[]): void {
   const fs = getFs();
-  const entryFile = getEntryFromCliOrConfig(args[0], false);
+  const projectEntries = getEntriesFromCliOrConfig(args[0], true);
 
-  const data = getProjectData(entryFile, fs.cwd(), {
-    includeExternalLibraries: true,
-  });
-  cli.log(JSON.stringify(data, null, '  '));
+  for (const entry of projectEntries) {
+    const data = getProjectData(entry.entry.fileInfo.path, fs.cwd(), {
+      includeExternalLibraries: true,
+      projectName: entry.projectName,
+    });
+    cli.log(JSON.stringify(data, null, '  '));
+  }
 }

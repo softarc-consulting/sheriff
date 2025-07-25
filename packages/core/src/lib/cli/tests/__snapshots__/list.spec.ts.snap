@@ -13,6 +13,44 @@ exports[`list > should include modules not reachable by entryFile > log 1`] = `
     └── <b>model</b> (domain:customers, type:model)"
 `;
 
+exports[`list > should list all files reachable by entryPoints > log 1`] = `
+"<b>Project: holidays</b>
+
+This project contains 5 modules:
+
+. (root)
+└── projects
+  ├── holidays
+    └── src
+      └── holidays
+        ├── <b>feature</b> (noTag)
+        └── <b>data</b> (noTag)
+  └── customer-support
+    └── src
+      └── self-service
+        ├── <b>feature</b> (noTag)
+        ├── <b>data</b> (noTag)
+        └── <b>model</b> (noTag)
+
+<b>Project: customer-support</b>
+
+This project contains 5 modules:
+
+. (root)
+└── projects
+  ├── holidays
+    └── src
+      └── holidays
+        ├── <b>feature</b> (noTag)
+        └── <b>data</b> (noTag)
+  └── customer-support
+    └── src
+      └── self-service
+        ├── <b>feature</b> (noTag)
+        ├── <b>data</b> (noTag)
+        └── <b>model</b> (noTag)"
+`;
+
 exports[`list > should list modules without sheriff config > log 1`] = `
 "Default settings applied. For more control, run "npx sheriff init" to create a sheriff.config.ts.
 This project contains 2 modules:

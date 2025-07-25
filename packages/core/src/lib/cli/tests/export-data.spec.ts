@@ -7,7 +7,7 @@ import { exportData } from '../export-data';
 import { verifyCliWrappers } from './verify-cli-wrapper';
 
 describe('export data', () => {
-  verifyCliWrappers('export', 'src/main.ts', false);
+  verifyCliWrappers('export', 'src/main.ts', true);
 
   it('should test a simple application', () => {
     const { allLogs } = mockCli();
@@ -130,5 +130,71 @@ describe('export data', () => {
     exportData('src/main.ts');
 
     expect(allLogs()).toMatchSnapshot('unresolved-imports');
+  });
+
+  describe('Multi project setup', () => {
+    it('should test a simple multi-project workspace with single entryPoint', () => {
+      const { allLogs } = mockCli();
+      createProject({
+        'tsconfig.json': tsConfig(),
+        'sheriff.config.ts': sheriffConfig({
+          depRules: {},
+          entryPoints: {
+            'project-i': 'projects/project-i/src/main.ts',
+            'project-ii': 'projects/project-ii/src/main.ts',
+          },
+        }),
+        projects: {
+          'project-i': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+          'project-ii': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+        },
+      });
+
+      exportData('project-i');
+
+      expect(allLogs()).toMatchSnapshot('multi-project-single-entrypoint');
+    });
+
+    it('should test a simple multi-project workspace with multiple entryPoints', () => {
+      const { allLogs } = mockCli();
+      createProject({
+        'tsconfig.json': tsConfig(),
+        'sheriff.config.ts': sheriffConfig({
+          depRules: {},
+          entryPoints: {
+            'project-i': 'projects/project-i/src/main.ts',
+            'project-ii': 'projects/project-ii/src/main.ts',
+          },
+        }),
+        projects: {
+          'project-i': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+          'project-ii': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+        },
+      });
+
+      exportData('project-i,project-ii');
+
+      expect(allLogs()).toMatchSnapshot('multi-project-multiple-entrypoint');
+    });
   });
 });

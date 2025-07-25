@@ -163,5 +163,65 @@ describe('list', () => {
     expect(allLogs()).toMatchSnapshot('log');
   });
 
+  it('should list all files reachable by entryPoints', () => {
+    const { allLogs } = mockCli();
+
+    createProject({
+      'tsconfig.json': tsConfig(),
+      'sheriff.config.ts': sheriffConfig({
+        modules: {
+          modules: {
+            'projects/<project>/src/<domain>/<type>': [
+              'project:<project>',
+              'domain:<domain>',
+              'type:<type>',
+            ],
+            'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
+          },
+        },
+        depRules: {},
+        entryPoints: {
+          holidays: 'projects/holidays/src/main.ts',
+          'customer-support': 'projects/customer-support/src/main.ts',
+        },
+      }),
+      projects: {
+        holidays: {
+          src: {
+            'main.ts': [],
+            holidays: {
+              feature: {
+                'index.ts': [],
+              },
+              data: {
+                'index.ts': [],
+              },
+            },
+          },
+        },
+        'customer-support': {
+          src: {
+            'main.ts': [],
+            'self-service': {
+              feature: {
+                'index.ts': [],
+              },
+              data: {
+                'index.ts': [],
+              },
+              model: {
+                'index.ts': [],
+              },
+            },
+          },
+        },
+      },
+    });
+
+    main('list');
+
+    expect(allLogs()).toMatchSnapshot('log');
+  });
+
   verifyCliWrappers('list', 'src/main.ts');
 });

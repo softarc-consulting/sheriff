@@ -220,12 +220,12 @@ export interface UserSheriffConfig {
    *
    * ---
    */
-  encapsulationPattern?: string | RegExp
+  encapsulationPattern?: string | RegExp;
 
   /**
    * @deprecated no warning is shown.
    */
-  showWarningOnBarrelCollision?: boolean
+  showWarningOnBarrelCollision?: boolean;
 
   /**
    * enable internal logging and save it to `sheriff.log`
@@ -233,7 +233,31 @@ export interface UserSheriffConfig {
   log?: boolean;
 
   /**
-   * The file that the CLI should use by default.
+   * The file or files that the CLI should use by default.
+   *
+   * It must only be set for workspaces with one project.
+   *
+   * @note
+   * If you have a multi-project setup, use the `entryPoints` property instead.
+   * Either `entryFile` or `entryPoints` can be set, but not both.
    */
   entryFile?: string;
+
+  /**
+   * The entry points that the CLI should use by default.
+   * This is relevant for a multi-project setup.
+   *
+   * @example
+   * ```typescript
+   * entryPoints: {
+   *   'app1': 'apps/app1/src/app/main.ts',
+   *   'lib-form': 'libs/form/src/lib/main.ts'
+   * }
+   * ``
+   *
+   * @note
+   * For single-project setups, rather use the `entryFile` property instead.
+   * Either `entryFile` or `entryPoints` can be set, but not both.
+   */
+  entryPoints?: Record<string, string>;
 }

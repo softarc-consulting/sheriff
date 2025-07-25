@@ -81,4 +81,121 @@ describe('verify', () => {
     expect(allErrorLogs()).toMatchSnapshot('error.log');
     expect(allLogs()).toMatchSnapshot('logs.log');
   });
+
+  describe('Multi project setup', () => {
+    it('should find no errors when passing a single entryPoint', () => {
+      const { allLogs, allErrorLogs } = mockCli();
+
+      createProject({
+        'tsconfig.json': tsConfig(),
+        'sheriff.config.ts': sheriffConfig({
+          depRules: {},
+          entryPoints: {
+            'project-i': 'projects/project-i/src/main.ts',
+            'project-ii': 'projects/project-ii/src/main.ts',
+          },
+        }),
+        projects: {
+          'project-i': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+          'project-ii': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+        },
+      });
+
+      main('verify', 'project-i');
+
+      expect(allErrorLogs()).toMatchSnapshot('error');
+      expect(allLogs()).toMatchSnapshot('log');
+    });
+    it('should find no errors when passing multiple entryPoints', () => {
+      const { allLogs, allErrorLogs } = mockCli();
+
+      createProject({
+        'tsconfig.json': tsConfig(),
+        'sheriff.config.ts': sheriffConfig({
+          depRules: {},
+          entryPoints: {
+            'project-i': 'projects/project-i/src/main.ts',
+            'project-ii': 'projects/project-ii/src/main.ts',
+          },
+        }),
+        projects: {
+          'project-i': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+          'project-ii': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+        },
+      });
+
+      main('verify', 'project-i,project-ii');
+
+      expect(allErrorLogs()).toMatchSnapshot('error');
+      expect(allLogs()).toMatchSnapshot('log');
+    });
+
+    it('should find errors', () => {
+      const { allLogs, allErrorLogs } = mockCli();
+
+      createProject({
+        'tsconfig.json': tsConfig(),
+        'sheriff.config.ts': sheriffConfig({
+          entryPoints: {
+            'project-i': 'projects/project-i/src/main.ts',
+            'project-ii': 'projects/project-ii/src/main.ts',
+          },
+          modules: {
+            'projects/project-i': {
+              'src/customers': ['customers'],
+              'src/holidays': ['holidays'],
+            },
+          },
+          depRules: {
+            root: ['customers', 'holidays'],
+            customers: [],
+            holidays: [],
+          },
+        }),
+        projects: {
+          'project-i': {
+            src: {
+              'main.ts': ['./holidays', './customers', './customers/data'],
+              holidays: {
+                'index.ts': ['./holidays.component'],
+                'holidays.component.ts': ['../customers'],
+              },
+              customers: { 'index.ts': [], 'data.ts': [] },
+            },
+          },
+          'project-ii': {
+            src: {
+              'main.ts': [],
+              'app.ts': [],
+            },
+          },
+        },
+      });
+
+      main('verify');
+
+      expect(allErrorLogs()).toMatchSnapshot('error.log');
+      expect(allLogs()).toMatchSnapshot('logs.log');
+    });
+  });
 });

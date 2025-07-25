@@ -5,7 +5,9 @@ import { toFsPath } from '../../file-info/fs-path';
 import getFs, { useVirtualFs } from '../../fs/getFs';
 import {
   CollidingEncapsulationSettings,
+  CollidingEntrySettings,
   MissingModulesWithoutAutoTaggingError,
+  NoEntryPointsFoundError,
   TaggingAndModulesError,
 } from '../../error/user-error';
 import '../../test/expect.extensions';
@@ -37,6 +39,7 @@ describe('parse Config', () => {
       'entryFile',
       'isConfigFileMissing',
       'barrelFileName',
+      'entryPoints',
     ]);
   });
 
@@ -231,5 +234,50 @@ export const config: SheriffConfig = {
     expect(() =>
       parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
     ).toThrowUserError(new CollidingEncapsulationSettings());
+  });
+
+  it('should throw if both entryFile and entryPoints are set', () => {
+    getFs().writeFile(
+      'sheriff.config.ts',
+      `
+        import { SheriffConfig } from '@softarc/sheriff-core';
+
+        export const config: SheriffConfig = {
+          depRules: {
+            'root': 'noTag',
+            'noTag': 'noTag',
+          },
+          entryFile: 'src/index.ts',
+          entryPoints: {
+            'holiday': 'apps/holiday/src/index.ts',
+          }
+        };
+      `,
+    );
+
+    expect(() =>
+      parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
+    ).toThrowUserError(new CollidingEntrySettings());
+  });
+
+  it('should throw if entryPoints is an empty Record', () => {
+    getFs().writeFile(
+      'sheriff.config.ts',
+      `
+        import { SheriffConfig } from '@softarc/sheriff-core';
+
+        export const config: SheriffConfig = {
+          depRules: {
+            'root': 'noTag',
+            'noTag': 'noTag',
+          },
+          entryPoints: {}
+        };
+      `,
+    );
+
+    expect(() =>
+      parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
+    ).toThrowUserError(new NoEntryPointsFoundError());
   });
 });

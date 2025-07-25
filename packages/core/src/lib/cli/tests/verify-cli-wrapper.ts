@@ -20,7 +20,7 @@ export function verifyCliWrappers(...args: unknown[]) {
 
     const spy = vitest.spyOn(
       getEntryFromCliOrConfigFile,
-      'getEntryFromCliOrConfig',
+      'getEntriesFromCliOrConfig',
     );
 
     main(...args.map(String));

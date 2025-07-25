@@ -8,7 +8,9 @@ export type UserErrorCode =
   | 'SH-007'
   | 'SH-008'
   | 'SH-009'
-  | 'SH-010';
+  | 'SH-010'
+  | 'SH-011'
+  | 'SH-012';
 
 export class UserError extends Error {
   constructor(
@@ -103,5 +105,20 @@ export class TsExtendsResolutionError extends UserError {
       'SH-010',
       `Cannot resolve path ${extendsPath} of "extends" property in ${tsConfigPath}. Please verify that the path exists.`,
     );
+  }
+}
+
+export class CollidingEntrySettings extends UserError {
+  constructor() {
+    super(
+      'SH-011',
+      'sheriff.config.ts contains both entryFile and entryPoints. Use only one of them.',
+    );
+  }
+}
+
+export class NoEntryPointsFoundError extends UserError {
+  constructor() {
+    super('SH-012', 'No entryPoints defined in sheriff.config.ts.');
   }
 }

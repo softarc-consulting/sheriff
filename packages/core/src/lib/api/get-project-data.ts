@@ -11,6 +11,7 @@ export type ProjectDataEntry = {
   imports: string[];
   externalLibraries?: string[];
   unresolvedImports: string[];
+  projectName: string;
 };
 
 /**
@@ -22,6 +23,11 @@ export type Options = {
    * that contains the external libraries, i.e. node_modules.
    */
   includeExternalLibraries?: boolean;
+  /**
+   * Adds a property `projectName` to each entry
+   * that contains the name of the project.
+   */
+  projectName?: string;
 };
 export type ProjectData = Record<string, ProjectDataEntry>;
 
@@ -125,7 +131,7 @@ export function getProjectData(
     cwdOrOptions === undefined
       ? entryFile
       : typeof cwdOrOptions === 'string'
-        ? fs.join(cwdOrOptions, entryFile)
+        ? fs.join(entryFile)
         : entryFile;
 
   const cwd = typeof cwdOrOptions === 'string' ? cwdOrOptions : undefined;
@@ -147,6 +153,7 @@ export function getProjectData(
       tags: calcOrGetTags(fileInfo.moduleInfo.path, projectInfo, tagsCache),
       imports: fileInfo.imports.map((fileInfo) => fileInfo.path),
       unresolvedImports: fileInfo.unresolvableImports,
+      projectName: options.projectName ?? '',
     };
 
     if (options.includeExternalLibraries) {
@@ -183,6 +190,7 @@ function relativizeIfRequired(
         relative(toFsPath(importPath)),
       ),
       unresolvedImports: moduleData.unresolvedImports,
+      projectName: moduleData.projectName,
     };
 
     if (options.includeExternalLibraries) {
