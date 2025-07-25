@@ -1,4 +1,4 @@
-import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 
 /**
  * Creating a sidebar enables you to:
@@ -12,8 +12,26 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
  */
 const sidebars: SidebarsConfig = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
-  tutorialSidebar: ['introduction', 'installation', 'module_boundaries', 'dependency-rules', 'cli', 'integration'],
-  releaseNotesSidebar: [{type: 'category', label: 'Release Notes', items: ['release-notes/0.18', 'release-notes/0.17', 'release-notes/0.16']}],
+  tutorialSidebar: [
+    'introduction',
+    'installation',
+    'module_boundaries',
+    'dependency-rules',
+    'cli',
+    'integration',
+  ],
+  releaseNotesSidebar: [
+    {
+      type: 'category',
+      label: 'Release Notes',
+      items: [
+        'release-notes/0.19',
+        'release-notes/0.18',
+        'release-notes/0.17',
+        'release-notes/0.16',
+      ],
+    },
+  ],
   roadmapSidebar: ['roadmap'],
 };
 

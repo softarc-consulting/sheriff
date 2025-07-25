@@ -8,7 +8,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   markdown: {
-    mermaid: true
+    mermaid: true,
   },
   themes: ['@docusaurus/theme-mermaid'],
 
@@ -36,7 +36,6 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
 
   presets: [
     [
@@ -74,7 +73,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          to: '/docs/release-notes/0.18',
+          to: '/docs/release-notes/0.19',
           label: 'Release Notes',
           position: 'left',
         },
