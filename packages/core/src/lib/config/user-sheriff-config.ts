@@ -260,4 +260,14 @@ export interface UserSheriffConfig {
    * Either `entryFile` or `entryPoints` can be set, but not both.
    */
   entryPoints?: Record<string, string>;
+  /**
+   * The directory where the Sheriff CLI will write reports to.
+   *
+   * Default is `./sheriff/reports`
+   */
+  reportersDirectory?: string;
+  /**
+   * The default reporters used to generate reports.
+   */
+  defaultReporters?: string[];
 }
