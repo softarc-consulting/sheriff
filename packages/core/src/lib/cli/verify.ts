@@ -142,25 +142,24 @@ export function verify(args: string[]) {
     }
   }
 
-  // ---
-  // TODO use projectEntries and the ValidationsMap to create now the reports  let reporterFormats = [];
-  let reporterFormats = [];
-  for (const projectEntry of projectEntries) {
-    const projectName = projectEntry.projectName;
-    const projectValidation = projectValidations.get(projectName);
-
-    // Read reporters from the CLI
-    reporterFormats = parseReporterFormatsFromCli(args);
-
-    if (reporterFormats.length === 0) {
-      // if no reporters are given via the CLI we want to use the default reporters from the config
-      reporterFormats = projectEntry.entry.config.defaultReporters || [];
+  // --- TODO outsource in function
+  // Read reporters from the CLI
+  let reporterFormats = parseReporterFormatsFromCli(args);
+  if (reporterFormats.length === 0) {
+    // if no reporters are given via the CLI we want to use the default reporters from the config
+    if (projectEntries.length > 0) {
+      reporterFormats = projectEntries[0].entry.config.defaultReporters || [];
     }
+  }
 
-    if (reporterFormats.length > 0) {
+  if (reporterFormats.length > 0) {
+    for (const projectEntry of projectEntries) {
+      const projectName = projectEntry.projectName;
+      const projectValidation = projectValidations.get(projectName);
+
       const reportsDirectory =
         projectEntry.entry.config.reportsDirectory || 'reports';
-      const projectName = projectEntry.projectName;
+
       const reporters = reporterFactory({
         reporterFormats: reporterFormats,
         outputDir: reportsDirectory,
