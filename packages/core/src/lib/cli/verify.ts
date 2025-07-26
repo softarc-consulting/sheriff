@@ -14,6 +14,8 @@ import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-
 import { parseReporterFormatsFromCli } from './internal/parse-reporter-formats-from-cli';
 import { reporterFactory } from './internal/reporter/reporter-factory';
 import { SheriffViolations } from './sheriff-violations';
+import { ProjectInfo } from '../main/init';
+import { Entry } from './internal/entry';
 
 export type ValidationsMap = {
   filePath: string;
@@ -142,7 +144,23 @@ export function verify(args: string[]) {
     }
   }
 
-  // --- TODO outsource in function
+  createReports(args, projectEntries, projectValidations);
+
+  // End process based on overall status
+  if (hasAnyProjectError) {
+    cli.endProcessError();
+  } else {
+    cli.log('');
+    cli.log('\u001b[32mAll projects validated successfully!\u001b[0m');
+    cli.endProcessOk();
+  }
+}
+
+function createReports(
+  args: string[],
+  projectEntries: Entry<ProjectInfo>[],
+  projectValidations: Map<string, ProjectValidation>,
+) {
   // Read reporters from the CLI
   let reporterFormats = parseReporterFormatsFromCli(args);
   if (reporterFormats.length === 0) {
@@ -176,16 +194,5 @@ export function verify(args: string[]) {
         });
       }
     }
-  }
-
-  // ---
-
-  // End process based on overall status
-  if (hasAnyProjectError) {
-    cli.endProcessError();
-  } else {
-    cli.log('');
-    cli.log('\u001b[32mAll projects validated successfully!\u001b[0m');
-    cli.endProcessOk();
   }
 }
