@@ -1,8 +1,10 @@
 import { DependencyRuleViolation } from '../checks/check-for-dependency-rule-violation';
+import { ValidationsMap } from './verify';
 
 export type SheriffViolations = {
-  encapsulationsCount: number;
-  encapsulationValidations: string[];
-  dependencyRuleViolationsCount: number;
-  dependencyRuleViolations: DependencyRuleViolation[];
+  deepImportsCount: number;
+  dependencyRulesCount: number;
+  filesCount: number;
+  hasError: boolean;
+  validationsMap: ValidationsMap;
 };

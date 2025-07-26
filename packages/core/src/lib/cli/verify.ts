@@ -11,10 +11,18 @@ import {
   getEntriesFromCliOrConfig,
 } from './internal/get-entries-from-cli-or-config';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
+import { parseReporterFormatsFromCli } from './internal/parse-reporter-formats-from-cli';
+import { reporterFactory } from './internal/reporter/reporter-factory';
+import { SheriffViolations } from './sheriff-violations';
 
-type ValidationsMap = Record<
+export type ValidationsMap = Record<
+  // filepath relative to the project root
   string,
-  { encapsulations: string[]; dependencyRules: string[] }
+  {
+    encapsulations: string[];
+    dependencyRules: string[];
+    dependencyRuleViolations: DependencyRuleViolation[];
+  }
 >;
 
 type ProjectValidation = {
@@ -23,8 +31,6 @@ type ProjectValidation = {
   filesCount: number;
   hasError: boolean;
   validationsMap: ValidationsMap;
-  encapsulations: string[];
-  dependencyRuleViolations: DependencyRuleViolation[];
 };
 
 export function verify(args: string[]) {
@@ -48,8 +54,6 @@ export function verify(args: string[]) {
       filesCount: 0,
       hasError: false,
       validationsMap: {},
-      encapsulations: [],
-      dependencyRuleViolations: [],
     };
 
     projectValidations.set(projectName, validation);
@@ -64,8 +68,6 @@ export function verify(args: string[]) {
         projectEntry.entry,
       );
       const projectValidation = projectValidations.get(projectName)!;
-      projectValidation.encapsulations = encapsulations;
-      projectValidation.dependencyRuleViolations = dependencyRuleViolations;
 
       if (encapsulations.length > 0 || dependencyRuleViolations.length > 0) {
         projectValidation.hasError = true;
@@ -84,6 +86,7 @@ export function verify(args: string[]) {
         projectValidation.validationsMap[relativePath] = {
           encapsulations,
           dependencyRules,
+          dependencyRuleViolations,
         };
       }
     }
@@ -138,6 +141,45 @@ export function verify(args: string[]) {
       );
     }
   }
+
+  // ---
+  // TODO use projectEntries and the ValidationsMap to create now the reports  let reporterFormats = [];
+  let reporterFormats = [];
+  for (const projectEntry of projectEntries) {
+    const projectName = projectEntry.projectName;
+    const projectValidation = projectValidations.get(projectName);
+
+    // Read reporters from the CLI
+    reporterFormats = parseReporterFormatsFromCli(args);
+
+    if (reporterFormats.length === 0) {
+      // if no reporters are given via the CLI we want to use the default reporters from the config
+      reporterFormats = projectEntry.entry.config.defaultReporters || [];
+    }
+
+    if (reporterFormats.length > 0) {
+      const reportsDirectory =
+        projectEntry.entry.config.reportsDirectory || 'reports';
+      const projectName = projectEntry.projectName;
+      const reporters = reporterFactory({
+        reporterFormats: reporterFormats,
+        outputDir: reportsDirectory,
+        projectName,
+      });
+
+      if (projectValidation) {
+        const violations: SheriffViolations = {
+          ...projectValidation,
+        };
+
+        reporters.forEach((reporter) => {
+          reporter.createReport(violations);
+        });
+      }
+    }
+  }
+
+  // ---
 
   // End process based on overall status
   if (hasAnyProjectError) {
