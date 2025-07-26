@@ -15,22 +15,19 @@ import { parseReporterFormatsFromCli } from './internal/parse-reporter-formats-f
 import { reporterFactory } from './internal/reporter/reporter-factory';
 import { SheriffViolations } from './sheriff-violations';
 
-export type ValidationsMap = Record<
-  // filepath relative to the project root
-  string,
-  {
-    encapsulations: string[];
-    dependencyRules: string[];
-    dependencyRuleViolations: DependencyRuleViolation[];
-  }
->;
+export type ValidationsMap = {
+  filePath: string;
+  encapsulations: string[];
+  dependencyRules: string[];
+  dependencyRuleViolations: DependencyRuleViolation[];
+};
 
 type ProjectValidation = {
   deepImportsCount: number;
   dependencyRulesCount: number;
   filesCount: number;
   hasError: boolean;
-  validationsMap: ValidationsMap;
+  validationsMap: ValidationsMap[];
 };
 
 export function verify(args: string[]) {
@@ -53,7 +50,7 @@ export function verify(args: string[]) {
       dependencyRulesCount: 0,
       filesCount: 0,
       hasError: false,
-      validationsMap: {},
+      validationsMap: [],
     };
 
     projectValidations.set(projectName, validation);
@@ -83,11 +80,12 @@ export function verify(args: string[]) {
         );
 
         const relativePath = fs.relativeTo(fs.cwd(), fileInfo.path);
-        projectValidation.validationsMap[relativePath] = {
+        projectValidation.validationsMap.push({
+          filePath: relativePath,
           encapsulations,
           dependencyRules,
           dependencyRuleViolations,
-        };
+        });
       }
     }
   }
@@ -116,10 +114,12 @@ export function verify(args: string[]) {
       cli.log('');
 
       // Display detailed validation information for this project
-      for (const [file, { encapsulations, dependencyRules }] of Object.entries(
-        validation.validationsMap,
-      )) {
-        cli.log('|-- ' + file);
+      for (const {
+        encapsulations,
+        dependencyRules,
+        filePath,
+      } of validation.validationsMap) {
+        cli.log('|-- ' + filePath);
         if (encapsulations.length > 0) {
           cli.log('|   |-- Encapsulation Violations');
           encapsulations.forEach((encapsulation) => {

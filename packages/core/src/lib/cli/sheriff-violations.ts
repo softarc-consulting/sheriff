@@ -6,5 +6,5 @@ export type SheriffViolations = {
   dependencyRulesCount: number;
   filesCount: number;
   hasError: boolean;
-  validationsMap: ValidationsMap;
+  validationsMap: ValidationsMap[];
 };
