@@ -265,7 +265,7 @@ export interface UserSheriffConfig {
    *
    * Default is `./sheriff/reports`
    */
-  reportersDirectory?: string;
+  reportsDirectory?: string;
   /**
    * The default reporters used to generate reports.
    */
