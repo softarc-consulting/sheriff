@@ -164,7 +164,10 @@ function createReports(
   // Read reporters from the CLI
   let reporterFormats = parseReporterFormatsFromCli(args);
   if (reporterFormats.length === 0) {
-    // if no reporters are given via the CLI we want to use the default reporters from the config
+    /**
+     * if no reporters are given via the CLI we want to use the default reporters from the config.
+     * All Projects share the same config, so we can just take it from the first ProjectEntry.
+     */
     if (projectEntries.length > 0) {
       reporterFormats = projectEntries[0].entry.config.defaultReporters || [];
     }
