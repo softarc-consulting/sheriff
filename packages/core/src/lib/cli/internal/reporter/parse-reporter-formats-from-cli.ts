@@ -1,4 +1,4 @@
-import { cli } from '../cli';
+import { cli } from '../../cli';
 import { SUPPORTED_REPORTER_FORMATS } from './supported-reporter-formats';
 
 export function parseReporterFormatsFromCli(args: string[]): string[] {

@@ -11,7 +11,7 @@ import {
   getEntriesFromCliOrConfig,
 } from './internal/get-entries-from-cli-or-config';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
-import { parseReporterFormatsFromCli } from './internal/parse-reporter-formats-from-cli';
+import { parseReporterFormatsFromCli } from './internal/reporter/parse-reporter-formats-from-cli';
 import { reporterFactory } from './internal/reporter/reporter-factory';
 import { SheriffViolations } from './sheriff-violations';
 import { ProjectInfo } from '../main/init';
