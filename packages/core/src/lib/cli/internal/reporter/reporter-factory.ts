@@ -1,5 +1,6 @@
 import { JsonReporter } from './json-reporter';
 import { Reporter } from './reporter';
+import { JunitReporter } from './junit/junit-reporter';
 
 export function reporterFactory(options: {
   reporterFormats: string[];
@@ -11,6 +12,14 @@ export function reporterFactory(options: {
     if (format === 'json') {
       reporters.push(
         new JsonReporter({
+          outputDir: options.outputDir,
+          projectName: options.projectName,
+        }),
+      );
+    }
+    if (format === 'junit') {
+      reporters.push(
+        new JunitReporter({
           outputDir: options.outputDir,
           projectName: options.projectName,
         }),
