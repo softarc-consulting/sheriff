@@ -25,7 +25,6 @@ export type ValidationsMap = {
 };
 
 type ProjectValidation = {
-  deepImportsCount: number;
   dependencyRulesCount: number;
   encapsulationsCount: number;
   filesCount: number;
@@ -49,7 +48,6 @@ export function verify(args: string[]) {
 
     // Initialize validation data for this project
     const validation: ProjectValidation = {
-      deepImportsCount: 0,
       dependencyRulesCount: 0,
       encapsulationsCount: 0,
       filesCount: 0,
@@ -73,7 +71,6 @@ export function verify(args: string[]) {
       if (encapsulations.length > 0 || dependencyRuleViolations.length > 0) {
         projectValidation.hasError = true;
         projectValidation.filesCount++;
-        projectValidation.deepImportsCount += encapsulations.length;
         projectValidation.dependencyRulesCount +=
           dependencyRuleViolations.length;
         hasAnyProjectError = true;
@@ -110,7 +107,7 @@ export function verify(args: string[]) {
       cli.log('Issues found:');
       cli.log(`  Total Invalid Files: ${validation.filesCount}`);
       cli.log(
-        `  Total Encapsulation Violations: ${validation.deepImportsCount}`,
+        `  Total Encapsulation Violations: ${validation.encapsulationsCount}`,
       );
       cli.log(
         `  Total Dependency Rule Violations: ${validation.dependencyRulesCount}`,
@@ -190,7 +187,6 @@ function createReports(
       if (projectValidation) {
         const violations: SheriffViolations = {
           hasError: projectValidation.hasError,
-          totalDeepImportsViolations: projectValidation.deepImportsCount,
           totalDependencyRulesViolations:
             projectValidation.dependencyRulesCount,
           totalEncapsulationViolations: projectValidation.encapsulationsCount,
