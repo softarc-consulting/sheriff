@@ -32,7 +32,6 @@ type ProjectValidation = {
 };
 
 export function verify(args: string[]) {
-  console.log('verify ', args);
   const fs = getFs();
   const projectEntries = getEntriesFromCliOrConfig(args[0]);
   logInfoForMissingSheriffConfig(projectEntries[0].entry);
