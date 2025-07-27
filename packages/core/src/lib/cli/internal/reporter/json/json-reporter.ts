@@ -1,8 +1,8 @@
-import { Reporter } from './reporter';
-import { cli } from '../../cli';
-import getFs from '../../../fs/getFs';
+import { Reporter } from '../reporter';
+import { cli } from '../../../cli';
+import getFs from '../../../../fs/getFs';
 
-import { SheriffViolations } from '../../sheriff-violations';
+import { SheriffViolations } from '../../../sheriff-violations';
 
 export class JsonReporter implements Reporter {
   #options: { outputDir: string; projectName: string };
@@ -17,7 +17,7 @@ export class JsonReporter implements Reporter {
       this.#options.projectName,
       'violations' + this.#getReportExtension(),
     );
-    cli.log(`Creating .json-export`);
+    cli.log(`Creating JSON-export`);
 
     fs.createDir(fs.join(this.#options.outputDir, this.#options.projectName!));
 

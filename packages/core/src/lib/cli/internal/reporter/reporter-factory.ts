@@ -1,4 +1,4 @@
-import { JsonReporter } from './json-reporter';
+import { JsonReporter } from './json/json-reporter';
 import { Reporter } from './reporter';
 import { JunitReporter } from './junit/junit-reporter';
 
