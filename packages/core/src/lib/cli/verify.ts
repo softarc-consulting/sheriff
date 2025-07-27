@@ -27,6 +27,7 @@ export type ValidationsMap = {
 type ProjectValidation = {
   deepImportsCount: number;
   dependencyRulesCount: number;
+  encapsulationsCount: number;
   filesCount: number;
   hasError: boolean;
   validationsMap: ValidationsMap[];
@@ -50,6 +51,7 @@ export function verify(args: string[]) {
     const validation: ProjectValidation = {
       deepImportsCount: 0,
       dependencyRulesCount: 0,
+      encapsulationsCount: 0,
       filesCount: 0,
       hasError: false,
       validationsMap: [],
@@ -75,6 +77,7 @@ export function verify(args: string[]) {
         projectValidation.dependencyRulesCount +=
           dependencyRuleViolations.length;
         hasAnyProjectError = true;
+        projectValidation.encapsulationsCount += encapsulations.length;
 
         const dependencyRules = dependencyRuleViolations.map(
           (violation) =>
@@ -186,7 +189,13 @@ function createReports(
 
       if (projectValidation) {
         const violations: SheriffViolations = {
-          ...projectValidation,
+          hasError: projectValidation.hasError,
+          totalDeepImportsViolations: projectValidation.deepImportsCount,
+          totalDependencyRulesViolations:
+            projectValidation.dependencyRulesCount,
+          totalEncapsulationViolations: projectValidation.encapsulationsCount,
+          totalViolatedFiles: projectValidation.filesCount,
+          violations: projectValidation.validationsMap,
         };
 
         reporters.forEach((reporter) => {
