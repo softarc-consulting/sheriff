@@ -11,12 +11,10 @@ import {
   getEntriesFromCliOrConfig,
 } from './internal/get-entries-from-cli-or-config';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
-import { parseReporterFormatsFromCli } from './internal/reporter/parse-reporter-formats-from-cli';
 import { reporterFactory } from './internal/reporter/reporter-factory';
 import { SheriffViolations } from './sheriff-violations';
 import { ProjectInfo } from '../main/init';
 import { Entry } from './internal/entry';
-import { removeCliFlagsFromArgs } from './internal/remove-cli-flags-from-args';
 
 export type ValidationsMap = {
   filePath: string;
@@ -36,9 +34,7 @@ type ProjectValidation = {
 export function verify(args: string[]) {
   console.log('verify ', args);
   const fs = getFs();
-  const projectEntries = getEntriesFromCliOrConfig(
-    removeCliFlagsFromArgs(args)[0],
-  );
+  const projectEntries = getEntriesFromCliOrConfig(args[0]);
   logInfoForMissingSheriffConfig(projectEntries[0].entry);
 
   // Keep track of overall status to determine final process exit code
@@ -166,16 +162,7 @@ function createReports(
   projectValidations: Map<string, ProjectValidation>,
 ) {
   // Read reporters from the CLI
-  let reporterFormats = parseReporterFormatsFromCli(args);
-  if (reporterFormats.length === 0) {
-    /**
-     * if no reporters are given via the CLI we want to use the default reporters from the config.
-     * All Projects share the same config, so we can just take it from the first ProjectEntry.
-     */
-    if (projectEntries.length > 0) {
-      reporterFormats = projectEntries[0].entry.config.defaultReporters || [];
-    }
-  }
+  const reporterFormats = projectEntries[0].entry.config.defaultReporters || [];
 
   if (reporterFormats.length > 0) {
     for (const projectEntry of projectEntries) {
