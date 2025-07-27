@@ -16,7 +16,7 @@ import { SheriffViolations } from './sheriff-violations';
 import { ProjectInfo } from '../main/init';
 import { Entry } from './internal/entry';
 
-export type ValidationsMap = {
+export type Violation = {
   filePath: string;
   encapsulations: string[];
   dependencyRules: string[];
@@ -28,7 +28,7 @@ type ProjectValidation = {
   encapsulationsCount: number;
   filesCount: number;
   hasError: boolean;
-  validationsMap: ValidationsMap[];
+  validationsMap: Violation[];
 };
 
 export function verify(args: string[]) {

@@ -1,10 +1,9 @@
 import { beforeEach, describe, it, expect, beforeAll } from 'vitest';
 import { VirtualFs } from '../../fs/virtual-fs';
 import getFs, { useVirtualFs } from '../../fs/getFs';
-import { JsonReporter } from '../internal/reporter/json-reporter';
 import { toFsPath } from '../../file-info/fs-path';
-
 import { SheriffViolations } from '../sheriff-violations';
+import { JsonReporter } from '../internal/reporter/json/json-reporter';
 
 describe('json reporter', () => {
   let fs: VirtualFs;
@@ -21,33 +20,47 @@ describe('json reporter', () => {
     fs.createDir('/project/app/shared/form');
   });
   it('should create a json-file in /.sheriff/project/violations.json', () => {
-    const reporter = new JsonReporter();
+    const reporter = new JsonReporter({
+      outputDir: '.sheriff',
+      projectName: 'project',
+    });
     const violations: SheriffViolations = {
-      encapsulationsCount: 0,
-      encapsulationValidations: [],
-      dependencyRuleViolationsCount: 2,
-      dependencyRuleViolations: [
+      totalEncapsulationViolations: 0,
+      totalViolatedFiles: 0,
+      totalDependencyRuleViolations: 2,
+      hasError: true,
+      violations: [
         {
-          rawImport: '@eternal/shared/master-data',
-          fromModulePath: toFsPath('/project/customers/feature'),
-          toModulePath: toFsPath('/project/shared/master-data'),
-          fromTag: 'domain:customers',
-          toTags: ['shared:master-data'],
+          filePath: '/project/customers/feature/feature.ts',
+          encapsulations: [],
+          dependencyRules: [],
+          dependencyRuleViolations: [
+            {
+              rawImport: '@eternal/shared/master-data',
+              fromModulePath: toFsPath('/project/customers/feature'),
+              toModulePath: toFsPath('/project/shared/master-data'),
+              fromTag: 'domain:customers',
+              toTags: ['shared:master-data'],
+            },
+          ],
         },
         {
-          rawImport: '@eternal/shared/form',
-          fromModulePath: toFsPath('/project/customers/ui'),
-          toModulePath: toFsPath('/project/app/shared/form'),
-          fromTag: 'domain:customers',
-          toTags: ['shared:form'],
+          filePath: '/project/customers/ui/ui.ts',
+          encapsulations: [],
+          dependencyRules: [],
+          dependencyRuleViolations: [
+            {
+              rawImport: '@eternal/shared/form',
+              fromModulePath: toFsPath('/project/customers/ui'),
+              toModulePath: toFsPath('/project/app/shared/form'),
+              fromTag: 'domain:customers',
+              toTags: ['shared:form'],
+            },
+          ],
         },
       ],
     };
-    reporter.createReport({
-      exportDir: '.sheriff',
-      projectName: 'project',
-      validationResults: violations,
-    });
+    reporter.createReport(violations);
 
     expect(fs.readFile('.sheriff/project/violations.json')).toMatchSnapshot();
   });

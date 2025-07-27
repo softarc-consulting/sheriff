@@ -2,26 +2,41 @@
 
 exports[`json reporter > should create a json-file in /.sheriff/project/violations.json 1`] = `
 "{
-  "encapsulationsCount": 0,
-  "encapsulationValidations": [],
-  "dependencyRuleViolationsCount": 2,
-  "dependencyRuleViolations": [
+  "totalEncapsulationViolations": 0,
+  "totalViolatedFiles": 0,
+  "totalDependencyRuleViolations": 2,
+  "hasError": true,
+  "violations": [
     {
-      "rawImport": "@eternal/shared/master-data",
-      "fromModulePath": "/project/customers/feature",
-      "toModulePath": "/project/shared/master-data",
-      "fromTag": "domain:customers",
-      "toTags": [
-        "shared:master-data"
+      "filePath": "/project/customers/feature/feature.ts",
+      "encapsulations": [],
+      "dependencyRules": [],
+      "dependencyRuleViolations": [
+        {
+          "rawImport": "@eternal/shared/master-data",
+          "fromModulePath": "/project/customers/feature",
+          "toModulePath": "/project/shared/master-data",
+          "fromTag": "domain:customers",
+          "toTags": [
+            "shared:master-data"
+          ]
+        }
       ]
     },
     {
-      "rawImport": "@eternal/shared/form",
-      "fromModulePath": "/project/customers/ui",
-      "toModulePath": "/project/app/shared/form",
-      "fromTag": "domain:customers",
-      "toTags": [
-        "shared:form"
+      "filePath": "/project/customers/ui/ui.ts",
+      "encapsulations": [],
+      "dependencyRules": [],
+      "dependencyRuleViolations": [
+        {
+          "rawImport": "@eternal/shared/form",
+          "fromModulePath": "/project/customers/ui",
+          "toModulePath": "/project/app/shared/form",
+          "fromTag": "domain:customers",
+          "toTags": [
+            "shared:form"
+          ]
+        }
       ]
     }
   ]
