@@ -1,6 +1,6 @@
 import { Violation } from './verify';
 
-export type SheriffViolations = {
+export type ProjectViolation = {
   totalDependencyRuleViolations: number;
   totalEncapsulationViolations: number;
   totalViolatedFiles: number;

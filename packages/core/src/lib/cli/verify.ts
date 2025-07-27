@@ -12,7 +12,7 @@ import {
 } from './internal/get-entries-from-cli-or-config';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
 import { reporterFactory } from './internal/reporter/reporter-factory';
-import { SheriffViolations } from './sheriff-violations';
+import { ProjectViolation } from './project-violation';
 import { ProjectInfo } from '../main/init';
 import { Entry } from './internal/entry';
 
@@ -179,7 +179,7 @@ function createReports(
       });
 
       if (projectValidation) {
-        const violations: SheriffViolations = {
+        const violations: ProjectViolation = {
           hasError: projectValidation.hasError,
           totalDependencyRuleViolations: projectValidation.dependencyRulesCount,
           totalEncapsulationViolations: projectValidation.encapsulationsCount,

@@ -1,4 +1,4 @@
-import { SheriffViolations } from '../../../sheriff-violations';
+import { ProjectViolation } from '../../../project-violation';
 import getFs from '../../../../fs/getFs';
 import { cli } from '../../../cli';
 import { Reporter } from '../reporter';
@@ -11,7 +11,7 @@ export class JunitReporter implements Reporter {
     this.#options = options;
   }
 
-  createReport(validationResults: SheriffViolations) {
+  createReport(validationResults: ProjectViolation) {
     const fs = getFs();
     const targetPath =
       this.#options.projectName === DEFAULT_PROJECT_NAME
@@ -41,7 +41,7 @@ export class JunitReporter implements Reporter {
     return '.xml';
   }
 
-  #generateXml(validationResults: SheriffViolations): string {
+  #generateXml(validationResults: ProjectViolation): string {
     const builder = junitBuilder();
     const suite = builder.testsuite({
       name: this.#options.projectName,

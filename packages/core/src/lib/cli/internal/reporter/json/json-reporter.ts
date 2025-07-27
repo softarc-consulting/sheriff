@@ -2,7 +2,7 @@ import { Reporter } from '../reporter';
 import { cli } from '../../../cli';
 import getFs from '../../../../fs/getFs';
 
-import { SheriffViolations } from '../../../sheriff-violations';
+import { ProjectViolation } from '../../../project-violation';
 import { DEFAULT_PROJECT_NAME } from '../../get-entries-from-cli-or-config';
 
 export class JsonReporter implements Reporter {
@@ -11,7 +11,7 @@ export class JsonReporter implements Reporter {
     this.#options = options;
   }
 
-  createReport(validationResults: SheriffViolations): void {
+  createReport(validationResults: ProjectViolation): void {
     const fs = getFs();
     const targetPath =
       this.#options.projectName === DEFAULT_PROJECT_NAME

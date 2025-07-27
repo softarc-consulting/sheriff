@@ -1,5 +1,5 @@
-import { SheriffViolations } from '../../sheriff-violations';
+import { ProjectViolation } from '../../project-violation';
 
 export interface Reporter {
-  createReport(validationResults: SheriffViolations): void;
+  createReport(validationResults: ProjectViolation): void;
 }

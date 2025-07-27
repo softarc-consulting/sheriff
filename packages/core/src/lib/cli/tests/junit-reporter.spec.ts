@@ -2,7 +2,7 @@ import { beforeEach, describe, it, expect, beforeAll } from 'vitest';
 import { VirtualFs } from '../../fs/virtual-fs';
 import getFs, { useVirtualFs } from '../../fs/getFs';
 import { toFsPath } from '../../file-info/fs-path';
-import { SheriffViolations } from '../sheriff-violations';
+import { ProjectViolation } from '../project-violation';
 import { JunitReporter } from '../internal/reporter/junit/junit-reporter';
 
 describe('JUnit reporter', () => {
@@ -24,7 +24,7 @@ describe('JUnit reporter', () => {
       outputDir: '.sheriff',
       projectName: 'project',
     });
-    const violations: SheriffViolations = {
+    const violations: ProjectViolation = {
       totalEncapsulationViolations: 0,
       totalViolatedFiles: 0,
       totalDependencyRuleViolations: 2,
