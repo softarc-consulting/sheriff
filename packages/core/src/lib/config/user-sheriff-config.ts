@@ -1,5 +1,6 @@
 import { ModuleConfig } from './module-config';
 import { DependencyRulesConfig } from './dependency-rules-config';
+import { ReporterFormat } from '../cli/internal/reporter/supported-reporter-formats';
 
 /**
  * Exported by **sheriff.config.ts**. It is optional and should be located
@@ -269,5 +270,5 @@ export interface UserSheriffConfig {
   /**
    * The reporters used to generate reports.
    */
-  reporters?: string[];
+  reporters?: ReporterFormat[];
 }
