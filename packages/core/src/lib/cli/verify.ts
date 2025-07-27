@@ -16,6 +16,7 @@ import { reporterFactory } from './internal/reporter/reporter-factory';
 import { SheriffViolations } from './sheriff-violations';
 import { ProjectInfo } from '../main/init';
 import { Entry } from './internal/entry';
+import { removeCliFlagsFromArgs } from './internal/remove-cli-flags-from-args';
 
 export type ValidationsMap = {
   filePath: string;
@@ -33,8 +34,11 @@ type ProjectValidation = {
 };
 
 export function verify(args: string[]) {
+  console.log('verify ', args);
   const fs = getFs();
-  const projectEntries = getEntriesFromCliOrConfig(args[0]);
+  const projectEntries = getEntriesFromCliOrConfig(
+    removeCliFlagsFromArgs(args)[0],
+  );
   logInfoForMissingSheriffConfig(projectEntries[0].entry);
 
   // Keep track of overall status to determine final process exit code
