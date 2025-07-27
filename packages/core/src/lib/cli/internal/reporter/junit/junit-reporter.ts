@@ -3,6 +3,7 @@ import getFs from '../../../../fs/getFs';
 import { cli } from '../../../cli';
 import { Reporter } from '../reporter';
 import { junitBuilder } from './internal/junit-report-builder';
+import { DEFAULT_PROJECT_NAME } from '../../get-entries-from-cli-or-config';
 
 export class JunitReporter implements Reporter {
   #options: { outputDir: string; projectName: string };
@@ -12,14 +13,26 @@ export class JunitReporter implements Reporter {
 
   createReport(validationResults: SheriffViolations) {
     const fs = getFs();
-    const targetPath = fs.join(
-      this.#options.outputDir,
-      this.#options.projectName,
-      'violations' + this.#getReportExtension(),
-    );
+    const targetPath =
+      this.#options.projectName === DEFAULT_PROJECT_NAME
+        ? fs.join(
+            this.#options.outputDir,
+            'violations' + this.#getReportExtension(),
+          )
+        : fs.join(
+            this.#options.outputDir,
+            this.#options.projectName,
+            'violations' + this.#getReportExtension(),
+          );
     cli.log(`Creating JUnit XML report`);
 
-    fs.createDir(fs.join(this.#options.outputDir, this.#options.projectName!));
+    if (this.#options.projectName === DEFAULT_PROJECT_NAME) {
+      fs.createDir(fs.join(this.#options.outputDir));
+    } else {
+      fs.createDir(
+        fs.join(this.#options.outputDir, this.#options.projectName!),
+      );
+    }
     const xmlContent = this.#generateXml(validationResults);
     fs.writeFile(targetPath, xmlContent);
   }
