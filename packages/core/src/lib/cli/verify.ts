@@ -190,8 +190,7 @@ function createReports(
       if (projectValidation) {
         const violations: SheriffViolations = {
           hasError: projectValidation.hasError,
-          totalDependencyRulesViolations:
-            projectValidation.dependencyRulesCount,
+          totalDependencyRuleViolations: projectValidation.dependencyRulesCount,
           totalEncapsulationViolations: projectValidation.encapsulationsCount,
           totalViolatedFiles: projectValidation.filesCount,
           violations: projectValidation.validationsMap,

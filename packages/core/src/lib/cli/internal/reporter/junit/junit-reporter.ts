@@ -43,7 +43,15 @@ export class JunitReporter implements Reporter {
 
   #generateXml(validationResults: SheriffViolations): string {
     const builder = junitBuilder();
-    const suite = builder.testsuite(this.#options.projectName);
+    const suite = builder.testsuite({
+      name: this.#options.projectName,
+      totalDependencyRulesViolations:
+        validationResults.totalDependencyRuleViolations,
+      totalEncapsulationViolations:
+        validationResults.totalEncapsulationViolations,
+      totalViolatedFiles: validationResults.totalViolatedFiles,
+      hasError: validationResults.hasError,
+    });
 
     // Process each violation
     for (const violation of validationResults.violations) {

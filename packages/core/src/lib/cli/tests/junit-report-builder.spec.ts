@@ -12,10 +12,16 @@ describe('JUnitReportBuilder', () => {
   });
   it('testsuite() should create a new Testsuite ', () => {
     const builder = junitBuilder();
-    const suite = builder.testsuite('Example Suite');
+    const suite = builder.testsuite({
+      name: 'Example Suite',
+      totalDependencyRulesViolations: 1,
+      totalEncapsulationViolations: 2,
+      totalViolatedFiles: 2,
+      hasError: true,
+    });
     const expectedResult = `<?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Example Suite"  totalDependencyRulesViolations="0" totalEncapsulationViolations="0" totalViolatedFiles="0" hasError="false">
+  <testsuite name="Example Suite"  totalDependencyRulesViolations="1" totalEncapsulationViolations="2" totalViolatedFiles="2" hasError="true">
   </testsuite>
 </testsuites>`;
 
@@ -24,7 +30,13 @@ describe('JUnitReportBuilder', () => {
 
   it('should add a new test case', () => {
     const builder = junitBuilder();
-    const suite = builder.testsuite('Example Suite');
+    const suite = builder.testsuite({
+      name: 'Example Suite',
+      totalDependencyRulesViolations: 1,
+      totalEncapsulationViolations: 2,
+      totalViolatedFiles: 2,
+      hasError: true,
+    });
     suite.addTestCase({
       modulePath: 'src/utils.ts',
       name: 'encapsulation',

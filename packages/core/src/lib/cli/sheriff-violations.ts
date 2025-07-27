@@ -1,7 +1,7 @@
 import { ValidationsMap } from './verify';
 
 export type SheriffViolations = {
-  totalDependencyRulesViolations: number;
+  totalDependencyRuleViolations: number;
   totalEncapsulationViolations: number;
   totalViolatedFiles: number;
   hasError: boolean;

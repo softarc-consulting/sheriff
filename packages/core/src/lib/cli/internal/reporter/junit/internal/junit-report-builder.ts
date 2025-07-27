@@ -8,23 +8,43 @@ interface TestCase {
   toModulePath?: string;
 }
 
+interface TestSuiteOptions {
+  name: string;
+  totalDependencyRulesViolations: number;
+  totalEncapsulationViolations: number;
+  totalViolatedFiles: number;
+  hasError: boolean;
+}
+
 interface TestSuite {
   name: string;
+  totalDependencyRulesViolations: number;
+  totalEncapsulationViolations: number;
+  totalViolatedFiles: number;
+  hasError: boolean;
   testCases: TestCase[];
   addTestCase(testCase: TestCase): void;
 }
 
 class JUnitTestSuite implements TestSuite {
   name: string;
+  totalDependencyRulesViolations: number;
+  totalEncapsulationViolations: number;
+  totalViolatedFiles: number;
+  hasError: boolean;
   testCases: TestCase[] = [];
 
-  constructor(name: string) {
-    this.name = name;
+  constructor(options: TestSuiteOptions) {
+    this.name = options.name;
+    this.totalDependencyRulesViolations = options.totalDependencyRulesViolations;
+    this.totalEncapsulationViolations = options.totalEncapsulationViolations;
+    this.totalViolatedFiles = options.totalViolatedFiles;
+    this.hasError = options.hasError;
   }
 
   addTestCase(testCase: TestCase): void {
     this.testCases.push(testCase);
-    
+
     // When adding an encapsulation violation, also add a deep-import violation for the same file
     if (testCase.name === 'encapsulation') {
       const deepImportCase: TestCase = {
@@ -38,15 +58,15 @@ class JUnitTestSuite implements TestSuite {
 }
 
 interface JUnitBuilder {
-  testsuite(name: string): TestSuite;
+  testsuite(options: TestSuiteOptions): TestSuite;
   getReport(): string;
 }
 
 class JUnitReportBuilder implements JUnitBuilder {
   private testSuites: TestSuite[] = [];
 
-  testsuite(name: string): TestSuite {
-    const suite = new JUnitTestSuite(name);
+  testsuite(options: TestSuiteOptions): TestSuite {
+    const suite = new JUnitTestSuite(options);
     this.testSuites.push(suite);
     return suite;
   }
@@ -63,29 +83,12 @@ class JUnitReportBuilder implements JUnitBuilder {
 
     for (const suite of this.testSuites) {
       const testSuite = suite as JUnitTestSuite;
-      
-      // Calculate violation counts
-      let totalDependencyRulesViolations = 0;
-      let totalEncapsulationViolations = 0;
-      const violatedFiles = new Set<string>();
 
-      for (const testCase of testSuite.testCases) {
-        violatedFiles.add(testCase.modulePath);
-        if (testCase.name === 'dependency-rule') {
-          totalDependencyRulesViolations++;
-        } else if (testCase.name === 'encapsulation' || testCase.name === 'deep-import') {
-          totalEncapsulationViolations++;
-        }
-      }
-
-      const hasError = testSuite.testCases.length > 0;
-      const totalViolatedFiles = violatedFiles.size;
-
-      report += `  <testsuite name="${suite.name}"  totalDependencyRulesViolations="${totalDependencyRulesViolations}" totalEncapsulationViolations="${totalEncapsulationViolations}" totalViolatedFiles="${totalViolatedFiles}" hasError="${hasError}">\n`;
+      report += `  <testsuite name="${suite.name}"  totalDependencyRulesViolations="${suite.totalDependencyRulesViolations}" totalEncapsulationViolations="${suite.totalEncapsulationViolations}" totalViolatedFiles="${suite.totalViolatedFiles}" hasError="${suite.hasError}">\n`;
 
       for (const testCase of testSuite.testCases) {
         const attributes = [`modulePath="${testCase.modulePath}"`, `name="${testCase.name}"`];
-        
+
         if (testCase.fromTag) {
           attributes.push(`fromTag="${testCase.fromTag}"`);
         }
