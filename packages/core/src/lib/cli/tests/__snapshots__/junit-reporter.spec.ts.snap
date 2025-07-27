@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JUnit reporter > should create a xml-file in /.sheriff/project/violations.xml 1`] = `
+"<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="project"  totalDependencyRulesViolations="2" totalEncapsulationViolations="0" totalViolatedFiles="0" hasError="true">
+    <testcase modulePath="/project/customers/feature/feature.ts" name="dependency-rule" fromTag="domain:customers" toTags="shared:master-data" fromModulePath="/project/customers/feature" toModulePath="/project/shared/master-data">
+      <failure message="module /project/customers/feature cannot access /project/shared/master-data. Tag domain:customers has no clearance for tags shared:master-data"/>
+    </testcase>
+    <testcase modulePath="/project/customers/ui/ui.ts" name="dependency-rule" fromTag="domain:customers" toTags="shared:form" fromModulePath="/project/customers/ui" toModulePath="/project/app/shared/form">
+      <failure message="module /project/customers/ui cannot access /project/app/shared/form. Tag domain:customers has no clearance for tags shared:form"/>
+    </testcase>
+  </testsuite>
+</testsuites>"
+`;
