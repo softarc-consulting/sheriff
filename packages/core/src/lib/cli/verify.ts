@@ -162,7 +162,7 @@ function createReports(
   projectValidations: Map<string, ProjectValidation>,
 ) {
   // Read reporters from the CLI
-  const reporterFormats = projectEntries[0].entry.config.defaultReporters || [];
+  const reporterFormats = projectEntries[0].entry.config.reporters || [];
 
   if (reporterFormats.length > 0) {
     for (const projectEntry of projectEntries) {

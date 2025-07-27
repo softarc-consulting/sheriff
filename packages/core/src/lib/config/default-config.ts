@@ -14,5 +14,5 @@ export const defaultConfig: Configuration = {
   barrelFileName: 'index.ts',
   entryPoints: undefined,
   reportsDirectory: '.sheriff/reports',
-  defaultReporters: [],
+  reporters: [],
 };
