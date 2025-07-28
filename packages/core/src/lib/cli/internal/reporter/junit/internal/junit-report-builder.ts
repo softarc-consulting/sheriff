@@ -75,7 +75,7 @@ class JUnitReportBuilder implements JUnitBuilder {
     for (const suite of this.testSuites) {
       const testSuite = suite as JUnitTestSuite;
 
-      report += `  <testsuite name="${suite.name}"  totalDependencyRulesViolations="${suite.totalDependencyRulesViolations}" totalEncapsulationViolations="${suite.totalEncapsulationViolations}" totalViolatedFiles="${suite.totalViolatedFiles}" hasError="${suite.hasError}">\n`;
+      report += `  <testsuite name="${suite.name}" totalDependencyRulesViolations="${suite.totalDependencyRulesViolations}" totalEncapsulationViolations="${suite.totalEncapsulationViolations}" totalViolatedFiles="${suite.totalViolatedFiles}" hasError="${suite.hasError}">\n`;
 
       for (const testCase of testSuite.testCases) {
         const attributes = [
