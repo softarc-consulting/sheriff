@@ -56,7 +56,7 @@ describe('JUnitReportBuilder', () => {
     const expectedResult = `<?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
   <testsuite name="Example Suite"  totalDependencyRulesViolations="1" totalEncapsulationViolations="2" totalViolatedFiles="2" hasError="true">
-    <testcase modulePath="src/utils.ts" name="encapsulation" >
+    <testcase modulePath="src/utils.ts" name="encapsulation">
       <failure message=".src/utils.ts cannot be imported. It is encapsulated."/>
     </testcase>
     <testcase modulePath="src/app/shared/config/configuration.ts" name="dependency-rule" fromTag="shared" toTags="domain:bookings,type:feature" fromModulePath="src/app/shared/config/configuration.ts" toModulePath="src/app/bookings">

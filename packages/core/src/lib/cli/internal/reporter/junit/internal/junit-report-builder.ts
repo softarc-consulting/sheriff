@@ -96,9 +96,7 @@ class JUnitReportBuilder implements JUnitBuilder {
           attributes.push(`toModulePath="${testCase.toModulePath}"`);
         }
 
-        const hasSpaceBeforeClose =
-          testCase.name === 'encapsulation' ? ' ' : '';
-        report += `    <testcase ${attributes.join(' ')}${hasSpaceBeforeClose}>\n`;
+        report += `    <testcase ${attributes.join(' ')}>\n`;
         report += `      <failure message="${testCase.failureMessage}"/>\n`;
         report += `    </testcase>\n`;
       }
