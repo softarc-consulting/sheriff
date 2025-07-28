@@ -36,7 +36,8 @@ class JUnitTestSuite implements TestSuite {
 
   constructor(options: TestSuiteOptions) {
     this.name = options.name;
-    this.totalDependencyRulesViolations = options.totalDependencyRulesViolations;
+    this.totalDependencyRulesViolations =
+      options.totalDependencyRulesViolations;
     this.totalEncapsulationViolations = options.totalEncapsulationViolations;
     this.totalViolatedFiles = options.totalViolatedFiles;
     this.hasError = options.hasError;
@@ -44,16 +45,6 @@ class JUnitTestSuite implements TestSuite {
 
   addTestCase(testCase: TestCase): void {
     this.testCases.push(testCase);
-
-    // When adding an encapsulation violation, also add a deep-import violation for the same file
-    if (testCase.name === 'encapsulation') {
-      const deepImportCase: TestCase = {
-        modulePath: testCase.modulePath,
-        name: 'deep-import',
-        failureMessage: `.${testCase.modulePath} is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.`
-      };
-      this.testCases.push(deepImportCase);
-    }
   }
 }
 
@@ -87,7 +78,10 @@ class JUnitReportBuilder implements JUnitBuilder {
       report += `  <testsuite name="${suite.name}"  totalDependencyRulesViolations="${suite.totalDependencyRulesViolations}" totalEncapsulationViolations="${suite.totalEncapsulationViolations}" totalViolatedFiles="${suite.totalViolatedFiles}" hasError="${suite.hasError}">\n`;
 
       for (const testCase of testSuite.testCases) {
-        const attributes = [`modulePath="${testCase.modulePath}"`, `name="${testCase.name}"`];
+        const attributes = [
+          `modulePath="${testCase.modulePath}"`,
+          `name="${testCase.name}"`,
+        ];
 
         if (testCase.fromTag) {
           attributes.push(`fromTag="${testCase.fromTag}"`);
@@ -102,7 +96,8 @@ class JUnitReportBuilder implements JUnitBuilder {
           attributes.push(`toModulePath="${testCase.toModulePath}"`);
         }
 
-        const hasSpaceBeforeClose = testCase.name === 'encapsulation' ? ' ' : '';
+        const hasSpaceBeforeClose =
+          testCase.name === 'encapsulation' ? ' ' : '';
         report += `    <testcase ${attributes.join(' ')}${hasSpaceBeforeClose}>\n`;
         report += `      <failure message="${testCase.failureMessage}"/>\n`;
         report += `    </testcase>\n`;

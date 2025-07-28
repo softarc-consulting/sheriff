@@ -59,9 +59,6 @@ describe('JUnitReportBuilder', () => {
     <testcase modulePath="src/utils.ts" name="encapsulation" >
       <failure message=".src/utils.ts cannot be imported. It is encapsulated."/>
     </testcase>
-    <testcase modulePath="src/utils.ts" name="deep-import">
-      <failure message=".src/utils.ts is a deep import from a barrel module. Use the module's barrel file (index.ts) instead."/>
-    </testcase>
     <testcase modulePath="src/app/shared/config/configuration.ts" name="dependency-rule" fromTag="shared" toTags="domain:bookings,type:feature" fromModulePath="src/app/shared/config/configuration.ts" toModulePath="src/app/bookings">
       <failure message="module src/app/shared/config cannot access src/app/bookings. Tag shared has no clearance for tags domain:bookings,type:feature"/>
     </testcase>
