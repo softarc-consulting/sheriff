@@ -1,44 +1,22 @@
 import { ProjectViolation } from '../../../project-violation';
-import getFs from '../../../../fs/getFs';
 import { cli } from '../../../cli';
 import { Reporter } from '../reporter';
 import { junitBuilder } from './internal/junit-report-builder';
-import { DEFAULT_PROJECT_NAME } from '../../get-entries-from-cli-or-config';
+import { saveReport } from '../utils/save-report';
+import { ReporterOptions } from '../utils/reporter-options';
 
 export class JunitReporter implements Reporter {
-  #options: { outputDir: string; projectName: string };
-  constructor(options: { outputDir: string; projectName: string }) {
+  #options: ReporterOptions;
+
+  constructor(options: ReporterOptions) {
     this.#options = options;
   }
 
-  createReport(validationResults: ProjectViolation) {
-    const fs = getFs();
-    const targetPath =
-      this.#options.projectName === DEFAULT_PROJECT_NAME
-        ? fs.join(
-            this.#options.outputDir,
-            'violations' + this.#getReportExtension(),
-          )
-        : fs.join(
-            this.#options.outputDir,
-            this.#options.projectName,
-            'violations' + this.#getReportExtension(),
-          );
-    cli.log(`Creating JUnit XML report`);
+  createReport(validationResults: ProjectViolation): void {
+    cli.log(`Creating JUnit report`);
 
-    if (this.#options.projectName === DEFAULT_PROJECT_NAME) {
-      fs.createDir(fs.join(this.#options.outputDir));
-    } else {
-      fs.createDir(
-        fs.join(this.#options.outputDir, this.#options.projectName!),
-      );
-    }
     const xmlContent = this.#generateXml(validationResults);
-    fs.writeFile(targetPath, xmlContent);
-  }
-
-  #getReportExtension(): string {
-    return '.xml';
+    saveReport(this.#options, 'violations', '.xml', xmlContent);
   }
 
   #generateXml(validationResults: ProjectViolation): string {
@@ -72,7 +50,6 @@ export class JunitReporter implements Reporter {
         suite.addTestCase({
           modulePath: violation.filePath,
           name: 'dependency-rule',
-          // TODO in verify we already build the message
           failureMessage: `module ${fromModulePath} cannot access ${toModulePath}. Tag ${depViolation.fromTag} has no clearance for tags ${depViolation.toTags.join(',')}`,
           fromTag: depViolation.fromTag,
           toTags: depViolation.toTags.join(','),
