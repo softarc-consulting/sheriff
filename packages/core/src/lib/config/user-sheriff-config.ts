@@ -1,5 +1,6 @@
 import { ModuleConfig } from './module-config';
 import { DependencyRulesConfig } from './dependency-rules-config';
+import { ReporterFormat } from '../cli/internal/reporter/supported-reporter-formats';
 
 /**
  * Exported by **sheriff.config.ts**. It is optional and should be located
@@ -260,4 +261,14 @@ export interface UserSheriffConfig {
    * Either `entryFile` or `entryPoints` can be set, but not both.
    */
   entryPoints?: Record<string, string>;
+  /**
+   * The directory where the Sheriff CLI will write reports to.
+   *
+   * Default is `./sheriff/reports`
+   */
+  reportsDirectory?: string;
+  /**
+   * The reporters used to generate reports.
+   */
+  reporters?: ReporterFormat[];
 }
