@@ -28,7 +28,7 @@ type ProjectValidation = {
   encapsulationsCount: number;
   filesCount: number;
   hasError: boolean;
-  validationsMap: Violation[];
+  ruleViolations: Violation[];
 };
 
 export function verify(args: string[]) {
@@ -51,7 +51,7 @@ export function verify(args: string[]) {
       encapsulationsCount: 0,
       filesCount: 0,
       hasError: false,
-      validationsMap: [],
+      ruleViolations: [],
     };
 
     projectValidations.set(projectName, validation);
@@ -81,7 +81,7 @@ export function verify(args: string[]) {
         );
 
         const relativePath = fs.relativeTo(fs.cwd(), fileInfo.path);
-        projectValidation.validationsMap.push({
+        projectValidation.ruleViolations.push({
           filePath: relativePath,
           encapsulations,
           dependencyRules,
@@ -119,7 +119,7 @@ export function verify(args: string[]) {
         encapsulations,
         dependencyRules,
         filePath,
-      } of validation.validationsMap) {
+      } of validation.ruleViolations) {
         cli.log('|-- ' + filePath);
         if (encapsulations.length > 0) {
           cli.log('|   |-- Encapsulation Violations');
@@ -183,7 +183,7 @@ function createReports(
           totalDependencyRuleViolations: projectValidation.dependencyRulesCount,
           totalEncapsulationViolations: projectValidation.encapsulationsCount,
           totalViolatedFiles: projectValidation.filesCount,
-          violations: projectValidation.validationsMap,
+          violations: projectValidation.ruleViolations,
         };
 
         reporters.forEach((reporter) => {
