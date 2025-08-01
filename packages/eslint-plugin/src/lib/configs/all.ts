@@ -2,7 +2,7 @@ import type { TSESLint } from '@typescript-eslint/utils';
 import rules from '../rules';
 
 const commonConfig: TSESLint.FlatConfig.Config = {
-  files: ['*.ts, *.js'],
+  files: ['**/*.ts', '**/*.js'],
   ignores: ['sheriff.config.ts'],
   languageOptions: {
     sourceType: 'module',
