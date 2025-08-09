@@ -40,6 +40,8 @@ describe('parse Config', () => {
       'isConfigFileMissing',
       'barrelFileName',
       'entryPoints',
+      'reportsDirectory',
+      'reporters',
     ]);
   });
 
@@ -81,6 +83,8 @@ export const config: SheriffConfig = {
         isConfigFileMissing: false,
         entryFile: '',
         barrelFileName: 'index.ts',
+        reporters: [],
+        reportsDirectory: '.sheriff/reports',
       });
     });
 
