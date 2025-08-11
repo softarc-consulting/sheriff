@@ -51,7 +51,7 @@ export const parseConfig = (configFile: FsPath): Configuration => {
     ...rest
   } = userSheriffConfig;
 
-    if (userSheriffConfig.entryFile && userSheriffConfig.entryPoints) {
+  if (userSheriffConfig.entryFile && userSheriffConfig.entryPoints) {
     throw new CollidingEntrySettings();
   }
 
@@ -61,6 +61,24 @@ export const parseConfig = (configFile: FsPath): Configuration => {
   ) {
     throw new NoEntryPointsFoundError();
   }
+  const mergedConfig = { ...defaultConfig, ...rest };
 
-  return { ...defaultConfig, ...rest };
+  const ignoreFileExtensions = getIgnoreFileExtensions(
+    mergedConfig.ignoreFileExtensions,
+  );
+
+  return {
+    ...mergedConfig,
+    ignoreFileExtensions,
+  };
 };
+
+function getIgnoreFileExtensions(
+  ignoreFileExtensions: string[] | ((defaults: string[]) => string[]),
+): string[] {
+  const extensions =
+    typeof ignoreFileExtensions === 'function'
+      ? ignoreFileExtensions(defaultConfig.ignoreFileExtensions)
+      : ignoreFileExtensions;
+  return Array.from(new Set(extensions.map((ext) => ext.toLowerCase())));
+}

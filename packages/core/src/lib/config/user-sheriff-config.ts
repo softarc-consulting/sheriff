@@ -260,4 +260,24 @@ export interface UserSheriffConfig {
    * Either `entryFile` or `entryPoints` can be set, but not both.
    */
   entryPoints?: Record<string, string>;
+
+  /**
+   * List of file extensions to ignore.
+   * Can be either:
+   * - An array of strings (replaces defaults completely)
+   * - A function that receives the default extensions and returns a new list
+   *
+   * @example
+   * ```typescript
+   * // would add 'env' and 'yaml' to the defaults
+   * ignoreFileExtensions: (defaults) => [...defaults, 'env', 'yaml']
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // would override defaults as well
+   * ignoreFileExtensions: ['env', 'yaml']
+   * ```
+   */
+  ignoreFileExtensions?: string[] | ((defaults: string[]) => string[]);
 }
