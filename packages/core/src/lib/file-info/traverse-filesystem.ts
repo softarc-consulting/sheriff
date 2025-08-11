@@ -28,6 +28,7 @@ export type ResolveFn = (
  * @param fsPath Filename to traverse from
  * @param fileInfoDict Dictionary of traversed files to catch circularity
  * @param tsData
+ * @param ignoreFileExtensions Array of file extensions to ignore
  * @param runOnce traverse only once. needed for ESLint mode
  * @param fileContent if passed, is used instead the content of @fsPath.
  * necessary for unsaved files inESLint
@@ -36,6 +37,7 @@ export function traverseFilesystem(
   fsPath: FsPath,
   fileInfoDict: Map<FsPath, UnassignedFileInfo>,
   tsData: TsData,
+  ignoreFileExtensions: string[],
   runOnce = false,
   fileContent?: string,
 ): UnassignedFileInfo {
@@ -53,13 +55,13 @@ export function traverseFilesystem(
 
   for (const importedFile of preProcessedFile.importedFiles) {
     const { fileName } = importedFile;
-    const resolvedImport = resolveFn(fileName);
-    let importPath: FsPath | undefined;
-
-    // skip json imports
-    if (fileName.endsWith('.json')) {
+    // skip configured ignored extensions early
+    const fileExtension = fileName.split('.').pop()?.toLowerCase();
+    if (fileExtension && ignoreFileExtensions.includes(fileExtension)) {
       continue;
     }
+    const resolvedImport = resolveFn(fileName);
+    let importPath: FsPath | undefined;
 
     // alias/path resolving has priority
     const resolvedTsPath = resolvePotentialTsPath(fileName, paths, resolveFn);
@@ -96,7 +98,12 @@ export function traverseFilesystem(
         fileInfo.addImport(new UnassignedFileInfo(importPath), fileName);
       } else {
         fileInfo.addImport(
-          traverseFilesystem(importPath, fileInfoDict, tsData),
+          traverseFilesystem(
+            importPath,
+            fileInfoDict,
+            tsData,
+            ignoreFileExtensions,
+          ),
           fileName,
         );
       }

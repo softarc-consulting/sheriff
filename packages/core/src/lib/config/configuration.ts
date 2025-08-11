@@ -15,4 +15,6 @@ export type Configuration = Required<
    * We have to apply here a little hack to ensure correct validation of the config in parseConfig
    */
   entryPoints?: Record<string, string>;
+  // ignoreFileExtensions is always present (either user-specified or default)
+  ignoreFileExtensions: string[];
 };

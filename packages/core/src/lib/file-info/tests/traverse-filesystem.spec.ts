@@ -8,6 +8,7 @@ import { traverseFilesystem } from '../traverse-filesystem';
 import { describe, it, expect } from 'vitest';
 import { buildFileInfo } from '../../test/build-file-info';
 import getFs from '../../fs/getFs';
+import { defaultIgnoreFileExtensions } from '../../config/default-file-extensions';
 
 function setup(fileTree: FileTree): UnassignedFileInfo {
   createProject(fileTree);
@@ -19,6 +20,7 @@ function setup(fileTree: FileTree): UnassignedFileInfo {
     mainPath,
     new Map<FsPath, UnassignedFileInfo>(),
     tsData,
+    defaultIgnoreFileExtensions,
   );
 }
 
@@ -366,8 +368,33 @@ describe('traverse filesystem', () => {
       mainPath,
       new Map<FsPath, UnassignedFileInfo>(),
       tsData,
+      defaultIgnoreFileExtensions,
     );
 
     expect(unassignedFileInfo.imports).toHaveLength(1);
+  });
+
+  it('should ignore and not traverse files with ignored extensions', () => {
+    createProject({
+      'tsconfig.json': tsConfig(),
+      src: {
+        'main.ts': ['./style.scss', './info.md'],
+        'style.scss': [],
+        'info.md': [],
+      },
+    });
+
+    const tsData = generateTsData(toFsPath('/project/tsconfig.json'));
+    const mainPath = toFsPath('/project/src/main.ts');
+
+    const unassignedFileInfo = traverseFilesystem(
+      mainPath,
+      new Map<FsPath, UnassignedFileInfo>(),
+      tsData,
+      ['md'],
+    );
+
+    expect(unassignedFileInfo.imports).toEqual([]);
+    expect(unassignedFileInfo.unresolvableImports).toEqual(['./style.scss']);
   });
 });
