@@ -283,6 +283,8 @@ export const config: SheriffConfig = {
     expect(() =>
       parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts')),
     ).toThrowUserError(new NoEntryPointsFoundError());
+  });
+
   describe('ignoreFileExtensions', () => {
     it('should ensure that all file extensions are lowercase', () => {
       getFs().writeFile(
@@ -302,10 +304,11 @@ export const config: SheriffConfig = {
       expect(config.ignoreFileExtensions).toEqual(['jpg', 'png', 'json']);
     });
 
-    it('should ensure that all file extensions are unique', () => {
-      getFs().writeFile(
-        'sheriff.config.ts',
-        `
+    describe('ignoreFileExtensions', () => {
+      it('should ensure that all file extensions are unique', () => {
+        getFs().writeFile(
+          'sheriff.config.ts',
+          `
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const config: SheriffConfig = {
@@ -313,17 +316,17 @@ export const config: SheriffConfig = {
   depRules: { root: 'noTag', noTag: 'noTag' }
 };
         `,
-      );
-      const config = parseConfig(
-        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
-      );
-      expect(config.ignoreFileExtensions).toEqual(['json', 'png']);
-    });
+        );
+        const config = parseConfig(
+          toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+        );
+        expect(config.ignoreFileExtensions).toEqual(['json', 'png']);
+      });
 
-    it('should ensure that ignoreFileExtensions as function receives defaults', () => {
-      getFs().writeFile(
-        'sheriff.config.ts',
-        `
+      it('should ensure that ignoreFileExtensions as function receives defaults', () => {
+        getFs().writeFile(
+          'sheriff.config.ts',
+          `
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const config: SheriffConfig = {
@@ -331,34 +334,37 @@ export const config: SheriffConfig = {
   depRules: { root: 'noTag', 'noTag': 'noTag' }
 };
         `,
-      );
-      const config = parseConfig(
-        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
-      );
+        );
+        const config = parseConfig(
+          toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+        );
 
-      expect(config.ignoreFileExtensions).toEqual([
-        'jpg',
-        'jpeg',
-        'json',
-        'mdx',
-      ]);
+        expect(config.ignoreFileExtensions).toEqual([
+          'jpg',
+          'jpeg',
+          'json',
+          'mdx',
+        ]);
+      });
     });
-  });
 
-  it('should use defaults when ignoreFileExtensions is not provided', () => {
-    getFs().writeFile(
-      'sheriff.config.ts',
-      `
+    it('should use defaults when ignoreFileExtensions is not provided', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
 import { SheriffConfig } from '@softarc/sheriff-core';
 
 export const config: SheriffConfig = {
   depRules: { root: 'noTag', noTag: 'noTag' }
 };
       `,
-    );
-    const config = parseConfig(toFsPath(getFs().cwd() + '/sheriff.config.ts'));
-    expect(config.ignoreFileExtensions).toEqual(
-      defaultIgnoreFileExtensions.map((ext: string) => ext.toLowerCase()),
-    );
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.ignoreFileExtensions).toEqual(
+        defaultIgnoreFileExtensions.map((ext: string) => ext.toLowerCase()),
+      );
+    });
   });
 });
