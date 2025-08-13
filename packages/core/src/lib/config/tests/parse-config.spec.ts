@@ -83,7 +83,7 @@ export const config: SheriffConfig = {
         isConfigFileMissing: false,
         entryFile: '',
         barrelFileName: 'index.ts',
-        entryPoints: {},
+        entryPoints: undefined,
         ignoreFileExtensions: defaultIgnoreFileExtensions,
       });
     });

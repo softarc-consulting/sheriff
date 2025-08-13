@@ -6,6 +6,7 @@ import { generateTsData } from '../generate-ts-data';
 import getFs from '../../fs/getFs';
 import { tsConfig } from '../../test/fixtures/ts-config';
 import { describe, it, expect } from 'vitest';
+import { defaultIgnoreFileExtensions } from '../../config/default-file-extensions';
 
 describe('Generate File Info', () => {
   const getTsData = () =>
@@ -27,6 +28,7 @@ describe('Generate File Info', () => {
       inVfs('integration/src/app/app.component.ts'),
       true,
       getTsData(),
+      defaultIgnoreFileExtensions,
     );
 
     expect(fileInfo).toEqual({
@@ -65,6 +67,7 @@ describe('Generate File Info', () => {
       inVfs('integration/src/main.ts'),
       false,
       getTsData(),
+      defaultIgnoreFileExtensions,
     );
 
     expect(fileInfo).toEqual({
@@ -126,6 +129,7 @@ describe('Generate File Info', () => {
         toFsPath('/project/integration/main.ts'),
         true,
         getTsData(),
+        defaultIgnoreFileExtensions,
       ),
     ).toThrowError(
       '/project/outside.component.ts is outside of root /project/integration',
@@ -148,6 +152,7 @@ describe('Generate File Info', () => {
         toFsPath('/project/integration/main.ts'),
         true,
         getTsData(),
+        defaultIgnoreFileExtensions,
       );
 
       expect(fileInfo.isUnresolvableImport(importCommand)).toBe(true);
