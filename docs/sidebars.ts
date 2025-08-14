@@ -17,6 +17,7 @@ const sidebars: SidebarsConfig = {
     'installation',
     'module_boundaries',
     'dependency-rules',
+    'configuration',
     'cli',
     'integration',
   ],
