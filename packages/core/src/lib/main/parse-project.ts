@@ -28,6 +28,7 @@ export const parseProject = (
     entryFile,
     !traverse,
     tsData,
+    config.ignoreFileExtensions,
     fileContent,
   );
   const rootDir = tsData.rootDir;
@@ -38,22 +39,13 @@ export const parseProject = (
   const getFileInfo = (path: FsPath) =>
     throwIfNull(fileInfoMap.get(path), `cannot find FileInfo for ${path}`);
 
-  const modulePaths = findModulePaths(
-    projectDirs,
-    rootDir,
-    config
-  );
+  const modulePaths = findModulePaths(projectDirs, rootDir, config);
 
-  const modules = createModules(
-    modulePaths,
-    fileInfoMap,
-    getFileInfo,
-    {
-      entryFileInfo: unassignedFileInfo,
-      rootDir,
-      barrelFile: config.barrelFileName,
-    },
-  )
+  const modules = createModules(modulePaths, fileInfoMap, getFileInfo, {
+    entryFileInfo: unassignedFileInfo,
+    rootDir,
+    barrelFile: config.barrelFileName,
+  });
   fillFileInfoMap(fileInfoMap, modules);
 
   const fileInfo = getFileInfo(unassignedFileInfo.path);

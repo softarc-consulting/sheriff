@@ -14,20 +14,23 @@ const log = logger('core.file-info.generate-and-root-dir');
  * @param fsPath path of a file or the content as string (used by ESLint in IDE)
  * @param runOnce do not traverse the chain of imports.
  * @param tsData misc. data around TS config
+ * @param ignoreFileExtensions array of file extensions to ignore
  * @param fileContent optional file content (used by ESLint in IDE)
  */
-export const generateUnassignedFileInfo = (
+export function generateUnassignedFileInfo(
   fsPath: FsPath,
   runOnce = false,
   tsData: TsData,
+  ignoreFileExtensions: string[],
   fileContent?: string,
-): UnassignedFileInfo => {
+): UnassignedFileInfo {
   const fileInfoDict = new Map<FsPath, UnassignedFileInfo>();
 
   const fileInfo = traverseFilesystem(
     fsPath,
     fileInfoDict,
     tsData,
+    ignoreFileExtensions,
     runOnce,
     fileContent,
   );
@@ -35,4 +38,4 @@ export const generateUnassignedFileInfo = (
   log.info(formatFileInfo(fileInfo));
 
   return fileInfo;
-};
+}
