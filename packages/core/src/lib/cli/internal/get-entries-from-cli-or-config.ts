@@ -1,24 +1,24 @@
 import getFs from '../../fs/getFs';
-import { init, ProjectInfo } from '../../main/init';
+import { init } from '../../main/init';
 import { parseConfig } from '../../config/parse-config';
 import { toFsPath } from '../../file-info/fs-path';
 import { isEmptyRecord } from '../../util/is-empty-record';
 import { parseEntryPointsFromCli } from './parse-entry-points-from-cli';
-import { Entry } from './entry';
+import { Entry, EntryWithProjectInfo } from './entry';
 
 export const DEFAULT_PROJECT_NAME = 'default';
 
 export function getEntriesFromCliOrConfig(
   entryFileOrEntryPoints?: string,
-): Array<Entry<ProjectInfo>>;
+): Array<EntryWithProjectInfo>;
 export function getEntriesFromCliOrConfig(
   entryFileOrEntryPoints?: string,
   runInit?: true,
-): Array<Entry<ProjectInfo>>;
+): Array<EntryWithProjectInfo>;
 export function getEntriesFromCliOrConfig(
   entryFileOrEntryPoints?: string,
   runInit?: false,
-): Array<Entry<string>>;
+): Array<Entry>;
 export function getEntriesFromCliOrConfig(
   /**
    * the CLI forwards either the entry file e.g. "src/main.ts" or
@@ -26,7 +26,7 @@ export function getEntriesFromCliOrConfig(
    */
   entryFileOrEntryPoints = '',
   runInit = true,
-): Array<Entry<string>> | Array<Entry<ProjectInfo>> {
+): Array<Entry> | Array<EntryWithProjectInfo> {
   const fs = getFs();
   const potentialConfigFile = fs.join(fs.cwd(), 'sheriff.config.ts');
 
@@ -85,27 +85,29 @@ function processEntryFile(
   entryFileValue: string | Record<string, string>,
   runInit: boolean,
   fs: ReturnType<typeof getFs>,
-): Array<Entry<ProjectInfo>> | Array<Entry<string>> {
+): Array<EntryWithProjectInfo> | Array<Entry> {
   if (typeof entryFileValue === 'string') {
     return runInit
       ? [
           {
             projectName: DEFAULT_PROJECT_NAME,
-            entry: init(toFsPath(fs.join(fs.cwd(), entryFileValue))),
+            entryFile: entryFileValue,
+            projectInfo: init(toFsPath(fs.join(fs.cwd(), entryFileValue))),
           },
         ]
-      : [{ projectName: DEFAULT_PROJECT_NAME, entry: entryFileValue }];
+      : [{ projectName: DEFAULT_PROJECT_NAME, entryFile: entryFileValue }];
   } else {
     const entries = Object.entries(entryFileValue);
 
     return runInit
-      ? (entries.map(([projectName, entry]) => ({
+      ? entries.map(([projectName, entry]) => ({
           projectName,
-          entry: init(toFsPath(fs.join(fs.cwd(), entry))),
-        })) as Array<Entry<ProjectInfo>>)
-      : (entries.map(([projectName, entry]) => ({
+          entryFile: entry,
+          projectInfo: init(toFsPath(fs.join(fs.cwd(), entry))),
+        }))
+      : entries.map(([projectName, entry]) => ({
           projectName,
-          entry: entry,
-        })) as Array<Entry<string>>);
+          entryFile: entry,
+        }));
   }
 }

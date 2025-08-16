@@ -18,7 +18,7 @@ describe('get entry file from CLI or config', () => {
 
     const projectInfo = getEntriesFromCliOrConfig('./src/main.ts')[0];
 
-    expect(projectInfo.entry.fileInfo.path).toBe('/project/src/main.ts');
+    expect(projectInfo.projectInfo.fileInfo.path).toBe('/project/src/main.ts');
   });
   it('should use config entry file', () => {
     createProject({
@@ -35,7 +35,7 @@ describe('get entry file from CLI or config', () => {
 
     const projectInfo = getEntriesFromCliOrConfig()[0];
 
-    expect(projectInfo.entry.fileInfo.path).toBe('/project/src/app.ts');
+    expect(projectInfo.projectInfo.fileInfo.path).toBe('/project/src/app.ts');
   });
 
   it('should favor CLI over config', () => {
@@ -53,7 +53,7 @@ describe('get entry file from CLI or config', () => {
 
     const projectInfo = getEntriesFromCliOrConfig('src/main.ts')[0];
 
-    expect(projectInfo.entry.fileInfo.path).toBe('/project/src/main.ts');
+    expect(projectInfo.projectInfo.fileInfo.path).toBe('/project/src/main.ts');
   });
 
   it('should throw error if neither config file exist or CLI has entry file', () => {
@@ -113,10 +113,10 @@ describe('get entry file from CLI or config', () => {
       const projectEntries = getEntriesFromCliOrConfig('project-i,project-ii');
 
       expect(projectEntries).toHaveLength(2);
-      expect(projectEntries[0].entry.fileInfo.path).toBe(
+      expect(projectEntries[0].projectInfo.fileInfo.path).toBe(
         '/project/projects/project-i/src/main.ts',
       );
-      expect(projectEntries[1].entry.fileInfo.path).toBe(
+      expect(projectEntries[1].projectInfo.fileInfo.path).toBe(
         '/project/projects/project-ii/src/main.ts',
       );
     });
@@ -154,10 +154,10 @@ describe('get entry file from CLI or config', () => {
       const projectEntries = getEntriesFromCliOrConfig();
 
       expect(projectEntries).toHaveLength(2);
-      expect(projectEntries[0].entry.fileInfo.path).toBe(
+      expect(projectEntries[0].projectInfo.fileInfo.path).toBe(
         '/project/projects/project-i/src/main.ts',
       );
-      expect(projectEntries[1].entry.fileInfo.path).toBe(
+      expect(projectEntries[1].projectInfo.fileInfo.path).toBe(
         '/project/projects/project-ii/src/main.ts',
       );
     });
@@ -184,7 +184,7 @@ describe('get entry file from CLI or config', () => {
       const projectEntries = getEntriesFromCliOrConfig('project-i');
 
       expect(projectEntries).toHaveLength(1);
-      expect(projectEntries[0].entry.fileInfo.path).toBe(
+      expect(projectEntries[0].projectInfo.fileInfo.path).toBe(
         '/project/projects/project-i/src/main.ts',
       );
     });

@@ -12,7 +12,8 @@ export type Configuration = Required<
   // dependency rules will skip if `isConfigFileMissing` is true
   isConfigFileMissing: boolean;
   /**
-   * We have to apply here a little hack to ensure correct validation of the config in parseConfig
+   * entryPoints is the merger of the entry file and the entry points
+   * from the user's config
    */
   entryPoints?: Record<string, string>;
 };
