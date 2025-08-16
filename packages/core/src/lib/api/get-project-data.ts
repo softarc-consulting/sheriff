@@ -131,7 +131,7 @@ export function getProjectData(
     cwdOrOptions === undefined
       ? entryFile
       : typeof cwdOrOptions === 'string'
-        ? fs.join(entryFile)
+        ? fs.join(cwdOrOptions, entryFile)
         : entryFile;
 
   const cwd = typeof cwdOrOptions === 'string' ? cwdOrOptions : undefined;

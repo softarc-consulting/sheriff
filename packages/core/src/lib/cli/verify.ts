@@ -30,7 +30,7 @@ type ProjectValidation = {
 export function verify(args: string[]) {
   const fs = getFs();
   const projectEntries = getEntriesFromCliOrConfig(args[0]);
-  logInfoForMissingSheriffConfig(projectEntries[0].entry);
+  logInfoForMissingSheriffConfig(projectEntries[0].projectInfo);
 
   // Keep track of overall status to determine final process exit code
   let hasAnyProjectError = false;
@@ -54,14 +54,16 @@ export function verify(args: string[]) {
 
     projectValidations.set(projectName, validation);
 
-    for (const { fileInfo } of traverseFileInfo(projectEntry.entry.fileInfo)) {
+    for (const { fileInfo } of traverseFileInfo(
+      projectEntry.projectInfo.fileInfo,
+    )) {
       const encapsulations = Object.keys(
-        hasEncapsulationViolations(fileInfo.path, projectEntry.entry),
+        hasEncapsulationViolations(fileInfo.path, projectEntry.projectInfo),
       );
 
       const dependencyRuleViolations = checkForDependencyRuleViolation(
         fileInfo.path,
-        projectEntry.entry,
+        projectEntry.projectInfo,
       );
       const projectValidation = projectValidations.get(projectName)!;
       projectValidation.encapsulations = encapsulations;

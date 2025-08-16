@@ -12,12 +12,12 @@ import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-
 export function list(args: string[]) {
   const projectEntries = getEntriesFromCliOrConfig(args[0]);
   if (projectEntries.length > 0) {
-    logInfoForMissingSheriffConfig(projectEntries[0].entry);
+    logInfoForMissingSheriffConfig(projectEntries[0].projectInfo);
   }
 
   for (const [i, projectEntry] of projectEntries.entries()) {
     // root doesn't count
-    const modulesCount = projectEntry.entry.modules.length - 1;
+    const modulesCount = projectEntry.projectInfo.modules.length - 1;
     const projectName = projectEntry.projectName;
     if (projectName !== DEFAULT_PROJECT_NAME) {
       if (i > 0) {
@@ -32,11 +32,11 @@ export function list(args: string[]) {
     cli.log('. (root)');
     const directory = mapModulesToDirectory(
       Array.from(
-        projectEntry.entry.modules
+        projectEntry.projectInfo.modules
           .filter((module) => !module.isRoot)
           .map((module) => toFsPath(module.path)),
       ),
-      projectEntry.entry,
+      projectEntry.projectInfo,
     );
     printDirectory(directory);
   }
