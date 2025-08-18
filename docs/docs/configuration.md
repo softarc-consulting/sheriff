@@ -22,17 +22,15 @@ export const config: SheriffConfig = {
 
 These options are required for Sheriff to function properly. You need to understand and configure these for Sheriff to work effectively.
 
-**`modules`** {#modules}
+### `modules` {#modules}
+
 - **Type**: `ModuleConfig`
 - **Description**: Defines the modules and assigns tags. This is the primary way to structure your project. If you don't define modules, you must enable `autoTagging` for Sheriff to work. See [Module Boundaries](./module_boundaries.md) for detailed examples.
 
+### `depRules` {#deprules}
 
-
-**`depRules`** {#deprules}
 - **Type**: `DependencyRulesConfig`
 - **Description**: Defines dependency rules between modules. Even with defaults, you should understand how this affects your project structure. See [Dependency Rules](./dependency-rules.md) for detailed examples.
-
-
 
 ## Optional Options
 
@@ -40,17 +38,20 @@ These options have sensible defaults and are typically only customized for speci
 
 ### Recommended Options
 
-**`entryFile`** {#entryfile}
+#### `entryFile` {#entryfile}
+
 - **Type**: `string`
 - **Default**: `''`
 - **Description**: Single entry file path for Sheriff to start traversing imports. Cannot be used together with `entryPoints`.
 
-**`entryPoints`** {#entrypoints}
+#### `entryPoints` {#entrypoints}
+
 - **Type**: `Record<string, string>`
 - **Default**: `undefined`
 - **Description**: Multiple named entry points for workspaces with multiple applications. Cannot be used together with `entryFile`.
 
 **Recommendations:**
+
 - **Use `entryFile`** for single applications or simple projects
 - **Use `entryPoints`** for monorepos, workspaces, or projects with multiple applications
 - **Example monorepo structure:**
@@ -64,35 +65,41 @@ These options have sensible defaults and are typically only customized for speci
 
 ### Other Options
 
-**`autoTagging`** {#autotagging}
+#### `autoTagging` {#autotagging}
+
 - **Type**: `boolean`
 - **Default**: `true`
 - **Description**: When enabled, Sheriff automatically detects modules and assigns the `noTag` tag to them. Useful for initial setup, but becomes optional when you define explicit `modules`.
 
-**`enableBarrelLess`** {#enablebarrelless}
+#### `enableBarrelLess` {#enablebarrelless}
+
 - **Type**: `boolean`
 - **Default**: `false`
 - **Description**: Enables barrel-less modules where files are directly available except those in the `internal` folder.
 
-**`encapsulationPattern`** {#encapsulationpattern}
+#### `encapsulationPattern` {#encapsulationpattern}
+
 - **Type**: `string`
 - **Default**: `'internal'`
 - **Description**: Name of the folder that contains encapsulated files not available outside the module.
 
-**`barrelFileName`** {#barrelfilename}
+#### `barrelFileName` {#barrelfilename}
+
 - **Type**: `string`
 - **Default**: `'index.ts'`
 - **Description**: Name of the barrel file that exports public APIs from a module.
 
-**`ignoreFileExtensions`** {#ignorefileextensions}
+#### `ignoreFileExtensions` {#ignorefileextensions}
+
 - **Type**: `string[] | ((defaults: string[]) => string[])`
-- **Default**: See [Default Ignored Extensions](#default-ignored-extensions)
+- **Default**: See [Default Ignored Extensions]
 - **Description**: Controls which file extensions are ignored during import traversal. Sheriff will not follow imports to files with these extensions.
 
 <details>
 <summary>Default Ignored Extensions</summary>
 
-**Default Ignored Extensions:** {#default-ignored-extensions}
+**Default Ignored Extensions:**
+
 - **Images**: `svg`, `png`, `jpg`, `jpeg`, `gif`, `webp`, `ico`
 - **Styles**: `css`, `scss`, `sass`, `less`
 - **Fonts**: `woff`, `woff2`, `ttf`, `eot`, `otf`
@@ -104,18 +111,21 @@ These options have sensible defaults and are typically only customized for speci
 
 ### Legacy Options
 
-**`excludeRoot`** {#excluderoot}
+#### `excludeRoot` {#excluderoot}
+
 - **Type**: `boolean`
 - **Default**: `false`
 - **Description**: When enabled, removes the implicit root project from all checks. Useful for incremental integration of Sheriff into existing applications.
 
-**`log`** {#log}
+#### `log` {#log}
+
 - **Type**: `boolean`
 - **Default**: `false`
 - **Description**: Enables detailed logging for debugging purposes.
 
-**`version`** {#version}
-- **Type**: `number**
+#### `version` {#version}
+
+- **Type**: `number`
 - **Default**: `1`
 - **Description**: Configuration version. Currently only version 1 is supported. This option is rarely needed as Sheriff automatically uses the latest supported version.
 
