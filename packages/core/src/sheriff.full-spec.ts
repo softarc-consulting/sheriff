@@ -7,6 +7,7 @@ import * as path from 'path';
 import { generateUnassignedFileInfo } from './lib/file-info/generate-unassigned-file-info';
 import { init } from './lib/main/init';
 import { toFsPath } from './lib/file-info/fs-path';
+import { defaultIgnoreFileExtensions } from './lib/config/default-file-extensions';
 
 describe('integration test', () => {
   for (const project of ['angular-i', 'angular-ii']) {
@@ -19,7 +20,12 @@ describe('integration test', () => {
         'src/main.ts',
       );
       const { tsData } = init(toFsPath(angularMain1), { traverse: true });
-      generateUnassignedFileInfo(toFsPath(angularMain1), false, tsData);
+      generateUnassignedFileInfo(
+        toFsPath(angularMain1),
+        false,
+        tsData,
+        defaultIgnoreFileExtensions,
+      );
     });
   }
 });

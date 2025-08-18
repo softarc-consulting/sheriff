@@ -16,4 +16,6 @@ export type Configuration = Required<
    * from the user's config
    */
   entryPoints?: Record<string, string>;
+  // ignoreFileExtensions is always present (either user-specified or default)
+  ignoreFileExtensions: string[];
 };

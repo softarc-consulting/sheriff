@@ -78,3 +78,11 @@ npx ng lint --force --format json --output-file tests/actual/re-exports-lint.jso
 ../remove-paths.mjs tests/actual/re-exports-lint.json
 diff tests/actual/re-exports-lint.json tests/expected/re-exports-lint.json
 mv src/app/customers/api/index.ts.original src/app/customers/api/index.ts
+
+## Ignore File Extensions Check
+echo 'checking for ignore file extensions'
+cp tests/sheriff.config-ignore-nothing.ts sheriff.config.ts
+npx ng lint --lint-file-patterns '**/different-file-extension-imports.ts' --force --format json --output-file tests/actual/ignore-file-extensions-lint.json
+../remove-paths.mjs tests/actual/ignore-file-extensions-lint.json
+diff tests/actual/ignore-file-extensions-lint.json tests/expected/ignore-file-extensions-lint.json
+cp sheriff.config.ts.original sheriff.config.ts

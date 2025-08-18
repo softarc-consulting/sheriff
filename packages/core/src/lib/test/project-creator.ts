@@ -6,6 +6,7 @@ import { toFsPath } from '../file-info/fs-path';
 import { Configuration } from '../config/configuration';
 import { defaultConfig } from '../config/default-config';
 import { Fs } from '../fs/fs';
+import { UserSheriffConfig } from '../config/user-sheriff-config';
 
 export function createProject(
   fileTree: FileTree,
@@ -48,9 +49,7 @@ class ProjectCreator {
         this.fs.writeFile(`${currentDir}/${child}`, value);
       } else if (isSheriffConfigContent(value)) {
         let serializedConfig = JSON.stringify(
-          serializeEncapsulationPattern(
-            serializeDepRules({ ...defaultConfig, ...value.content }),
-          ),
+          serializeEncapsulationPattern(serializeDepRules(value.content)),
         );
 
         if (value.content.encapsulationPattern instanceof RegExp) {
@@ -72,10 +71,16 @@ class ProjectCreator {
   };
 }
 
-function serializeDepRules(config: Configuration): Configuration {
+function serializeDepRules(config: UserSheriffConfig): Configuration {
+  const mergedConfig = { ...defaultConfig, ...config };
+  const ignoreFileExtensions =
+    typeof mergedConfig.ignoreFileExtensions === 'function'
+      ? mergedConfig.ignoreFileExtensions(defaultConfig.ignoreFileExtensions)
+      : mergedConfig.ignoreFileExtensions;
+
   return {
-    ...config,
-    depRules: Object.entries(config.depRules).reduce(
+    ...mergedConfig,
+    depRules: Object.entries(mergedConfig.depRules).reduce(
       (current, [from, tos]) => ({
         ...current,
         [from]: (Array.isArray(tos) ? tos : [tos]).map((matcher) =>
@@ -84,6 +89,7 @@ function serializeDepRules(config: Configuration): Configuration {
       }),
       {},
     ),
+    ignoreFileExtensions,
   };
 }
 
