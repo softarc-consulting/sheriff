@@ -11,20 +11,24 @@ import {
   getEntriesFromCliOrConfig,
 } from './internal/get-entries-from-cli-or-config';
 import { logInfoForMissingSheriffConfig } from './internal/log-info-for-missing-sheriff-config';
+import { reporterFactory } from './internal/reporter/reporter-factory';
+import { ProjectViolation } from './project-violation';
+import { ProjectInfo } from '../main/init';
+import { Entry } from './internal/entry';
 
-type ValidationsMap = Record<
-  string,
-  { encapsulations: string[]; dependencyRules: string[] }
->;
+export type Violation = {
+  filePath: string;
+  encapsulations: string[];
+  dependencyRules: string[];
+  dependencyRuleViolations: DependencyRuleViolation[];
+};
 
 type ProjectValidation = {
-  deepImportsCount: number;
   dependencyRulesCount: number;
+  encapsulationsCount: number;
   filesCount: number;
   hasError: boolean;
-  validationsMap: ValidationsMap;
-  encapsulations: string[];
-  dependencyRuleViolations: DependencyRuleViolation[];
+  ruleViolations: Violation[];
 };
 
 export function verify(args: string[]) {
@@ -43,13 +47,11 @@ export function verify(args: string[]) {
 
     // Initialize validation data for this project
     const validation: ProjectValidation = {
-      deepImportsCount: 0,
       dependencyRulesCount: 0,
+      encapsulationsCount: 0,
       filesCount: 0,
       hasError: false,
-      validationsMap: {},
-      encapsulations: [],
-      dependencyRuleViolations: [],
+      ruleViolations: [],
     };
 
     projectValidations.set(projectName, validation);
@@ -66,16 +68,14 @@ export function verify(args: string[]) {
         projectEntry.projectInfo,
       );
       const projectValidation = projectValidations.get(projectName)!;
-      projectValidation.encapsulations = encapsulations;
-      projectValidation.dependencyRuleViolations = dependencyRuleViolations;
 
       if (encapsulations.length > 0 || dependencyRuleViolations.length > 0) {
         projectValidation.hasError = true;
         projectValidation.filesCount++;
-        projectValidation.deepImportsCount += encapsulations.length;
         projectValidation.dependencyRulesCount +=
           dependencyRuleViolations.length;
         hasAnyProjectError = true;
+        projectValidation.encapsulationsCount += encapsulations.length;
 
         const dependencyRules = dependencyRuleViolations.map(
           (violation) =>
@@ -83,10 +83,12 @@ export function verify(args: string[]) {
         );
 
         const relativePath = fs.relativeTo(fs.cwd(), fileInfo.path);
-        projectValidation.validationsMap[relativePath] = {
+        projectValidation.ruleViolations.push({
+          filePath: relativePath,
           encapsulations,
           dependencyRules,
-        };
+          dependencyRuleViolations,
+        });
       }
     }
   }
@@ -106,7 +108,7 @@ export function verify(args: string[]) {
       cli.log('Issues found:');
       cli.log(`  Total Invalid Files: ${validation.filesCount}`);
       cli.log(
-        `  Total Encapsulation Violations: ${validation.deepImportsCount}`,
+        `  Total Encapsulation Violations: ${validation.encapsulationsCount}`,
       );
       cli.log(
         `  Total Dependency Rule Violations: ${validation.dependencyRulesCount}`,
@@ -115,10 +117,12 @@ export function verify(args: string[]) {
       cli.log('');
 
       // Display detailed validation information for this project
-      for (const [file, { encapsulations, dependencyRules }] of Object.entries(
-        validation.validationsMap,
-      )) {
-        cli.log('|-- ' + file);
+      for (const {
+        encapsulations,
+        dependencyRules,
+        filePath,
+      } of validation.ruleViolations) {
+        cli.log('|-- ' + filePath);
         if (encapsulations.length > 0) {
           cli.log('|   |-- Encapsulation Violations');
           encapsulations.forEach((encapsulation) => {
@@ -145,6 +149,8 @@ export function verify(args: string[]) {
     }
   }
 
+  createReports(args, projectEntries, projectValidations);
+
   // End process based on overall status
   if (hasAnyProjectError) {
     cli.endProcessError();
@@ -154,5 +160,44 @@ export function verify(args: string[]) {
       cli.log('\u001b[32mAll projects validated successfully!\u001b[0m');
     }
     cli.endProcessOk();
+  }
+}
+
+function createReports(
+  args: string[],
+  projectEntries: Entry<ProjectInfo>[],
+  projectValidations: Map<string, ProjectValidation>,
+) {
+  // Read reporters from the CLI
+  const reporterFormats = projectEntries[0].entry.config.reporters || [];
+
+  if (reporterFormats.length > 0) {
+    for (const projectEntry of projectEntries) {
+      const projectName = projectEntry.projectName;
+      const projectValidation = projectValidations.get(projectName);
+
+      const reportsDirectory =
+        projectEntry.entry.config.reportsDirectory || 'reports';
+
+      const reporters = reporterFactory({
+        reporterFormats: reporterFormats,
+        outputDir: reportsDirectory,
+        projectName,
+      });
+
+      if (projectValidation) {
+        const violations: ProjectViolation = {
+          hasError: projectValidation.hasError,
+          totalDependencyRuleViolations: projectValidation.dependencyRulesCount,
+          totalEncapsulationViolations: projectValidation.encapsulationsCount,
+          totalViolatedFiles: projectValidation.filesCount,
+          violations: projectValidation.ruleViolations,
+        };
+
+        reporters.forEach((reporter) => {
+          reporter.createReport(violations);
+        });
+      }
+    }
   }
 }
