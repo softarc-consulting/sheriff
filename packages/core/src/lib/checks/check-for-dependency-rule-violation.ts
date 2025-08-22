@@ -2,6 +2,7 @@ import { FsPath, toFsPath } from '../file-info/fs-path';
 import { ProjectInfo } from '../main/init';
 import { calcTagsForModule } from '../tags/calc-tags-for-module';
 import { isDependencyAllowed } from './is-dependency-allowed';
+import { isExcludedFromChecks } from '../util/is-excluded-from-checks';
 
 export type DependencyRuleViolation = {
   rawImport: string;
@@ -18,6 +19,11 @@ export function checkForDependencyRuleViolation(
   const violations: DependencyRuleViolation[] = [];
 
   if (config.isConfigFileMissing) {
+    return [];
+  }
+
+  // Skip checks for excluded files
+  if (isExcludedFromChecks(fsPath, config.excludeFromChecks)) {
     return [];
   }
 
