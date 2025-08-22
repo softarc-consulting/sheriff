@@ -367,4 +367,81 @@ export const config: SheriffConfig = {
       );
     });
   });
+
+  describe('excludeFromChecks', () => {
+    it('should use empty array when excludeFromChecks is not provided', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+      `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.excludeFromChecks).toEqual([]);
+    });
+
+    it('should parse string patterns correctly', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  excludeFromChecks: ['src/client/**', 'src/generated/**'],
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+      `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.excludeFromChecks).toEqual(['src/client/**', 'src/generated/**']);
+    });
+
+    it('should parse regex patterns correctly', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  excludeFromChecks: [/src\/.*\.gen\.ts$/, /.*\.spec\.ts$/],
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+      `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.excludeFromChecks).toEqual([/src\/.*\.gen\.ts$/, /.*\.spec\.ts$/]);
+    });
+
+    it('should parse mixed patterns correctly', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  excludeFromChecks: ['src/client/**', /src\/.*\.gen\.ts$/, 'src/legacy/**'],
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+      `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.excludeFromChecks).toEqual([
+        'src/client/**',
+        /src\/.*\.gen\.ts$/,
+        'src/legacy/**'
+      ]);
+    });
+  });
 });

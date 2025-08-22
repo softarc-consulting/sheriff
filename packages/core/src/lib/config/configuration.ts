@@ -18,4 +18,6 @@ export type Configuration = Required<
   entryPoints?: Record<string, string>;
   // ignoreFileExtensions is always present (either user-specified or default)
   ignoreFileExtensions: string[];
+  // excludeFromChecks is always present (either user-specified or default)
+  excludeFromChecks: (string | RegExp)[];
 };
