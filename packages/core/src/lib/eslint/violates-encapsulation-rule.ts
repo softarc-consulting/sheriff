@@ -2,6 +2,7 @@ import { toFsPath } from '../file-info/fs-path';
 import { init } from '../main/init';
 import { hasEncapsulationViolations } from '../checks/has-encapsulation-violations';
 import { FileInfo } from '../modules/file.info';
+import { isRelativeImport } from './is-relative-import';
 
 let cache: Record<string, FileInfo> = {};
 let cachedFileInfo: FileInfo | undefined;
@@ -48,7 +49,10 @@ export const violatesEncapsulationRule = (
     cache = hasEncapsulationViolations(fsPath, projectInfo);
   }
 
-  if (cachedFileInfo.isUnresolvableImport(importCommand)) {
+  if (
+    cachedFileInfo.isUnresolvableImport(importCommand) &&
+    isRelativeImport(importCommand)
+  ) {
     return `import ${importCommand} cannot be resolved`;
   }
 

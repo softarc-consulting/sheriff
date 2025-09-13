@@ -78,6 +78,25 @@ describe('encapsulation', () => {
     ).toBe('import ./app/app.component cannot be resolved');
   });
 
+  it('should skip unresolvable imports for non-relative imports', () => {
+    testInit('src/main.ts', {
+      'tsconfig.json': tsConfig(),
+      src: {
+        'main.ts': ['keycloak-js'],
+      },
+    });
+
+    expect(
+      violatesEncapsulationRule(
+        '/project/src/main.ts',
+        'keycloak-js',
+        true,
+        getFs().readFile(toFsPath('/project/src/main.ts')),
+        true,
+      ),
+    ).toBe('');
+  });
+
   it('should return a violation to a barrel-less modules', () => {
     testInit('src/app/main.ts', {
       'tsconfig.json': tsConfig(),

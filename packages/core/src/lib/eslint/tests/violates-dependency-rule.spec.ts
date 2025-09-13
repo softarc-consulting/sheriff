@@ -119,6 +119,25 @@ describe('violates dependency rules', () => {
     ).toBe('import ./app.component cannot be resolved');
   });
 
+  it('should skip unresolvable imports for non-relative imports', () => {
+    createProject({
+      'tsconfig.json': tsConfig(),
+      'sheriff.config.ts': sheriffConfig({ modules: {}, depRules: {} }),
+      src: {
+        'main.ts': ['node:fs'],
+      },
+    });
+
+    expect(
+      violatesDependencyRule(
+        '/project/src/main.ts',
+        'node:fs',
+        true,
+        getFs().readFile(toFsPath('/project/src/main.ts')),
+      ),
+    ).toBe('');
+  });
+
   it('should ignore json imports  ', () => {
     const fs = createProject({
       'tsconfig.json': tsConfig(),
