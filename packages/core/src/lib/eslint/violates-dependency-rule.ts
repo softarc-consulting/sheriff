@@ -7,6 +7,7 @@ import {
   DependencyRuleViolation,
 } from '../checks/check-for-dependency-rule-violation';
 import { FileInfo } from '../modules/file.info';
+import { isRelativeImport } from './is-relative-import';
 
 let cache: Record<string, string> = {};
 let cacheActive = false;
@@ -55,7 +56,10 @@ export const violatesDependencyRule = (
     }
   }
 
-  if (throwIfNull(fileInfo).isUnresolvableImport(importCommand)) {
+  if (
+    throwIfNull(fileInfo).isUnresolvableImport(importCommand) &&
+    isRelativeImport(importCommand)
+  ) {
     return `import ${importCommand} cannot be resolved`;
   }
 

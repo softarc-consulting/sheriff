@@ -41,30 +41,10 @@
         "nodeType": "ImportDeclaration",
         "endLine": 2,
         "endColumn": 20
-      },
-      {
-        "ruleId": "@softarc/sheriff/dependency-rule",
-        "severity": 2,
-        "message": "import logo.jpg cannot be resolved",
-        "line": 3,
-        "column": 1,
-        "nodeType": "ImportDeclaration",
-        "endLine": 3,
-        "endColumn": 19
-      },
-      {
-        "ruleId": "@softarc/sheriff/encapsulation",
-        "severity": 2,
-        "message": "import logo.jpg cannot be resolved",
-        "line": 3,
-        "column": 1,
-        "nodeType": "ImportDeclaration",
-        "endLine": 3,
-        "endColumn": 19
       }
     ],
     "suppressedMessages": [],
-    "errorCount": 6,
+    "errorCount": 4,
     "fatalErrorCount": 0,
     "warningCount": 0,
     "fixableErrorCount": 0,
