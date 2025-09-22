@@ -84,7 +84,7 @@ echo "[4/4] Publishing to npm..."
 
 echo "Creating git commit..."
 (cd "$repo_root" && git add "$core_json" "$eslint_json" && \
-  git commit -m "chore: release" -m "chore: release $next_version")
+  git commit -m "chore: release" -m "chore: release [$next_version]")
 
 echo "Pushing to git remote '$remote'..."
 (cd "$repo_root" && git push "$remote")
