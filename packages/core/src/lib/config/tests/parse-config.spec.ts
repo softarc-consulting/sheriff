@@ -40,6 +40,7 @@ describe('parse Config', () => {
       'entryFile',
       'isConfigFileMissing',
       'barrelFileName',
+      'enableSubBarrelFileSupport',
       'entryPoints',
       'ignoreFileExtensions',
     ]);
@@ -83,6 +84,7 @@ export const config: SheriffConfig = {
         isConfigFileMissing: false,
         entryFile: '',
         barrelFileName: 'index.ts',
+        enableSubBarrelFileSupport: false,
         entryPoints: undefined,
         ignoreFileExtensions: defaultIgnoreFileExtensions,
       });
