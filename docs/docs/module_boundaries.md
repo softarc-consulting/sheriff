@@ -86,6 +86,19 @@ An access to the non-exported `credential.ts` causes an error.
 
 <img width="1905"src="../img/module-boundaries-barrel-invalid.png"></img>
 
+### Sub-Barrel Files
+
+Barrel modules also support **sub-barrel files** when [`enableSubBarrelFileSupport`](./configuration.md#enablesubbarrelfilesupport) is set to `true`. These are additional entry points that follow the naming convention `<barrelBaseName>.<suffix>.<ext>`.
+
+For example, if the barrel file is `public-api.ts` (configured via [`barrelFileName`](./configuration.md#barrelfilename)), the following sub-barrel files are recognized:
+
+- `public-api.routing.ts`
+- `public-api.bookmarks.ts`
+
+Sub-barrel files allow you to split the public API of a module into logically grouped subsets. Other modules can import from any of these files without triggering an encapsulation violation.
+
+Only the main barrel file defines the module boundary. Sub-barrel files act solely as additional exposed entry points.
+
 ---
 
 It is also possible to disable the automatic module detection. For more information, see [Dependency Rules](./dependency-rules.md#automatic-tagging).

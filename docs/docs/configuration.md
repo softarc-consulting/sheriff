@@ -87,7 +87,13 @@ These options have sensible defaults and are typically only customized for speci
 
 - **Type**: `string`
 - **Default**: `'index.ts'`
-- **Description**: Name of the barrel file that exports public APIs from a module.
+- **Description**: Name of the barrel file that exports public APIs from a module. When combined with [`enableSubBarrelFileSupport`](#enablesubbarrelfilesupport), sub-barrel files following the naming convention `<barrelBaseName>.<suffix>.<ext>` are also recognized as entry points. See [Sub-Barrel Files](./module_boundaries.md#sub-barrel-files) for details.
+
+#### `enableSubBarrelFileSupport` {#enablesubbarrelfilesupport}
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Description**: When enabled, sub-barrel files are recognized as valid module entry points alongside the main barrel file. Sub-barrel files follow the naming convention `<barrelBaseName>.<suffix>.<ext>`. For example, with `barrelFileName: 'public-api.ts'`, files like `public-api.routing.ts` and `public-api.bookmarks.ts` are treated as additional exposed entry points.
 
 #### `ignoreFileExtensions` {#ignorefileextensions}
 
