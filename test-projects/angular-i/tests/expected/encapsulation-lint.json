@@ -5,7 +5,7 @@
       {
         "ruleId": "@softarc/sheriff/encapsulation",
         "severity": 2,
-        "message": "'../../data/customers-repository.service' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.",
+        "message": "'../../data/customers-repository.service' is a deep import from a barrel module. Use the module's barrel file instead.",
         "line": 4,
         "column": 1,
         "nodeType": "ImportDeclaration",
