@@ -93,5 +93,5 @@ function getMessage(
   }
   return isImportToBarrelLess
     ? `'${importCommand}' cannot be imported. It is encapsulated.`
-    : `'${importCommand}' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.`;
+    : `'${importCommand}' is a deep import from a barrel module. Use the module's barrel file instead.`;
 }

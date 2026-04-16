@@ -156,7 +156,7 @@ describe('encapsulation', () => {
       false,
     );
     expect(message).toBe(
-      `'./customers/customer.component' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.`,
+      `'./customers/customer.component' is a deep import from a barrel module. Use the module's barrel file instead.`,
     );
   });
 });
