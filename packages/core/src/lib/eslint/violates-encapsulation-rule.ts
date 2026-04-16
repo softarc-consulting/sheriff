@@ -6,6 +6,7 @@ import { isRelativeImport } from './is-relative-import';
 
 let cache: Record<string, FileInfo> = {};
 let cachedFileInfo: FileInfo | undefined;
+let cachedEnableSubBarrelFileSupport = false;
 
 /**
  * This is the adapter for the ESLint plugin
@@ -36,6 +37,7 @@ export const violatesEncapsulationRule = (
   if (isFirstRun) {
     cache = {};
     cachedFileInfo = undefined;
+    cachedEnableSubBarrelFileSupport = false;
   }
 
   if (!cachedFileInfo) {
@@ -46,6 +48,7 @@ export const violatesEncapsulationRule = (
     });
 
     cachedFileInfo = projectInfo.fileInfo;
+    cachedEnableSubBarrelFileSupport = projectInfo.config.enableSubBarrelFileSupport;
     cache = hasEncapsulationViolations(fsPath, projectInfo);
   }
 
@@ -65,8 +68,12 @@ export const violatesEncapsulationRule = (
     return "Deep import is not allowed. Use the module's index.ts or path.";
   } else {
     const importFileInfo = cache[importCommand];
-    return importFileInfo.moduleInfo.hasBarrel
-      ? `'${importCommand}' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.`
-      :  `'${importCommand}' cannot be imported. It is encapsulated.`;
+    if (!importFileInfo.moduleInfo.hasBarrel) {
+      return `'${importCommand}' cannot be imported. It is encapsulated.`;
+    }
+
+    return cachedEnableSubBarrelFileSupport
+      ? `'${importCommand}' is a deep import from a barrel module. Use the module's barrel file or a sub-barrel file instead.`
+      : `'${importCommand}' is a deep import from a barrel module. Use the module's barrel file instead.`;
   }
 };

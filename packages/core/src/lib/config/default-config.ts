@@ -13,6 +13,7 @@ export const defaultConfig: Configuration = {
   entryFile: '',
   isConfigFileMissing: false,
   barrelFileName: 'index.ts',
+  enableSubBarrelFileSupport: false,
   entryPoints: undefined,
   ignoreFileExtensions: defaultIgnoreFileExtensions,
 };

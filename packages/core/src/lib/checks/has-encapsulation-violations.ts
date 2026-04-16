@@ -23,7 +23,7 @@ export function hasEncapsulationViolations(
     if (
       isSameModule(importedFileInfo, assignedFileInfo) ||
       isExcludedRootModule(rootDir, config, importedFileInfo) ||
-      accessesBarrelFileForBarrelModules(importedFileInfo) ||
+      accessesBarrelFileForBarrelModules(importedFileInfo, config.enableSubBarrelFileSupport) ||
       accessesExposedFileForBarrelLessModules(
         importedFileInfo,
         config.enableBarrelLess,
@@ -66,9 +66,13 @@ function accessesExposedFileForBarrelLessModules(
   }
 }
 
-function accessesBarrelFileForBarrelModules(fileInfo: FileInfo) {
+function accessesBarrelFileForBarrelModules(fileInfo: FileInfo, enableSubBarrelFileSupport: boolean) {
   if (!fileInfo.moduleInfo.hasBarrel) {
     return false;
+  }
+
+  if (enableSubBarrelFileSupport) {
+    return fileInfo.moduleInfo.isBarrelFile(fileInfo.path);
   }
 
   return fileInfo.moduleInfo.barrelPath === fileInfo.path;

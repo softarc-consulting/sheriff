@@ -166,6 +166,18 @@ export interface UserSheriffConfig {
   barrelFileName?: string;
 
   /**
+   * When enabled, sub-barrel files are recognized as valid module
+   * entry points alongside the main barrel file.
+   *
+   * Sub-barrel files follow the naming convention `<barrelBaseName>.<suffix>.<ext>`.
+   * For example, if the barrel file is `public-api.ts`, then `public-api.routing.ts`
+   * and `public-api.bookmarks.ts` are valid sub-barrel files.
+   *
+   * Defaults to `false`.
+   */
+  enableSubBarrelFileSupport?: boolean;
+
+  /**
    * The barrel-less approach means that the module
    * does not have an `index.ts` file. Instead, all files
    * are directly available, except those which are located
