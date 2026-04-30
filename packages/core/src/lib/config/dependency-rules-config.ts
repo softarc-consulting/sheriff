@@ -1,6 +1,8 @@
 import { FsPath } from '../file-info/fs-path';
 
 export interface DependencyCheckContext {
+  from: string;
+  to: string;
   fromModulePath: FsPath;
   toModulePath: FsPath;
   fromFilePath: FsPath;
@@ -9,11 +11,7 @@ export interface DependencyCheckContext {
   toTags: string[];
 }
 
-// Backward compatible: supports both old signature (from, to as strings)
-// and new signature (fromTags, toTags as arrays plus full context)
-export type RuleMatcherFn = (
-  context: { from: string; to: string } & Required<DependencyCheckContext>,
-) => boolean;
+export type RuleMatcherFn = (context: DependencyCheckContext) => boolean;
 
 export type RuleMatcher = string | null | RuleMatcherFn;
 export type DependencyRulesConfig = Record<string, RuleMatcher | RuleMatcher[]>;

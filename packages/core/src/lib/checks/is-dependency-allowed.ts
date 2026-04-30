@@ -27,9 +27,9 @@ export const isDependencyAllowed = (
           } else if (
             typeof matcher === 'function' &&
             matcher({
+              ...context,
               from,
               to,
-              ...context,
             })
           ) {
             return true;
