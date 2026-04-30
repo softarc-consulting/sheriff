@@ -56,6 +56,8 @@ export function checkForDependencyRuleViolation(
         toTags,
         config.depRules,
         {
+          from: '',
+          to: '',
           fromModulePath: fromModule,
           toModulePath: toFsPath(importedModulePath),
           fromFilePath: fsPath,
