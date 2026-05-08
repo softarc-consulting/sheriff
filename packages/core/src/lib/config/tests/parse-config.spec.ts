@@ -367,4 +367,81 @@ export const config: SheriffConfig = {
       );
     });
   });
+
+  describe('barrelFileName', () => {
+    it('should normalize a string barrelFileName to an array', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  barrelFileName: 'barrel.ts',
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+        `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.barrelFileName).toEqual(['barrel.ts']);
+    });
+
+    it('should accept an array of barrel file names', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  barrelFileName: ['index.ts', 'index.routing.ts', 'index.state.ts'],
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+        `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.barrelFileName).toEqual([
+        'index.ts',
+        'index.routing.ts',
+        'index.state.ts',
+      ]);
+    });
+
+    it('should accept a glob pattern as barrel file name', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  barrelFileName: 'index.*.ts',
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+        `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.barrelFileName).toEqual(['index.*.ts']);
+    });
+
+    it('should default to [index.ts] when not specified', () => {
+      getFs().writeFile(
+        'sheriff.config.ts',
+        `
+import { SheriffConfig } from '@softarc/sheriff-core';
+
+export const config: SheriffConfig = {
+  depRules: { root: 'noTag', noTag: 'noTag' }
+};
+        `,
+      );
+      const config = parseConfig(
+        toFsPath(getFs().cwd() + '/sheriff.config.ts'),
+      );
+      expect(config.barrelFileName).toEqual(['index.ts']);
+    });
+  });
 });
