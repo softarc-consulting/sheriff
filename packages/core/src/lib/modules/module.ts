@@ -31,14 +31,24 @@ export class Module {
    * Checks whether the given file path is a barrel (entry) file
    * of this module by matching its filename against the configured
    * barrel file patterns.
+   *
+   * Only files directly inside the module root directory qualify;
+   * nested files with barrel-like names (e.g. `internal/index.ts`)
+   * are not treated as barrel entries.
    */
   isBarrelFile(filePath: FsPath): boolean {
     const lastSep = Math.max(
       filePath.lastIndexOf('/'),
       filePath.lastIndexOf('\\'),
     );
+    const fileDir = lastSep === -1 ? '' : filePath.substring(0, lastSep);
     const fileName =
       lastSep === -1 ? filePath : filePath.substring(lastSep + 1);
+
+    if (fileDir !== this.path) {
+      return false;
+    }
+
     return this.barrelFilePatterns.some((pattern) =>
       matchGlob(pattern, fileName),
     );
