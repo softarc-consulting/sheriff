@@ -20,7 +20,7 @@ describe('should find two modules', () => {
           'index.ts': '',
         }}});
 
-    const modulePaths = findModulePathsWithBarrel([toFsPath('/project')], 'index.ts');
+    const modulePaths = findModulePathsWithBarrel([toFsPath('/project')], ['index.ts']);
 
     expect(modulePaths).toEqual([
       '/project/src/app/customers',

@@ -18,7 +18,7 @@ function assertProject(fileTree: FileTree) {
           const actualModulePaths = findModulePathsWithoutBarrel(
             moduleConfig,
             toFsPath('/project'),
-            'index.ts',
+            ['index.ts'],
           );
           expect(Array.from(actualModulePaths)).toEqual(absoluteModulePaths);
         },

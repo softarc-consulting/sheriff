@@ -71,7 +71,7 @@ function accessesBarrelFileForBarrelModules(fileInfo: FileInfo) {
     return false;
   }
 
-  return fileInfo.moduleInfo.barrelPath === fileInfo.path;
+  return fileInfo.moduleInfo.isBarrelFile(fileInfo.path);
 }
 
 function isExcludedRootModule(

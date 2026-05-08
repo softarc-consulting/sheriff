@@ -15,7 +15,7 @@ import {
 interface CreateModulesContext {
   entryFileInfo: UnassignedFileInfo;
   rootDir: FsPath;
-  barrelFile: string;
+  barrelFile: string[];
 }
 
 export function createModules(

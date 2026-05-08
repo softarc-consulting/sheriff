@@ -7,6 +7,7 @@ import {
 import getFs from '../../fs/getFs';
 import { FOLDER_CHARACTERS_REGEX_STRING } from '../../tags/calc-tags-for-module';
 import { flattenModules } from './flatten-modules';
+import { matchGlob } from '../../util/match-glob';
 
 /**
  * The current criterion for finding modules is via
@@ -18,11 +19,11 @@ import { flattenModules } from './flatten-modules';
 export function findModulePathsWithoutBarrel(
   moduleConfig: ModuleConfig,
   rootDir: FsPath,
-  barrelFileName: string
+  barrelFileNames: string[]
 ): Set<FsPath> {
   const paths = flattenModules(moduleConfig, '');
   const modulePathsPatternTree = createModulePathPatternsTree(paths);
-  const modules = traverseAndMatch(modulePathsPatternTree, rootDir, barrelFileName);
+  const modules = traverseAndMatch(modulePathsPatternTree, rootDir, barrelFileNames);
   return new Set<FsPath>(modules);
 }
 
@@ -32,14 +33,14 @@ export function findModulePathsWithoutBarrel(
 function traverseAndMatch(
   groupedPatterns: ModulePathPatternsTree,
   basePath: FsPath,
-  barrelFileName: string
+  barrelFileNames: string[]
 ): FsPath[] {
   const fs = getFs();
   const matchedDirectories: FsPath[] = [];
 
   // Check if the current directory should be matched
   if ('' in groupedPatterns) {
-    addAsModuleIfWithoutBarrel(matchedDirectories, basePath, barrelFileName);
+    addAsModuleIfWithoutBarrel(matchedDirectories, basePath, barrelFileNames);
   }
 
   const subDirectories = fs.readDirectory(basePath, 'directory');
@@ -53,11 +54,11 @@ function traverseAndMatch(
 
     if (matchingPattern) {
       if (Object.keys(groupedPatterns[matchingPattern]).length === 0) {
-        addAsModuleIfWithoutBarrel(matchedDirectories, subDirectory, barrelFileName);
+        addAsModuleIfWithoutBarrel(matchedDirectories, subDirectory, barrelFileNames);
       } else {
-        const newDirectories = traverseAndMatch(groupedPatterns[matchingPattern], subDirectory, barrelFileName);
+        const newDirectories = traverseAndMatch(groupedPatterns[matchingPattern], subDirectory, barrelFileNames);
         for (const newDirectory of newDirectories) {
-          addAsModuleIfWithoutBarrel(matchedDirectories, newDirectory, barrelFileName);
+          addAsModuleIfWithoutBarrel(matchedDirectories, newDirectory, barrelFileNames);
         }
       }
     }
@@ -89,13 +90,24 @@ function matchPattern(pattern: string, pathSegment: string): boolean {
 function addAsModuleIfWithoutBarrel(
   modulePaths: FsPath[],
   directory: FsPath,
-  barrelFileName: string,
+  barrelFileNames: string[],
 ) {
-  const fs = getFs();
-
-  if (fs.exists(fs.join(directory, barrelFileName))) {
+  if (hasBarrelFile(directory, barrelFileNames)) {
     return;
   }
 
   modulePaths.push(directory);
+}
+
+function hasBarrelFile(directory: FsPath, barrelFileNames: string[]): boolean {
+  const fs = getFs();
+  const children = fs.readDirectory(directory);
+  return children.some((child) => {
+    if (fs.isFile(child)) {
+      const lastSep = Math.max(child.lastIndexOf('/'), child.lastIndexOf('\\'));
+      const fileName = lastSep === -1 ? child : child.substring(lastSep + 1);
+      return barrelFileNames.some((pattern) => matchGlob(pattern, fileName));
+    }
+    return false;
+  });
 }
