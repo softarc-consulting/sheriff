@@ -61,8 +61,7 @@ function findClosestModulePath(path: string, modulePaths: FsPath[]) {
   return throwIfNull(
     modulePaths
       .filter((modulePath) => path.startsWith(modulePath))
-      .sort((p1, p2) => (p1.length > p2.length ? -1 : 1))
-      .at(0),
+      .sort((p1, p2) => (p1.length > p2.length ? -1 : 1))[0],
     `findClosestModule for ${path}`,
   );
 }
