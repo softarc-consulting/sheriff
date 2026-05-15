@@ -1,5 +1,5 @@
 import { Rule } from 'eslint';
-import {Executor, ExecutorNode} from './executor';
+import { Executor, ExecutorNode } from './executor';
 import { UserError } from '@softarc/sheriff-core';
 
 /**
@@ -20,12 +20,9 @@ export const createRule: (
   create: (context) => {
     let isFirstRun = true;
     let hasInternalError = false;
-    const executeRuleWithContext = (
-      node: ExecutorNode,
-    ) => {
-      const filename = context.filename ?? context.getFilename();
-      const sourceCode =
-        context.sourceCode?.text ?? context.getSourceCode().text;
+    const executeRuleWithContext = (node: ExecutorNode) => {
+      const filename = context.filename;
+      const sourceCode = context.sourceCode.text;
 
       if (!hasInternalError) {
         try {
