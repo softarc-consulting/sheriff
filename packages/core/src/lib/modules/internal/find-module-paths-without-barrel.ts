@@ -4,6 +4,7 @@ import {
   createModulePathPatternsTree,
   ModulePathPatternsTree,
 } from './create-module-path-patterns-tree';
+import * as path from 'path';
 import getFs from '../../fs/getFs';
 import { FOLDER_CHARACTERS_REGEX_STRING } from '../../tags/calc-tags-for-module';
 import { flattenModules } from './flatten-modules';
@@ -104,8 +105,7 @@ function hasBarrelFile(directory: FsPath, barrelFileNames: string[]): boolean {
   const children = fs.readDirectory(directory);
   return children.some((child) => {
     if (fs.isFile(child)) {
-      const lastSep = Math.max(child.lastIndexOf('/'), child.lastIndexOf('\\'));
-      const fileName = lastSep === -1 ? child : child.substring(lastSep + 1);
+      const fileName = path.basename(child);
       return barrelFileNames.some((pattern) => matchGlob(pattern, fileName));
     }
     return false;

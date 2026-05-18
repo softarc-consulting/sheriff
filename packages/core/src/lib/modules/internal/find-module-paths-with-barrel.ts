@@ -11,11 +11,7 @@ export function findModulePathsWithBarrel(
     for (const projectDir of projectDirs) {
       const found = getFs().findFiles(projectDir, barrelFileName);
       for (const filePath of found) {
-        const lastSep = Math.max(
-          filePath.lastIndexOf('/'),
-          filePath.lastIndexOf('\\'),
-        );
-        modulePaths.add(filePath.substring(0, lastSep));
+        modulePaths.add(getFs().getParent(filePath));
       }
     }
   }

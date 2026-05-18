@@ -1,6 +1,8 @@
 import { UnassignedFileInfo } from '../file-info/unassigned-file-info';
 import { FileInfo } from './file.info';
+import * as path from 'path';
 import { FsPath } from '../file-info/fs-path';
+import getFs from '../fs/getFs';
 import { matchGlob } from '../util/match-glob';
 
 /**
@@ -37,13 +39,8 @@ export class Module {
    * are not treated as barrel entries.
    */
   isBarrelFile(filePath: FsPath): boolean {
-    const lastSep = Math.max(
-      filePath.lastIndexOf('/'),
-      filePath.lastIndexOf('\\'),
-    );
-    const fileDir = lastSep === -1 ? '' : filePath.substring(0, lastSep);
-    const fileName =
-      lastSep === -1 ? filePath : filePath.substring(lastSep + 1);
+    const fileDir = getFs().getParent(filePath);
+    const fileName = path.basename(filePath);
 
     if (fileDir !== this.path) {
       return false;
