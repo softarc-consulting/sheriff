@@ -11,18 +11,19 @@ import {
   keys,
   values,
 } from '../util/typed-object-functions';
+import { GlobMatcher } from '../util/match-glob';
 
 interface CreateModulesContext {
   entryFileInfo: UnassignedFileInfo;
   rootDir: FsPath;
-  barrelFile: string[];
+  isBarrelMatch: GlobMatcher;
 }
 
 export function createModules(
   modulePathMap: ModulePathMap,
   fileInfoMap: Map<FsPath, FileInfo>,
   getFileInfo: (path: FsPath) => FileInfo,
-  { entryFileInfo, rootDir, barrelFile }: CreateModulesContext,
+  { entryFileInfo, rootDir, isBarrelMatch }: CreateModulesContext,
 ): Module[] {
   const moduleMap = fromEntries(
     entries(modulePathMap).map(([path, hasBarrel]) => [
@@ -33,7 +34,7 @@ export function createModules(
         getFileInfo,
         false,
         hasBarrel,
-        barrelFile,
+        isBarrelMatch,
       ),
     ]),
   );
@@ -44,7 +45,7 @@ export function createModules(
     getFileInfo,
     true,
     false,
-    barrelFile,
+    isBarrelMatch,
   );
 
   const modulePaths = keys(moduleMap);

@@ -3,6 +3,7 @@ import { Module } from '../module';
 import { FsPath, toFsPath } from '../../file-info/fs-path';
 import { FileInfo } from '../file.info';
 import getFs, { useVirtualFs } from '../../fs/getFs';
+import { createGlobMatcher } from '../../util/match-glob';
 
 describe('Module.isBarrelFile', () => {
   beforeAll(() => {
@@ -34,7 +35,7 @@ describe('Module.isBarrelFile', () => {
       getFileInfo,
       false,
       true,
-      barrelFilePatterns,
+      createGlobMatcher(barrelFilePatterns),
     );
   }
 

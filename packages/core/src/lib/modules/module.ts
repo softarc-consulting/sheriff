@@ -3,7 +3,7 @@ import { FileInfo } from './file.info';
 import * as path from 'path';
 import { FsPath } from '../file-info/fs-path';
 import getFs from '../fs/getFs';
-import { matchGlob } from '../util/match-glob';
+import { GlobMatcher } from '../util/match-glob';
 
 /**
  * Since modules are constructed incrementally with in-place
@@ -19,7 +19,7 @@ export class Module {
     private readonly getFileInfo: (fsPath: FsPath) => FileInfo,
     public readonly isRoot: boolean,
     public readonly hasBarrel: boolean,
-    private readonly barrelFilePatterns: string[],
+    private readonly isBarrelMatch: GlobMatcher,
   ) {
   }
 
@@ -40,14 +40,11 @@ export class Module {
    */
   isBarrelFile(filePath: FsPath): boolean {
     const fileDir = getFs().getParent(filePath);
-    const fileName = path.basename(filePath);
 
     if (fileDir !== this.path) {
       return false;
     }
 
-    return this.barrelFilePatterns.some((pattern) =>
-      matchGlob(pattern, fileName),
-    );
+    return this.isBarrelMatch(path.basename(filePath));
   }
 }
