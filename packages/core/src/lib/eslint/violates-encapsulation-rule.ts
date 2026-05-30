@@ -1,11 +1,14 @@
 import { toFsPath } from '../file-info/fs-path';
+import throwIfNull from '../util/throw-if-null';
 import { init } from '../main/init';
 import { hasEncapsulationViolations } from '../checks/has-encapsulation-violations';
 import { FileInfo } from '../modules/file.info';
 import { isRelativeImport } from './is-relative-import';
+import { Configuration } from '../config/configuration';
 
 let cache: Record<string, FileInfo> = {};
 let cachedFileInfo: FileInfo | undefined;
+let cachedConfig: Configuration | undefined;
 
 /**
  * This is the adapter for the ESLint plugin
@@ -36,6 +39,7 @@ export const violatesEncapsulationRule = (
   if (isFirstRun) {
     cache = {};
     cachedFileInfo = undefined;
+    cachedConfig = undefined;
   }
 
   if (!cachedFileInfo) {
@@ -46,11 +50,12 @@ export const violatesEncapsulationRule = (
     });
 
     cachedFileInfo = projectInfo.fileInfo;
+    cachedConfig = projectInfo.config;
     cache = hasEncapsulationViolations(fsPath, projectInfo);
   }
 
   const extension = filename.split('.').pop()?.toLowerCase() ?? '';
-  if (!cachedFileInfo.config.supportedFileExtensions.includes(extension)) {
+  if (!throwIfNull(cachedConfig).supportedFileExtensions.includes(extension)) {
     return `[SHERIFF CONFIG MISMATCH] Sheriff is linting this file (.${extension}) due to your ESLint configuration, but this extension is not in 'supportedFileExtensions' in your sheriff.config.ts. Add it there if you want Sheriff to support it.`;
   }
 

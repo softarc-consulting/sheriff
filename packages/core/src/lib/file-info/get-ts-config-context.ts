@@ -9,6 +9,7 @@ import {
 import { resolvePotentialTsPath } from './resolve-potential-ts-path';
 import { ResolveFn } from './traverse-filesystem';
 import { sys } from 'typescript';
+import { defaultSupportedFileExtensions } from '../config/default-file-extensions';
 
 export type TsConfigContext = {
   paths: Record<string, FsPath>;
@@ -36,7 +37,7 @@ export type TsConfigContext = {
  */
 export function getTsConfigContext(
   tsConfigPath: FsPath,
-  supportedFileExtensions: string[] = [],
+  supportedFileExtensions: string[] = defaultSupportedFileExtensions,
 ): TsConfigContext {
   const fs = getFs();
   let currentTsConfigPath = tsConfigPath;

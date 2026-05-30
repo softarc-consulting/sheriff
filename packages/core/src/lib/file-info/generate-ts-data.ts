@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import { TsData } from './ts-data';
 import { getTsConfigContext } from './get-ts-config-context';
 import { FsPath, toFsPath } from './fs-path';
+import { defaultSupportedFileExtensions } from '../config/default-file-extensions';
 
 /**
  * Generates a parsed TypeScript configuration from a given
@@ -24,7 +25,7 @@ import { FsPath, toFsPath } from './fs-path';
  */
 export const generateTsData = (
   tsConfigPath: FsPath,
-  supportedFileExtensions: string[] = [],
+  supportedFileExtensions: string[] = defaultSupportedFileExtensions,
 ): TsData => {
   const configContext = getTsConfigContext(
     tsConfigPath,
