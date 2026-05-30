@@ -56,6 +56,11 @@ export const violatesDependencyRule = (
     }
   }
 
+  const extension = filename.split('.').pop()?.toLowerCase() ?? '';
+  if (!throwIfNull(fileInfo).config.supportedFileExtensions.includes(extension)) {
+    return `[SHERIFF CONFIG MISMATCH] Sheriff is linting this file (.${extension}) due to your ESLint configuration, but this extension is not in 'supportedFileExtensions' in your sheriff.config.ts. Add it there if you want Sheriff to support it.`;
+  }
+
   if (
     throwIfNull(fileInfo).isUnresolvableImport(importCommand) &&
     isRelativeImport(importCommand)

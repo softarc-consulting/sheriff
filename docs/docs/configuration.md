@@ -89,6 +89,26 @@ These options have sensible defaults and are typically only customized for speci
 - **Default**: `'index.ts'`
 - **Description**: Name of the barrel file that exports public APIs from a module.
 
+#### `supportedFileExtensions` {#supportedfileextensions}
+
+- **Type**: `string[] | ((defaults: string[]) => string[])`
+- **Default**: `['ts', 'tsx', 'mts', 'cts']`
+- **Description**: Defines which file extensions Sheriff should support when resolving project paths (e.g. from `tsconfig.json` path mappings).
+
+**Example:**
+
+```typescript
+// sheriff.config.ts
+
+export const config: SheriffConfig = {
+  // adds 'js' to the supported extensions
+  supportedFileExtensions: (defaults) => [...defaults, 'js'],
+  // ...
+};
+```
+
+> **⚠️ Important**: Ensure that these extensions match the `files` pattern in your ESLint configuration. If they don't match, Sheriff will show a warning in your IDE.
+
 #### `ignoreFileExtensions` {#ignorefileextensions}
 
 - **Type**: `string[] | ((defaults: string[]) => string[])`

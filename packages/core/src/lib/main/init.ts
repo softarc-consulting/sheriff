@@ -73,16 +73,19 @@ export function init(entryFile: FsPath, options: InitOptions = {}) {
   const tsConfigPath = toFsPath(
     fs.findNearestParentFile(entryFile, 'tsconfig.json'),
   );
-  const tsData = generateTsData(tsConfigPath);
-  config = getConfig(tsData.rootDir);
+
+  const tsConfigDir = fs.getParent(tsConfigPath);
+  config = getConfig(tsConfigDir);
+
+  if (config.isConfigFileMissing && options.returnOnMissingConfig) {
+    return;
+  }
+
+  const tsData = generateTsData(tsConfigPath, config.supportedFileExtensions);
 
   initialized.status = true;
   for (const callback of callbacks) {
     callback(config);
-  }
-
-  if (config.isConfigFileMissing && options.returnOnMissingConfig) {
-    return;
   }
 
   return {

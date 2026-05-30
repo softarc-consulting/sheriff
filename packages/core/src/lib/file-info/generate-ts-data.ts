@@ -22,8 +22,14 @@ import { FsPath, toFsPath } from './fs-path';
  *
  * This will return a paths property of `{'app/*': './src/app'}`
  */
-export const generateTsData = (tsConfigPath: FsPath): TsData => {
-  const configContext = getTsConfigContext(tsConfigPath);
+export const generateTsData = (
+  tsConfigPath: FsPath,
+  supportedFileExtensions: string[] = [],
+): TsData => {
+  const configContext = getTsConfigContext(
+    tsConfigPath,
+    supportedFileExtensions,
+  );
 
   const fs = getFs();
   const cwd = fs.getParent(tsConfigPath);

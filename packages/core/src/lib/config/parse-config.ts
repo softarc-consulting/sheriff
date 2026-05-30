@@ -67,9 +67,14 @@ export const parseConfig = (configFile: FsPath): Configuration => {
     mergedConfig.ignoreFileExtensions,
   );
 
+  const supportedFileExtensions = getSupportedFileExtensions(
+    mergedConfig.supportedFileExtensions,
+  );
+
   return {
     ...mergedConfig,
     ignoreFileExtensions,
+    supportedFileExtensions,
   };
 };
 
@@ -81,4 +86,18 @@ function getIgnoreFileExtensions(
       ? ignoreFileExtensions(defaultConfig.ignoreFileExtensions)
       : ignoreFileExtensions;
   return Array.from(new Set(extensions.map((ext) => ext.toLowerCase())));
+}
+
+function getSupportedFileExtensions(
+  supportedFileExtensions: string[] | ((defaults: string[]) => string[]),
+): string[] {
+  const extensions =
+    typeof supportedFileExtensions === 'function'
+      ? supportedFileExtensions(defaultConfig.supportedFileExtensions)
+      : supportedFileExtensions;
+  return Array.from(
+    new Set(
+      extensions.map((ext) => (ext.startsWith('.') ? ext.slice(1) : ext)),
+    ),
+  ).map((ext) => ext.toLowerCase());
 }

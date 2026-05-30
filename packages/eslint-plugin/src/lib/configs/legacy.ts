@@ -1,6 +1,10 @@
 import { ESLint } from 'eslint';
+import { defaultSupportedFileExtensions } from '@softarc/sheriff-core';
+
+const files = defaultSupportedFileExtensions.map((ext) => `*.${ext}`);
 
 export const legacyBarrelModulesOnly: ESLint.ConfigData = {
+  files,
   parser: '@typescript-eslint/parser',
   plugins: ['@softarc/sheriff'],
   rules: {
@@ -10,6 +14,7 @@ export const legacyBarrelModulesOnly: ESLint.ConfigData = {
 };
 
 export const legacy: ESLint.ConfigData = {
+  files,
   parser: '@typescript-eslint/parser',
   plugins: ['@softarc/sheriff'],
   rules: {

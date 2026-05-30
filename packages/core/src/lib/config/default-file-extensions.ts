@@ -38,3 +38,13 @@ export const defaultIgnoreFileExtensions: string[] = [
   'txt',
   'md',
 ];
+
+/**
+ * Default list of file extensions that Sheriff will support while traversing imports.
+ */
+export const defaultSupportedFileExtensions: string[] = [
+  'ts',
+  'tsx',
+  'mts',
+  'cts',
+];

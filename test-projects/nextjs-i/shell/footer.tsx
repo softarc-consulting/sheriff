@@ -1,4 +1,5 @@
 import { IconLink } from '@shared/ui';
+import { InnerFooter } from './inner-footer';
 
 export const Footer = () => {
   const links = [
@@ -29,6 +30,7 @@ export const Footer = () => {
           image={link.image}
         />
       ))}
+      <InnerFooter />
     </footer>
   );
 };
