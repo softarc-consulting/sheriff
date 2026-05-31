@@ -7,7 +7,6 @@ import { NoDependencyRuleForTagError } from '../error/user-error';
 
 export const isDependencyAllowed = (
   from: string,
-  tos: string[],
   config: DependencyRulesConfig,
   context: DependencyCheckContext,
 ): boolean => {
@@ -15,7 +14,7 @@ export const isDependencyAllowed = (
   isAllowed = undefined;
   for (const tag in config) {
     if (from.match(wildcardToRegex(tag))) {
-      for (const to of tos) {
+      for (const to of context.toTags) {
         const value = config[tag];
         const matchers = Array.isArray(value) ? value : [value];
         for (const matcher of matchers) {
