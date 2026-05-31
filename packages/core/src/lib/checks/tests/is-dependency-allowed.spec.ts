@@ -12,12 +12,29 @@ import '../../test/expect.extensions';
 
 type TestParams = [string, boolean][];
 
-const dummyContext: DependencyCheckContext = {
+const createMockDependencyCheckContext = (
+  overrides?: Partial<DependencyCheckContext>,
+): DependencyCheckContext =>
+  ({
+    from: '',
+    to: '',
+    fromModulePath: '',
+    toModulePath: '',
+    fromFilePath: '',
+    toFilePath: '',
+    fromTags: [],
+    toTags: [],
+    ...overrides,
+  }) as DependencyCheckContext;
+
+const dummyContext: DependencyCheckContext = createMockDependencyCheckContext({
   fromModulePath: '/project/moduleFrom' as FsPath,
   toModulePath: '/project/moduleTo' as FsPath,
   fromFilePath: '/project/moduleFrom/some.component.ts' as FsPath,
   toFilePath: '/project/cool.service.ts' as FsPath,
-};
+  fromTags: ['domain:customers'],
+  toTags: ['domain:holidays'],
+});
 
 const createAssertsForConfig = (config: DependencyRulesConfig) => {
   return {
@@ -27,7 +44,7 @@ const createAssertsForConfig = (config: DependencyRulesConfig) => {
           from,
           Array.isArray(to) ? to : [to],
           config,
-          {} as DependencyCheckContext,
+          createMockDependencyCheckContext(),
         ),
       ).toBe(true);
     },
@@ -37,7 +54,7 @@ const createAssertsForConfig = (config: DependencyRulesConfig) => {
           from,
           Array.isArray(to) ? to : [to],
           config,
-          {} as DependencyCheckContext,
+          createMockDependencyCheckContext(),
         ),
       ).toBe(false);
     },
@@ -48,7 +65,7 @@ const createAssertsForConfig = (config: DependencyRulesConfig) => {
           from,
           Array.isArray(to) ? to : [to],
           config,
-          {} as DependencyCheckContext,
+          createMockDependencyCheckContext(),
         ),
       ).toBe(expected);
     },
@@ -113,9 +130,9 @@ describe('check dependency rules', () => {
       {
         'domain:customers': (context) => {
           expect(context).toStrictEqual({
+            ...dummyContext,
             from: 'domain:customers',
             to: 'domain:holidays',
-            ...dummyContext,
           });
           return true;
         },
@@ -210,4 +227,91 @@ describe('check dependency rules', () => {
       assertInvalid('type:model', toTag);
     },
   );
+
+  describe('fromTags and toTags', () => {
+    const crossDomainConfig: DependencyRulesConfig = {
+      '*': ({ fromTags, toTags }) => {
+        const fromDomain = fromTags.find((t) => t.startsWith('domain:'));
+        const toDomain = toTags.find((t) => t.startsWith('domain:'));
+        const fromType = fromTags.find((t) => t.startsWith('type:'));
+        const toType = toTags.find((t) => t.startsWith('type:'));
+
+        if (toDomain === 'domain:shared') return true;
+        if (fromType === 'type:api' || toType === 'type:api') return true;
+        if (fromDomain === toDomain) return true;
+
+        return false;
+      },
+    };
+
+    it('should allow access to shared domain from any domain', () => {
+      expect(
+        isDependencyAllowed(
+          'domain:customers',
+          ['domain:shared'],
+          crossDomainConfig,
+          createMockDependencyCheckContext({
+            fromTags: ['domain:customers'],
+            toTags: ['domain:shared'],
+          }),
+        ),
+      ).toBe(true);
+    });
+
+    it('should forbid cross-domain access except for API', () => {
+      expect(
+        isDependencyAllowed(
+          'domain:customers',
+          ['domain:holidays'],
+          crossDomainConfig,
+          createMockDependencyCheckContext({
+            fromTags: ['domain:customers'],
+            toTags: ['domain:holidays'],
+          }),
+        ),
+      ).toBe(false);
+    });
+
+    it('should allow API access across domains', () => {
+      expect(
+        isDependencyAllowed(
+          'type:api',
+          ['domain:holidays'],
+          crossDomainConfig,
+          createMockDependencyCheckContext({
+            fromTags: ['type:api', 'domain:customers'],
+            toTags: ['domain:holidays', 'type:ui'],
+          }),
+        ),
+      ).toBe(true);
+    });
+
+    it('should allow access to API in another domain', () => {
+      expect(
+        isDependencyAllowed(
+          'domain:customers',
+          ['type:api'],
+          crossDomainConfig,
+          createMockDependencyCheckContext({
+            fromTags: ['domain:customers', 'type:feature'],
+            toTags: ['type:api', 'domain:holidays'],
+          }),
+        ),
+      ).toBe(true);
+    });
+
+    it('should allow same domain access', () => {
+      expect(
+        isDependencyAllowed(
+          'domain:customers',
+          ['domain:customers'],
+          crossDomainConfig,
+          createMockDependencyCheckContext({
+            fromTags: ['domain:customers'],
+            toTags: ['domain:customers'],
+          }),
+        ),
+      ).toBe(true);
+    });
+  });
 });
