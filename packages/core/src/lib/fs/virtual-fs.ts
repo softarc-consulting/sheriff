@@ -215,7 +215,7 @@ export class VirtualFs extends Fs {
       exists: true,
       node,
       parent: node.parent,
-      nodeName: paths.at(-1) ?? '',
+      nodeName: paths[paths.length - 1] ?? '',
     };
   };
 
