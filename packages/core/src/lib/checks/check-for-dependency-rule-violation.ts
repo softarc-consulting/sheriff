@@ -53,11 +53,8 @@ export function checkForDependencyRuleViolation(
       );
       const isViolation = !isDependencyAllowed(
         fromTag,
-        toTags,
         config.depRules,
         {
-          from: '',
-          to: '',
           fromModulePath: fromModule,
           toModulePath: toFsPath(importedModulePath),
           fromFilePath: fsPath,

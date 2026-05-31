@@ -16,8 +16,6 @@ const createMockDependencyCheckContext = (
   overrides?: Partial<DependencyCheckContext>,
 ): DependencyCheckContext =>
   ({
-    from: '',
-    to: '',
     fromModulePath: '',
     toModulePath: '',
     fromFilePath: '',
@@ -39,33 +37,33 @@ const dummyContext: DependencyCheckContext = createMockDependencyCheckContext({
 const createAssertsForConfig = (config: DependencyRulesConfig) => {
   return {
     assertValid(from: string, to: string | string[]) {
+      const toTags = Array.isArray(to) ? to : [to];
       expect(
         isDependencyAllowed(
           from,
-          Array.isArray(to) ? to : [to],
           config,
-          createMockDependencyCheckContext(),
+          createMockDependencyCheckContext({ toTags }),
         ),
       ).toBe(true);
     },
     assertInvalid(from: string, to: string | string[]) {
+      const toTags = Array.isArray(to) ? to : [to];
       expect(
         isDependencyAllowed(
           from,
-          Array.isArray(to) ? to : [to],
           config,
-          createMockDependencyCheckContext(),
+          createMockDependencyCheckContext({ toTags }),
         ),
       ).toBe(false);
     },
 
     assert(from: string, to: string | string[], expected: boolean) {
+      const toTags = Array.isArray(to) ? to : [to];
       expect(
         isDependencyAllowed(
           from,
-          Array.isArray(to) ? to : [to],
           config,
-          createMockDependencyCheckContext(),
+          createMockDependencyCheckContext({ toTags }),
         ),
       ).toBe(expected);
     },
@@ -119,14 +117,13 @@ describe('check dependency rules', () => {
     };
 
     expect(() =>
-      isDependencyAllowed('type:funktion', ['noop'], config, dummyContext),
+      isDependencyAllowed('type:funktion', config, dummyContext),
     ).toThrowUserError(new NoDependencyRuleForTagError('type:funktion'));
   });
 
   it('should pass from, to, fromModulePath, fromFilePath, toModulePath, toFilePath to function', () => {
     isDependencyAllowed(
       'domain:customers',
-      ['domain:holidays'],
       {
         'domain:customers': (context) => {
           expect(context).toStrictEqual({
@@ -248,7 +245,6 @@ describe('check dependency rules', () => {
       expect(
         isDependencyAllowed(
           'domain:customers',
-          ['domain:shared'],
           crossDomainConfig,
           createMockDependencyCheckContext({
             fromTags: ['domain:customers'],
@@ -262,7 +258,6 @@ describe('check dependency rules', () => {
       expect(
         isDependencyAllowed(
           'domain:customers',
-          ['domain:holidays'],
           crossDomainConfig,
           createMockDependencyCheckContext({
             fromTags: ['domain:customers'],
@@ -276,7 +271,6 @@ describe('check dependency rules', () => {
       expect(
         isDependencyAllowed(
           'type:api',
-          ['domain:holidays'],
           crossDomainConfig,
           createMockDependencyCheckContext({
             fromTags: ['type:api', 'domain:customers'],
@@ -290,7 +284,6 @@ describe('check dependency rules', () => {
       expect(
         isDependencyAllowed(
           'domain:customers',
-          ['type:api'],
           crossDomainConfig,
           createMockDependencyCheckContext({
             fromTags: ['domain:customers', 'type:feature'],
@@ -304,7 +297,6 @@ describe('check dependency rules', () => {
       expect(
         isDependencyAllowed(
           'domain:customers',
-          ['domain:customers'],
           crossDomainConfig,
           createMockDependencyCheckContext({
             fromTags: ['domain:customers'],
