@@ -33,5 +33,5 @@
       "conventionalCommits": true
     }
   },
-  "useLegacyCache": true
+  "analytics": true
 }
