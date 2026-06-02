@@ -21,12 +21,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm install -g yarn
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
         if: ${{ steps.release.outputs.release_created }}
-      - run: yarn
+      - run: pnpm install
         if: ${{ steps.release.outputs.release_created }}
       - run: npm publish packages/core --access public
         env:
