@@ -1,43 +1,107 @@
 {
   "migrations": [
     {
-      "cli": "nx",
-      "version": "19.2.0-beta.2",
-      "description": "Updates the default workspace data directory to .nx/workspace-data",
-      "implementation": "./src/migrations/update-19-2-0/move-workspace-data-directory",
+      "version": "21.0.0-beta.8",
+      "description": "Removes the legacy cache configuration from nx.json",
+      "implementation": "./dist/src/migrations/update-21-0-0/remove-legacy-cache",
       "package": "nx",
-      "name": "19-2-0-move-graph-cache-directory"
+      "name": "remove-legacy-cache"
+    },
+    {
+      "version": "21.0.0-beta.8",
+      "description": "Removes the legacy cache configuration from nx.json",
+      "implementation": "./dist/src/migrations/update-21-0-0/remove-custom-tasks-runner",
+      "package": "nx",
+      "name": "remove-custom-tasks-runner"
+    },
+    {
+      "version": "21.0.0-beta.11",
+      "description": "Updates release version config based on the breaking changes in Nx v21",
+      "implementation": "./dist/src/migrations/update-21-0-0/release-version-config-changes",
+      "package": "nx",
+      "name": "release-version-config-changes"
+    },
+    {
+      "version": "21.0.0-beta.11",
+      "description": "Updates release changelog config based on the breaking changes in Nx v21",
+      "implementation": "./dist/src/migrations/update-21-0-0/release-changelog-config-changes",
+      "package": "nx",
+      "name": "release-changelog-config-changes"
+    },
+    {
+      "version": "22.0.0-beta.1",
+      "description": "Updates release version config based on the breaking changes in Nx v22",
+      "implementation": "./dist/src/migrations/update-22-0-0/release-version-config-changes",
+      "package": "nx",
+      "name": "22-0-0-release-version-config-changes"
+    },
+    {
+      "version": "22.0.0-beta.2",
+      "description": "Consolidates releaseTag* options into nested releaseTag object structure",
+      "implementation": "./dist/src/migrations/update-22-0-0/consolidate-release-tag-config",
+      "package": "nx",
+      "name": "22-0-0-consolidate-release-tag-config"
     },
     {
       "cli": "nx",
-      "version": "19.2.2-beta.0",
+      "version": "22.1.0-beta.5",
       "description": "Updates the nx wrapper.",
-      "implementation": "./src/migrations/update-17-3-0/update-nxw",
+      "implementation": "./dist/src/migrations/update-22-1-0/update-nx-wrapper",
       "package": "nx",
-      "name": "19-2-2-update-nx-wrapper"
+      "name": "22-1-0-update-nx-wrapper"
     },
     {
-      "version": "19.2.4-beta.0",
-      "description": "Set project name in nx.json explicitly",
-      "implementation": "./src/migrations/update-19-2-4/set-project-name",
-      "x-repair-skip": true,
+      "cli": "nx",
+      "version": "22.6.0-beta.10",
+      "description": "Adds .claude/worktrees to .gitignore",
+      "implementation": "./dist/src/migrations/update-22-6-0/add-claude-worktrees-to-git-ignore",
       "package": "nx",
-      "name": "19-2-4-set-project-name"
+      "name": "22-6-1-add-claude-worktrees-to-git-ignore"
     },
     {
-      "version": "20.0.0-beta.7",
-      "description": "Migration for v20.0.0-beta.7",
-      "implementation": "./src/migrations/update-20-0-0/move-use-daemon-process",
+      "cli": "nx",
+      "version": "22.7.0-beta.0",
+      "description": "Adds .nx/polygraph to .gitignore",
+      "implementation": "./dist/src/migrations/update-22-7-0/add-polygraph-to-git-ignore",
       "package": "nx",
-      "name": "move-use-daemon-process"
+      "name": "22-7-0-add-polygraph-to-git-ignore"
     },
     {
-      "version": "20.0.1",
-      "description": "Set `useLegacyCache` to true for migrating workspaces",
-      "implementation": "./src/migrations/update-20-0-1/use-legacy-cache",
-      "x-repair-skip": true,
+      "cli": "nx",
+      "version": "22.6.0-rc.0",
+      "description": "Adds .claude/settings.local.json to .gitignore",
+      "implementation": "./dist/src/migrations/update-17-3-0/update-nxw",
       "package": "nx",
-      "name": "use-legacy-cache"
+      "name": "22-6-0-add-claude-settings-local-to-git-ignore"
+    },
+    {
+      "cli": "nx",
+      "version": "22.7.0-beta.0",
+      "description": "Adds .nx/self-healing to .gitignore",
+      "implementation": "./dist/src/migrations/update-22-2-0/add-self-healing-to-gitignore",
+      "package": "nx",
+      "name": "22-7-0-add-self-healing-to-gitignore"
+    },
+    {
+      "version": "21.5.0-beta.2",
+      "description": "Migrate the legacy 'development' custom condition to a workspace-unique custom condition name.",
+      "factory": "./src/migrations/update-21-5-0/migrate-development-custom-condition",
+      "package": "@nx/js",
+      "name": "migrate-development-custom-condition"
+    },
+    {
+      "version": "22.0.0-beta.0",
+      "description": "Remove the deprecated `external` and `externalBuildTargets` options from the `@nx/js:swc` and `@nx/js:tsc` executors.",
+      "factory": "./src/migrations/update-22-0-0/remove-external-options-from-js-executors",
+      "package": "@nx/js",
+      "name": "remove-external-options-from-js-executors"
+    },
+    {
+      "version": "22.1.0-rc.1",
+      "description": "Removes redundant TypeScript project references from project's tsconfig.json files when runtime tsconfig files (e.g., tsconfig.lib.json, tsconfig.app.json) exist.",
+      "factory": "./src/migrations/update-22-1-0/remove-redundant-ts-project-references",
+      "package": "@nx/js",
+      "name": "remove-redundant-ts-project-references"
     }
   ]
 }

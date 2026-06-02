@@ -42,3 +42,5 @@ Thumbs.db
 .yalc
 yalc.lock
 .test-projects
+
+.claude/worktrees
