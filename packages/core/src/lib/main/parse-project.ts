@@ -9,6 +9,7 @@ import { TsData } from '../file-info/ts-data';
 import { Module } from '../modules/module';
 import { Configuration } from '../config/configuration';
 import { findModulePaths } from '../modules/find-module-paths';
+import { createGlobMatcher } from '../util/match-glob';
 
 export type ParsedResult = {
   fileInfo: FileInfo;
@@ -39,12 +40,18 @@ export const parseProject = (
   const getFileInfo = (path: FsPath) =>
     throwIfNull(fileInfoMap.get(path), `cannot find FileInfo for ${path}`);
 
-  const modulePaths = findModulePaths(projectDirs, rootDir, config);
+  const isBarrelMatch = createGlobMatcher(config.barrelFileName);
+  const modulePaths = findModulePaths(
+    projectDirs,
+    rootDir,
+    config,
+    isBarrelMatch,
+  );
 
   const modules = createModules(modulePaths, fileInfoMap, getFileInfo, {
     entryFileInfo: unassignedFileInfo,
     rootDir,
-    barrelFile: config.barrelFileName,
+    isBarrelMatch,
   });
   fillFileInfoMap(fileInfoMap, modules);
 

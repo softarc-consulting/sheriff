@@ -1,7 +1,9 @@
 import { UnassignedFileInfo } from '../file-info/unassigned-file-info';
 import { FileInfo } from './file.info';
-import { FsPath, toFsPath } from '../file-info/fs-path';
+import * as path from 'path';
+import { FsPath } from '../file-info/fs-path';
 import getFs from '../fs/getFs';
+import { GlobMatcher } from '../util/match-glob';
 
 /**
  * Since modules are constructed incrementally with in-place
@@ -17,7 +19,7 @@ export class Module {
     private readonly getFileInfo: (fsPath: FsPath) => FileInfo,
     public readonly isRoot: boolean,
     public readonly hasBarrel: boolean,
-    private readonly barrelFile: string,
+    private readonly isBarrelMatch: GlobMatcher,
   ) {
   }
 
@@ -27,7 +29,22 @@ export class Module {
     this.fileInfos.push(fileInfo);
   }
 
-  get barrelPath(): FsPath {
-    return toFsPath(getFs().join(this.path, this.barrelFile));
+  /**
+   * Checks whether the given file path is a barrel (entry) file
+   * of this module by matching its filename against the configured
+   * barrel file patterns.
+   *
+   * Only files directly inside the module root directory qualify;
+   * nested files with barrel-like names (e.g. `internal/index.ts`)
+   * are not treated as barrel entries.
+   */
+  isBarrelFile(filePath: FsPath): boolean {
+    const fileDir = getFs().getParent(filePath);
+
+    if (fileDir !== this.path) {
+      return false;
+    }
+
+    return this.isBarrelMatch(path.basename(filePath));
   }
 }

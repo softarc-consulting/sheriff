@@ -85,9 +85,31 @@ These options have sensible defaults and are typically only customized for speci
 
 #### `barrelFileName` {#barrelfilename}
 
-- **Type**: `string`
+- **Type**: `string | string[]`
 - **Default**: `'index.ts'`
-- **Description**: Name of the barrel file that exports public APIs from a module.
+- **Description**: Name of the barrel file that exports public APIs from a module. Supports glob patterns and arrays to allow multiple entry files per module.
+
+**Glob wildcards:**
+- `*` matches zero or more characters
+- `?` matches exactly one character
+
+**Examples:**
+
+```typescript
+// Single filename (default behavior)
+barrelFileName: 'index.ts'
+
+// Glob pattern for multiple entry files
+barrelFileName: 'index.*.ts'
+
+// Explicit list of entry files
+barrelFileName: ['index.ts', 'index.routing.ts', 'index.state.ts']
+
+// Combine exact names and glob patterns
+barrelFileName: ['index.ts', 'index.*.ts']
+```
+
+> **Use case**: In Angular monorepos, a single barrel file can cause inefficient tree shaking. By splitting entry files (e.g., `index.ts`, `index.routing.ts`, `index.state.ts`), you can keep module boundaries enforced while allowing multiple public access points.
 
 #### `ignoreFileExtensions` {#ignorefileextensions}
 
