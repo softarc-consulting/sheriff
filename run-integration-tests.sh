@@ -28,6 +28,9 @@ bash ./integration-test.sh
 cd ../typescript-i
 bash ./integration-test.sh
 
-cd ../..
 
+cd ../nextjs-i
+bash ./integration-test.sh
+
+cd ../..
 echo "Tests finished successfully"

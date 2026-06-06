@@ -8,10 +8,12 @@ import {
 } from '../checks/check-for-dependency-rule-violation';
 import { FileInfo } from '../modules/file.info';
 import { isRelativeImport } from './is-relative-import';
+import { Configuration } from '../config/configuration';
 
 let cache: Record<string, string> = {};
 let cacheActive = false;
 let fileInfo: FileInfo | undefined;
+let config: Configuration | undefined;
 let configFileIsMissing = false;
 const log = logger('core.eslint.dependency-rules');
 
@@ -24,6 +26,7 @@ export const violatesDependencyRule = (
   if (isFirstRun) {
     cache = {};
     fileInfo = undefined;
+    config = undefined;
     cacheActive = false;
     configFileIsMissing = false;
   }
@@ -46,6 +49,7 @@ export const violatesDependencyRule = (
     }
 
     fileInfo = projectInfo.fileInfo;
+    config = projectInfo.config;
     const violations = checkForDependencyRuleViolation(
       toFsPath(filename),
       projectInfo,
@@ -54,6 +58,11 @@ export const violatesDependencyRule = (
     for (const violation of violations) {
       cache[violation.rawImport] = formatViolation(violation, rootDir);
     }
+  }
+
+  const extension = filename.split('.').pop()?.toLowerCase() ?? '';
+  if (!throwIfNull(config).supportedFileExtensions.includes(extension)) {
+    return `[SHERIFF CONFIG MISMATCH] Sheriff is linting this file (.${extension}) due to your ESLint configuration, but this extension is not in 'supportedFileExtensions' in your sheriff.config.ts. Add it there if you want Sheriff to support it.`;
   }
 
   if (

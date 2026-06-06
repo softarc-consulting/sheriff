@@ -6,7 +6,7 @@ const sheriff = require('@softarc/eslint-plugin-sheriff');
 
 module.exports = tseslint.config(
   {
-    files: ['**/*.ts'],
+    files: ['src/**/*.ts'],
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -34,7 +34,7 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ['**/*.html'],
+    files: ['src/**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
@@ -42,7 +42,7 @@ module.exports = tseslint.config(
     rules: {},
   },
   {
-    files: ['**/*.ts'],
+    files: ['src/**/*.ts'],
     extends: [sheriff.configs.all],
   },
 );

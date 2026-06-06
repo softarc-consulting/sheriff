@@ -280,4 +280,20 @@ export interface UserSheriffConfig {
    * ```
    */
   ignoreFileExtensions?: string[] | ((defaults: string[]) => string[]);
+
+  /**
+   * List of file extensions that Sheriff will support while traversing imports.
+   * Can be either:
+   * - An array of strings (replaces defaults completely)
+   * - A function that receives the default extensions and returns a new list
+   *
+   * By default, it supports: `ts`, `tsx`, `mts`, `cts`.
+   *
+   * @example
+   * ```typescript
+   * // would add 'js' to the defaults
+   * supportedFileExtensions: (defaults) => [...defaults, 'js']
+   * ```
+   */
+  supportedFileExtensions?: string[] | ((defaults: string[]) => string[]);
 }

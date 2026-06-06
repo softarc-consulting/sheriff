@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import { TsData } from './ts-data';
 import { getTsConfigContext } from './get-ts-config-context';
 import { FsPath, toFsPath } from './fs-path';
+import { defaultSupportedFileExtensions } from '../config/default-file-extensions';
 
 /**
  * Generates a parsed TypeScript configuration from a given
@@ -22,8 +23,14 @@ import { FsPath, toFsPath } from './fs-path';
  *
  * This will return a paths property of `{'app/*': './src/app'}`
  */
-export const generateTsData = (tsConfigPath: FsPath): TsData => {
-  const configContext = getTsConfigContext(tsConfigPath);
+export const generateTsData = (
+  tsConfigPath: FsPath,
+  supportedFileExtensions: string[] = defaultSupportedFileExtensions,
+): TsData => {
+  const configContext = getTsConfigContext(
+    tsConfigPath,
+    supportedFileExtensions,
+  );
 
   const fs = getFs();
   const cwd = fs.getParent(tsConfigPath);

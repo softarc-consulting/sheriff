@@ -11,7 +11,7 @@ import {
   TaggingAndModulesError,
 } from '../../error/user-error';
 import '../../test/expect.extensions';
-import { defaultIgnoreFileExtensions } from '../default-file-extensions';
+import { defaultIgnoreFileExtensions, defaultSupportedFileExtensions } from '../default-file-extensions';
 
 describe('parse Config', () => {
   it('should read value', () => {
@@ -42,6 +42,7 @@ describe('parse Config', () => {
       'barrelFileName',
       'entryPoints',
       'ignoreFileExtensions',
+      'supportedFileExtensions',
     ]);
   });
 
@@ -85,6 +86,7 @@ export const config: SheriffConfig = {
         barrelFileName: 'index.ts',
         entryPoints: undefined,
         ignoreFileExtensions: defaultIgnoreFileExtensions,
+        supportedFileExtensions: defaultSupportedFileExtensions,
       });
     });
 

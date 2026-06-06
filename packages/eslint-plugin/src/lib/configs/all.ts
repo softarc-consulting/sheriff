@@ -1,8 +1,9 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import rules from '../rules';
+import { defaultSupportedFileExtensions } from '@softarc/sheriff-core';
 
 const commonConfig: TSESLint.FlatConfig.Config = {
-  files: ['**/*.ts', '**/*.js'],
+  files: defaultSupportedFileExtensions.map((ext) => `**/*.${ext}`),
   ignores: ['sheriff.config.ts'],
   languageOptions: {
     sourceType: 'module',

@@ -9,6 +9,7 @@ import {
 import { resolvePotentialTsPath } from './resolve-potential-ts-path';
 import { ResolveFn } from './traverse-filesystem';
 import { sys } from 'typescript';
+import { defaultSupportedFileExtensions } from '../config/default-file-extensions';
 
 export type TsConfigContext = {
   paths: Record<string, FsPath>;
@@ -32,8 +33,12 @@ export type TsConfigContext = {
  * TypeScript resolution because static imports only work with a `baseUrl`.
  *
  * @param tsConfigPath path of the tsconfig.json
+ * @param supportedFileExtensions list of supported file extensions
  */
-export function getTsConfigContext(tsConfigPath: FsPath): TsConfigContext {
+export function getTsConfigContext(
+  tsConfigPath: FsPath,
+  supportedFileExtensions: string[] = defaultSupportedFileExtensions,
+): TsConfigContext {
   const fs = getFs();
   let currentTsConfigPath = tsConfigPath;
   let currentTsConfigDir = fs.getParent(currentTsConfigPath);
@@ -66,13 +71,22 @@ export function getTsConfigContext(tsConfigPath: FsPath): TsConfigContext {
       );
       if (fs.exists(potentialFilename)) {
         paths[key] = toFsPath(potentialFilename);
-      } else if (
-        !potentialFilename.endsWith('.ts') &&
-        fs.exists(potentialFilename + '.ts')
-      ) {
-        paths[key] = toFsPath(potentialFilename + '.ts');
       } else {
-        throw new InvalidPathError(key, value);
+        let found = false;
+        for (const extension of supportedFileExtensions) {
+          const dottedExtension = `.${extension}`;
+          if (
+            !potentialFilename.endsWith(dottedExtension) &&
+            fs.exists(potentialFilename + dottedExtension)
+          ) {
+            paths[key] = toFsPath(potentialFilename + dottedExtension);
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          throw new InvalidPathError(key, value);
+        }
       }
     }
 

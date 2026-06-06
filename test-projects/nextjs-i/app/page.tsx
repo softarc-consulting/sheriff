@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Footer } from "@shell";
+import { InnerFooter } from "../shell/inner-footer";
 import { IconLink } from "@shared/ui";
 
 export default function Home() {
