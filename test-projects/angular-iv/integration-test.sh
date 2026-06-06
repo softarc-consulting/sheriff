@@ -86,3 +86,11 @@ npx ng lint --lint-file-patterns '**/different-file-extension-imports.ts' --forc
 ../remove-paths.mjs tests/actual/ignore-file-extensions-lint.json
 diff tests/actual/ignore-file-extensions-lint.json tests/expected/ignore-file-extensions-lint.json
 cp sheriff.config.ts.original sheriff.config.ts
+
+## Exclude From Checks Check
+echo 'checking for exclude from checks'
+cp tests/sheriff.config-exclude-from-checks.ts sheriff.config.ts
+npx ng lint --force --format json --output-file tests/actual/exclude-from-checks-lint.json
+../remove-paths.mjs tests/actual/exclude-from-checks-lint.json
+diff tests/actual/exclude-from-checks-lint.json tests/expected/exclude-from-checks-lint.json
+cp sheriff.config.ts.original sheriff.config.ts

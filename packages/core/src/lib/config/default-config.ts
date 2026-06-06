@@ -15,4 +15,5 @@ export const defaultConfig: Configuration = {
   barrelFileName: 'index.ts',
   entryPoints: undefined,
   ignoreFileExtensions: defaultIgnoreFileExtensions,
+  excludeFromChecks: [],
 };

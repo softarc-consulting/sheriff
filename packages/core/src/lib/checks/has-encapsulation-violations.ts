@@ -3,6 +3,7 @@ import { Configuration } from '../config/configuration';
 import { ProjectInfo } from '../main/init';
 import { FileInfo } from '../modules/file.info';
 import getFs from '../fs/getFs';
+import { isExcludedFromChecks } from '../util/is-excluded-from-checks';
 
 /**
  * verifies if an existing file has imports which break
@@ -17,6 +18,12 @@ export function hasEncapsulationViolations(
   { rootDir, config, getFileInfo }: ProjectInfo,
 ): Record<string, FileInfo> {
   const encapsulationViolations: Record<string, FileInfo> = {};
+
+  // Skip checks for excluded files
+  if (isExcludedFromChecks(fsPath, config.excludeFromChecks)) {
+    return encapsulationViolations;
+  }
+
   const assignedFileInfo = getFileInfo(fsPath);
 
   for (const importedFileInfo of assignedFileInfo.imports) {

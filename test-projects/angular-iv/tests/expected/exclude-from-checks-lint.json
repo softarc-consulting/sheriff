@@ -1,0 +1,28 @@
+{
+  "src/app/customers/api/excluded-file.ts": {
+    "module": "src/app/customers/api",
+    "moduleType": "barrel-less",
+    "tags": ["domain:customers", "type:api"],
+    "imports": [],
+    "unresolvedImports": [],
+    "projectName": ""
+  },
+  "src/app/customers/feature/non-excluded-file.ts": {
+    "module": "src/app/customers/feature",
+    "moduleType": "barrel-less",
+    "tags": ["domain:customers", "type:feature"],
+    "imports": ["src/app/shared/services/customer.service"],
+    "unresolvedImports": [],
+    "projectName": ""
+  },
+  "src/app/shared/generated/generated-file.gen.ts": {
+    "module": "src/app/shared/generated",
+    "moduleType": "barrel-less",
+    "tags": ["shared", "shared:generated"],
+    "imports": [],
+    "unresolvedImports": [],
+    "projectName": ""
+  }
+}
+
+
