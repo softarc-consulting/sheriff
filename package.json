@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "description": "Modularity for TypeScript Projects",
   "license": "MIT",
+  "packageManager": "pnpm@10.11.0",
   "scripts": {
     "build:all": "npx nx run-many --target=build && chmod +x dist/packages/core/src/bin/main.js",
     "commit": "commit",
     "lint:all": "eslint ./packages",
-    "link:sheriff": "yarn run build:all && yalc publish dist/packages/core && yalc publish dist/packages/eslint-plugin && yalc link @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
+    "link:sheriff": "pnpm run build:all && yalc publish dist/packages/core && yalc publish dist/packages/eslint-plugin && yalc link @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
     "run:cli": "nx build core && chmod +x dist/packages/core/src/bin/main.js",
     "test": "vitest",
     "test:ci": "vitest -c vitest.config.ci.ts"
@@ -41,6 +42,5 @@
     "typescript": "5.9.3",
     "typescript-eslint": "^8.60.0",
     "vitest": "^4.1.7"
-  },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  }
 }
