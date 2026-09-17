@@ -23,9 +23,7 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
+      - uses: pnpm/action-setup@v6
         if: ${{ steps.release.outputs.release_created }}
       - run: pnpm install
         if: ${{ steps.release.outputs.release_created }}

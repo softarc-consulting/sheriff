@@ -13,7 +13,7 @@ The entry point is always the `init` function.
 # Development
 
 ## Setup
-We are using `pnpm` as our package manager. To install all dependencies, run the following command:
+Use Node.js 24 and pnpm 12.4.2 (pinned in `package.json`). To install all dependencies, run the following command:
 
 ```shell
 pnpm install
