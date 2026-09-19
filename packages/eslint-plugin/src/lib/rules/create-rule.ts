@@ -21,8 +21,9 @@ export const createRule: (
     let isFirstRun = true;
     let hasInternalError = false;
     const executeRuleWithContext = (node: ExecutorNode) => {
-      const filename = context.filename;
-      const sourceCode = context.sourceCode.text;
+      // ESLint before 8.40 exposes methods; ESLint 10 only exposes properties.
+      const filename = context.filename ?? context.getFilename();
+      const sourceCode = context.sourceCode?.text ?? context.getSourceCode().text;
 
       if (!hasInternalError) {
         try {

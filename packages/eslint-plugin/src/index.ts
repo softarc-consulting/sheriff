@@ -17,7 +17,7 @@ const meta = { name: packageName, version: packageVersion };
  * A direct @eslint/core dependency would instead require our selected version
  * for Sheriff's exposed types. It could install version A alongside the
  * consumer's version B; it would not replace B. We avoid that extra coupling
- * because we support multiple ESLint majors (currently 8 and 9).
+ * because we support multiple ESLint majors (currently 8, 9, and 10).
  *
  * Simplified example trees (A/B are illustrative; pnpm symlinks omitted).
  * The legacy config shows the reference through ESLint; flat configs keep
