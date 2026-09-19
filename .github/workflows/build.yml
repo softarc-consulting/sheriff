@@ -14,14 +14,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: 'yarn'
-      - run: npm install -g yarn yalc
-      - run: yarn
-      - run: yarn lint:all
-      - run: yarn link:sheriff
-      - run: yarn test:ci
-      - run: cd test-projects/angular-i && yarn && npx ng lint
-      - run: cd test-projects/angular-ii && yarn && npx ng lint
-      - run: cd test-projects/angular-iii && yarn && npx ng lint
+      - uses: pnpm/action-setup@v6
+      - run: npm install -g yalc
+      - run: pnpm install
+      - run: pnpm lint:all
+      - run: pnpm link:sheriff
+      - run: pnpm test:ci
+      - run: cd test-projects/angular-i && pnpm install --ignore-workspace --ignore-scripts && yalc link --no-pure @softarc/sheriff-core @softarc/eslint-plugin-sheriff && npx ng lint
+      - run: cd test-projects/angular-ii && pnpm install --ignore-workspace --ignore-scripts && yalc link --no-pure @softarc/sheriff-core @softarc/eslint-plugin-sheriff && npx ng lint
+      - run: cd test-projects/angular-iii && pnpm install --ignore-workspace --ignore-scripts && yalc link --no-pure @softarc/sheriff-core @softarc/eslint-plugin-sheriff && npx ng lint
       - run: ./run-integration-tests.sh
-

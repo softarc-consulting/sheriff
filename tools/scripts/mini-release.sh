@@ -73,7 +73,7 @@ NODE
 echo "   -> Next version: $next_version"
 
 echo "[2/4] Building all packages..."
-(cd "$repo_root" && yarn build:all)
+(cd "$repo_root" && pnpm build:all)
 
 echo "[3/4] Pause before publish"
 read -r -p "Press Enter to npm publish and commit (Ctrl+C to abort)... " _

@@ -4,7 +4,7 @@ YOU MUST FOLLOW the instructions in this document
 - Before starting a Task do a thorough planning and break down the task in small sub-tasks 
 - Use conventional commits. The allowed scopes and types are listed in `./CONTRIBUTING.md#scope` and `./CONTRIBUTING.md#type`
 - Write atomic commits
-- Before finishing a task make sure that `yarn lint:all`, `yarn test` and `yarn build:all` pass as well as the integration tests when running `run-integration-tests.sh`. To run a single test file use `yarn vitest run -t "<test name>"`
+- Before finishing a task make sure that `pnpm lint:all`, `pnpm test` and `pnpm build:all` pass as well as the integration tests when running `run-integration-tests.sh`. To run a single test file use `pnpm vitest run -t "<test name>"`
 - Sheriff follows a zero-dependencies policy which means that adding a third-party package should be avoided at all costs.
 
 # Project Overview
