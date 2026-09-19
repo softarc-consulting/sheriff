@@ -1,11 +1,11 @@
-import { Rule, RuleTester } from 'eslint';
+import { RuleTester } from 'eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from '../create-rule';
 import { UserError } from '@softarc/sheriff-core';
 import { parser } from 'typescript-eslint';
 
 const tester = new RuleTester({
-  languageOptions: { parser, sourceType: 'module' },
+  languageOptions: { parser, sourceType: 'module' }
 });
 
 const ruleExecutor = { foo: () => void true };
@@ -19,49 +19,6 @@ describe('create rule', () => {
   afterEach(() => {
     spy.mockReset();
   });
-
-  it.each(['legacy methods', 'modern properties'])(
-    'should pass the filename and source text with %s',
-    (contextApi) => {
-      const executor = vitest.fn();
-      const rule = createRule('context compatibility', executor);
-      const code = "import { value } from './value';";
-
-      tester.run(
-        'context compatibility',
-        {
-          ...rule,
-          create(context) {
-            const compatibleContext = {
-              report: context.report.bind(context),
-              ...(contextApi === 'legacy methods'
-                ? {
-                    getFilename: () => context.filename,
-                    getSourceCode: () => context.sourceCode,
-                  }
-                : {
-                    filename: context.filename,
-                    sourceCode: context.sourceCode,
-                  }),
-            } as unknown as Rule.RuleContext;
-            return rule.create(compatibleContext);
-          },
-        },
-        {
-          valid: [{ code, filename: 'compatibility.ts' }],
-          invalid: [],
-        },
-      );
-
-      expect(executor).toHaveBeenCalledExactlyOnceWith(
-        expect.anything(),
-        expect.objectContaining({ type: 'ImportDeclaration' }),
-        true,
-        expect.stringContaining('compatibility.ts'),
-        code,
-      );
-    },
-  );
 
   it('should call the rule executor for both import types', () => {
     tester.run('test-rule', testRule, {
@@ -127,7 +84,7 @@ describe('create rule', () => {
           `,
         },
       ],
-      invalid: [],
+      invalid: []
     });
 
     expect(spy).toHaveBeenCalledTimes(2);

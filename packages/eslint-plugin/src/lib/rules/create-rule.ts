@@ -1,5 +1,5 @@
 import { Rule } from 'eslint';
-import { Executor, ExecutorNode } from './executor';
+import {Executor, ExecutorNode} from './executor';
 import { UserError } from '@softarc/sheriff-core';
 
 /**
@@ -20,10 +20,12 @@ export const createRule: (
   create: (context) => {
     let isFirstRun = true;
     let hasInternalError = false;
-    const executeRuleWithContext = (node: ExecutorNode) => {
-      // ESLint before 8.40 exposes methods; ESLint 10 only exposes properties.
+    const executeRuleWithContext = (
+      node: ExecutorNode,
+    ) => {
       const filename = context.filename ?? context.getFilename();
-      const sourceCode = context.sourceCode?.text ?? context.getSourceCode().text;
+      const sourceCode =
+        context.sourceCode?.text ?? context.getSourceCode().text;
 
       if (!hasInternalError) {
         try {
