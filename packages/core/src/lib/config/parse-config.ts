@@ -67,9 +67,14 @@ export const parseConfig = (configFile: FsPath): Configuration => {
     mergedConfig.ignoreFileExtensions,
   );
 
+  const excludeFromChecks = getExcludeFromChecks(
+    mergedConfig.excludeFromChecks,
+  );
+
   return {
     ...mergedConfig,
     ignoreFileExtensions,
+    excludeFromChecks,
   };
 };
 
@@ -81,4 +86,10 @@ function getIgnoreFileExtensions(
       ? ignoreFileExtensions(defaultConfig.ignoreFileExtensions)
       : ignoreFileExtensions;
   return Array.from(new Set(extensions.map((ext) => ext.toLowerCase())));
+}
+
+function getExcludeFromChecks(
+  excludeFromChecks: (string | RegExp)[] | undefined,
+): (string | RegExp)[] {
+  return excludeFromChecks ?? [];
 }
