@@ -287,6 +287,49 @@ describe('check for dependency rule violation', () => {
     });
   });
 
+  it('should report a violation for every specifier of the same import', () => {
+    const project = {
+      'tsconfig.json': tsConfig({ paths: { '@shared/*': ['src/shared/*'] } }),
+      'sheriff.config.ts': sheriffConfig({
+        modules: {
+          'src/shared/<type>': ['shared'],
+          'src/<domain>/<type>': ['domain:<domain>', 'type:<type>'],
+        },
+        depRules: {
+          root: ['type:feature'],
+          'domain:*': sameTag,
+          'type:feature': ['type:ui', 'shared'],
+          'type:ui': noDependencies,
+        },
+      }),
+      src: {
+        'app.component.ts': ['./customers/feature'],
+        customers: {
+          feature: {
+            // same file, once relative and once via path alias
+            'index.ts': ['../../shared/ui', '@shared/ui'],
+          },
+        },
+        shared: {
+          ui: {
+            'index.ts': [],
+          },
+        },
+      },
+    };
+
+    const projectInfo = testInit('src/app.component.ts', project);
+    const violations = checkForDependencyRuleViolation(
+      toFsPath('/project/src/customers/feature/index.ts'),
+      projectInfo,
+    );
+
+    expect(violations.map(({ rawImport }) => rawImport)).toEqual([
+      '../../shared/ui',
+      '@shared/ui',
+    ]);
+  });
+
   describe('noTag', () => {
     it('should allow full access with noTag', () => {
       const project = {

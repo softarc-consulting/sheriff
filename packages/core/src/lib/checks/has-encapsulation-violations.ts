@@ -32,10 +32,11 @@ export function hasEncapsulationViolations(
     ) {
       // 👍 all good
     } else {
-      const rawImport = assignedFileInfo.getRawImportForImportedFileInfo(
+      for (const rawImport of assignedFileInfo.getRawImportsForImportedFileInfo(
         importedFileInfo.path,
-      );
-      encapsulationViolations[rawImport] = importedFileInfo;
+      )) {
+        encapsulationViolations[rawImport] = importedFileInfo;
+      }
     }
   }
 

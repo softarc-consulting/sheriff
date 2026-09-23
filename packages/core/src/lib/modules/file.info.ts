@@ -6,8 +6,8 @@ import { FsPath } from '../file-info/fs-path';
  * Central element representing a TypeScript file with its
  * imports and assigned module.
  *
- * Due to ESLint, we can have partial imports (dev is still
- * typing). That's why there is `getRawImportForImportedFileInfo`.
+ * ESLint and the public export API need the specifiers as written
+ * in the file. These are available via `getRawImportsForImportedFileInfo`.
  */
 export class FileInfo {
   #imports: FileInfo[] | undefined;
@@ -32,11 +32,20 @@ export class FileInfo {
   }
 
   /**
-   * For unresolvable imports (ESLint while user is typing) we want
-   * to get the string as it is in the file.
+   * Specifiers as written in the file (ESLint reports on those). An array,
+   * because several can resolve to the same file:
+   *
+   * ```ts
+   * // tsconfig: "paths": { "@lib/*": ["libs/*"] }
+   * // libs/kit/index.ts
+   * import { x } from '@lib/kit/sub'; // alias
+   * export * from './sub';            // relative, same file
+   * ```
+   *
+   * gives `['@lib/kit/sub', './sub']`.
    */
-  getRawImportForImportedFileInfo(path: FsPath): string {
-    return this.unassignedFileInfo.getRawImportForImportedFileInfo(path);
+  getRawImportsForImportedFileInfo(path: FsPath): string[] {
+    return this.unassignedFileInfo.getRawImportsForImportedFileInfo(path);
   }
 
   get unresolvableImports() {

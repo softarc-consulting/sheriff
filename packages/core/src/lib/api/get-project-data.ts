@@ -10,6 +10,7 @@ export type ProjectDataEntry = {
   tags: string[];
   imports: string[];
   externalLibraries?: string[];
+  rawImports?: Record<string, string[]>;
   unresolvedImports: string[];
   projectName: string;
 };
@@ -23,6 +24,7 @@ export type Options = {
    * that contains the external libraries, i.e. node_modules.
    */
   includeExternalLibraries?: boolean;
+  includeRawImports?: boolean;
   /**
    * Adds a property `projectName` to each entry
    * that contains the name of the project.
@@ -162,6 +164,15 @@ export function getProjectData(
       );
     }
 
+    if (options.includeRawImports) {
+      entry.rawImports = Object.fromEntries(
+        fileInfo.imports.map(({ path }) => [
+          path,
+          fileInfo.getRawImportsForImportedFileInfo(path),
+        ]),
+      );
+    }
+
     data[fileInfo.path] = entry;
   }
 
@@ -195,6 +206,14 @@ function relativizeIfRequired(
 
     if (options.includeExternalLibraries) {
       entry.externalLibraries = moduleData.externalLibraries;
+    }
+    if (moduleData.rawImports) {
+      entry.rawImports = Object.fromEntries(
+        Object.entries(moduleData.rawImports).map(([path, rawImports]) => [
+          relative(toFsPath(path)),
+          rawImports,
+        ]),
+      );
     }
     relativizedData[relative(toFsPath(modulePath))] = entry;
   }

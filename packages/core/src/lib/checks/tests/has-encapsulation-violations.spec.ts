@@ -37,6 +37,38 @@ describe('check encapsulation', () => {
     }
   });
 
+  it('should report every specifier of a deep import', () => {
+    const projectInfo = testInit('src/main.ts', {
+      'tsconfig.json': tsConfig({ paths: { '@app/*': ['src/app/*'] } }),
+      src: {
+        'main.ts': ['./app/app.component'],
+        app: {
+          // same deep file, once via path alias and once relative
+          'app.component.ts': [
+            '@app/customers/customer.component',
+            './customers/customer.component',
+          ],
+          customers: {
+            'customer.component.ts': [],
+            'index.ts': ['./customer.component'],
+          },
+        },
+      },
+    });
+
+    expect(
+      Object.keys(
+        hasEncapsulationViolations(
+          toFsPath('/project/src/app/app.component.ts'),
+          projectInfo,
+        ),
+      ),
+    ).toEqual([
+      '@app/customers/customer.component',
+      './customers/customer.component',
+    ]);
+  });
+
   it('should ignore unresolvable imports', () => {
     const projectInfo = testInit('src/main.ts', {
       'tsconfig.json': tsConfig(),

@@ -14,7 +14,7 @@ import throwIfNull from '../util/throw-if-null';
  * should cause an error or not.
  */
 export class UnassignedFileInfo {
-  #rawImportMap = new Map<string, string>();
+  #rawImportMap = new Map<string, string[]>();
   #unresolvableImports: string[] = [];
   #externalLibraries: string[] = [];
 
@@ -41,14 +41,17 @@ export class UnassignedFileInfo {
 
   addImport(importedFileInfo: UnassignedFileInfo, rawImport: string) {
     this.imports.push(importedFileInfo);
-    this.#rawImportMap.set(importedFileInfo.path, rawImport);
+    const rawImports = this.#rawImportMap.get(importedFileInfo.path) ?? [];
+    this.#rawImportMap.set(importedFileInfo.path, [...rawImports, rawImport]);
   }
 
-  getRawImportForImportedFileInfo(path: FsPath): string {
-    return throwIfNull(
-      this.#rawImportMap.get(path),
-      `raw import for ${path} is not available in ${this.path}`,
-    );
+  getRawImportsForImportedFileInfo(path: FsPath): string[] {
+    return [
+      ...throwIfNull(
+        this.#rawImportMap.get(path),
+        `raw import for ${path} is not available in ${this.path}`,
+      ),
+    ];
   }
 
   addExternalLibrary(libraryImport: string) {
