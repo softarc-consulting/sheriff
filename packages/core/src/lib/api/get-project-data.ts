@@ -10,7 +10,7 @@ export type ProjectDataEntry = {
   tags: string[];
   imports: string[];
   externalLibraries?: string[];
-  rawImports?: Record<string, string>;
+  rawImports?: Record<string, string[]>;
   unresolvedImports: string[];
   projectName: string;
 };
@@ -168,7 +168,7 @@ export function getProjectData(
       entry.rawImports = Object.fromEntries(
         fileInfo.imports.map(({ path }) => [
           path,
-          fileInfo.getRawImportForImportedFileInfo(path),
+          fileInfo.getRawImportsForImportedFileInfo(path),
         ]),
       );
     }
@@ -209,9 +209,9 @@ function relativizeIfRequired(
     }
     if (moduleData.rawImports) {
       entry.rawImports = Object.fromEntries(
-        Object.entries(moduleData.rawImports).map(([path, rawImport]) => [
+        Object.entries(moduleData.rawImports).map(([path, rawImports]) => [
           relative(toFsPath(path)),
-          rawImport,
+          rawImports,
         ]),
       );
     }

@@ -51,10 +51,31 @@ describe('getProjectData', () => {
     });
 
     expect(projectData['src/main.ts'].rawImports).toEqual({
-      'src/test.ts': './test.ts',
-      'libs/kit/index.ts': '@lib/kit',
+      'src/test.ts': ['./test.ts'],
+      'libs/kit/index.ts': ['@lib/kit'],
     });
     expect(projectData['src/test.ts'].rawImports).toEqual({});
+  });
+
+  it('should keep every specifier when a file imports the same target twice', () => {
+    createProject(
+      {
+        'tsconfig.json': tsConfig({ paths: { '@lib/*': ['libs/*'] } }),
+        'sheriff.config.ts': sheriffConfig({ modules: {}, depRules: {} }),
+        'src/main.ts': ['@lib/kit'],
+        'libs/kit/index.ts': ['@lib/kit/sub', './sub'],
+        'libs/kit/sub/index.ts': [],
+      },
+      '/projects',
+    );
+
+    const projectData = getProjectData('src/main.ts', '/projects', {
+      includeRawImports: true,
+    });
+
+    expect(projectData['libs/kit/index.ts'].rawImports).toEqual({
+      'libs/kit/sub/index.ts': ['@lib/kit/sub', './sub'],
+    });
   });
 
   it('should not include raw imports by default', () => {
