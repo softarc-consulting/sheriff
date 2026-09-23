@@ -6,8 +6,8 @@ import { FsPath } from '../file-info/fs-path';
  * Central element representing a TypeScript file with its
  * imports and assigned module.
  *
- * Imports are resolved to file paths. The specifiers as written
- * in the file are available via `getRawImportsForImportedFileInfo`.
+ * ESLint and the public export API need the specifiers as written
+ * in the file. These are available via `getRawImportsForImportedFileInfo`.
  */
 export class FileInfo {
   #imports: FileInfo[] | undefined;
