@@ -22,16 +22,21 @@ export function checkForDependencyRuleViolation(
   }
 
   const assignedFileInfo = getFileInfo(fsPath);
-  const importedModulePathsWithRawImport = assignedFileInfo.imports
+  // imports repeats a file per import statement; its raw imports already cover each one
+  const uniqueImports = new Map(
+    assignedFileInfo.imports.map((fileInfo) => [fileInfo.path, fileInfo]),
+  );
+  const importedModulePathsWithRawImport = [...uniqueImports.values()]
     // skip imports of same module
     .filter(
       (importedFi) =>
         importedFi.moduleInfo.path !== assignedFileInfo.moduleInfo.path,
     )
-    .map((fileInfo) => [
-      fileInfo.moduleInfo.path,
-      assignedFileInfo.getRawImportForImportedFileInfo(fileInfo.path),
-    ]);
+    .flatMap((fileInfo) =>
+      assignedFileInfo
+        .getRawImportsForImportedFileInfo(fileInfo.path)
+        .map((rawImport) => [fileInfo.moduleInfo.path, rawImport]),
+    );
   const fromModule = toFsPath(assignedFileInfo.moduleInfo.path);
   const fromTags = calcTagsForModule(
     fromModule,

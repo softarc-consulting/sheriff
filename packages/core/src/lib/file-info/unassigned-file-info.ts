@@ -45,10 +45,6 @@ export class UnassignedFileInfo {
     this.#rawImportMap.set(importedFileInfo.path, [...rawImports, rawImport]);
   }
 
-  getRawImportForImportedFileInfo(path: FsPath): string {
-    return this.getRawImportsForImportedFileInfo(path).at(-1) as string;
-  }
-
   getRawImportsForImportedFileInfo(path: FsPath): string[] {
     return [
       ...throwIfNull(
