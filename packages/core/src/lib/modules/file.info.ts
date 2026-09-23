@@ -32,24 +32,17 @@ export class FileInfo {
   }
 
   /**
-   * Returns every specifier with which the file at `path` is imported.
-   *
-   * ESLint reports on the import as it is written, so we need the raw
-   * string and not only the resolved path.
-   *
-   * It is an array, because different specifiers can resolve to the
-   * same file, and a file can import it more than once:
+   * Specifiers as written in the file (ESLint reports on those). An array,
+   * because several can resolve to the same file:
    *
    * ```ts
    * // tsconfig: "paths": { "@lib/*": ["libs/*"] }
-   *
    * // libs/kit/index.ts
-   * import { x } from '@lib/kit/sub'; // path alias
-   * export * from './sub';            // relative
+   * import { x } from '@lib/kit/sub'; // alias
+   * export * from './sub';            // relative, same file
    * ```
    *
-   * Both resolve to `libs/kit/sub/index.ts`, so the result is
-   * `['@lib/kit/sub', './sub']`.
+   * gives `['@lib/kit/sub', './sub']`.
    */
   getRawImportsForImportedFileInfo(path: FsPath): string[] {
     return this.unassignedFileInfo.getRawImportsForImportedFileInfo(path);
