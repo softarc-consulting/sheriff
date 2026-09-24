@@ -5,6 +5,7 @@ import { createProject } from '../../test/project-creator';
 import { findModulePathsWithoutBarrel } from '../internal/find-module-paths-without-barrel';
 import { useVirtualFs } from '../../fs/getFs';
 import { toFsPath } from '../../file-info/fs-path';
+import { createGlobMatcher } from '../../util/match-glob';
 
 function assertProject(fileTree: FileTree) {
   return {
@@ -18,7 +19,7 @@ function assertProject(fileTree: FileTree) {
           const actualModulePaths = findModulePathsWithoutBarrel(
             moduleConfig,
             toFsPath('/project'),
-            'index.ts',
+            createGlobMatcher(['index.ts']),
           );
           expect(Array.from(actualModulePaths)).toEqual(absoluteModulePaths);
         },

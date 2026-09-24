@@ -2,6 +2,7 @@ import { Fs } from './fs';
 import throwIfNull from '../util/throw-if-null';
 import { FsPath, toFsPath } from '../file-info/fs-path';
 import { EOL } from 'os';
+import { matchGlob } from '../util/match-glob';
 
 type FsNodeType = 'file' | 'directory';
 
@@ -247,7 +248,7 @@ export class VirtualFs extends Fs {
     for (const childNode of node.children.values()) {
       if (
         childNode.type === 'file' &&
-        childNode.name === filename.toLowerCase()
+        matchGlob(filename, childNode.name)
       ) {
         found.push(this.#absolutePath(childNode));
       }

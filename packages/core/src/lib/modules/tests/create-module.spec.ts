@@ -16,6 +16,7 @@ import { FileInfo } from '../file.info';
 import { buildFileInfo } from '../../test/build-file-info';
 import { fromEntries } from '../../util/typed-object-functions';
 import { ModulePathMap } from '../find-module-paths';
+import { createGlobMatcher } from '../../util/match-glob';
 
 interface TestParameter {
   fileInfo: UnassignedFileInfo;
@@ -226,12 +227,11 @@ function assertModule(createTestParams: () => TestParameter) {
   const modulePathMap: ModulePathMap = fromEntries(
     barrelFiles.map((path) => [toFsPath(path.replace('/index.ts', '')), true]),
   );
+  const isBarrelMatch = createGlobMatcher(['index.ts']);
   const modules = createModules(modulePathMap, fileInfoMap, getFileInfo, {
     entryFileInfo: fileInfo,
     rootDir: toFsPath('/'),
-    barrelFile: 'index.ts',
-    encapsulatedFolderName: 'internals',
-    showWarningOnBarrelFileLessCollision: true,
+    isBarrelMatch,
   });
 
   const expectedModules = testParams.expectedModules.map((mi) => {
@@ -247,8 +247,7 @@ function assertModule(createTestParams: () => TestParameter) {
       getFileInfo,
       mi.path === '/',
       mi.path !== '/',
-      'index.ts',
-      'internals',
+      isBarrelMatch,
     );
     for (const fi of fileInfos) {
       module.addFileInfo(fi);

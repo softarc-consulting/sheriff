@@ -78,8 +78,13 @@ function serializeDepRules(config: UserSheriffConfig): Configuration {
       ? mergedConfig.ignoreFileExtensions(defaultConfig.ignoreFileExtensions)
       : mergedConfig.ignoreFileExtensions;
 
+  const barrelFileName = Array.isArray(mergedConfig.barrelFileName)
+    ? mergedConfig.barrelFileName
+    : [mergedConfig.barrelFileName];
+
   return {
     ...mergedConfig,
+    barrelFileName,
     depRules: Object.entries(mergedConfig.depRules).reduce(
       (current, [from, tos]) => ({
         ...current,
