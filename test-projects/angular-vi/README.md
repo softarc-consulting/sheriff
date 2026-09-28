@@ -2,7 +2,10 @@
 
 Copied from `angular-iv` (Angular 18), which remains unchanged. This is the
 single-application fixture with the original Sheriff integration scenarios.
-It uses pnpm 12.4.2 and its own frozen lockfile.
+It installs dependencies with pnpm 12.4.2 and its own frozen lockfile.
+After yalc adds the local Sheriff packages, it runs commands with `npx`, like
+the other Angular fixtures, to avoid a second frozen install against the
+temporary modified manifest.
 
 The copy was migrated with Angular CLI updates, one major at a time, including
 Angular Material, NgRx, and angular-eslint update schematics:
