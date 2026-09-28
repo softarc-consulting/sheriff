@@ -8,10 +8,11 @@
     "build:all": "npx nx run-many --target=build && chmod +x dist/packages/core/src/bin/main.js",
     "commit": "commit",
     "lint:all": "eslint ./packages",
-    "link:sheriff": "pnpm run build:all && yalc publish dist/packages/core && yalc publish dist/packages/eslint-plugin && yalc link --no-pure @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
     "run:cli": "nx build core && chmod +x dist/packages/core/src/bin/main.js",
     "test": "vitest",
-    "test:ci": "vitest -c vitest.config.ci.ts"
+    "test:ci": "bash tools/scripts/test-ci.sh",
+    "pack:sheriff": "pnpm run build:all && bash tools/scripts/pack-sheriff.sh",
+    "test:integration-tools": "node --test test-projects/assert-local-packages.test.mjs"
   },
   "author": {
     "name": "Rainer Hahnekamp",

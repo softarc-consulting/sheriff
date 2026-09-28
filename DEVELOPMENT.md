@@ -21,9 +21,57 @@ pnpm install
 
 ## Run local integration tests
 
-We can use Sheriff locally against the projects in the `test-projects`-folder in order to verify that the tool works as
-expected. The following steps are required to run the tests:
+Build Sheriff and package both libraries, then run the consumer tests:
 
-1. **Build Sheriff**: `pnpm build:all`
-2. **Link Sheriff**: `pnpm link:sheriff`
-3. **Run the integration tests**: Execute one of the `integration-test.sh`-scripts within the tests projects or run all by executing the `run-integration-tests.sh`.
+```shell
+pnpm pack:sheriff
+bash run-integration-tests.sh
+```
+
+`pack:sheriff` runs `build:all` and uses `pnpm pack` on the built package directories.
+It writes `core.tgz` and `eslint-plugin.tgz` to the ignored `dist/integration-packages`
+directory. Run it again after changing Sheriff so the tests use the new build.
+
+The runner copies the fixtures into a temporary directory, exposed through
+`.test-projects` for inspection. It installs their normal dependencies, using the
+committed pnpm lockfile where available, then installs both local archives with
+`pnpm add`. This deliberately updates only the temporary manifests and lockfiles.
+No yalc installation, global yalc store, or manual executable links are needed.
+
+Each consumer uses its own TypeScript and ESLint. The installation check verifies
+the archive references, local package paths, the plugin's core dependency, and the
+TypeScript/ESLint peer resolution. The TypeScript matrix repeats this check after
+every version change, alongside its exact expected Sheriff diagnostics.
+
+The full run covers the Angular 15, Angular 18, and Angular 22.2 integration
+scenarios, the additional Angular 15 CI lint fixtures, and all 65 TypeScript/ESLint
+configuration combinations. To run selected fixtures in isolation:
+
+```shell
+bash run-integration-tests.sh angular-vi
+bash run-integration-tests.sh angular-i typescript-i
+```
+
+Use the runner rather than calling fixture scripts directly; it provides the
+archive paths and keeps the tracked fixtures unchanged. Temporary directories are
+retained after a run for debugging; `.test-projects` points to the latest run.
+Starting a new run removes the previous temporary copy.
+
+## Validation
+
+```shell
+pnpm lint:all
+pnpm test --run
+pnpm pack:sheriff
+pnpm test:ci --run
+bash run-integration-tests.sh
+```
+
+`pack:sheriff` includes `pnpm build:all`. `test:ci` runs the archive-resolution unit
+tests and the existing coverage suite. Its compiled-package tests receive a
+temporary installation of the packed core through `NODE_PATH`, because config
+evaluation uses CommonJS `require` outside Vitest's source aliases. That temporary
+installation is removed when the tests finish; the root manifest is unchanged.
+
+To run just the archive-resolution unit tests, use `pnpm test:integration-tools`.
+This workflow implements [issue #268](https://github.com/softarc-consulting/sheriff/issues/268).

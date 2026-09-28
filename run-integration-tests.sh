@@ -1,37 +1,55 @@
-set -e
+#!/bin/bash
+set -euo pipefail
 
-# We copy the test projects to a temporary directory to avoid any potential
-# issues with the dependencies from the root project.
+ROOT_DIR=$(cd "$(dirname "$0")" && pwd)
+cd "$ROOT_DIR"
+export SHERIFF_PACKAGES_DIR="$ROOT_DIR/dist/integration-packages"
+export SHERIFF_PACKAGE_MANAGER
+SHERIFF_PACKAGE_MANAGER=$(node -p "require('./package.json').packageManager")
+for package in core eslint-plugin; do
+  if [ ! -f "$SHERIFF_PACKAGES_DIR/$package.tgz" ]; then
+    echo 'Prepare the built packages first with pnpm pack:sheriff.' >&2
+    exit 1
+  fi
+done
 
-# Check if .test-projects exists and is a symbolic link
+if [ "$#" -eq 0 ]; then
+  set -- angular-i angular-ii angular-iii angular-iv angular-vi typescript-i
+fi
+for fixture in "$@"; do
+  case "$fixture" in
+    angular-i|angular-ii|angular-iii|angular-iv|angular-vi|typescript-i) ;;
+    *) echo "Unknown integration fixture: $fixture" >&2; exit 1 ;;
+  esac
+done
+
+# Keep tracked manifests and lockfiles unchanged. Replace the previous temporary run.
 if [ -L .test-projects ]; then
-  TARGET_DIR=$(readlink .test-projects)
+  PREVIOUS_TMP_DIR=$(readlink .test-projects)
   rm .test-projects
-  rm -rf "$TARGET_DIR"
-  echo "Removing $TARGET_DIR"
+  rm -rf "$PREVIOUS_TMP_DIR"
 fi
 
-export TMP_DIR=$(mktemp -d)
-rsync -a --exclude node_modules --exclude .angular test-projects/ "$TMP_DIR"
-ln -sf "$TMP_DIR" .test-projects
-
+export TMP_DIR
+TMP_DIR=$(mktemp -d)
+rsync -a --exclude node_modules --exclude .angular --exclude dist --exclude .yalc --exclude yalc.lock test-projects/ "$TMP_DIR"
+ln -sfn "$TMP_DIR" .test-projects
 echo "Temporary directory created at $TMP_DIR"
 
-echo "Testing against Angular 15 (ESLint Legacy)"
-cd .test-projects/angular-i
-bash ./integration-test.sh
+for fixture in "$@"; do
+  echo "Testing $fixture"
+  (
+    cd "$TMP_DIR/$fixture"
+    node -e "const fs = require('node:fs'); const p = JSON.parse(fs.readFileSync('package.json', 'utf8')); p.packageManager = process.env.SHERIFF_PACKAGE_MANAGER; fs.writeFileSync('package.json', JSON.stringify(p, null, 2) + '\\n');"
+    case "$fixture" in
+      angular-ii|angular-iii)
+        pnpm install --ignore-scripts
+        bash ../install-sheriff.sh
+        pnpm exec ng lint
+        ;;
+      *) bash ./integration-test.sh ;;
+    esac
+  )
+done
 
-echo "Testing against Angular 18 (ESLint Flat)"
-cd ../angular-iv
-bash ./integration-test.sh
-
-echo "Testing against Angular 22.2 (ESLint 10 Flat)"
-cd ../angular-vi
-bash ./integration-test.sh
-
-cd ../typescript-i
-bash ./integration-test.sh
-
-cd ../..
-
-echo "Tests finished successfully"
+echo 'Tests finished successfully'
