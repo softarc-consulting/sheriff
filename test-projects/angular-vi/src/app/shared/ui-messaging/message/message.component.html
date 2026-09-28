@@ -1,0 +1,18 @@
+@for (message of messages; track message) {
+  <div
+    id="toast-undo"
+    class="flex items-center w-full max-w-sm p-4 rounded-lg shadow my-4 mx-auto"
+    [@myTrigger]="state"
+    [ngClass]="message.type"
+    >
+    @if (message.type === 'info') {
+      <mat-icon class="mr-4">check_circle</mat-icon>
+    }
+    @if (message.type === 'error') {
+      <mat-icon class="mr-4">warning</mat-icon>
+    }
+    <p class="text-sm font-normal">
+      {{ message.text }}
+    </p>
+  </div>
+}
