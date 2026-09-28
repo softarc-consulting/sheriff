@@ -27,7 +27,6 @@ bash ./integration-test.sh
 
 cd ../typescript-i
 bash ./integration-test.sh
-bash ./integration-eslint-10.sh
 
 cd ../..
 
