@@ -2,10 +2,9 @@
 
 Copied from `angular-iv` (Angular 18), which remains unchanged. This is the
 single-application fixture with the original Sheriff integration scenarios.
-It installs dependencies with pnpm 12.4.2 and its own frozen lockfile.
-After yalc adds the local Sheriff packages, it runs commands with `npx`, like
-the other Angular fixtures, to avoid a second frozen install against the
-temporary modified manifest.
+It installs dependencies with pnpm 12.4.2 and its own frozen lockfile, then adds
+the locally packed Sheriff archives with pnpm. Only the temporary copy's manifest
+and lockfile change; commands run with `pnpm exec`.
 
 The copy was migrated with Angular CLI updates, one major at a time, including
 Angular Material, NgRx, and angular-eslint update schematics:
@@ -33,10 +32,10 @@ only source locations, embedded source, and lint output metadata changed.
 The four CLI output snapshots remain unchanged.
 
 `integration-test.sh` installs locked dependencies, adds locally built Sheriff
-packages with yalc, verifies Angular 22.2 and ESLint 10, builds the app, and runs
+package archives with pnpm, verifies Angular 22.2 and ESLint 10, builds the app, and runs
 all existing scenarios: CLI list/export/verify, dynamic imports, encapsulation,
 dependency rules, configuration errors, auto-tagging, re-exports, and ignored
 file extensions. Each scenario compares its actual output with `tests/expected`.
 
 Run it through the repository's `run-integration-tests.sh` after
-`pnpm link:sheriff`, so the fixture executes in a temporary directory.
+`pnpm pack:sheriff`, so the fixture executes in a temporary directory.

@@ -2,8 +2,8 @@
 set -e
 
 # This uses different TypeScript versions and verifies that Sheriff works.
-# We need to copy Sheriff from the parent node_modules. Otherwise, ESLint
-# would also pick the TypeScript version from the parent.
+# Install packed Sheriff packages inside the consumer so their peers resolve
+# to the TypeScript and ESLint versions selected by this matrix.
 
 echo 'checking against different TypeScript versions'
 
@@ -13,12 +13,9 @@ declare -a configs=('.eslintrc.json' 'eslint.config.js')
 
 # The parent runner already copied this fixture into a temporary directory.
 # Use only the dependencies shared by all tested ESLint versions.
-printf '{"private": true}\n' > package.json
-npm install --save-dev --save-exact eslint@8.57.1 typescript@4.8.4 typescript-eslint@8.60.1 @typescript-eslint/parser@8.60.1
-yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
-cd node_modules/.bin # yalc doesn't create symlink in node_modules/.bin
-ln -s ../@softarc/sheriff-core/src/bin/main.js ./sheriff
-cd ../../
+node -e "require('node:fs').writeFileSync('package.json', JSON.stringify({ private: true, packageManager: process.env.SHERIFF_PACKAGE_MANAGER }))"
+pnpm add --ignore-scripts --save-dev --save-exact eslint@8.57.1 typescript@4.8.4 typescript-eslint@8.60.1 @typescript-eslint/parser@8.60.1
+bash ../install-sheriff.sh
 
 for version in ${versions[*]}; do
   for config in ${configs[*]}; do
@@ -36,8 +33,8 @@ for version in ${versions[*]}; do
       rm .eslintrc.json
     fi
 
-    npm install typescript@$version
-    installed_version=$(npx tsc -v)
+    pnpm add --ignore-scripts --save-dev --save-exact typescript@$version
+    installed_version=$(pnpm exec tsc -v)
 
     if [[ ! $installed_version == "Version $version"* ]]
     then
@@ -51,16 +48,17 @@ for version in ${versions[*]}; do
         continue
       fi
 
-      npm install eslint@$eslint_version
-      installed_eslint=$(npx eslint -v)
+      pnpm add --ignore-scripts --save-dev --save-exact eslint@$eslint_version
+      installed_eslint=$(pnpm exec eslint -v)
       if [[ $installed_eslint != v${eslint_version%%.*}.* ]]; then
         echo "ESLint should be $eslint_version but was $installed_eslint"
         exit 1;
       fi
 
       echo "Testing with TypeScript $version, ESLint $installed_eslint ($eslint)"
+      node ../assert-local-packages.mjs
       # Rule violations intentionally produce exit 1; configuration errors must fail.
-      npx eslint src --format json --output-file lint.json || test "$?" -eq 1
+      pnpm exec eslint src --format json --output-file lint.json || test "$?" -eq 1
       node ./assert-lint.mjs lint.json
       node ../remove-paths.mjs lint.json
     done
