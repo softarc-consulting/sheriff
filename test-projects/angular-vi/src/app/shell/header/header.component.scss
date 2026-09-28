@@ -1,0 +1,26 @@
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a.home {
+  text-decoration: none;
+  color: inherit;
+
+  h1 {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 4em;
+      height: auto;
+      padding-right: 1em;
+    }
+  }
+}
+
+div.security a {
+  margin: 0 0.5em
+}

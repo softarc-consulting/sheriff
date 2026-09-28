@@ -1,0 +1,27 @@
+This project contains 19 modules:
+
+. (root)
+└── src
+  └── app
+    ├── [1mbookings[0m (domain:bookings, type:feature)
+    ├── customers
+      ├── [1mapi[0m (type:api, domain:customers:api)
+      ├── [1mdata[0m (domain:customers, type:data)
+      ├── [1mfeature[0m (domain:customers, type:feature)
+      ├── [1mmodel[0m (domain:customers, type:model)
+      └── [1mui[0m (domain:customers, type:ui)
+    ├── holidays
+      ├── [1mfeature[0m (domain:holidays, type:feature)
+      ├── [1mmodel[0m (domain:holidays, type:model)
+      └── [1mui[0m (domain:holidays, type:ui)
+    └── shared
+      ├── [1mconfig[0m (shared, shared:config)
+      ├── [1mform[0m (shared, shared:form)
+      ├── [1mhttp[0m (shared, shared:http)
+      ├── [1mmaster-data[0m (shared, shared:master-data)
+      ├── [1mngrx-utils[0m (shared, shared:ngrx-utils)
+      ├── [1msecurity[0m (shared, shared:security)
+      ├── [1mtesting[0m (shared, shared:testing)
+      ├── [1mui[0m (shared, shared:ui)
+      ├── [1mui-messaging[0m (shared, shared:ui-messaging)
+      └── [1mutil[0m (shared, shared:util)

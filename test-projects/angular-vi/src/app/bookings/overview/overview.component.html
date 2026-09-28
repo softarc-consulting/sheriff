@@ -1,0 +1,30 @@
+<h1>Bookings for {{ userName }}</h1>
+
+<div class="my-4 max-w-screen-sm">
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="holidayId">
+      <mat-header-cell *matHeaderCellDef> Holiday</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.holidayId }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef> Booking Date </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.date | date }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.status }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="comment">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="basis-6/12">{{
+        element.comment
+      }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>

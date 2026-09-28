@@ -25,6 +25,10 @@ echo "Testing against Angular 18 (ESLint Flat)"
 cd ../angular-iv
 bash ./integration-test.sh
 
+echo "Testing against Angular 22.2 (ESLint 10 Flat)"
+cd ../angular-vi
+bash ./integration-test.sh
+
 cd ../typescript-i
 bash ./integration-test.sh
 
