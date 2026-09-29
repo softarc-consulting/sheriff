@@ -3,6 +3,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { Fs } from './fs';
 import { FsPath, toFsPath } from '../file-info/fs-path';
+import { matchGlob } from '../util/match-glob';
 
 export class DefaultFs extends Fs {
   override appendFile(filename: string, contents: string): void {
@@ -60,7 +61,7 @@ export class DefaultFs extends Fs {
     for (const file of files) {
       const filePath = toFsPath(path.join(directory, file));
       const info = fs.lstatSync(filePath);
-      if (info.isFile() && file.toLowerCase() === filename.toLowerCase()) {
+      if (info.isFile() && matchGlob(filename, file)) {
         found.push(toFsPath(filePath));
       }
       if (info.isDirectory()) {

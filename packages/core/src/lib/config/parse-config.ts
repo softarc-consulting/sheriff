@@ -63,12 +63,15 @@ export const parseConfig = (configFile: FsPath): Configuration => {
   }
   const mergedConfig = { ...defaultConfig, ...rest };
 
+  const barrelFileName = getBarrelFileName(mergedConfig.barrelFileName);
+
   const ignoreFileExtensions = getIgnoreFileExtensions(
     mergedConfig.ignoreFileExtensions,
   );
 
   return {
     ...mergedConfig,
+    barrelFileName,
     ignoreFileExtensions,
   };
 };
@@ -81,4 +84,10 @@ function getIgnoreFileExtensions(
       ? ignoreFileExtensions(defaultConfig.ignoreFileExtensions)
       : ignoreFileExtensions;
   return Array.from(new Set(extensions.map((ext) => ext.toLowerCase())));
+}
+
+function getBarrelFileName(
+  barrelFileName: string | string[],
+): string[] {
+  return Array.isArray(barrelFileName) ? barrelFileName : [barrelFileName];
 }

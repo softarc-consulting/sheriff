@@ -2,6 +2,7 @@ import { FsPath } from '../file-info/fs-path';
 import { findModulePathsWithBarrel } from './internal/find-module-paths-with-barrel';
 import { findModulePathsWithoutBarrel } from './internal/find-module-paths-without-barrel';
 import { Configuration } from '../config/configuration';
+import { GlobMatcher } from '../util/match-glob';
 
 export type ModulePathMap = Record<FsPath, boolean>;
 
@@ -15,14 +16,11 @@ export function findModulePaths(
   projectDirs: FsPath[],
   rootDir: FsPath,
   sheriffConfig: Configuration,
+  isBarrelMatch: GlobMatcher,
 ): ModulePathMap {
-  const {
-    modules,
-    enableBarrelLess,
-    barrelFileName
-  } = sheriffConfig;
+  const { modules, enableBarrelLess, barrelFileName } = sheriffConfig;
   const modulesWithoutBarrel = enableBarrelLess
-    ? findModulePathsWithoutBarrel(modules, rootDir, barrelFileName)
+    ? findModulePathsWithoutBarrel(modules, rootDir, isBarrelMatch)
     : [];
   const modulesWithBarrel = findModulePathsWithBarrel(
     projectDirs,

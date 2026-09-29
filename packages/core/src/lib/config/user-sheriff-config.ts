@@ -162,8 +162,27 @@ export interface UserSheriffConfig {
   /**
    * The barrel file is usually the `index.ts` and exports
    * those files which are available outside the module.
+   *
+   * Supports a single filename, a glob pattern, or an array of
+   * filenames/glob patterns.
+   *
+   * Supported glob wildcards:
+   * - `*` matches zero or more characters
+   * - `?` matches exactly one character
+   *
+   * @example
+   * ```typescript
+   * // single filename (default)
+   * barrelFileName: 'index.ts'
+   *
+   * // glob pattern for multiple entry files
+   * barrelFileName: 'index.*.ts'
+   *
+   * // explicit list of entry files
+   * barrelFileName: ['index.ts', 'index.routing.ts', 'index.state.ts']
+   * ```
    */
-  barrelFileName?: string;
+  barrelFileName?: string | string[];
 
   /**
    * The barrel-less approach means that the module

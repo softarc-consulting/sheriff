@@ -7,6 +7,7 @@ export type Configuration = Required<
     | 'showWarningOnBarrelCollision'
     | 'encapsulatedFolderNameForBarrelLess'
     | 'entryPoints'
+    | 'barrelFileName'
   >
 > & {
   // dependency rules will skip if `isConfigFileMissing` is true
@@ -18,4 +19,6 @@ export type Configuration = Required<
   entryPoints?: Record<string, string>;
   // ignoreFileExtensions is always present (either user-specified or default)
   ignoreFileExtensions: string[];
+  // barrelFileName is always normalized to an array internally
+  barrelFileName: string[];
 };
