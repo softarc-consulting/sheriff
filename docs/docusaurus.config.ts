@@ -94,7 +94,7 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      copyright: `Copyright © ${new Date().getFullYear()} Softarc Consulting, Built with Docusaurus.`,
+      copyright: 'Sheriff. Built with Docusaurus.',
     },
     prism: {
       theme: prismThemes.github,
