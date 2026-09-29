@@ -285,15 +285,16 @@ importers:
 
   packages/eslint-plugin:
     dependencies:
-      '@softarc/sheriff-core':
-        specifier: 0.19.6
-        version: 0.19.6(typescript@6.0.3)
       '@typescript-eslint/utils':
         specifier: ^5.48.2 || ^6.0.0 || ^7.0.0 || ^8.0.0-alpha.20
         version: 8.60.1(eslint@9.39.4(jiti@2.6.1)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       eslint:
         specifier: ^8.0.0 || ^9.0.0 || ^10.0.0
         version: 9.39.4(jiti@2.6.1)(supports-color@8.1.1)
+    devDependencies:
+      '@softarc/sheriff-core':
+        specifier: workspace:*
+        version: link:../core
 
 packages:
 
@@ -2175,12 +2176,6 @@ packages:
 
   '@slorber/remark-comment@1.0.0':
     resolution: {integrity: sha512-RCE24n7jsOj1M0UPvIQCHTe7fI0sFL4S2nwKVWwHyVr/wI/H8GosgsJGyhnsZoGFnD/P2hLf1mSbrrgSLN93NA==}
-
-  '@softarc/sheriff-core@0.19.6':
-    resolution: {integrity: sha512-KACxHG9sS7kNWgnnBODzdr14kMLMrJVlQKc+tViUP03p2fRwNhESOA49bz51Yn7dro1mbtMmmFjICLmZSJDZZA==}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=4.8'
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -10245,10 +10240,6 @@ snapshots:
       micromark-factory-space: 1.1.0
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
-
-  '@softarc/sheriff-core@0.19.6(typescript@6.0.3)':
-    dependencies:
-      typescript: 6.0.3
 
   '@standard-schema/spec@1.1.0': {}
 

@@ -28,9 +28,35 @@
   },
   "neverConnectToCloud": true,
   "release": {
-    "projects": ["*"],
+    "projects": ["core", "eslint-plugin"],
+    "projectsRelationship": "fixed",
+    "releaseTag": {
+      "pattern": "v{version}"
+    },
     "version": {
       "conventionalCommits": true
+    },
+    "conventionalCommits": {
+      "types": {
+        "chore": {
+          "semverBump": "none",
+          "changelog": {
+            "title": "Maintenance",
+            "hidden": false
+          }
+        }
+      }
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": false
+      }
+    },
+    "git": {
+      "commit": true,
+      "commitMessage": "chore: release {version}",
+      "tag": true,
+      "push": false
     }
   },
   "analytics": true

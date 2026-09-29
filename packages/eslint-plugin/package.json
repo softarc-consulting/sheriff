@@ -14,6 +14,9 @@
   },
   "type": "commonjs",
   "dependencies": {},
+  "devDependencies": {
+    "@softarc/sheriff-core": "workspace:*"
+  },
   "peerDependencies": {
     "@softarc/sheriff-core": "0.19.6",
     "eslint": "^8.0.0 || ^9.0.0 || ^10.0.0",
