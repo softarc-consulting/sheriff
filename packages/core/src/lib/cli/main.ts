@@ -51,7 +51,7 @@ export function main(...argv: string[]) {
         '[main.ts] is optional if a sheriff.config.ts with an entryFile property is in the current path.',
       );
       cli.log(
-        'For more information, visit: https://github.com/softarc-consulting/sheriff',
+        'For more information, visit: https://github.com/sheriff-arch/sheriff',
       );
 
       break;

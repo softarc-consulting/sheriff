@@ -1,5 +1,5 @@
 {
-  "name": "@softarc/sheriff",
+  "name": "@sheriff-arch/sheriff",
   "version": "0.0.1",
   "description": "Modularity for TypeScript Projects",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "build:all": "npx nx run-many --target=build && chmod +x dist/packages/core/src/bin/main.js",
     "commit": "commit",
     "lint:all": "eslint ./packages",
-    "link:sheriff": "pnpm run build:all && yalc publish dist/packages/core && yalc publish dist/packages/eslint-plugin && yalc link --no-pure @softarc/sheriff-core @softarc/eslint-plugin-sheriff",
+    "link:sheriff": "pnpm run build:all && yalc publish dist/packages/core && yalc publish dist/packages/eslint-plugin && yalc link --no-pure @sheriff-arch/core @sheriff-arch/eslint-plugin-sheriff",
     "run:cli": "nx build core && chmod +x dist/packages/core/src/bin/main.js",
     "test": "vitest",
     "test:ci": "vitest -c vitest.config.ci.ts"

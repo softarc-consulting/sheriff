@@ -3,7 +3,7 @@
     "filePath": "./src/app/customers/ui/customer/customer.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "module /src/app/customers/ui cannot access /src/app/customers/data. Tag type:ui has no clearance for tags domain:customers, type:data",
         "line": 16,

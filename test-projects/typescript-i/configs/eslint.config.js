@@ -1,6 +1,6 @@
 // @ts-check
 const tseslint = require('typescript-eslint');
-const sheriff = require('@softarc/eslint-plugin-sheriff');
+const sheriff = require('@sheriff-arch/eslint-plugin-sheriff');
 
 module.exports = tseslint.config({
   files: ['**/*.ts'],

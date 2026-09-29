@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { anyTag, violatesEncapsulationRule } from '@softarc/sheriff-core';
+import { anyTag, violatesEncapsulationRule } from '@sheriff-arch/core';
 import getFs from '../../fs/getFs';
 import { toFsPath } from '../../file-info/fs-path';
 import { testInit } from '../../test/test-init';

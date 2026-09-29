@@ -15,7 +15,7 @@ In order to reach version 1, we plan to add following features
   - folder/files with `_` prefix
   - decorators @private/@public
 - ☑️ optional cache: For large applications we require a cache together with a background process that watches the filesystem and updates the cache. In v1, the cache will be disabled by default. In later versions, it will become enabled.
-- ☑️ Angular schematic: For Angular application, there will be a migration available that allows to update Sheriff via `ng update`, and install it via `ng add @softarc/ng-sheriff`.
+- ☑️ Angular schematics: Support installing Sheriff with `ng add` and upgrading it with `ng update`.
 
 ## Future plans
 

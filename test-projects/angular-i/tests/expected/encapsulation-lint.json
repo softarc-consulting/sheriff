@@ -3,7 +3,7 @@
     "filePath": "./src/app/customers/feature/components/customers-container.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/encapsulation",
+        "ruleId": "@sheriff-arch/sheriff/encapsulation",
         "severity": 2,
         "message": "'../../data/customers-repository.service' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.",
         "line": 4,

@@ -1,7 +1,7 @@
 import { RuleTester } from 'eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
 import { createRule } from '../create-rule';
-import { UserError } from '@softarc/sheriff-core';
+import { UserError } from '@sheriff-arch/core';
 import { parser } from 'typescript-eslint';
 
 const tester = new RuleTester({

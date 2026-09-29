@@ -1,6 +1,6 @@
 import { RuleTester } from 'eslint';
 import { afterEach, describe, expect, it, vitest } from 'vitest';
-import * as sheriffCore from '@softarc/sheriff-core';
+import * as sheriffCore from '@sheriff-arch/core';
 import { dependencyRule } from '../dependency-rule';
 import { parser } from 'typescript-eslint';
 

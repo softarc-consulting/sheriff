@@ -3,7 +3,7 @@
     "filePath": "./tests/different-file-extension-imports.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "import ./style.scss cannot be resolved",
         "line": 1,
@@ -12,7 +12,7 @@
         "endColumn": 23
       },
       {
-        "ruleId": "@softarc/sheriff/encapsulation",
+        "ruleId": "@sheriff-arch/sheriff/encapsulation",
         "severity": 2,
         "message": "import ./style.scss cannot be resolved",
         "line": 1,
@@ -21,7 +21,7 @@
         "endColumn": 23
       },
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "import ./info.md cannot be resolved",
         "line": 2,
@@ -30,7 +30,7 @@
         "endColumn": 20
       },
       {
-        "ruleId": "@softarc/sheriff/encapsulation",
+        "ruleId": "@sheriff-arch/sheriff/encapsulation",
         "severity": 2,
         "message": "import ./info.md cannot be resolved",
         "line": 2,

@@ -15,9 +15,9 @@ declare -a configs=('.eslintrc.json' 'eslint.config.js')
 # Use only the dependencies shared by all tested ESLint versions.
 printf '{"private": true}\n' > package.json
 npm install --save-dev --save-exact eslint@8.57.1 typescript@4.8.4 typescript-eslint@8.60.1 @typescript-eslint/parser@8.60.1
-yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
+yalc add @sheriff-arch/core @sheriff-arch/eslint-plugin-sheriff
 cd node_modules/.bin # yalc doesn't create symlink in node_modules/.bin
-ln -s ../@softarc/sheriff-core/src/bin/main.js ./sheriff
+ln -s ../@sheriff-arch/core/src/bin/main.js ./sheriff
 cd ../../
 
 for version in ${versions[*]}; do

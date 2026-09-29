@@ -132,7 +132,7 @@ The initial configuration from the [CLI](./cli) includes this setup.
 Here’s an example configuration in `sheriff.config.ts`:
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   depRules: {
@@ -151,7 +151,7 @@ For green-field projects, the [manual tagging](#manual-tagging) is the better op
 To disable automatic tagging, set `autoTagging` to `false`:
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   autoTagging: false,
@@ -225,7 +225,7 @@ The keys of `modules` represent the module directories, and the corresponding va
 The following snippet demonstrates a configuration where four directories are assigned both a domain and a module type:
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {
@@ -246,7 +246,7 @@ export const sheriffConfig: SheriffConfig = {
    there is no need to include domain tags.
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {
@@ -271,7 +271,7 @@ If these rules are violated, a linting error will be triggered:
 If only the modules within the director "holidays" should get tags, and the other modules should be auto-tagged, i.e. `noTag`, the configuration would look like this:
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {
@@ -294,7 +294,7 @@ Note: This setup allows any module from `domain:holidays` to depend on modules w
 Nested paths simplify the configuration. Multiple levels are allowed.
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {
@@ -323,7 +323,7 @@ export const sheriffConfig: SheriffConfig = {
 Placeholders help with repeating patterns. They have the syntax `<name>`, where `name` is the placeholder name.
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {
@@ -348,7 +348,7 @@ export const sheriffConfig: SheriffConfig = {
 Placeholders are available on all levels. The configuration could therefore further be improved.
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {
@@ -368,7 +368,7 @@ export const sheriffConfig: SheriffConfig = {
 `depRules` allows functions instead of static values. The names of the tags can include wildcards:
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {
@@ -385,7 +385,7 @@ export const sheriffConfig: SheriffConfig = {
 or use `sameTag`, which is a pre-defined function.
 
 ```typescript
-import { sameTag, SheriffConfig } from '@softarc/sheriff-core';
+import { sameTag, SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   modules: {

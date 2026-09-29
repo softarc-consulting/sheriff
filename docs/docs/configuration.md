@@ -11,7 +11,7 @@ This page provides a comprehensive reference for all configuration options avail
 ## Configuration Structure
 
 ```typescript
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   // Your configuration options here

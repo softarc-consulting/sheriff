@@ -3,7 +3,7 @@
     "filePath": "./src/app/customers/api/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "module /src/app/customers/api cannot access /src/app/bookings. Tag domain:customers:api has no clearance for tags domain:bookings, type:feature",
         "line": 3,

@@ -31,7 +31,7 @@ expected. The following steps are required to run the tests:
 ## Prepare a release with Nx
 
 Start from a clean, up-to-date `main` checkout with `origin` pointing to
-`softarc-consulting/sheriff`. Install with `pnpm install --frozen-lockfile` and run
+`sheriff-arch/sheriff`. Install with `pnpm install --frozen-lockfile` and run
 the lint, unit, build, and integration checks above before preparing a release.
 Keep unrelated untracked files out of the release commit; do not use `git add .`.
 

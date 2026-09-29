@@ -12,7 +12,7 @@ import { DependencyRulesConfig } from './dependency-rules-config';
  * __Classic layered architecture__
  *
  * ```typescript
- * import { SheriffConfig } from '@softarc/sheriff-core';
+ * import { SheriffConfig } from '@sheriff-arch/core';
  *
  * export const config: SheriffConfig = {
  *   modules: {
@@ -32,7 +32,7 @@ import { DependencyRulesConfig } from './dependency-rules-config';
  * __Angular CLI with feature modules and placeholders__
  *
  * ```typescript
- * import { anyTag, SheriffConfig } from '@softarc/sheriff-core';
+ * import { anyTag, SheriffConfig } from '@sheriff-arch/core';
  *
  * export const config: SheriffConfig = {
  *   modules: {

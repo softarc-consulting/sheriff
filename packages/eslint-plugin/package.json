@@ -1,24 +1,26 @@
 {
-  "name": "@softarc/eslint-plugin-sheriff",
+  "name": "@sheriff-arch/eslint-plugin-sheriff",
   "version": "0.20.0",
-  "homepage": "https://github.com/softarc-consulting/sheriff",
+  "homepage": "https://github.com/sheriff-arch/sheriff",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": {
     "name": "Rainer Hahnekamp",
-    "email": "rainer.hahnekamp@angulararchitects.io",
-    "url": "https://www.angulararchitects.io/"
+    "email": "rainer.hahnekamp@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/softarc-consulting/sheriff"
+    "url": "https://github.com/sheriff-arch/sheriff"
   },
   "type": "commonjs",
   "dependencies": {},
   "devDependencies": {
-    "@softarc/sheriff-core": "workspace:*"
+    "@sheriff-arch/core": "workspace:*"
   },
   "peerDependencies": {
-    "@softarc/sheriff-core": "0.20.0",
+    "@sheriff-arch/core": "0.20.0",
     "eslint": "^8.0.0 || ^9.0.0 || ^10.0.0",
     "@typescript-eslint/utils": "^5.48.2 || ^6.0.0 || ^7.0.0 || ^8.0.0-alpha.20"
   }

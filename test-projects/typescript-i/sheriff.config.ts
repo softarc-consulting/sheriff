@@ -1,4 +1,4 @@
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const sheriffConfig: SheriffConfig = {
   version: 1,

@@ -1,4 +1,4 @@
-import { violatesDependencyRule } from '@softarc/sheriff-core';
+import { violatesDependencyRule } from '@sheriff-arch/core';
 import { createRule } from './create-rule';
 
 export const dependencyRule = createRule(

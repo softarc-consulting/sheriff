@@ -1,6 +1,6 @@
 import { Rule } from 'eslint';
 import {Executor, ExecutorNode} from './executor';
-import { UserError } from '@softarc/sheriff-core';
+import { UserError } from '@sheriff-arch/core';
 
 /**
  * Factory function generating a rule that traverses
