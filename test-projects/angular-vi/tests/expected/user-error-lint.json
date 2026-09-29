@@ -14,7 +14,7 @@
     "filePath": "./src/app/app.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -36,7 +36,7 @@
     "filePath": "./src/app/app.routes.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -58,7 +58,7 @@
     "filePath": "./src/app/bookings/+state/bookings.actions.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/bookings' in sheriff.config.ts",
         "line": 1,
@@ -80,7 +80,7 @@
     "filePath": "./src/app/bookings/+state/bookings.effects.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/bookings' in sheriff.config.ts",
         "line": 1,
@@ -102,7 +102,7 @@
     "filePath": "./src/app/bookings/+state/bookings.reducer.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/bookings' in sheriff.config.ts",
         "line": 1,
@@ -124,7 +124,7 @@
     "filePath": "./src/app/bookings/+state/bookings.selectors.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/bookings' in sheriff.config.ts",
         "line": 1,
@@ -146,7 +146,7 @@
     "filePath": "./src/app/bookings/bookings.routes.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/bookings' in sheriff.config.ts",
         "line": 1,
@@ -168,7 +168,7 @@
     "filePath": "./src/app/bookings/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/bookings' in sheriff.config.ts",
         "line": 1,
@@ -201,7 +201,7 @@
     "filePath": "./src/app/bookings/overview/overview.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/bookings' in sheriff.config.ts",
         "line": 1,
@@ -223,7 +223,7 @@
     "filePath": "./src/app/customers/api/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/api' in sheriff.config.ts",
         "line": 1,
@@ -245,7 +245,7 @@
     "filePath": "./src/app/customers/data/customers-repository.service.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/data' in sheriff.config.ts",
         "line": 1,
@@ -267,7 +267,7 @@
     "filePath": "./src/app/customers/data/customers.actions.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/data' in sheriff.config.ts",
         "line": 1,
@@ -289,7 +289,7 @@
     "filePath": "./src/app/customers/data/customers.effects.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/data' in sheriff.config.ts",
         "line": 1,
@@ -311,7 +311,7 @@
     "filePath": "./src/app/customers/data/customers.reducer.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/data' in sheriff.config.ts",
         "line": 1,
@@ -333,7 +333,7 @@
     "filePath": "./src/app/customers/data/customers.selectors.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/data' in sheriff.config.ts",
         "line": 1,
@@ -355,7 +355,7 @@
     "filePath": "./src/app/customers/data/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/data' in sheriff.config.ts",
         "line": 1,
@@ -377,7 +377,7 @@
     "filePath": "./src/app/customers/data/provide-customers.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/data' in sheriff.config.ts",
         "line": 1,
@@ -399,7 +399,7 @@
     "filePath": "./src/app/customers/feature/components/add-customer.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -421,7 +421,7 @@
     "filePath": "./src/app/customers/feature/components/customers-container.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -454,7 +454,7 @@
     "filePath": "./src/app/customers/feature/components/customers-root/customers-root.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -476,7 +476,7 @@
     "filePath": "./src/app/customers/feature/components/edit-customer.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -498,7 +498,7 @@
     "filePath": "./src/app/customers/feature/customers.routes.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -520,7 +520,7 @@
     "filePath": "./src/app/customers/feature/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -542,7 +542,7 @@
     "filePath": "./src/app/customers/feature/services/data.guard.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -564,7 +564,7 @@
     "filePath": "./src/app/customers/feature/services/data.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/feature' in sheriff.config.ts",
         "line": 1,
@@ -597,7 +597,7 @@
     "filePath": "./src/app/customers/model/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/model' in sheriff.config.ts",
         "line": 1,
@@ -619,7 +619,7 @@
     "filePath": "./src/app/customers/ui/customer.pipe.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/ui' in sheriff.config.ts",
         "line": 1,
@@ -652,7 +652,7 @@
     "filePath": "./src/app/customers/ui/customer/customer.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/ui' in sheriff.config.ts",
         "line": 1,
@@ -685,7 +685,7 @@
     "filePath": "./src/app/customers/ui/customers/customers.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/ui' in sheriff.config.ts",
         "line": 1,
@@ -707,7 +707,7 @@
     "filePath": "./src/app/customers/ui/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/customers/ui' in sheriff.config.ts",
         "line": 1,
@@ -729,7 +729,7 @@
     "filePath": "./src/app/holidays/feature/+state/holidays.actions.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -751,7 +751,7 @@
     "filePath": "./src/app/holidays/feature/+state/holidays.effects.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -773,7 +773,7 @@
     "filePath": "./src/app/holidays/feature/+state/holidays.reducer.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -795,7 +795,7 @@
     "filePath": "./src/app/holidays/feature/+state/holidays.selectors.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -817,7 +817,7 @@
     "filePath": "./src/app/holidays/feature/address-lookuper.service.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -850,7 +850,7 @@
     "filePath": "./src/app/holidays/feature/holidays.routes.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -872,7 +872,7 @@
     "filePath": "./src/app/holidays/feature/holidays/holidays.component.spec.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -894,7 +894,7 @@
     "filePath": "./src/app/holidays/feature/holidays/holidays.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -916,7 +916,7 @@
     "filePath": "./src/app/holidays/feature/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -938,7 +938,7 @@
     "filePath": "./src/app/holidays/feature/parse-address.spec.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -960,7 +960,7 @@
     "filePath": "./src/app/holidays/feature/parse-address.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -982,7 +982,7 @@
     "filePath": "./src/app/holidays/feature/request-info/request-info.component.harness.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -1015,7 +1015,7 @@
     "filePath": "./src/app/holidays/feature/request-info/request-info.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/feature' in sheriff.config.ts",
         "line": 1,
@@ -1048,7 +1048,7 @@
     "filePath": "./src/app/holidays/model/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/model' in sheriff.config.ts",
         "line": 1,
@@ -1081,7 +1081,7 @@
     "filePath": "./src/app/holidays/ui/holiday-card/holiday-card.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/ui' in sheriff.config.ts",
         "line": 1,
@@ -1103,7 +1103,7 @@
     "filePath": "./src/app/holidays/ui/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/holidays/ui' in sheriff.config.ts",
         "line": 1,
@@ -1136,7 +1136,7 @@
     "filePath": "./src/app/shared/config/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/config' in sheriff.config.ts",
         "line": 1,
@@ -1158,7 +1158,7 @@
     "filePath": "./src/app/shared/form/form-errors.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/form' in sheriff.config.ts",
         "line": 1,
@@ -1180,7 +1180,7 @@
     "filePath": "./src/app/shared/form/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/form' in sheriff.config.ts",
         "line": 1,
@@ -1213,7 +1213,7 @@
     "filePath": "./src/app/shared/http/base-url.interceptor.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/http' in sheriff.config.ts",
         "line": 1,
@@ -1235,7 +1235,7 @@
     "filePath": "./src/app/shared/http/error-message.context.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/http' in sheriff.config.ts",
         "line": 1,
@@ -1257,7 +1257,7 @@
     "filePath": "./src/app/shared/http/error.interceptor.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/http' in sheriff.config.ts",
         "line": 1,
@@ -1279,7 +1279,7 @@
     "filePath": "./src/app/shared/http/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/http' in sheriff.config.ts",
         "line": 1,
@@ -1301,7 +1301,7 @@
     "filePath": "./src/app/shared/http/with-error-message-context.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/http' in sheriff.config.ts",
         "line": 1,
@@ -1323,7 +1323,7 @@
     "filePath": "./src/app/shared/master-data/+state/master.reducer.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/master-data' in sheriff.config.ts",
         "line": 1,
@@ -1345,7 +1345,7 @@
     "filePath": "./src/app/shared/master-data/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/master-data' in sheriff.config.ts",
         "line": 1,
@@ -1367,7 +1367,7 @@
     "filePath": "./src/app/shared/master-data/shared-master-data.provider.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/master-data' in sheriff.config.ts",
         "line": 1,
@@ -1389,7 +1389,7 @@
     "filePath": "./src/app/shared/ngrx-utils/deep-clone.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
@@ -1411,7 +1411,7 @@
     "filePath": "./src/app/shared/ngrx-utils/filter-defined.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
@@ -1433,7 +1433,7 @@
     "filePath": "./src/app/shared/ngrx-utils/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
@@ -1466,7 +1466,7 @@
     "filePath": "./src/app/shared/ngrx-utils/noop.action.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
@@ -1488,7 +1488,7 @@
     "filePath": "./src/app/shared/ngrx-utils/safe-concat-map.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ngrx-utils' in sheriff.config.ts",
         "line": 1,
@@ -1510,7 +1510,7 @@
     "filePath": "./src/app/shared/security/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -1532,7 +1532,7 @@
     "filePath": "./src/app/shared/security/security.actions.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -1554,7 +1554,7 @@
     "filePath": "./src/app/shared/security/security.effects.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -1576,7 +1576,7 @@
     "filePath": "./src/app/shared/security/security.provider.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -1598,7 +1598,7 @@
     "filePath": "./src/app/shared/security/security.reducer.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -1620,7 +1620,7 @@
     "filePath": "./src/app/shared/security/security.selectors.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -1642,7 +1642,7 @@
     "filePath": "./src/app/shared/security/security.service.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -1675,7 +1675,7 @@
     "filePath": "./src/app/shared/testing/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/testing' in sheriff.config.ts",
         "line": 1,
@@ -1697,7 +1697,7 @@
     "filePath": "./src/app/shared/testing/mock-inject.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/testing' in sheriff.config.ts",
         "line": 1,
@@ -1719,7 +1719,7 @@
     "filePath": "./src/app/shared/ui-messaging/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1741,7 +1741,7 @@
     "filePath": "./src/app/shared/ui-messaging/loader/loader.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1763,7 +1763,7 @@
     "filePath": "./src/app/shared/ui-messaging/loader/loading.interceptor.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1785,7 +1785,7 @@
     "filePath": "./src/app/shared/ui-messaging/loader/loading.service.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1807,7 +1807,7 @@
     "filePath": "./src/app/shared/ui-messaging/loader/silent-load.context.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1829,7 +1829,7 @@
     "filePath": "./src/app/shared/ui-messaging/loader/with-silent-load-context.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1851,7 +1851,7 @@
     "filePath": "./src/app/shared/ui-messaging/message/confirmation.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1884,7 +1884,7 @@
     "filePath": "./src/app/shared/ui-messaging/message/message.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1906,7 +1906,7 @@
     "filePath": "./src/app/shared/ui-messaging/message/message.service.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1928,7 +1928,7 @@
     "filePath": "./src/app/shared/ui-messaging/message/message.store.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1961,7 +1961,7 @@
     "filePath": "./src/app/shared/ui-messaging/shared-ui-messaging.provider.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -1983,7 +1983,7 @@
     "filePath": "./src/app/shared/ui/blinker.directive.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui' in sheriff.config.ts",
         "line": 1,
@@ -2005,7 +2005,7 @@
     "filePath": "./src/app/shared/ui/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui' in sheriff.config.ts",
         "line": 1,
@@ -2038,7 +2038,7 @@
     "filePath": "./src/app/shared/util/index.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/util' in sheriff.config.ts",
         "line": 1,
@@ -2093,7 +2093,7 @@
     "filePath": "./src/app/shell/header/header.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -2126,7 +2126,7 @@
     "filePath": "./src/app/shell/services/error-handler.service.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/ui-messaging' in sheriff.config.ts",
         "line": 1,
@@ -2148,7 +2148,7 @@
     "filePath": "./src/app/shell/services/user-loader.guard.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -2181,7 +2181,7 @@
     "filePath": "./src/app/shell/sidemenu/sidemenu.component.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/security' in sheriff.config.ts",
         "line": 1,
@@ -2236,7 +2236,7 @@
     "filePath": "./src/main.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "./src/app/shared/config' in sheriff.config.ts",
         "line": 1,

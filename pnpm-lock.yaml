@@ -292,7 +292,7 @@ importers:
         specifier: ^8.0.0 || ^9.0.0 || ^10.0.0
         version: 9.39.4(jiti@2.6.1)(supports-color@8.1.1)
     devDependencies:
-      '@softarc/sheriff-core':
+      '@sheriff-arch/core':
         specifier: workspace:*
         version: link:../core
 

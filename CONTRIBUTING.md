@@ -10,7 +10,7 @@ As a contributor, here are the guidelines we would like you to follow:
 
 ## <a name="issue"></a> Found a Bug?
 
-If you find a bug in the source code, you can help us by submitting an issue to our [GitHub Repository](https://github.com/softarc-consulting/sheriff).
+If you find a bug in the source code, you can help us by submitting an issue to our [GitHub Repository](https://github.com/sheriff-arch/sheriff).
 Even better, you can submit a Pull Request with a fix.
 
 When you are opening a new issue, it would be very appreciated and helpful for us if you could provide a minimal reproducible example. To do so you can 

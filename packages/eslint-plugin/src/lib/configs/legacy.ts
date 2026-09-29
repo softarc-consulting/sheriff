@@ -2,18 +2,18 @@ import { ESLint } from 'eslint';
 
 export const legacyBarrelModulesOnly: ESLint.ConfigData = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@softarc/sheriff'],
+  plugins: ['@sheriff-arch/sheriff'],
   rules: {
-    '@softarc/sheriff/dependency-rule': 'error',
-    '@softarc/sheriff/deep-import': 'error',
+    '@sheriff-arch/sheriff/dependency-rule': 'error',
+    '@sheriff-arch/sheriff/deep-import': 'error',
   },
 };
 
 export const legacy: ESLint.ConfigData = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@softarc/sheriff'],
+  plugins: ['@sheriff-arch/sheriff'],
   rules: {
-    '@softarc/sheriff/dependency-rule': 'error',
-    '@softarc/sheriff/encapsulation': 'error',
+    '@sheriff-arch/sheriff/dependency-rule': 'error',
+    '@sheriff-arch/sheriff/encapsulation': 'error',
   },
 };

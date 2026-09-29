@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`init > should create the file > sheriff.config 1`] = `
-"import { SheriffConfig } from '@softarc/sheriff-core';
+"import { SheriffConfig } from '@sheriff-arch/core';
 
 /**
   * Minimal configuration for Sheriff

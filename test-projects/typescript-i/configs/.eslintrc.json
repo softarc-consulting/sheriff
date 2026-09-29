@@ -8,7 +8,7 @@
   "overrides": [
     {
       "files": ["*.ts"],
-      "extends": ["plugin:@softarc/sheriff/legacy"]
+      "extends": ["plugin:@sheriff-arch/sheriff/legacy"]
     }
   ]
 }

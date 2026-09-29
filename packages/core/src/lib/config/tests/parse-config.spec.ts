@@ -58,7 +58,7 @@ describe('parse Config', () => {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   depRules: {
@@ -92,7 +92,7 @@ export const config: SheriffConfig = {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   autoTagging: false,
@@ -109,7 +109,7 @@ export const config: SheriffConfig = {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   autoTagging: false,
@@ -127,7 +127,7 @@ export const config: SheriffConfig = {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   autoTagging: false,
@@ -145,7 +145,7 @@ export const config: SheriffConfig = {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   modules: {}
@@ -162,7 +162,7 @@ export const config: SheriffConfig = {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   modules: {},
@@ -181,7 +181,7 @@ export const config: SheriffConfig = {
     getFs().writeFile(
       'sheriff.config.ts',
       `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   tagging: {'src/app': 'app'}
@@ -200,7 +200,7 @@ export const config: SheriffConfig = {
     getFs().writeFile(
       'sheriff.config.ts',
       `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   depRules: {
@@ -222,7 +222,7 @@ export const config: SheriffConfig = {
     getFs().writeFile(
       'sheriff.config.ts',
       `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   depRules: {
@@ -244,7 +244,7 @@ export const config: SheriffConfig = {
     getFs().writeFile(
       'sheriff.config.ts',
       `
-        import { SheriffConfig } from '@softarc/sheriff-core';
+        import { SheriffConfig } from '@sheriff-arch/core';
 
         export const config: SheriffConfig = {
           depRules: {
@@ -268,7 +268,7 @@ export const config: SheriffConfig = {
     getFs().writeFile(
       'sheriff.config.ts',
       `
-        import { SheriffConfig } from '@softarc/sheriff-core';
+        import { SheriffConfig } from '@sheriff-arch/core';
 
         export const config: SheriffConfig = {
           depRules: {
@@ -290,7 +290,7 @@ export const config: SheriffConfig = {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   ignoreFileExtensions: ['JPG', 'PNG', 'Json'],
@@ -309,7 +309,7 @@ export const config: SheriffConfig = {
         getFs().writeFile(
           'sheriff.config.ts',
           `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   ignoreFileExtensions: ['json', 'json', 'png', 'PNG'],
@@ -327,7 +327,7 @@ export const config: SheriffConfig = {
         getFs().writeFile(
           'sheriff.config.ts',
           `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   ignoreFileExtensions: (defaults) => defaults.filter(ext => ext.startsWith('j')).concat('mdx'),
@@ -352,7 +352,7 @@ export const config: SheriffConfig = {
       getFs().writeFile(
         'sheriff.config.ts',
         `
-import { SheriffConfig } from '@softarc/sheriff-core';
+import { SheriffConfig } from '@sheriff-arch/core';
 
 export const config: SheriffConfig = {
   depRules: { root: 'noTag', noTag: 'noTag' }

@@ -13,14 +13,14 @@ const config: Config = {
   themes: ['@docusaurus/theme-mermaid'],
 
   // Set the production url of your site here
-  url: 'https://softarc-consulting.github.io',
+  url: 'https://sheriff.softarc.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'softarc-consulting', // Usually your GitHub org/user name.
+  organizationName: 'sheriff-arch', // Usually your GitHub org/user name.
   projectName: 'sheriff', // Usually your repo name.
   deploymentBranch: 'main',
   onBrokenLinks: 'throw',
@@ -46,7 +46,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/softarc-consulting/sheriff/tree/main/docs/',
+            'https://github.com/sheriff-arch/sheriff/tree/main/docs/',
         },
         blog: false,
         theme: {
@@ -86,7 +86,7 @@ const config: Config = {
         // {to: '/releases', label: 'Releases', position: 'left'},
         // {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/softarc-consulting/sheriff',
+          href: 'https://github.com/sheriff-arch/sheriff',
           label: 'GitHub',
           position: 'right',
         },

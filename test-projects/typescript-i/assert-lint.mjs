@@ -13,13 +13,13 @@ const messages = results.flatMap(result => result.messages.map(message => ({
 assert.deepEqual(messages, [
   {
     file: 'src/main.ts',
-    rule: '@softarc/sheriff/encapsulation',
+    rule: '@sheriff-arch/sheriff/encapsulation',
     severity: 2,
     message: "'@app/web/checkout-controller' is a deep import from a barrel module. Use the module's barrel file (index.ts) instead.",
   },
   {
     file: 'src/web/checkout-controller.ts',
-    rule: '@softarc/sheriff/dependency-rule',
+    rule: '@sheriff-arch/sheriff/dependency-rule',
     severity: 2,
     message: 'module /src/web cannot access /src/data. Tag web has no clearance for tags data',
   },

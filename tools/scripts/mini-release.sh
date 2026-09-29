@@ -61,7 +61,7 @@ const next = bumpVersion(current, releaseType);
 corePkg.version = next;
 eslintPkg.version = next;
 eslintPkg.peerDependencies = eslintPkg.peerDependencies || {};
-eslintPkg.peerDependencies['@softarc/sheriff-core'] = next;
+eslintPkg.peerDependencies['@sheriff-arch/core'] = next;
 
 fs.writeFileSync(corePath, JSON.stringify(corePkg, null, 2));
 fs.writeFileSync(eslintPath, JSON.stringify(eslintPkg, null, 2));

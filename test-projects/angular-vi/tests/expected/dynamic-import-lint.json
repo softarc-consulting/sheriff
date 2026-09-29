@@ -25,7 +25,7 @@
     "filePath": "./src/app/app.routes.ts",
     "messages": [
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "module  cannot access /src/app/customers/feature. Tag root has no clearance for tags domain:customers, type:feature",
         "line": 17,
@@ -34,7 +34,7 @@
         "endColumn": 47
       },
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "module  cannot access /src/app/bookings. Tag root has no clearance for tags domain:bookings, type:feature",
         "line": 22,
@@ -43,7 +43,7 @@
         "endColumn": 38
       },
       {
-        "ruleId": "@softarc/sheriff/dependency-rule",
+        "ruleId": "@sheriff-arch/sheriff/dependency-rule",
         "severity": 2,
         "message": "module  cannot access /src/app/holidays/feature. Tag root has no clearance for tags domain:holidays, type:feature",
         "line": 27,

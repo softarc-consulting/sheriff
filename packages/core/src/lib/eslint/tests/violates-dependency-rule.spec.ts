@@ -6,7 +6,7 @@ import getFs from '../../fs/getFs';
 import { toFsPath } from '../../file-info/fs-path';
 import { violatesDependencyRule } from '../violates-dependency-rule';
 import { tsConfig } from '../../test/fixtures/ts-config';
-import { noDependencies, sameTag } from '@softarc/sheriff-core';
+import { noDependencies, sameTag } from '@sheriff-arch/core';
 
 describe('violates dependency rules', () => {
   it('should require that each existing tag has clearance', () => {

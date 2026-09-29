@@ -1,9 +1,9 @@
 set -e
 # These fixtures exercise Sheriff linting and CLI output, not Angular builds.
 pnpm install --ignore-scripts
-yalc add @softarc/sheriff-core @softarc/eslint-plugin-sheriff
+yalc add @sheriff-arch/core @sheriff-arch/eslint-plugin-sheriff
 cd node_modules/.bin # yalc doesn't create symlink in node_modules/.bin
-ln -sf ../@softarc/sheriff-core/src/bin/main.js ./sheriff
+ln -sf ../@sheriff-arch/core/src/bin/main.js ./sheriff
 cd ../../
 cp sheriff.config.ts sheriff.config.ts.original
 

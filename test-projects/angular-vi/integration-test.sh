@@ -2,9 +2,9 @@ set -e
 pnpm install --frozen-lockfile
 # Match the other Angular fixtures: run local binaries with npx after yalc
 # changes package.json, so pnpm does not attempt another frozen install.
-yalc add --no-pure @softarc/sheriff-core @softarc/eslint-plugin-sheriff
+yalc add --no-pure @sheriff-arch/core @sheriff-arch/eslint-plugin-sheriff
 cd node_modules/.bin # yalc doesn't create symlink in node_modules/.bin
-ln -sf ../@softarc/sheriff-core/src/bin/main.js ./sheriff
+ln -sf ../@sheriff-arch/core/src/bin/main.js ./sheriff
 cd ../../
 node -e "const assert = require('node:assert/strict'); assert.match(require('@angular/core/package.json').version, /^22\.2\./); assert.match(require('eslint/package.json').version, /^10\./);"
 npx ng build

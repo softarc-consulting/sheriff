@@ -32,7 +32,7 @@ const meta = { name: packageName, version: packageVersion };
  *
  * Consumer
  * `-- node_modules/
- *     |-- @softarc/eslint-plugin-sheriff/index.d.ts
+ *     |-- @sheriff-arch/eslint-plugin-sheriff/index.d.ts
  *     |   `-> typeof legacy -> ESLint.ConfigData from the consumer's ESLint
  *     `-- eslint/
  *         `-- node_modules/@eslint/core/  [B]
@@ -45,7 +45,7 @@ const meta = { name: packageName, version: packageVersion };
  *
  * Consumer
  * `-- node_modules/
- *     |-- @softarc/eslint-plugin-sheriff/
+ *     |-- @sheriff-arch/eslint-plugin-sheriff/
  *     |   |-- index.d.ts -> import('@eslint/core') from Sheriff's dependency
  *     |   `-- node_modules/@eslint/core/  [A, required by Sheriff]
  *     `-- eslint/
