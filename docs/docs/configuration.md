@@ -109,6 +109,39 @@ These options have sensible defaults and are typically only customized for speci
 
 </details>
 
+#### `excludeFromChecks` {#excludefromchecks}
+
+- **Type**: `(string | RegExp)[]`
+- **Default**: `[]`
+- **Description**: Patterns to exclude from ALL Sheriff rule enforcement. Files matching these patterns are still processed and traversed for dependency analysis, but no rule violations are reported. Supports glob patterns and regular expressions.
+
+**Key Distinction: `ignoreFileExtensions` vs `excludeFromChecks`**
+
+The `ignoreFileExtensions` option makes Sheriff skip parsing and traversing certain file types, such as `.scss`, because the TypeScript parser cannot read them. This means dependencies inside those files are completely hidden from Sheriff.
+
+In contrast, `excludeFromChecks` disables rule enforcement for specific paths while still parsing and traversing them. Excluded files themselves are not checked, but any files they import remain visible to Sheriff. This ensures that non-excluded code imported through excluded paths is still validated.
+
+**Examples:**
+
+```typescript
+export const config: SheriffConfig = {
+  excludeFromChecks: [
+    'src/client/**',           // Skip all rule checks for generated client
+    'src/generated/**',        // Skip all rule checks for generated files
+    'src/**/*.gen.ts',         // Skip all rule checks for .gen.ts files
+    /src\/.*\.gen\.ts$/,       // Regex pattern for .gen.ts files
+    'src/legacy/**'            // Skip all rule checks for legacy code
+  ],
+  // ... other config options
+};
+```
+
+**Use Cases:**
+
+- **Legacy code migration**: Existing codebases that haven't been refactored to follow strict module boundaries yet need time to gradually adopt Sheriff's rules
+- **Third-party generated code**: Users import from generated SDKs or client libraries that have internal dependencies (e.g., OpenAPI clients)
+- **Temporary exclusions**: During refactoring phases where certain areas need to be temporarily excluded from rule enforcement
+
 ### Legacy Options
 
 #### `excludeRoot` {#excluderoot}

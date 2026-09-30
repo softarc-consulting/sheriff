@@ -280,4 +280,23 @@ export interface UserSheriffConfig {
    * ```
    */
   ignoreFileExtensions?: string[] | ((defaults: string[]) => string[]);
+
+  /**
+   * Patterns to exclude from ALL Sheriff rule enforcement.
+   * Files matching these patterns are still processed and traversed
+   * for dependency analysis, but no rule violations are reported.
+   * Supports glob patterns and regular expressions.
+   * 
+   * @example
+   * ```typescript
+   * excludeFromChecks: [
+   *   'src/client/**',           // Skip all rule checks for generated client
+   *   'src/generated/**',        // Skip all rule checks for generated files
+   *   'src/**/*.gen.ts',         // Skip all rule checks for .gen.ts files
+   *   /src\/.*\.gen\.ts$/,       // Regex pattern for .gen.ts files
+   *   'src/legacy/**'            // Skip all rule checks for legacy code
+   * ]
+   * ```
+   */
+  excludeFromChecks?: (string | RegExp)[];
 }
